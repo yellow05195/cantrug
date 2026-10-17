@@ -49,6 +49,7 @@ export function Board({ lists, available, demoMint }: { lists: BoardList[]; avai
     <section id="coins" aria-labelledby="board-title" className="scroll-mt-24">
       <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
+          <p className="kicker mb-3">{t("board.kicker")}</p>
           <h2 id="board-title" className="text-2xl sm:text-3xl">
             {t("board.title")}
           </h2>

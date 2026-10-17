@@ -409,7 +409,8 @@
         "text": "No LP token, no admin withdrawal, no pause, no mint or freeze authority after creation. Parameters are frozen per coin.",
         "formula": "admin keys on the pool: 0",
         "cta": "Check it yourself"
-      }
+      },
+      "kicker": "Three guarantees"
     },
     "specimen": {
       "kicker": "The specimen",

@@ -409,7 +409,8 @@
         "text": "Pas de token LP, pas de retrait admin, pas de pause, plus d'autorité de mint ni de gel après la création. Les paramètres sont figés par coin.",
         "formula": "clés admin sur le pool : 0",
         "cta": "Vérifie toi-même"
-      }
+      },
+      "kicker": "Trois garanties"
     },
     "specimen": {
       "kicker": "Le spécimen",

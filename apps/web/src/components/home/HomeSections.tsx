@@ -10,7 +10,7 @@ import { ENV, explorerAddress } from "@/lib/env";
 /* Section header (Plush Pons): mono kicker, display title, optional lede and pill. */
 export function SectionHead({ kicker, title, lede, cta }: { kicker?: string; title: ReactNode; lede?: ReactNode; cta?: ReactNode }) {
   return (
-    <div className="mb-8 flex flex-col items-center gap-3 text-center">
+    <div className="mb-10 flex flex-col items-center gap-3 text-center">
       {kicker ? <p className="kicker">{kicker}</p> : null}
       <h2 className="text-[clamp(30px,4vw,44px)]">{title}</h2>
       {lede ? <p className="mx-auto max-w-2xl text-ink-2">{lede}</p> : null}
@@ -22,13 +22,15 @@ export function SectionHead({ kicker, title, lede, cta }: { kicker?: string; tit
 /** Three cards, each topped with its own little drawn city. */
 export function FeatureCards() {
   const t = useTranslations("home.features");
+  const tg = useTranslations("home.guarantees");
   const items = [
     { k: "floor", href: "/how-it-works#floor" },
     { k: "brake", href: "/how-it-works#brake" },
     { k: "keys", href: "/how-it-works#verify" },
   ] as const;
   return (
-    <section className="mx-auto max-w-6xl px-3 py-10 md:px-6">
+    <section id="guarantees" className="mx-auto max-w-6xl scroll-mt-24 px-3 py-20 md:px-6">
+      <SectionHead kicker={t("kicker")} title={tg("title")} lede={tg("lede")} />
       <div className="grid gap-5 md:grid-cols-3">
         {items.map(({ k, href }) => (
           <article key={k} className="lift flex flex-col overflow-hidden rounded-3xl border border-seam bg-card shadow-[0_10px_40px_-12px_var(--shadow)]">
@@ -68,9 +70,9 @@ export function Specimen() {
     [t("amount"), "M", 1, Math.min(300, circ - 1), amount, setAmount, `${amount}M`],
   ];
   return (
-    <section id="specimen" className="mx-auto max-w-5xl px-3 py-16 md:px-6">
+    <section id="specimen" className="mx-auto max-w-6xl scroll-mt-24 px-3 py-20 md:px-6">
       <SectionHead kicker={t("kicker")} title={t("title")} lede={t("lede")} />
-      <div className="patch-card grid gap-8 p-6 md:grid-cols-[1fr_320px] md:p-10">
+      <div className="patch-card mx-auto grid max-w-5xl gap-8 p-6 md:grid-cols-[1fr_320px] md:p-10">
         <div className="flex flex-col gap-6">
           {rows.map(([label, unit, min, max, v, set, show]) => (
             <label key={label} className="block">
@@ -138,7 +140,7 @@ export function Flywheel() {
     };
   }, [steps.length]);
   return (
-    <section id="how" ref={ref} className="mx-auto max-w-6xl scroll-mt-24 px-3 py-16 md:px-6">
+    <section id="how" ref={ref} className="mx-auto max-w-6xl scroll-mt-24 px-3 py-20 md:px-6">
       <SectionHead
         kicker={t("kicker")}
         title={t("title")}
@@ -189,9 +191,9 @@ export function Compare() {
     return <span className={hi ? "font-semibold text-ink" : "text-ink-2"}>{c}</span>;
   };
   return (
-    <section id="compare" className="mx-auto max-w-5xl scroll-mt-24 px-3 py-16 md:px-6">
+    <section id="compare" className="mx-auto max-w-6xl scroll-mt-24 px-3 py-20 md:px-6">
       <SectionHead kicker={t("kicker")} title={t("title")} lede={t("lede")} />
-      <div className="patch-card overflow-x-auto p-3 md:p-5">
+      <div className="patch-card mx-auto max-w-5xl overflow-x-auto p-3 md:p-5">
         <table className="w-full min-w-[600px] text-sm">
           <thead>
             <tr className="text-left font-mono text-[11px] uppercase tracking-wider text-ink-2">
@@ -215,7 +217,7 @@ export function Compare() {
           </tbody>
         </table>
       </div>
-      <p className="mt-3 text-center text-xs text-ink-3">{t("note")}</p>
+      <p className="mx-auto mt-3 max-w-5xl text-center text-xs text-ink-3">{t("note")}</p>
     </section>
   );
 }
@@ -230,7 +232,7 @@ export function MathSection() {
     [t("rows.arb"), "68.06", "243.5M", "693.5M", "0.000 000 098", true],
   ];
   return (
-    <section id="math" className="mx-auto max-w-6xl scroll-mt-24 px-3 py-16 md:px-6">
+    <section id="math" className="mx-auto max-w-6xl scroll-mt-24 px-3 py-20 md:px-6">
       <div className="grid gap-8 md:grid-cols-[1fr_1.3fr] md:items-center">
         <div>
           <p className="kicker">{t("kicker")}</p>
@@ -275,7 +277,7 @@ export function Trust() {
   const t = useTranslations("home.trust");
   const facts = ["source", "fuzz", "tests", "paths", "mint", "frozen"] as const;
   return (
-    <section id="trust" className="mx-auto max-w-6xl scroll-mt-24 px-3 py-16 md:px-6">
+    <section id="trust" className="mx-auto max-w-6xl scroll-mt-24 px-3 py-20 md:px-6">
       <SectionHead kicker={t("kicker")} title={t("title")} lede={t("lede")} />
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {facts.map((k) => (
@@ -308,7 +310,7 @@ export function Faq() {
   const keys = ["what", "zero", "sell", "brake", "fees", "verify"] as const;
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section id="faq" className="mx-auto max-w-3xl scroll-mt-24 px-3 py-16 md:px-6">
+    <section id="faq" className="mx-auto max-w-3xl scroll-mt-24 px-3 py-20 md:px-6">
       <h2 className="mb-10 text-center text-[clamp(30px,4vw,44px)]">{t("title")}</h2>
       <div className="flex flex-col gap-3">
         {keys.map((k, i) => (
@@ -335,7 +337,7 @@ export function Faq() {
 export function FinalCta() {
   const t = useTranslations("home.band");
   return (
-    <section className="mx-auto max-w-6xl px-3 pb-8 pt-10 md:px-6">
+    <section className="mx-auto max-w-6xl px-3 pb-6 pt-4 md:px-6">
       <div className="relative overflow-hidden rounded-3xl border border-seam shadow-[0_24px_70px_-20px_var(--shadow)]">
         <Scene seed="final" variant="city" w={200} h={70} className="h-[340px]" />
         <div className="absolute inset-0 flex items-center justify-center p-4">

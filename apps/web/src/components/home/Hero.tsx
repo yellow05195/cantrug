@@ -2,7 +2,6 @@
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { ButtonLink } from "@/components/ui/Button";
-import { NumRoll } from "@/components/ui/NumRoll";
 import { Scene } from "@/components/ui/Scene";
 import { ENV } from "@/lib/env";
 import { solFixed } from "@/lib/format";
@@ -55,19 +54,10 @@ export function Hero({ stats }: { stats: { lamports: string; launched: number; b
 
       {/* the site: a wide band with the receipt standing on the floor */}
       <div className="relative mt-12 overflow-hidden rounded-3xl border border-seam shadow-[0_24px_70px_-20px_var(--shadow)]">
-        <Scene seed="hero" variant="site" w={240} h={64} density="busy" className="h-[220px] sm:h-[280px] md:h-[320px]" />
+        <Scene seed="hero" variant="site" w={240} h={64} density="busy" className="h-[240px] sm:h-[300px] md:h-[340px]" />
         <div className="pointer-events-none absolute bottom-5 right-[5%] hidden w-[280px] md:block">
           <Receipt />
         </div>
-        <p className="absolute bottom-3 left-4 font-mono text-[10px] uppercase tracking-wider text-ink-2 md:left-6">
-          {total === null ? (
-            t("status.loading")
-          ) : (
-            <>
-              <NumRoll value={total} label={`${total} SOL`} /> SOL {t("status.returned")}
-            </>
-          )}
-        </p>
       </div>
     </section>
   );
