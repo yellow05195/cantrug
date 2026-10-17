@@ -1,13 +1,22 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
+import { Scene } from "./Scene";
 
-/** Page header (flat house style): mono kicker, one title at weight 600, one lede in ink-2. Left aligned, 720 px. */
-export function PageHeader({ kicker, title, lede, children, className }: { kicker: string; title: ReactNode; lede?: ReactNode; children?: ReactNode; className?: string }) {
+/**
+ * Page header (atelier): an optional drawn Scene banner, the mono kicker, one
+ * Fredoka title and one lede in ink-2. Centred on the page axis, 760 px.
+ */
+export function PageHeader({ kicker, title, lede, scene, children, className }: { kicker: string; title: ReactNode; lede?: ReactNode; scene?: string; children?: ReactNode; className?: string }) {
   return (
-    <header className={cn("max-w-[720px] pt-14 sm:pt-20", className)}>
+    <header className={cn("mx-auto max-w-[760px] pt-12 text-center sm:pt-16", className)}>
+      {scene ? (
+        <div className="mb-10 overflow-hidden rounded-3xl border border-seam bg-bg-2">
+          <Scene seed={scene} w={200} h={52} className="h-40" />
+        </div>
+      ) : null}
       <p className="kicker">{kicker}</p>
-      <h1 className="mt-4 text-[clamp(30px,4.4vw,48px)] font-semibold leading-[1.08] tracking-[-0.02em]">{title}</h1>
-      {lede ? <p className="mt-5 text-lg text-ink-2">{lede}</p> : null}
+      <h1 className="mt-4 text-[clamp(32px,5vw,52px)] leading-[1.05]">{title}</h1>
+      {lede ? <p className="mx-auto mt-4 max-w-[640px] text-lg text-ink-2">{lede}</p> : null}
       {children}
     </header>
   );

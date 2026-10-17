@@ -11,8 +11,8 @@ export interface TabItem<K extends string> {
 }
 
 /**
- * Pill segmented control (house style): a card-2 track, the active pill in ink
- * on the night background; the Redeem pill turns orange. Arrow keys move
+ * Pill segmented control (atelier): a card-2 track, the active pill in ink on
+ * the ground colour; the Redeem pill turns orange. Arrow keys move
  * between tabs (no animation on keyboard moves).
  */
 export function Tabs<K extends string>({
@@ -50,7 +50,7 @@ export function Tabs<K extends string>({
     }
   };
   return (
-    <div role="tablist" className={cn("inline-flex max-w-full gap-px border border-line bg-line", !flat && "border border-line", fill && "flex w-full", className)}>
+    <div role="tablist" className={cn("inline-flex max-w-full gap-1 rounded-full bg-card-2 p-1", !flat && "border border-line", fill && "flex w-full", className)}>
       {items.map((it, i) => {
         const active = it.key === value;
         return (
@@ -69,7 +69,7 @@ export function Tabs<K extends string>({
             onClick={() => onChange(it.key)}
             onKeyDown={(e) => onKey(e, i)}
             className={cn(
-              "relative whitespace-nowrap bg-bg font-medium transition-[background-color,color] duration-150 ease-[var(--ease-out)] disabled:cursor-not-allowed disabled:opacity-40",
+              "relative whitespace-nowrap rounded-full font-semibold transition-[background-color,color] duration-150 ease-[var(--ease-out)] disabled:cursor-not-allowed disabled:opacity-40",
               size === "sm" ? "h-7 px-3 text-xs" : size === "lg" ? "h-11 px-4 text-md sm:text-base" : "h-9 px-4 text-sm",
               fill && "min-w-0 flex-auto truncate px-2.5",
               active

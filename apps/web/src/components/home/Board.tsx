@@ -49,7 +49,7 @@ export function Board({ lists, available, demoMint }: { lists: BoardList[]; avai
     <section id="coins" aria-labelledby="board-title" className="scroll-mt-24">
       <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h2 id="board-title" className="title-tight text-2xl font-semibold sm:text-3xl">
+          <h2 id="board-title" className="text-2xl sm:text-3xl">
             {t("board.title")}
           </h2>
           <p className="mt-1 text-md text-ink-2">{t("board.sub")}</p>
@@ -57,9 +57,9 @@ export function Board({ lists, available, demoMint }: { lists: BoardList[]; avai
         <Tabs idPrefix="board" size="md" value={tab} onChange={setTab} items={lists.map((l) => ({ key: l.key, label: t(`board.tab.${l.key}`) }))} />
       </div>
 
-      <div className="plate overflow-hidden p-0" role="tabpanel" id={`board-panel-${tab}`}>
+      <div className="patch-card overflow-hidden p-2" role="tabpanel" id={`board-panel-${tab}`}>
         {/* header row */}
-        <div className="hidden grid-cols-[minmax(0,2.2fr)_1fr_1fr_minmax(0,1.6fr)_28px] items-center gap-4 border-b border-line px-4 py-2.5 text-xs font-semibold text-ink-3 md:grid">
+        <div className="hidden grid-cols-[minmax(0,2.2fr)_1fr_1fr_minmax(0,1.6fr)_28px] items-center gap-4 border-b border-dashed border-seam px-4 py-2.5 font-mono text-[11px] uppercase tracking-wider text-ink-2 md:grid">
           <span>{t("board.col.coin")}</span>
           <span className="text-right">{t("board.col.price")}</span>
           <span className="text-right">{t("board.col.floor")}</span>
@@ -67,7 +67,7 @@ export function Board({ lists, available, demoMint }: { lists: BoardList[]; avai
           <span />
         </div>
         {rows.length ? (
-          <ul className="stagger-in divide-y divide-line">
+          <ul className="stagger-in divide-y divide-dashed divide-seam">
             {rows.map((c, i) => {
               const m = metricsFromJson(c);
               const graduated = m.phase === "graduated";
@@ -85,7 +85,7 @@ export function Board({ lists, available, demoMint }: { lists: BoardList[]; avai
                     <div className="contents md:flex md:min-w-0 md:items-center md:gap-3">
                       <CoinAvatar src={c.image_url} symbol={c.symbol} seed={c.mint} size={36} />
                       <div className="min-w-0">
-                        <p className="flex items-center gap-2 truncate text-base font-bold leading-tight">
+                        <p className="flex items-center gap-2 truncate font-display text-base font-semibold leading-tight">
                           <span className="truncate">{c.name || tc("unnamed")}</span>
                           {c.brake.engaged ? (
                             <Chip tone="brake" className="px-2 py-0 text-[11px]">

@@ -79,7 +79,7 @@ function ToastItem({ t, closeLabel }: { t: Toast; closeLabel: string }) {
           </a>
         ) : null}
       </div>
-      <button type="button" onClick={() => dismissToast(t.id)} className="press -m-1 grid size-7 shrink-0 place-items-center rounded-xs text-ink-3 hover:text-ink" aria-label={closeLabel}>
+      <button type="button" onClick={() => dismissToast(t.id)} className="press -m-1 grid size-7 shrink-0 place-items-center rounded-full text-ink-3 hover:text-ink" aria-label={closeLabel}>
         <X size={14} />
       </button>
     </li>

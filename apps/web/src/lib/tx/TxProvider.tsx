@@ -222,7 +222,8 @@ function OutcomeLines({ o }: { o: Outcome }) {
             {sol(o.solOut)} <span className="text-ink-3">SOL</span>
           </p>
           {o.queued > 0n || o.dropped > 0n ? (
-            <p className="border-t-2 border-brake bg-brake/10 p-3 text-md">
+            <p className="well border-l-4 border-l-brake p-3 text-md">
+              <span className="kicker mb-2 block text-[color-mix(in_oklab,var(--brake)_62%,var(--ink))]">{t("brakeKicker")}</span>
               {o.queued > 0n
                 ? t("brakeSplit", { exec: pct(shareOf(o.executed, whole)), sol: sol(o.solOut), queued: pct(shareOf(o.queued, whole)) })
                 : t("brakeDrop", { exec: pct(shareOf(o.executed, whole)), dropped: pct(shareOf(o.dropped, whole)) })}

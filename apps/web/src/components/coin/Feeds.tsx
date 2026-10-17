@@ -30,7 +30,7 @@ function TradeRow({ tr, fresh, symbol, style }: { tr: TradeJson; fresh: boolean;
     <div
       style={style}
       className={cn(
-        "grid h-9 grid-cols-[1.25rem_4.5rem_1fr_1fr_5rem_2.5rem] items-center gap-2 border-b border-line/70 px-3 text-sm sm:grid-cols-[1.25rem_5.5rem_1fr_1fr_6.5rem_3rem]",
+        "grid h-9 grid-cols-[1.25rem_4.5rem_1fr_1fr_5rem_2.5rem] items-center gap-2 border-b border-dashed border-seam px-3 text-sm sm:grid-cols-[1.25rem_5.5rem_1fr_1fr_6.5rem_3rem]",
         fresh && (g.key === "buy" ? "row-in-up" : g.key === "redeem" ? "row-in-floor" : g.key === "sell" ? "row-in-down" : "row-in-floor"),
       )}
     >
@@ -66,8 +66,8 @@ export function TradesFeed({ trades, freshKeys, symbol, emptyNote }: { trades: T
   if (!trades.length) return <EmptyState>{emptyNote ?? t("empty")}</EmptyState>;
 
   return (
-    <div className="plate overflow-hidden">
-      <div className="grid h-9 bg-bg-2 grid-cols-[1.25rem_4.5rem_1fr_1fr_5rem_2.5rem] items-center gap-2 border-b border-line px-3 text-xs font-semibold text-ink-3 sm:grid-cols-[1.25rem_5.5rem_1fr_1fr_6.5rem_3rem]">
+    <div className="patch-card p-3 md:p-4">
+      <div className="grid h-10 grid-cols-[1.25rem_4.5rem_1fr_1fr_5rem_2.5rem] items-center gap-2 border-b border-dashed border-seam px-3 font-mono text-[11px] uppercase tracking-wider text-ink-2 sm:grid-cols-[1.25rem_5.5rem_1fr_1fr_6.5rem_3rem]">
         <span />
         <span>{t("side")}</span>
         <span className="text-right">SOL</span>
@@ -95,22 +95,22 @@ export function Holders({ data, m, symbol }: { data: HoldersJson | null; m: Coin
   if (!data || !data.items.length) return <EmptyState>{t("empty")}</EmptyState>;
   const fq = m.phase === "graduated" ? m.floorQ64 : 0n;
   return (
-    <div className="overflow-x-auto rounded-xs border border-line">
+    <div className="patch-card overflow-x-auto p-3 md:p-4">
       <table className="w-full min-w-[480px] text-sm">
         <thead>
-          <tr className="h-9 border-b border-line bg-bg-2 text-left text-xs font-semibold text-ink-3">
-            <th className="w-10 pl-3 font-normal">#</th>
-            <th className="font-normal">{t("wallet")}</th>
-            <th className="text-right font-normal">{symbol}</th>
-            <th className="text-right font-normal">{t("share")}</th>
-            <th className="pr-3 text-right font-normal">{t("atFloor")}</th>
+          <tr className="h-10 text-left font-mono text-[11px] uppercase tracking-wider text-ink-2">
+            <th className="w-10 pl-3 font-medium">#</th>
+            <th className="font-medium">{t("wallet")}</th>
+            <th className="text-right font-medium">{symbol}</th>
+            <th className="text-right font-medium">{t("share")}</th>
+            <th className="pr-3 text-right font-medium">{t("atFloor")}</th>
           </tr>
         </thead>
         <tbody>
           {data.items.slice(0, 25).map((h, i) => {
             const bal = BigInt(h.balance);
             return (
-              <tr key={h.owner} className="h-9 border-b border-line/60 last:border-0">
+              <tr key={h.owner} className="h-10 border-t border-dashed border-seam">
                 <td className="num pl-3 text-ink-3">{i + 1}</td>
                 <td>
                   <a href={explorerAddress(h.owner)} target="_blank" rel="noreferrer" className="num text-ink-2 hover:text-ink">
@@ -140,8 +140,8 @@ export function QueuePanel({ queue, chain, user, mint, symbol, connected, onDone
 
   return (
     <div className="grid gap-4 md:grid-cols-2">
-      <section className="plate p-4" aria-labelledby="q-you">
-        <h3 id="q-you" className="text-md font-semibold">
+      <section className="patch-card p-6" aria-labelledby="q-you">
+        <h3 id="q-you" className="text-lg">
           {t("yours")}
         </h3>
         {!connected ? (
@@ -179,8 +179,8 @@ export function QueuePanel({ queue, chain, user, mint, symbol, connected, onDone
           </>
         )}
       </section>
-      <section className="plate p-4" aria-labelledby="q-public">
-        <h3 id="q-public" className="text-md font-semibold">
+      <section className="patch-card p-6" aria-labelledby="q-public">
+        <h3 id="q-public" className="text-lg">
           {t("public")}
         </h3>
         <dl className="mt-3 grid grid-cols-3 gap-3 text-sm">
@@ -200,7 +200,7 @@ export function QueuePanel({ queue, chain, user, mint, symbol, connected, onDone
           </div>
         </dl>
         {queue?.entries.length ? (
-          <ul className="mt-4 space-y-1 border-t border-line pt-3 text-sm">
+          <ul className="mt-4 space-y-1 border-t border-dashed border-seam pt-3 text-sm">
             {queue.entries.slice(0, 8).map((e) => (
               <li key={e.user} className="flex justify-between gap-2">
                 <span className="num text-ink-2">{shortAddress(e.user)}</span>

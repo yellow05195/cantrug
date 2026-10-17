@@ -31,13 +31,14 @@ function CoinCell({ c }: { c: { mint: string; name: string; symbol: string; imag
 function Table({ title, head, rows, empty }: { title: string; head: string[]; rows: React.ReactNode[][]; empty: string }) {
   return (
     <section className="min-w-0">
-      <h2 className="title-tight border-b border-line pb-2 text-lg font-semibold">{title}</h2>
+      <h2 className="text-xl">{title}</h2>
       {rows.length ? (
-        <table className="mt-1 w-full text-sm">
+        <div className="patch-card mt-3 p-3 md:p-4">
+        <table className="w-full text-sm">
           <thead>
-            <tr className="h-9 border-b border-line bg-bg-2 text-left text-xs text-ink-3">
+            <tr className="text-left font-mono text-[11px] uppercase tracking-wider text-ink-2">
               {head.map((h, i) => (
-                <th key={h} className={i ? "px-2 text-right font-normal" : "px-2 font-normal"}>
+                <th key={h} className={i ? "px-3 py-2.5 text-right font-medium" : "px-3 py-2.5 font-medium"}>
                   {h}
                 </th>
               ))}
@@ -45,9 +46,9 @@ function Table({ title, head, rows, empty }: { title: string; head: string[]; ro
           </thead>
           <tbody>
             {rows.map((r, i) => (
-              <tr key={i} className="h-10 border-t border-line/60">
+              <tr key={i} className="h-11 border-t border-dashed border-seam">
                 {r.map((cell, j) => (
-                  <td key={j} className={j ? "num whitespace-nowrap px-2 text-right" : "max-w-0 truncate px-2"}>
+                  <td key={j} className={j ? "num whitespace-nowrap px-3 text-right" : "max-w-0 truncate px-3"}>
                     {cell}
                   </td>
                 ))}
@@ -55,8 +56,9 @@ function Table({ title, head, rows, empty }: { title: string; head: string[]; ro
             ))}
           </tbody>
         </table>
+        </div>
       ) : (
-        <p className="mt-3 text-sm text-ink-2">{empty}</p>
+        <p className="well mt-3 p-4 text-sm text-ink-2">{empty}</p>
       )}
     </section>
   );
@@ -69,7 +71,7 @@ export default async function StatsPage() {
     return (
       <div className={PAGE}>
         <PageHeader kicker={t("kicker")} title={t("title")} />
-        <EmptyState className="mt-10 max-w-2xl text-md">{t("noIndexer")}</EmptyState>
+        <EmptyState className="mx-auto mt-10 max-w-2xl text-center text-md">{t("noIndexer")}</EmptyState>
       </div>
     );
   }
@@ -80,7 +82,7 @@ export default async function StatsPage() {
 
   return (
     <div className={PAGE}>
-      <PageHeader kicker={t("kicker")} title={t("title")} lede={t("lede")} />
+      <PageHeader kicker={t("kicker")} title={t("title")} lede={t("lede")} scene="stats" />
       <div className="mt-12">
         <BigNumbers stats={stats} />
       </div>

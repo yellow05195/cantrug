@@ -289,3 +289,50 @@ closing band (photograph + one sentence).
 
 **Motion.** Sections reveal once on scroll with an 8 px rise; buttons
 press to 0.985. Nothing else moves.
+
+## v7 atelier (Plush Pons craft on the PAWNED skeleton)
+
+The user asked for the look of their old project Plush Pons, "énormément".
+Everything below is taken from it and translated into FLOORED's material.
+
+**Two themes.** Day by default: warm plaster `#f3ede3` with a fixed felt
+grain, espresso ink, cocoa secondary ink. Night with the toggle: the PAWNED
+blue-night palette. The choice is remembered in localStorage and applied
+before first paint. Orange stays the only accent in both.
+
+**Surfaces.** The patch card: 22 px radius, a 2 px chalk-dashed seam set
+7 px inside the edge, a soft warm shadow. Every product panel, table and
+FAQ item is one. Plain cards without the seam for feature cards; frosted
+glass cards over the drawn scenes; wells for inset panels.
+
+**Type.** Fredoka 600 for every heading, Inter for text, JetBrains Mono for
+numbers, chips and the kicker (uppercase, 0.2 em tracking).
+
+**Scenes.** Drawn pixel art, no raster: a city of floors where every
+building stands on a poured slab whose edge is the orange floor line,
+cranes behind, plaster sky by day, star field by night. `lib/art/scene.ts`,
+deterministic from a seed, served as an SVG data URI and shown crisp with
+`image-rendering: pixelated`. One wide scene in the hero banner, one on top
+of each feature card, one in the closing banner, a small one in the footer.
+
+**Home.** Banner hero (scene, the redeem receipt standing in it, frosted
+card with the words), chips row and a mono status line with the live
+numbers; three feature cards; the board; the specimen (a redeem
+calculator with three sliders and a live receipt); the mechanism (seven
+steps in one card, rows light up on scroll); the math beside its table; the
+comparison; six trust cards; FAQ cards that open one at a time; closing
+banner. A first-visit boot screen pours the floor for two seconds, skippable.
+
+**Buttons.** Round pills in Fredoka: dark label pill (orange at night),
+coat pill with the seam, orange pill reserved for Redeem. Hover lifts 1 px.
+
+**Re-adapted to FLOORED (same day).** The user asked that the Plush Pons
+craft be brought back to our own material: the ground is concrete chalk and
+graphite rather than wool and cocoa (`#eeece8`, ink `#1d1e22`, neutral
+grain), and every scene is about the product. `lib/art/scene.ts` now has
+five subjects: `site` (cranes lifting SOL coins over slabs being poured, the
+hero), `floor` (one wide plinth with the coin stack on it), `brake` (a
+staircase of slabs with a coin coming down one step at a time), `vault`
+(a sealed block with a padlock mark and no door), `city` (the skyline of
+floors, used for the closing banner and the footer). Feature cards and page
+banners pick their subject by name.

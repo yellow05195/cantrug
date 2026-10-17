@@ -1,9 +1,8 @@
 import { getTranslations } from "next-intl/server";
 import { Board, type BoardList } from "@/components/home/Board";
 import { Hero } from "@/components/home/Hero";
-import { Compare, Faq, Launch, Math, Section, Steps, Trust } from "@/components/home/HomeSections";
+import { Compare, Faq, FeatureCards, FinalCta, Flywheel, MathSection, Specimen, Trust } from "@/components/home/HomeSections";
 import { LiveTicker } from "@/components/layout/LiveTicker";
-import { Reveal } from "@/components/layout/Reveal";
 import { api, safely } from "@/lib/api/client";
 import type { CoinJson, SortKey } from "@/lib/api/types";
 import { ENV } from "@/lib/env";
@@ -33,47 +32,26 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ s
   ];
 
   return (
-    <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6">
+    <>
       <Hero stats={seed} />
+      <FeatureCards />
 
-      <Section id="how" title={t("steps.title")} lede={t("steps.lede")}>
-        <Steps />
-      </Section>
-
-      <Section id="compare" title={t("compare.title")} lede={t("compare.lede")}>
-        <Compare />
-      </Section>
-
-      <Section id="math" title={t("math.title")}>
-        <Math />
-      </Section>
-
-      {/* The board: the product, full width */}
-      <section id="board" className="scroll-mt-20 border-b border-line py-16 sm:py-20">
-        <Reveal>
-          <p className="kicker">{t("board.kicker")}</p>
-          <div className="mt-4">
-            <LiveTicker />
-          </div>
-          <div className="mt-6">
-            <Board lists={lists} available={api.available} demoMint={ENV.challengeMint ?? null} />
-          </div>
-        </Reveal>
+      {/* The board: the product */}
+      <section id="board" className="mx-auto max-w-6xl scroll-mt-24 px-3 py-16 md:px-6">
+        <p className="kicker mb-4 text-center">{t("board.kicker")}</p>
+        <LiveTicker />
+        <div className="mt-6">
+          <Board lists={lists} available={api.available} demoMint={ENV.challengeMint ?? null} />
+        </div>
       </section>
 
-      <Section id="trust" title={t("trust.title")} lede={t("trust.lede")}>
-        <Trust />
-      </Section>
-
-      <Section id="faq" title={t("faq.title")}>
-        <Faq />
-      </Section>
-
-      <section id="launch" className="py-16 sm:py-20">
-        <Reveal>
-          <Launch />
-        </Reveal>
-      </section>
-    </div>
+      <Specimen />
+      <Flywheel />
+      <MathSection />
+      <Compare />
+      <Trust />
+      <Faq />
+      <FinalCta />
+    </>
   );
 }

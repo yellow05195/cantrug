@@ -220,7 +220,7 @@ export function CreateForm() {
 
   return (
     <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
-      <form onSubmit={submit} noValidate className="min-w-0 space-y-6 lg:col-span-7">
+      <form onSubmit={submit} noValidate className="patch-card min-w-0 space-y-6 p-6 sm:p-8 lg:col-span-7">
         <div className="grid gap-5 sm:grid-cols-[1fr_12rem]">
           <Field id={`${uid}name`} label={t("name")} error={err("name")} hint={t("nameHint", { max: MAX_NAME })}>
             <input id={`${uid}name`} className={inputCls} value={f.name} onChange={set("name")} maxLength={40} autoComplete="off" aria-invalid={Boolean(err("name"))} />
@@ -249,9 +249,9 @@ export function CreateForm() {
               const fl = e.dataTransfer.files?.[0];
               if (fl && fl.type.startsWith("image/")) choose(fl);
             }}
-            className={cn("flex items-center gap-4 rounded-xs border border-dashed p-4 transition-colors duration-150", drag ? "border-floor bg-floor-dim" : err("image") ? "border-down" : "border-line")}
+            className={cn("flex items-center gap-4 rounded-[16px] border-2 border-dashed bg-bg-2 p-4 transition-colors duration-150", drag ? "border-floor bg-floor-dim" : err("image") ? "border-down" : "border-seam")}
           >
-            <div className="grid size-24 shrink-0 place-items-center overflow-hidden rounded-xs border border-line bg-card-2">
+            <div className="grid size-24 shrink-0 place-items-center overflow-hidden rounded-xl border border-seam bg-card">
               {preview ? (
                 // Local object URL preview of the chosen file, square-cropped.
                 // eslint-disable-next-line @next/next/no-img-element
@@ -297,7 +297,7 @@ export function CreateForm() {
           </Field>
         </div>
 
-        <div className="border-t border-line pt-5">
+        <div className="border-t border-dashed border-seam pt-5">
           <Field id={`${uid}buy`} label={t("firstBuy")} error={err("firstBuy")}>
             <div className="relative">
               <input id={`${uid}buy`} className="field num h-14 pr-16 text-xl" inputMode="decimal" placeholder="0.00" value={f.firstBuy} onChange={set("firstBuy")} />
@@ -309,7 +309,7 @@ export function CreateForm() {
           </p>
         </div>
 
-        <div className="space-y-3 border-t border-line pt-5">
+        <div className="space-y-3 border-t border-dashed border-seam pt-5">
           <p className="text-sm text-ink-2">{t("fees", { create: sol(createFee, 4), fee: bps(params.curveFeeBps), creator: creatorShare })}</p>
           {!hasRealUploader && !ENV.mock ? <p className="text-xs text-ink-3">{t("uploaderNote")}</p> : null}
           {uploadError ? <p className="text-sm text-down">{uploadError}</p> : null}
@@ -325,14 +325,14 @@ export function CreateForm() {
 
       <aside className="min-w-0 lg:col-span-5">
         <div className="space-y-4 lg:sticky lg:top-[88px]">
-          <p className="text-sm font-semibold text-ink-2">{t("previewLabel")}</p>
+          <p className="kicker">{t("previewLabel")}</p>
           {/* The building re-forms as the ticker changes, until an image is chosen. */}
           <div className="plate flex items-center gap-5 p-5">
             <span key={preview ? "img" : f.symbol || "seed"} className="avatar-morph">
               <CoinAvatar src={preview} symbol={f.symbol || "T"} seed={f.symbol || "TICKER"} size={112} />
             </span>
             <div className="min-w-0">
-              <p className="title-tight truncate text-xl font-semibold sm:text-2xl">{f.name || t("previewName")}</p>
+              <p className="truncate font-display text-xl font-semibold sm:text-2xl">{f.name || t("previewName")}</p>
               <p className="num text-md text-ink-2">${f.symbol || "TICKER"}</p>
               <p className="mt-2 text-xs text-ink-3">{preview ? t("avatarImage") : t("avatarHint")}</p>
             </div>

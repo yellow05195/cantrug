@@ -22,7 +22,7 @@ export function CoinHeader({ coin, m }: { coin: CoinJson; m: CoinMetrics }) {
   const tk = useTranslations("keys");
   const s = coin.socials ?? {};
   const graduated = m.phase === "graduated";
-  const social = "press grid size-9 place-items-center rounded-xs border border-line bg-card-2 text-ink-2 hover:border-line-2 hover:text-ink";
+  const social = "press grid size-9 place-items-center rounded-full border-[1.5px] border-seam bg-card text-ink-2 hover:border-ink-3 hover:text-ink";
   return (
     <div className="plate overflow-hidden">
       <div className="flex flex-wrap items-center gap-x-5 gap-y-4 p-5 sm:p-6">
@@ -32,7 +32,7 @@ export function CoinHeader({ coin, m }: { coin: CoinJson; m: CoinMetrics }) {
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
           <ViewTransition name={vtName(coin.mint, "nm")} share="auto" default="none">
-            <h1 className="title-tight text-2xl font-semibold leading-tight sm:text-3xl">{coin.name}</h1>
+            <h1 className="text-2xl leading-tight sm:text-3xl">{coin.name}</h1>
           </ViewTransition>
           <span className="num text-lg text-ink-2">${coin.symbol}</span>
         </div>
@@ -84,7 +84,7 @@ export function CoinHeader({ coin, m }: { coin: CoinJson; m: CoinMetrics }) {
         </div>
       </div>
       {/* Live numbers roll here (and in the hero) only. */}
-      <dl className="flex w-full items-baseline justify-between gap-3 border-t border-line pt-3 sm:block sm:w-auto sm:border-0 sm:pt-0 sm:text-right">
+      <dl className="flex w-full items-baseline justify-between gap-3 border-t border-dashed border-seam pt-3 sm:block sm:w-auto sm:border-0 sm:pt-0 sm:text-right">
         <dt className="text-xs font-semibold text-ink-3">{tk("price")}</dt>
         <dd className="mt-0.5 text-2xl">
           <Flash value={m.priceSol}>
@@ -125,7 +125,7 @@ export function BagFloorBox({ chain, user, symbol, connected }: { chain: CoinCha
   }
   const queued = user?.queue?.remaining ?? 0n;
   return (
-    <div className="plate p-4">
+    <div className="patch-card p-6">
       {!user ? (
         <p className="text-sm text-ink-3">{t("reading")}</p>
       ) : bal === 0n && queued === 0n ? (
@@ -141,7 +141,7 @@ export function BagFloorBox({ chain, user, symbol, connected }: { chain: CoinCha
           ) : (
             <p className="mt-1 text-md text-ink-2">{t("curve")}</p>
           )}
-          <dl className="mt-3 grid grid-cols-2 gap-3 border-t border-line pt-3 text-sm">
+          <dl className="mt-3 grid grid-cols-2 gap-3 border-t border-dashed border-seam pt-3 text-sm">
             <div>
               <dt className="text-xs text-ink-3">{t("balance")}</dt>
               <dd className="num mt-0.5">
@@ -194,9 +194,9 @@ export function KeyNumbers({ coin, m, className }: { coin: CoinJson; m: CoinMetr
     { k: t("returned"), v: <Num unit="SOL" className="text-floor">{sol(BigInt(coin.total_redeemed_sol || "0"), 2)}</Num>, floor: true },
   ];
   return (
-    <dl className={cn("plate no-scrollbar flex gap-0.5 overflow-x-auto bg-line p-0 lg:grid lg:grid-cols-2 lg:overflow-hidden", className)}>
+    <dl className={cn("plate grid grid-cols-2 gap-1.5 p-2 sm:grid-cols-4 lg:grid-cols-2", className)}>
       {items.map((it) => (
-        <div key={it.k} className="min-w-[44%] shrink-0 bg-card px-4 py-3.5 xs:min-w-[36%] lg:min-w-0">
+        <div key={it.k} className="min-w-0 rounded-[14px] bg-bg-2 px-3.5 py-3">
           <dt className="text-xs text-ink-3">{it.k}</dt>
           <dd className={cn("mt-1 text-md", it.floor && "text-floor")}>{it.v}</dd>
         </div>
@@ -226,9 +226,9 @@ export function AboutCoin({ coin, chain }: { coin: CoinJson; chain: CoinChain | 
       <div>
         <p className="max-w-[60ch] text-md text-ink-2">{coin.description || t("noDescription")}</p>
       </div>
-      <dl className="divide-y divide-line rounded-xs border border-line text-sm">
+      <dl className="patch-card divide-y divide-dashed divide-seam px-3 py-2 text-sm">
         {rows.map(([k, v]) => (
-          <div key={k} className="flex items-center justify-between gap-4 px-3 py-2">
+          <div key={k} className="flex items-center justify-between gap-4 px-4 py-2.5">
             <dt className="text-ink-3">{k}</dt>
             <dd className="text-right">{v}</dd>
           </div>

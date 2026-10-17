@@ -44,7 +44,7 @@ export function ReadOnChain() {
   const c = s && res ? circulatingSupply(s, res.chain.supply) : 0n;
 
   return (
-    <div className="not-prose my-8 plate p-4">
+    <div className="not-prose patch-card my-8 p-6">
       <label htmlFor="roc-mint" className="text-sm text-ink-2">
         {t("label")}
       </label>
@@ -71,7 +71,7 @@ export function ReadOnChain() {
             <Row k="C = supply − T − Q" v={tokens(c)} />
             <Row k="floor = S / C" v={s.phase === 1 ? `${formatSolPerToken(coinFloorQ64(s, res.chain.supply), 6)} SOL` : t("curve")} floor />
           </dl>
-          <div className="border-t border-line pt-3 text-xs text-ink-3">
+          <div className="border-t border-dashed border-seam pt-3 text-xs text-ink-3">
             <p>{res.source === "mock" ? t("sourceMock") : t("sourceRpc", { rpc: ENV.rpcUrl })}</p>
             <p className="mt-1">
               {t("accounts")}{" "}
@@ -97,7 +97,7 @@ export function ReadOnChain() {
 
 function Row({ k, v, floor }: { k: string; v: string; floor?: boolean }) {
   return (
-    <div className="flex justify-between gap-3 border-b border-line/60 pb-1.5">
+    <div className="flex justify-between gap-3 border-b border-dashed border-seam pb-1.5">
       <dt className="num text-ink-3">{k}</dt>
       <dd className={floor ? "num text-floor" : "num"}>{v}</dd>
     </div>

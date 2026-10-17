@@ -4,25 +4,26 @@ import { cn } from "@/lib/cn";
 import { Dashes } from "./Dashes";
 
 /**
- * Flat buttons: square, one hairline or a solid fill, a 1.5 % press. Orange is the
- * primary action and Redeem; nothing else.
+ * Pills (Plush Pons): fully round, display face. "primary" is the dark label
+ * pill (orange after dark), "secondary" the coat button with a chalk seam,
+ * "floor" the orange one reserved for Redeem.
  */
 export type ButtonVariant = "floor" | "floorOutline" | "primary" | "secondary" | "ghost" | "brake";
 export type ButtonSize = "sm" | "md" | "lg";
 
 const VARIANTS: Record<ButtonVariant, string> = {
-  floor: "btn-slab pill-primary",
+  floor: "btn-slab pill-ink",
   primary: "btn-slab pill-primary",
-  floorOutline: "btn-slab border border-floor/60 text-floor hover:bg-floor-dim",
+  floorOutline: "btn-slab border-2 border-floor/60 text-floor hover:bg-floor-dim",
   secondary: "btn-slab pill-paper",
-  brake: "btn-slab border border-transparent bg-brake-ink text-brake hover:bg-black",
-  ghost: "press text-ink-2 hover:bg-card-2 hover:text-ink disabled:text-ink-3 rounded-xs",
+  brake: "btn-slab border border-transparent bg-brake text-brake-ink hover:brightness-105",
+  ghost: "press text-ink-2 hover:bg-card-2 hover:text-ink disabled:text-ink-3",
 };
 
 const SIZES: Record<ButtonSize, string> = {
-  sm: "h-8 px-3 text-sm gap-1.5 rounded-xs",
-  md: "h-10 px-4 text-md gap-2 rounded-xs",
-  lg: "h-12 px-6 text-[15px] gap-2 rounded-xs",
+  sm: "h-9 px-4 text-[13px] gap-1.5",
+  md: "h-11 px-5 text-sm gap-2",
+  lg: "h-12 px-6 text-base gap-2",
 };
 
 interface Common {
@@ -36,7 +37,7 @@ interface Common {
 
 export function buttonClass({ variant = "primary", size = "md", block, className }: Omit<Common, "children" | "loading">) {
   return cn(
-    "inline-flex select-none items-center justify-center whitespace-nowrap font-medium leading-none",
+    "inline-flex select-none items-center justify-center whitespace-nowrap rounded-full font-display font-semibold tracking-wide leading-none",
     "disabled:cursor-not-allowed",
     VARIANTS[variant],
     SIZES[size],

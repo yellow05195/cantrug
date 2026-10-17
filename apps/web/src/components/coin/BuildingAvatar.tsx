@@ -63,9 +63,15 @@ export interface BuildingColors {
 
 export const BUILDING_COLORS: BuildingColors = {
   sky: "var(--bg-2)",
-  greys: ["#55534e", "#6a6761", "#7f7c75", "#4a4843"],
-  edge: "#121211",
-  dark: "#2b2a27",
+  // Theme-driven: mixes of the ink into the ground, so day and night both read.
+  greys: [
+    "color-mix(in oklab, var(--ink) 34%, var(--bg-2))",
+    "color-mix(in oklab, var(--ink) 44%, var(--bg-2))",
+    "color-mix(in oklab, var(--ink) 54%, var(--bg-2))",
+    "color-mix(in oklab, var(--ink) 26%, var(--bg-2))",
+  ],
+  edge: "var(--ink)",
+  dark: "color-mix(in oklab, var(--ink) 70%, var(--bg-2))",
   light: "var(--floor)",
   slab: "var(--floor)",
   star: "var(--ink-3)",
@@ -123,7 +129,7 @@ export function BuildingSvg({ spec, colors = BUILDING_COLORS, size }: { spec: Bu
 /** The avatar sticker: square, 12 px radius, 2 px stroke. */
 export function BuildingAvatar({ seed, size = 56, className }: { seed: string; size?: number; className?: string }) {
   return (
-    <span className={`block shrink-0 overflow-hidden rounded-xs border border-line ${className ?? ""}`} style={{ width: size, height: size }} aria-hidden>
+    <span className={`block shrink-0 overflow-hidden rounded-full border border-seam ${className ?? ""}`} style={{ width: size, height: size }} aria-hidden>
       <BuildingSvg spec={buildingSpec(seed)} size={size - 4} />
     </span>
   );

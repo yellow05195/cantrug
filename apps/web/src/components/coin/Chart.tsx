@@ -18,6 +18,7 @@ import type { CandleInterval, CandleJson } from "@/lib/api/types";
 import { cn } from "@/lib/cn";
 import { tiny } from "@/lib/format";
 import { MOTION, gsap, prefersReducedMotion } from "@/lib/gsap";
+import { useIsDark } from "@/lib/theme";
 
 const INTERVALS: CandleInterval[] = ["1m", "5m", "1h"];
 
@@ -54,7 +55,7 @@ interface Palette {
 }
 
 function palette(): Palette {
-  return { bg2: css("--card"), line: css("--line-2"), ink: css("--ink"), ink3: css("--ink-3"), floor: css("--floor"), up: css("--up"), down: css("--down"), bg3: css("--bg-3") };
+  return { bg2: css("--card"), line: css("--line-2"), ink: css("--ink"), ink3: css("--ink-2"), floor: css("--floor"), up: css("--up"), down: css("--down"), bg3: css("--bg-3") };
 }
 
 /**
@@ -91,6 +92,7 @@ export function Chart({
   const s = useRef<{ candles: ISeriesApi<"Candlestick">; floor: ISeriesApi<"Line">; fill: ISeriesApi<"Area">; preview: ISeriesApi<"Line"> } | null>(null);
   const poured = useRef(false);
   const tween = useRef<gsap.core.Tween | null>(null);
+  const dark = useIsDark();
 
   const data = useMemo(() => {
     const c = candles.map((k) => ({
@@ -202,6 +204,28 @@ export function Chart({
     };
   }, []);
 
+  // Day and night: every colour comes from the CSS variables, re-read when data-theme changes.
+  useEffect(() => {
+    const c = chart.current;
+    const ser = s.current;
+    if (!c || !ser) return;
+    const pal = palette();
+    c.applyOptions({
+      layout: { background: { type: ColorType.Solid, color: pal.bg2 }, textColor: pal.ink3 },
+      grid: { vertLines: { color: withAlpha(pal.line, 0.5) }, horzLines: { color: withAlpha(pal.line, 0.5) } },
+      rightPriceScale: { borderColor: pal.line },
+      timeScale: { borderColor: pal.line },
+      crosshair: {
+        vertLine: { color: pal.ink3, labelBackgroundColor: pal.bg3 },
+        horzLine: { color: pal.ink3, labelBackgroundColor: pal.bg3 },
+      },
+    });
+    ser.floor.applyOptions({ color: pal.floor });
+    ser.preview.applyOptions({ color: pal.floor });
+    ser.candles.applyOptions({ upColor: pal.up, downColor: pal.down, wickUpColor: pal.up, wickDownColor: pal.down, priceLineColor: pal.ink });
+    if (poured.current && !tween.current?.isActive()) ser.fill.applyOptions({ topColor: withAlpha(pal.floor, 0.22), bottomColor: withAlpha(pal.floor, 0.05) });
+  }, [dark]);
+
   // Data updates; the first non-empty floor pours in.
   useEffect(() => {
     const ser = s.current;
@@ -250,7 +274,7 @@ export function Chart({
   return (
     <div className="plate overflow-hidden">
       
-      <div className="flex items-center justify-between gap-3 border-b border-line py-2 pl-4 pr-2">
+      <div className="flex items-center justify-between gap-3 border-b border-dashed border-seam py-2 pl-4 pr-2">
         <div className="flex items-center gap-3 py-2 text-xs text-ink-2">
           <span className="flex items-center gap-1.5">
             <span aria-hidden className="block h-[3px] w-4 bg-floor" />
@@ -261,13 +285,13 @@ export function Chart({
             {t("priceLegend")}
           </span>
         </div>
-        <Tabs idPrefix="chart" flat size="sm" items={INTERVALS.map((i) => ({ key: i, label: <span className="num">{i}</span> }))} value={interval} onChange={onInterval} className="border-line" />
+        <Tabs idPrefix="chart" flat size="sm" items={INTERVALS.map((i) => ({ key: i, label: <span className="num">{i}</span> }))} value={interval} onChange={onInterval} />
       </div>
       <div className="relative">
         <div ref={box} className={cn("w-full", "h-[var(--h-m)] lg:h-[var(--h-d)]")} style={{ ["--h-m" as string]: `${height.mobile}px`, ["--h-d" as string]: `${height.desktop}px` }} role="img" aria-label={t("aria")} />
         {empty ? (
           <div className="pointer-events-none absolute inset-x-0 top-6 z-10 flex justify-center px-6">
-            <p className="max-w-sm rounded-xs border border-dashed border-line bg-bg-2/95 px-3 py-2 text-center text-xs text-ink-2">{emptyNote ?? t("empty")}</p>
+            <p className="max-w-sm rounded-xl border border-dashed border-seam bg-bg-2/95 px-4 py-2.5 text-center text-xs text-ink-2">{emptyNote ?? t("empty")}</p>
           </div>
         ) : null}
       </div>

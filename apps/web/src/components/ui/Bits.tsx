@@ -45,7 +45,7 @@ export function Age({ ts, className }: { ts: string | number | null | undefined;
  */
 export function CoinAvatar({ src, symbol, size = 36, className }: { src: string | null | undefined; symbol: string; seed?: string; size?: number; className?: string }) {
   const [broken, setBroken] = useState(false);
-  const frame = cn("relative grid shrink-0 place-items-center overflow-hidden rounded-xs border border-line bg-bg-2", className);
+  const frame = cn("relative grid shrink-0 place-items-center overflow-hidden rounded-full border-[1.5px] border-seam bg-card-2", className);
   if (!src || broken) {
     return (
       <span aria-hidden className={frame} style={{ width: size, height: size }}>
@@ -63,5 +63,5 @@ export function CoinAvatar({ src, symbol, size = 36, className }: { src: string 
 }
 
 export function Skeleton({ className }: { className?: string }) {
-  return <span aria-hidden className={cn("block rounded-xs bg-white/[0.04] ", className)} />;
+  return <span aria-hidden className={cn("block rounded-xl bg-card-2", className)} />;
 }

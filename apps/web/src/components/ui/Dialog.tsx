@@ -45,18 +45,18 @@ export function Dialog({
         if (dismissable && e.target === ref.current) onClose();
       }}
       className={cn(
-        "fl-dialog m-0 w-full max-w-none bg-card-2 p-0 text-ink backdrop:bg-black/60",
-        "max-sm:mt-auto rounded-xs sm:m-auto sm:w-[min(460px,calc(100vw-32px))] rounded-xs",
+        "fl-dialog m-0 w-full max-w-none bg-card p-0 text-ink backdrop:bg-[color-mix(in_oklab,var(--ink)_45%,transparent)]",
+        "max-sm:mt-auto max-sm:rounded-t-[24px] sm:m-auto sm:w-[min(460px,calc(100vw-32px))] sm:rounded-[24px]",
         className,
       )}
     >
       {open ? (
         <div className="max-h-[85dvh] overflow-y-auto p-5 pb-[max(20px,env(safe-area-inset-bottom))]">
-          <span aria-hidden className="mx-auto -mt-2 mb-3 block h-1.5 w-12 rounded-xs bg-line sm:hidden" />
+          <span aria-hidden className="mx-auto -mt-2 mb-3 block h-1.5 w-12 rounded-full bg-line sm:hidden" />
           <div className="mb-4 flex items-start justify-between gap-4">
-            <h2 className="title-tight text-xl font-semibold">{title}</h2>
+            <h2 className="text-xl">{title}</h2>
             {dismissable ? (
-              <button type="button" onClick={onClose} className="press -mr-1 -mt-1 grid size-9 place-items-center rounded-xs border border-line text-ink-2 hover:text-ink" aria-label={closeLabel}>
+              <button type="button" onClick={onClose} className="press -mr-1 -mt-1 grid size-9 place-items-center rounded-full border-[1.5px] border-seam text-ink-2 hover:text-ink" aria-label={closeLabel}>
                 <X size={16} />
               </button>
             ) : null}

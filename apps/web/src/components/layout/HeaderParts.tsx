@@ -1,5 +1,5 @@
 "use client";
-import { List, X } from "@phosphor-icons/react/dist/ssr";
+import { List, Moon, Sun, X } from "@phosphor-icons/react/dist/ssr";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -10,6 +10,7 @@ import { LOCALE_COOKIE } from "@/i18n/config";
 import { cn } from "@/lib/cn";
 import { solFixed } from "@/lib/format";
 import { useLiveStats } from "@/lib/live/solReturned";
+import { setTheme, useIsDark } from "@/lib/theme";
 
 export const NAV = [
   { href: "/", key: "coins" },
@@ -81,10 +82,27 @@ export function MiniCounter({ seed }: { seed: { lamports: string; launched: numb
   const s = useLiveStats(seed ? { lamports: BigInt(seed.lamports), launched: seed.launched, brakes: seed.brakes } : null);
   if (s.total === null) return null;
   return (
-    <Link href="/stats" className="hidden h-10 items-baseline gap-2 whitespace-nowrap border border-line px-3 leading-[38px] hover:border-line-2 xl:flex" title={t("counterLabel")}>
-      <NumRoll value={solFixed(s.total, 2)} className="text-sm text-floor" label={`${solFixed(s.total, 2)} SOL`} />
-      <span className="text-xs text-ink-3">{t("counterShort")}</span>
+    <Link href="/stats" className="chip-mono hidden !h-10 hover:border-floor xl:inline-flex" title={t("counterLabel")}>
+      <NumRoll value={solFixed(s.total, 2)} className="text-[12px] text-floor" label={`${solFixed(s.total, 2)} SOL`} />
+      <span>{t("counterShort")}</span>
     </Link>
+  );
+}
+
+/** Workshop lights: plaster day / night blue. */
+export function ThemeToggle({ className }: { className?: string }) {
+  const t = useTranslations("nav");
+  const dark = useIsDark();
+  return (
+    <button
+      type="button"
+      onClick={() => setTheme(!dark)}
+      className={cn("press grid size-10 place-items-center rounded-full border-2 border-seam bg-card text-ink transition-colors hover:border-floor", className)}
+      aria-label={dark ? t("themeLight") : t("themeDark")}
+      title={dark ? t("themeLight") : t("themeDark")}
+    >
+      {dark ? <Sun size={16} weight="fill" /> : <Moon size={16} weight="fill" />}
+    </button>
   );
 }
 
@@ -105,13 +123,13 @@ export function MobileMenu() {
   }, [open]);
   return (
     <div className="lg:hidden">
-      <button type="button" onClick={() => setOpen(true)} className="press -mr-1 grid size-10 place-items-center text-ink hover:bg-card-2" aria-label={t("menu")} aria-expanded={open}>
+      <button type="button" onClick={() => setOpen(true)} className="press grid size-10 place-items-center rounded-full border-2 border-seam bg-card text-ink hover:border-floor" aria-label={t("menu")} aria-expanded={open}>
         <List size={20} />
       </button>
       {open ? (
         <div className="fixed inset-0 z-[80]" role="dialog" aria-modal="true" aria-label={t("menu")}>
           <button type="button" aria-label={t("closeMenu")} className="absolute inset-0 bg-black/55 motion-safe:animate-[backdrop-in_200ms_ease-out]" onClick={() => setOpen(false)} />
-          <div className="absolute inset-x-0 bottom-0 border-t border-line-2 bg-card pb-[max(16px,env(safe-area-inset-bottom))] motion-safe:animate-[sheet-in_280ms_cubic-bezier(0.32,0.72,0,1)]">
+          <div className="absolute inset-x-0 bottom-0 rounded-t-3xl border-t border-seam bg-card pb-[max(16px,env(safe-area-inset-bottom))] motion-safe:animate-[sheet-in_280ms_cubic-bezier(0.32,0.72,0,1)]">
             <div className="flex items-center justify-between border-b border-line px-4 py-3">
               <span className="text-sm text-ink-2">{t("menu")}</span>
               <button type="button" onClick={() => setOpen(false)} className="press grid size-11 place-items-center rounded-sm text-ink-2 hover:text-ink" aria-label={t("closeMenu")}>

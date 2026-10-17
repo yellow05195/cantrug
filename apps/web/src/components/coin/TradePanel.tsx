@@ -106,8 +106,8 @@ export function TradePanel({
   const inputLabel = tab === "buy" ? t("amountSol") : t("amountTokens", { symbol });
 
   return (
-    <div className={cn("plate overflow-hidden", tab === "redeem" && "border-floor-deep")}>
-      <div className="p-3 pb-0">
+    <div className={cn("patch-card", tab === "redeem" && "after:border-floor/60")}>
+      <div className="px-5 pt-5">
       <Tabs
         flat
         size="lg"
@@ -122,7 +122,7 @@ export function TradePanel({
         ]}
       />
       </div>
-      <div className={cn("space-y-4 p-4", tab === "redeem" && "bg-floor-dim/50")} role="tabpanel" id={`trade${id}-panel-${tab}`} aria-labelledby={`trade${id}-tab-${tab}`}>
+      <div className="space-y-4 p-5" role="tabpanel" id={`trade${id}-panel-${tab}`} aria-labelledby={`trade${id}-tab-${tab}`}>
         {tab === "redeem" && state && !graduated ? (
           <div className="space-y-2 py-2">
             <p className="text-md">{t("redeemClosed")}</p>
@@ -162,7 +162,7 @@ export function TradePanel({
               <div className="mt-2 grid grid-cols-4 gap-1.5">
                 {tab === "buy"
                   ? BUY_PRESETS.map((p) => (
-                      <button key={p} type="button" onClick={() => setAmount(p)} className="press num h-10 rounded-xs border border-line bg-card-2 text-sm font-medium text-ink-2 hover:border-line-2 hover:text-ink lg:h-9">
+                      <button key={p} type="button" onClick={() => setAmount(p)} className="press num h-10 rounded-full border-[1.5px] border-seam bg-card text-sm font-medium text-ink-2 hover:border-ink-3 hover:text-ink lg:h-9">
                         {p}
                       </button>
                     ))
@@ -172,7 +172,7 @@ export function TradePanel({
                         type="button"
                         disabled={!account.connected || balance === 0n}
                         onClick={() => setAmount(tokensInput((balance * BigInt(f)) / 100n))}
-                        className="press num h-10 rounded-xs border border-line bg-card-2 text-sm font-medium text-ink-2 hover:border-line-2 hover:text-ink disabled:opacity-40 lg:h-9"
+                        className="press num h-10 rounded-full border-[1.5px] border-seam bg-card text-sm font-medium text-ink-2 hover:border-ink-3 hover:text-ink disabled:opacity-40 lg:h-9"
                       >
                         {f} %
                       </button>
@@ -180,7 +180,7 @@ export function TradePanel({
               </div>
             </div>
 
-            <div id={`q${id}`} className="min-h-[76px] space-y-1.5 border-t border-line pt-3 text-sm" aria-live="polite">
+            <div id={`q${id}`} className="min-h-[76px] space-y-1.5 border-t border-dashed border-seam pt-3 text-sm" aria-live="polite">
               {!chain ? (
                 <p className="flex items-center gap-2 text-ink-3">
                   <Dashes label={t("reading")} /> {t("reading")}
@@ -200,7 +200,8 @@ export function TradePanel({
                 <>
                   <QuoteLine label={t("youReceive")} value={`${sol(quote.solOut)} SOL`} strong />
                   {quote.braked > 0n ? (
-                    <div className="border-t-2 border-brake bg-brake/10 p-2.5 text-ink">
+                    <div className="well border-l-4 border-l-brake p-3 text-ink">
+                      <span className="kicker mb-2 block text-[color-mix(in_oklab,var(--brake)_62%,var(--ink))]">{t("brakeKicker")}</span>
                       {t("brakeSplit", { exec: pct(quote.execPct), rest: pct(100 - quote.execPct) })}
                       <label className="mt-1.5 flex items-center gap-2 text-xs text-ink-2">
                         <input type="checkbox" checked={queueRest} onChange={(e) => setQueueRest(e.target.checked)} className="size-3.5 accent-[var(--ink)]" />
@@ -235,7 +236,7 @@ export function TradePanel({
                         type="button"
                         aria-pressed={slippageBps === b}
                         onClick={() => setSlippageBps(b)}
-                        className={cn("press num h-8 flex-1 rounded-xs border text-xs font-medium", slippageBps === b ? "border-line-2 bg-card-2 text-ink" : "border-line text-ink-2 hover:text-ink")}
+                        className={cn("press num h-8 flex-1 rounded-full border-[1.5px] text-xs font-medium", slippageBps === b ? "border-ink bg-ink text-bg" : "border-seam text-ink-2 hover:text-ink")}
                       >
                         {bps(b)}
                       </button>

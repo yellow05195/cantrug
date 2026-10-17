@@ -191,18 +191,18 @@ export function ChallengeReplay({ coin, mint, dev }: { coin: CoinJson | null; mi
 
   return (
     <div className="space-y-8">
-      <dl className="grid grid-cols-2 gap-x-8 border-b border-line lg:grid-cols-4">
+      <dl className="grid grid-cols-2 gap-x-8 border-b border-dashed border-seam lg:grid-cols-4">
         <Stat k={t("statDump")} v={<Num unit={coin?.symbol}>{tokens(ep.devTokens)}</Num>} hint={t("statDumpHint", { pct: pct(devShare) })} />
         <Stat k={t("statStep")} v={<Num>{`${pct(ep.maxStepDrop)} %`}</Num>} hint={t("statStepHint")} />
         <Stat k={t("statFloor")} v={<Num className="text-floor">{`${ep.floorChange >= 0 ? "+" : ""}${pct(ep.floorChange)} %`}</Num>} hint={t("statFloorHint")} />
         <Stat k={t("statWindows")} v={<Num>{ep.windows}</Num>} hint={t("statWindowsHint")} />
       </dl>
 
-      <div className="overflow-hidden plate">
+      <div className="patch-card overflow-hidden p-3 md:p-4">
         <div className={cn("grid transition-[grid-template-rows] duration-300", engaged ? "grid-rows-[1fr]" : "grid-rows-[0fr]")}>
           <div className="overflow-hidden">
-            <div className="border-b border-line border-t-2 border-t-brake bg-brake/10">
-              <p className="px-5 py-2.5 text-sm text-ink-2">{t("replayBanner", { tokens: tokens(cur.queued) })}</p>
+            <div className="pb-3">
+              <p className="well border-l-4 border-l-brake px-4 py-2.5 text-sm text-ink-2">{t("replayBanner", { tokens: tokens(cur.queued) })}</p>
             </div>
           </div>
         </div>
@@ -221,7 +221,7 @@ export function ChallengeReplay({ coin, mint, dev }: { coin: CoinJson | null; mi
           ) : null}
           <line x1={pad.l} y1={H - pad.b} x2={W - pad.r} y2={H - pad.b} stroke="var(--line-2)" />
         </svg>
-        <div className="flex flex-wrap items-center gap-3 border-t border-line px-3 py-2.5">
+        <div className="flex flex-wrap items-center gap-3 border-t border-dashed border-seam px-3 py-3">
           <Button size="sm" variant="primary" onClick={playing ? pause : play} aria-label={playing ? t("pause") : t("play")}>
             {playing ? <Pause size={14} /> : <Play size={14} />} {playing ? t("pause") : p >= 1 ? t("replay") : t("play")}
           </Button>
@@ -235,25 +235,25 @@ export function ChallengeReplay({ coin, mint, dev }: { coin: CoinJson | null; mi
               setP(Number(e.target.value) / 1000);
             }}
             aria-label={t("scrub")}
-            className="h-1 min-w-[120px] flex-1 accent-[var(--ink)]"
+            className="h-1 min-w-[120px] flex-1 accent-[var(--floor)]"
           />
           <span className="num w-[7ch] text-right text-xs text-ink-2">{sincedump >= 0 ? `T0+${countdown(sincedump)}` : `T0-${countdown(-sincedump)}`}</span>
         </div>
-        <dl className="grid grid-cols-3 gap-px border-t border-line bg-line text-sm">
-          <div className="bg-bg-2 px-3 py-2">
-            <dt className="text-xs text-ink-3">{t("price")}</dt>
+        <dl className="grid grid-cols-3 divide-x divide-dashed divide-seam border-t border-dashed border-seam text-sm">
+          <div className="min-w-0 px-4 py-3">
+            <dt className="font-mono text-[11px] uppercase tracking-wider text-ink-2">{t("price")}</dt>
             <dd className="mt-0.5">
               <Price value={cur.price} />
             </dd>
           </div>
-          <div className="bg-bg-2 px-3 py-2">
-            <dt className="text-xs text-ink-3">{t("floor")}</dt>
+          <div className="min-w-0 px-4 py-3">
+            <dt className="font-mono text-[11px] uppercase tracking-wider text-ink-2">{t("floor")}</dt>
             <dd className="mt-0.5 text-floor">
               <Price value={cur.floor} />
             </dd>
           </div>
-          <div className="bg-bg-2 px-3 py-2">
-            <dt className="text-xs text-ink-3">{t("queued")}</dt>
+          <div className="min-w-0 px-4 py-3">
+            <dt className="font-mono text-[11px] uppercase tracking-wider text-ink-2">{t("queued")}</dt>
             <dd className="num mt-0.5">{tokens(cur.queued)}</dd>
           </div>
         </dl>
@@ -261,7 +261,7 @@ export function ChallengeReplay({ coin, mint, dev }: { coin: CoinJson | null; mi
 
       <div className="grid gap-8 lg:grid-cols-2">
         <section>
-          <h2 className="title-tight text-xl font-semibold">{t("stairsTitle")}</h2>
+          <h2 className="text-2xl">{t("stairsTitle")}</h2>
           <p className="mt-2 text-md text-ink-2">{t("stairsText")}</p>
           <ol className="mt-4 space-y-1.5">
             {ep.steps.slice(0, 12).map((s, i) => (
@@ -277,14 +277,14 @@ export function ChallengeReplay({ coin, mint, dev }: { coin: CoinJson | null; mi
           </ol>
           <p className="mt-2 text-xs text-ink-3">{t("stairsLimit")}</p>
         </section>
-        <section className="plate p-5">
-          <h2 className="title-tight text-xl font-semibold">{t("cfTitle")}</h2>
+        <section className="patch-card p-6">
+          <h2 className="text-2xl">{t("cfTitle")}</h2>
           <dl className="mt-4 space-y-3">
             <div className="flex items-baseline justify-between gap-4">
               <dt className="text-md text-ink-2">{t("cfSold", { n: ep.windows })}</dt>
               <dd className="num text-lg">{sol(ep.executedSol + ep.fillSol)} SOL</dd>
             </div>
-            <div className="flex items-baseline justify-between gap-4 border-t border-line pt-3">
+            <div className="flex items-baseline justify-between gap-4 border-t border-dashed border-seam pt-3">
               <dt className="text-md text-floor">{t("cfRedeem")}</dt>
               <dd className="num text-lg text-floor">{sol(ep.redeemInstead)} SOL</dd>
             </div>
@@ -307,7 +307,7 @@ export function ChallengeReplay({ coin, mint, dev }: { coin: CoinJson | null; mi
 
 function Stat({ k, v, hint }: { k: string; v: React.ReactNode; hint: string }) {
   return (
-    <div className="min-w-0 border-t border-line py-5">
+    <div className="min-w-0 border-t border-dashed border-seam py-5">
       <dt className="text-sm text-ink-2">{k}</dt>
       <dd className="mt-2 text-2xl">{v}</dd>
       <p className="mt-1 text-xs text-ink-3">{hint}</p>

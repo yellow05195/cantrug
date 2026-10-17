@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { ChallengeReplay } from "@/components/challenge/ChallengeReplay";
 import { PAGE, PageHeader } from "@/components/ui/PageHeader";
-import { Photo } from "@/components/ui/Photo";
 import { resolveCoin } from "@/lib/coin/resolve";
 import { ENV } from "@/lib/env";
 import { shortAddress } from "@/lib/format";
@@ -20,12 +19,11 @@ export default async function ChallengePage() {
   const coin = await resolveCoin(mint);
   return (
     <div className={PAGE}>
-      <PageHeader kicker={t("kicker")} title={t("title")} lede={t("lede")}>
+      <PageHeader kicker={t("kicker")} title={t("title")} lede={t("lede")} scene="challenge">
         <p className="mt-3 text-sm text-ink-3">
           {t("subject", { name: coin?.name ?? "Floored Demo", symbol: coin?.symbol ?? "FLRD", dev: shortAddress(ENV.challengeDev) })}
         </p>
       </PageHeader>
-      <Photo id="dark" ratio="16/9" priority sizes="(min-width: 1120px) 1072px, 100vw" className="mt-12" />
       <div className="mt-12">
         <ChallengeReplay coin={coin} mint={mint} dev={ENV.challengeDev} />
       </div>

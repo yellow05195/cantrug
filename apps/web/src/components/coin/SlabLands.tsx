@@ -57,10 +57,10 @@ export function SlabLands({ floorSol, label, className }: { floorSol: number; la
         <p className="mb-1 text-xs font-semibold text-ink-2">{label ?? t("floor")}</p>
         <NumRoll value={value} rollFrom={reduce ? null : zeros} className="mb-3 text-3xl font-medium text-floor" label={`${value} SOL`} />
         <div className="relative w-full">
-          <div data-slab className="h-5 w-full rounded-xs bg-card-2" />
-          <div data-line className="absolute inset-x-1 top-0 h-1.5 rounded-xs bg-floor" />
+          <div data-slab className="h-5 w-full rounded-[10px] bg-card-2" />
+          <div data-line className="absolute inset-x-1 top-0 h-1.5 rounded-full bg-floor" />
           {PARTICLES.map((p, i) => (
-            <span key={i} data-dust aria-hidden className="absolute left-1/2 top-0 rounded-xs bg-ink-3 opacity-0" style={{ width: p.s, height: p.s, marginLeft: -p.s / 2, marginTop: -p.s / 2 }} />
+            <span key={i} data-dust aria-hidden className="absolute left-1/2 top-0 rounded-full bg-ink-3 opacity-0" style={{ width: p.s, height: p.s, marginLeft: -p.s / 2, marginTop: -p.s / 2 }} />
           ))}
         </div>
       </div>

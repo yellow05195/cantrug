@@ -42,7 +42,7 @@ export const CoinCard = memo(function CoinCard({ coin, className, preview, vt, s
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
             <MaybeVT name={vt ? vtName(coin.mint, "nm") : null}>
-              <p className="truncate text-base font-bold leading-tight">{coin.name || t("unnamed")}</p>
+              <p className="truncate font-display text-base font-semibold leading-tight">{coin.name || t("unnamed")}</p>
             </MaybeVT>
             <p className="mt-1 flex items-center gap-2 text-xs text-ink-2">
               <span className="num font-medium text-ink">${coin.symbol}</span>

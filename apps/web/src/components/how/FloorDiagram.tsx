@@ -129,7 +129,7 @@ export function FloorDiagram() {
       </div>
       <figcaption className="mt-3 flex items-start justify-between gap-4 text-sm text-ink-2">
         <span>{t("caption", { x: Number(X / TOKEN_UNIT), sol: fmt(q.solOut), fee: fmt(q.feeKept) })}</span>
-        <button type="button" onClick={() => setRun((r) => r + 1)} className="press inline-flex shrink-0 items-center gap-1 rounded-xs px-2 py-1 text-ink-2 hover:bg-white/[0.04] hover:text-ink">
+        <button type="button" onClick={() => setRun((r) => r + 1)} className="press inline-flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1 text-ink-2 hover:bg-card-2 hover:text-ink">
           <ArrowCounterClockwise size={14} /> {t("replay")}
         </button>
       </figcaption>

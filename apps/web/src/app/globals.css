@@ -3,51 +3,88 @@
 /* ───────────────────────── tokens (DESIGN.md §1) ───────────────────────── */
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
   /*
-    v5 "flat": graphite ground, solid 1 px hairlines, square corners, no glow,
-    no halo, no gradient. One accent, safety orange, for the floor and the
-    primary action. Everything else is grey ink on dark grey.
+    v7 "atelier" (Plush Pons craft on the PAWNED skeleton): a warm plaster
+    ground with a felt grain, espresso ink, patch cards with a chalk-dashed
+    seam and a soft diffuse shadow, dark pill buttons, mono uppercase chips.
+    FLOORED keeps its accent: safety orange, the colour of the floor line.
+    The night theme (data-theme="dark") is the PAWNED palette.
   */
-  --bg: #0b0c0e;
-  --bg-2: #101114;
-  --bg-3: #141619;
-  --surface: #141619;
-  --card: #141619;
-  --card-2: #1a1d21;
-  --card-3: #23272c;
-  --stroke: #24282e;
-  --stroke-strong: #363c44;
-  --line: #24282e;
-  --line-2: #363c44;
-  --shadow: rgba(0, 0, 0, 0.6);
-  --ink: #f2f3f5;
-  --ink-2: #a4aab3;
-  --ink-3: #6e7580;
-  --floor: #ff5f1f;
-  --floor-hot: #ff7a3d;
+  --plaster: #eeece8;
+  --plaster-soft: #f6f5f2;
+  --espresso: #1d1e22;
+  --cocoa: #5b5e66;
+  --bg: var(--plaster);
+  --bg-2: var(--plaster-soft);
+  --bg-3: #e5e3de;
+  --surface: #faf9f6;
+  --card: #faf9f6;
+  --card-2: #ebe9e4;
+  --card-3: #dddbd5;
+  --stroke: rgba(29, 30, 34, 0.12);
+  --stroke-strong: rgba(29, 30, 34, 0.22);
+  --line: rgba(29, 30, 34, 0.12);
+  --line-2: rgba(29, 30, 34, 0.22);
+  --seam: rgba(29, 30, 34, 0.32);
+  --shadow: rgba(29, 30, 34, 0.22);
+  --ink: var(--espresso);
+  --ink-2: var(--cocoa);
+  --ink-3: #8a8d95;
+  --floor: #ee5a1c;
+  --floor-hot: #ff6f33;
   --floor-deep: #b8400e;
-  --floor-ink: #0b0c0e;
-  --floor-dim: rgba(255, 95, 31, 0.12);
-  --brake: #ffd400;
-  --brake-ink: #111111;
-  --up: #2fcf72;
-  --up-soft: rgba(47, 207, 114, 0.12);
-  --down: #ff5c6c;
-  --down-soft: rgba(255, 92, 108, 0.12);
-  --grain-opacity: 0;
-  --float-shadow: none;
+  --floor-ink: #ffffff;
+  --floor-dim: rgba(238, 90, 28, 0.14);
+  --brake: #e9a800;
+  --brake-ink: #1d1e22;
+  --up: #3d9a5c;
+  --up-soft: rgba(61, 154, 92, 0.14);
+  --down: #c4453c;
+  --down-soft: rgba(196, 69, 60, 0.14);
+  --grain-opacity: 0.5;
+  --float-shadow: 0 14px 44px -16px rgba(46, 28, 16, 0.28);
   --ease-mech: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
-  --header-h: 64px;
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --header-h: 72px;
 }
 
 /* Dark only: the light theme is retired; the attribute is kept so nothing breaks. */
-:root[data-theme="light"] {
+/* Night: the PAWNED palette. Chosen with the toggle, remembered in localStorage. */
+:root[data-theme="dark"] {
   color-scheme: dark;
+  --bg: #05070f;
+  --bg-2: #080c19;
+  --bg-3: #0c1122;
+  --surface: #0c1122;
+  --card: #0c1122;
+  --card-2: #121a33;
+  --card-3: #1a2447;
+  --stroke: rgba(255, 255, 255, 0.07);
+  --stroke-strong: rgba(255, 255, 255, 0.13);
+  --line: rgba(255, 255, 255, 0.07);
+  --line-2: rgba(255, 255, 255, 0.13);
+  --seam: rgba(255, 140, 90, 0.35);
+  --shadow: rgba(0, 0, 0, 0.6);
+  --ink: #f4f6ff;
+  --ink-2: #a2aac6;
+  --ink-3: #737c9b;
+  --floor: #ff5f1f;
+  --floor-hot: #ff7a3d;
+  --floor-ink: #0b0d14;
+  --floor-dim: rgba(255, 95, 31, 0.14);
+  --brake: #ffd400;
+  --brake-ink: #111111;
+  --up: #33d17a;
+  --up-soft: rgba(51, 209, 122, 0.14);
+  --down: #ff5c6c;
+  --down-soft: rgba(255, 92, 108, 0.14);
+  --grain-opacity: 0.3;
+  --float-shadow: 0 14px 44px -14px rgba(0, 0, 0, 0.6);
 }
 
 @theme inline {
@@ -67,6 +104,7 @@
   --color-floor-deep: var(--floor-deep);
   --color-line: var(--line);
   --color-line-2: var(--line-2);
+  --color-seam: var(--seam);
   --color-ink: var(--ink);
   --color-ink-2: var(--ink-2);
   --color-ink-3: var(--ink-3);
@@ -78,8 +116,9 @@
   --color-up: var(--up);
   --color-down: var(--down);
 
-  --font-sans: var(--font-geist), "Segoe UI", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
+  --font-sans: var(--font-inter), "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fredoka), var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SFMono-Regular", monospace;
 
   /* Type scale (rem): .75 / .8125 / .875 / 1 / 1.125 / 1.375 / 1.75 / 2.25 / 3 / 4.5 / 6 */
   --text-xs: 0.75rem;
@@ -107,13 +146,13 @@
   --text-6xl: 6rem;
   --text-6xl--line-height: 1;
 
-  /* v5 shape rule: everything is square. 2 px takes the pixel edge off, nothing more. */
-  --radius-xs: 2px;
-  --radius-sm: 2px;
-  --radius-md: 2px;
-  --radius-lg: 2px;
-  --radius-xl: 2px;
-  --radius-2xl: 2px;
+  /* v7 shape rule (Plush Pons): patch cards 22, panels 20, buttons 999, inputs 14. */
+  --radius-xs: 8px;
+  --radius-sm: 10px;
+  --radius-md: 12px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-2xl: 22px;
 
   --ease-mech: cubic-bezier(0.2, 0.7, 0.2, 1);
   --breakpoint-xs: 26rem;
@@ -137,7 +176,7 @@
     font-family: var(--font-sans);
     font-weight: 400;
     font-size: 1rem;
-    line-height: 1.55;
+    line-height: 1.6;
     letter-spacing: 0;
     min-height: 100dvh;
     -webkit-tap-highlight-color: transparent;
@@ -146,31 +185,32 @@
   h2,
   h3,
   h4 {
+    font-family: var(--font-display);
     font-weight: 600;
     text-wrap: balance;
     line-height: 1.05;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.02em;
   }
   h3,
   h4 {
-    letter-spacing: -0.015em;
+    letter-spacing: -0.01em;
     line-height: 1.2;
   }
   p {
     text-wrap: pretty;
   }
   ::selection {
-    background: var(--floor-dim);
-    color: var(--ink);
+    background: var(--floor);
+    color: #ffffff;
   }
   input,
   textarea {
     caret-color: var(--floor);
   }
   :focus-visible {
-    outline: 2px solid var(--floor);
+    outline: 3px solid var(--floor);
     outline-offset: 2px;
-    border-radius: 2px;
+    border-radius: 8px;
   }
   button,
   [role="button"],
@@ -201,10 +241,9 @@ body::after {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 100;
+  z-index: 0;
   opacity: var(--grain-opacity);
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5  0 0 0 0 .5  0 0 0 0 .5  0 0 0 1.4 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.25 0 0 0 0 0.25 0 0 0 0 0.28 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 /* ───────────────────────── utilities ───────────────────────── */
@@ -238,35 +277,44 @@ body::after {
 
 /* Plates: a whisper of light on the top edge, one hairline, 20 px radius. `sticker` is an alias so older components keep working. */
 @utility plate {
+  position: relative;
   background: var(--card);
   border: 1px solid var(--line);
-  border-radius: 2px;
+  border-radius: 22px;
+  box-shadow: 0 14px 44px -16px var(--shadow);
 }
 @utility sticker {
+  position: relative;
   background: var(--card);
   border: 1px solid var(--line);
-  border-radius: 2px;
+  border-radius: 22px;
+  box-shadow: 0 14px 44px -16px var(--shadow);
 }
 @utility plate-glow {
-  border-color: var(--line-2);
+  box-shadow: 0 24px 70px -20px var(--shadow);
 }
 @utility sticker-flat {
   background: var(--bg-2);
   border: 1px solid var(--line);
-  border-radius: 2px;
+  border-radius: 16px;
 }
 @utility well {
   background: var(--bg-2);
   border: 1px solid var(--line);
-  border-radius: 2px;
+  border-radius: 16px;
 }
 
 /* Hover lifts 2 px (shadow 6 px), press pushes down 2 px (shadow 2 px). */
 @utility lift {
-  transition: border-color 150ms ease;
+  transition:
+    transform 280ms var(--ease-bounce),
+    border-color 200ms ease,
+    box-shadow 280ms ease;
   @media (hover: hover) and (pointer: fine) {
     &:hover {
+      transform: translateY(-3px);
       border-color: var(--line-2);
+      box-shadow: 0 24px 70px -20px var(--shadow);
     }
   }
 }
@@ -274,49 +322,51 @@ body::after {
 /* Pills: 14 px radius, inner highlight on the primary, scale on press. */
 @utility btn-slab {
   transition:
-    transform 120ms var(--ease-out),
-    background-color 150ms ease,
-    border-color 150ms ease,
-    color 150ms ease;
+    transform 150ms ease,
+    filter 150ms ease,
+    background-color 200ms ease,
+    border-color 200ms ease,
+    color 200ms ease;
+  @media (hover: hover) and (pointer: fine) {
+    &:hover:not(:disabled) {
+      transform: translateY(-1px);
+    }
+  }
   &:active:not(:disabled) {
-    transform: scale(0.985);
+    transform: translateY(1px);
   }
   &:disabled {
     opacity: 0.45;
   }
 }
 @utility pill-primary {
-  background: var(--floor);
-  color: var(--floor-ink);
-  border: 1px solid var(--floor);
-  border-radius: 2px;
+  background: var(--ink);
+  color: var(--bg);
+  border: 1px solid transparent;
   @media (hover: hover) and (pointer: fine) {
     &:hover:not(:disabled) {
-      background: var(--floor-hot);
-      border-color: var(--floor-hot);
+      filter: brightness(1.15);
     }
   }
 }
 @utility pill-paper {
-  background: transparent;
+  background: color-mix(in oklab, var(--card) 70%, transparent);
   color: var(--ink);
-  border: 1px solid var(--line-2);
-  border-radius: 2px;
+  border: 2px solid var(--seam);
   @media (hover: hover) and (pointer: fine) {
     &:hover:not(:disabled) {
-      background: var(--card-2);
-      border-color: var(--ink-3);
+      border-color: var(--floor);
     }
   }
 }
 @utility pill-ink {
-  background: var(--ink);
-  color: var(--bg);
-  border: 1px solid var(--ink);
-  border-radius: 2px;
+  background: var(--floor);
+  color: var(--floor-ink);
+  border: 1px solid transparent;
+  box-shadow: 0 10px 30px -12px rgba(238, 90, 28, 0.6);
   @media (hover: hover) and (pointer: fine) {
     &:hover:not(:disabled) {
-      background: #ffffff;
+      filter: brightness(1.06);
     }
   }
 }
@@ -327,45 +377,48 @@ body::after {
   font-size: 11px;
   line-height: 1;
   font-weight: 500;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--ink-3);
+  color: var(--ink-2);
 }
 
 /* Floating capsule header. */
 @utility capsule {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 16px;
-  height: var(--header-h);
-  background: color-mix(in oklab, var(--bg) 88%, transparent);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--line);
+  gap: 12px;
+  height: 56px;
+  padding: 0 8px 0 16px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--card) 95%, transparent);
+  border: 1px solid var(--seam);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 40px -12px var(--shadow);
 }
 @utility capsule-nav {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
   & a {
-    display: inline-flex;
-    align-items: center;
-    height: 32px;
-    padding: 0 10px;
-    border-radius: 2px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-family: var(--font-display);
     font-size: 14px;
     font-weight: 500;
     color: var(--ink-2);
+    white-space: nowrap;
     transition:
-      color 150ms ease,
-      background-color 150ms ease;
+      color 160ms ease,
+      background-color 160ms ease;
   }
   & a:hover {
     color: var(--ink);
   }
   & a[aria-current="page"] {
-    color: var(--ink);
-    background: var(--card-2);
+    background: var(--floor);
+    color: var(--floor-ink);
   }
 }
 
@@ -377,11 +430,12 @@ body::after {
   background: var(--bg-2);
 }
 @utility halo {
-  border: 1px solid var(--line-2);
+  border: 1.5px solid var(--seam);
 }
 @utility floor-line {
   position: relative;
-  height: 2px;
+  height: 3px;
+  border-radius: 2px;
   background: var(--floor);
 }
 @utility ground {
@@ -392,25 +446,29 @@ body::after {
   background: none;
 }
 @utility rule {
-  height: 1px;
-  background: var(--line-2);
+  height: 0;
+  border-top: 2px dashed var(--seam);
 }
 @utility field {
   width: 100%;
-  background: var(--bg);
-  border: 1px solid var(--line-2);
-  border-radius: 2px;
+  min-height: 48px;
+  padding: 0 16px;
+  border-radius: 14px;
+  background: var(--bg-2);
+  border: 1.5px solid var(--seam);
   color: var(--ink);
-  font-weight: 400;
-  padding: 0 12px;
-  height: 44px;
-  transition: border-color 150ms ease;
+  font-size: 16px;
+  font-weight: 500;
+  outline: none;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
   &::placeholder {
     color: var(--ink-3);
   }
   &:focus {
-    outline: none;
-    border-color: var(--ink-2);
+    border-color: var(--floor);
+    box-shadow: 0 0 0 4px var(--floor-dim);
   }
 }
 
@@ -425,23 +483,23 @@ body::after {
   }
 }
 @utility float {
-  animation: none;
+  animation: float-y 7s ease-in-out infinite;
 }
 @utility float-2 {
-  animation: none;
+  animation: float-y 8.5s ease-in-out infinite reverse;
 }
 @utility float-3 {
-  animation: none;
+  animation: float-y 6.2s ease-in-out infinite 0.8s;
 }
 @utility reveal {
   opacity: 1;
   transform: none;
   transition:
-    opacity 500ms var(--ease-out),
-    transform 500ms var(--ease-out);
+    opacity 600ms var(--ease-out),
+    transform 600ms var(--ease-out);
   &[data-wait] {
     opacity: 0;
-    transform: translate3d(0, 8px, 0);
+    transform: translate3d(0, 14px, 0);
   }
 }
 @utility rise {
@@ -872,4 +930,90 @@ svg [opacity="0.2"] {
 html,
 body {
   overflow-x: clip;
+}
+
+
+/* ───────────────────────── v7 atelier pieces (Plush Pons) ───────────────────────── */
+
+/* Fabric patch card: rounded, a chalk-dashed seam inside the edge, soft diffuse shadow. */
+@utility patch-card {
+  position: relative;
+  background: var(--card);
+  border-radius: 22px;
+  box-shadow: 0 14px 44px -16px var(--shadow);
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 7px;
+    border-radius: 16px;
+    border: 2px dashed var(--seam);
+    pointer-events: none;
+  }
+}
+
+/* Frosted glass card, used over the drawn scenes. */
+@utility glass-card {
+  background: color-mix(in oklab, var(--card) 84%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid color-mix(in oklab, #ffffff 55%, transparent);
+  border-radius: 20px;
+  box-shadow: 0 18px 50px -18px var(--shadow);
+}
+:root[data-theme="dark"] .glass-card {
+  border-color: rgba(255, 140, 90, 0.18);
+}
+
+/* Mono chip badges under the hero. */
+@utility chip-mono {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  height: 1.9rem;
+  padding: 0 0.85rem;
+  border-radius: 9999px;
+  border: 1.5px solid var(--seam);
+  background: var(--card);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-2);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Scenes are pixel art: keep them crisp when upscaled. */
+@utility pixelated {
+  image-rendering: pixelated;
+}
+
+/* Hover: the object gets picked up. */
+@utility huggable {
+  transition: transform 280ms var(--ease-bounce);
+  transform-origin: 50% 90%;
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      transform: translateY(-7px) rotate(-3deg) scale(1.05);
+    }
+  }
+}
+
+/* Thin warm scrollbars. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ink-3) transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .huggable,
+  .lift,
+  .btn-slab {
+    transition: none;
+  }
+}
+
+/* After dark the label pill turns orange, like the honey pill in the night workshop. */
+:root[data-theme="dark"] .pill-primary {
+  background: var(--floor);
+  color: var(--floor-ink);
 }

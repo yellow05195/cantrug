@@ -12,7 +12,7 @@ export default async function CreatePage() {
   const t = await getTranslations("create");
   return (
     <div className={PAGE}>
-      <PageHeader kicker={t("kicker")} title={t("title")} lede={t("lede")} />
+      <PageHeader kicker={t("kicker")} title={t("title")} lede={t("lede")} scene="create" />
       <div className="mt-12">
         <CreateForm />
       </div>

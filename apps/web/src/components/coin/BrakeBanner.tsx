@@ -76,13 +76,13 @@ function BrakeBody({ info, onExit, exitLabel, exitDisabled }: { info: BrakeInfo;
   const share = info.supply > 0n ? Number((info.queued * 1_000_000n) / info.supply) / 10_000 : 0;
   return (
     <div className="mx-auto w-full max-w-[1280px] px-4 pt-4 sm:px-6">
-      <div className="border border-brake/30 border-t-2 border-t-brake bg-brake/10">
+      <div className="well border-l-4 border-l-brake">
       <div className="flex flex-col gap-3 px-5 py-4 md:flex-row md:items-center md:justify-between">
         <p className="max-w-[80ch] text-sm leading-relaxed text-ink-2 md:text-md">
-          <span className="kicker mr-2" style={{ color: "var(--brake)" }}>{t("engaged")}</span>
+          <span className="kicker mr-2 text-[color-mix(in_oklab,var(--brake)_62%,var(--ink))]">{t("engaged")}</span>
           {secs !== null ? (
             <>
-              {t("closesIn")} <span className="num inline-block min-w-[4ch] whitespace-nowrap font-medium text-brake" suppressHydrationWarning>{countdown(secs)}</span>.{" "}
+              {t("closesIn")} <span className="num inline-block min-w-[4ch] whitespace-nowrap font-medium text-[color-mix(in_oklab,var(--brake)_62%,var(--ink))]" suppressHydrationWarning>{countdown(secs)}</span>.{" "}
             </>
           ) : null}
           {t("queued", { tokens: tokens(info.queued), pct: pct(share) })} {t("proRata")}

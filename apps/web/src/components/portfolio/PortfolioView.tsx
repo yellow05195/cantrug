@@ -95,8 +95,8 @@ export function PortfolioView() {
 
   if (!account.connected) {
     return (
-      <EmptyState className="max-w-md">
-        <div className="space-y-4">
+      <EmptyState className="mx-auto max-w-md text-center">
+        <div className="flex flex-col items-center gap-4">
           <p className="text-md text-ink-2">{t("connect")}</p>
           <ConnectPrompt />
         </div>
@@ -118,10 +118,10 @@ export function PortfolioView() {
 
   if (!rows.length) {
     return (
-      <EmptyState className="max-w-lg">
+      <EmptyState className="mx-auto max-w-lg text-center">
       <div className="space-y-4">
         <p className="text-md">{t("empty")}</p>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap justify-center gap-2">
           <ButtonLink href="/" variant="primary">
             {t("buyOne")}
           </ButtonLink>
@@ -181,10 +181,10 @@ export function PortfolioView() {
       </div>
 
       {/* Phones: one block per coin, value at floor first. */}
-      <ul className="divide-y divide-line rounded-xs border border-line md:hidden">
+      <ul className="patch-card divide-y divide-dashed divide-seam overflow-hidden px-2 py-1 md:hidden">
         {rows.map((r) => (
           <li key={r.mint}>
-            <Link href={`/coin/${r.mint}`} className="flex gap-3 p-3">
+            <Link href={`/coin/${r.mint}`} className="flex gap-3 p-4">
               <CoinAvatar src={r.image} symbol={r.symbol} size={36} />
               <div className="min-w-0 flex-1">
                 <div className="flex items-baseline justify-between gap-2">
@@ -203,35 +203,35 @@ export function PortfolioView() {
             </Link>
           </li>
         ))}
-        <li className="flex items-baseline justify-between p-3 text-sm">
+        <li className="flex items-baseline justify-between p-4 text-sm">
           <span className="font-medium">{t("total")}</span>
           <span className="num text-floor">{sol(totalFloor)} SOL</span>
         </li>
       </ul>
 
-      <div className="hidden overflow-x-auto rounded-xs border border-line md:block">
+      <div className="patch-card hidden overflow-x-auto p-3 md:block md:p-4">
         <table className="w-full min-w-[760px] text-sm">
           <thead>
-            <tr className="h-9 border-b border-line bg-bg-2 text-left text-xs text-ink-3">
-              <th className="pl-3 font-normal">{t("colCoin")}</th>
-              <th className="text-right font-normal">{t("colBalance")}</th>
-              <th className="text-right font-normal">{t("colPrice")}</th>
-              <th className="text-right font-normal">
+            <tr className="h-11 text-left font-mono text-[11px] uppercase tracking-wider text-ink-2">
+              <th className="pl-4 font-medium">{t("colCoin")}</th>
+              <th className="text-right font-medium">{t("colBalance")}</th>
+              <th className="text-right font-medium">{t("colPrice")}</th>
+              <th className="text-right font-medium">
                 <span className="text-floor">{t("colFloor")}</span>
-                <span className="block text-[11px] text-ink-3">{t("colFloorHint")}</span>
+                <span className="block normal-case tracking-normal text-ink-3">{t("colFloorHint")}</span>
               </th>
-              <th className="text-right font-normal">{t("colGap")}</th>
-              <th className="pr-3 text-right font-normal">{t("colQueue")}</th>
+              <th className="text-right font-medium">{t("colGap")}</th>
+              <th className="pr-4 text-right font-medium">{t("colQueue")}</th>
             </tr>
           </thead>
           <tbody>
             {rows.map((r) => (
-              <tr key={r.mint} className="hover-row h-14 border-b border-line/60 last:border-0">
-                <td className="pl-3">
+              <tr key={r.mint} className="hover-row h-14 border-t border-dashed border-seam">
+                <td className="pl-4">
                   <Link href={`/coin/${r.mint}`} className="flex items-center gap-3">
                     <CoinAvatar src={r.image} symbol={r.symbol} size={36} />
                     <span>
-                      <span className="block font-medium">{r.name}</span>
+                      <span className="block font-display font-semibold">{r.name}</span>
                       <span className="num block text-xs text-ink-2">${r.symbol}</span>
                     </span>
                   </Link>
@@ -240,13 +240,13 @@ export function PortfolioView() {
                 <td className="num text-right">{sol(r.atPrice)} SOL</td>
                 <td className="num text-right text-floor">{r.state.phase === 1 ? `${sol(r.atFloor)} SOL` : <span className="text-ink-3">{tf("atGraduationShort")}</span>}</td>
                 <td className="text-right text-ink-2">{r.state.phase === 1 ? gapText(tf, r.gapPct) : ""}</td>
-                <td className="num pr-3 text-right text-ink-2">{r.queue ? (r.queue.stale ? t("staleQueue") : `${tokens(r.queue.remaining)} / ${sol(r.queue.owed, 3)} SOL`) : ""}</td>
+                <td className="num pr-4 text-right text-ink-2">{r.queue ? (r.queue.stale ? t("staleQueue") : `${tokens(r.queue.remaining)} / ${sol(r.queue.owed, 3)} SOL`) : ""}</td>
               </tr>
             ))}
           </tbody>
           <tfoot>
-            <tr className="h-11 border-t border-line-2 text-sm">
-              <td className="pl-3 font-medium">{t("total")}</td>
+            <tr className="h-12 border-t-2 border-dashed border-seam text-sm">
+              <td className="pl-4 font-medium">{t("total")}</td>
               <td />
               <td className="num text-right">{sol(totalPrice)} SOL</td>
               <td className="num text-right text-floor">{sol(totalFloor)} SOL</td>
