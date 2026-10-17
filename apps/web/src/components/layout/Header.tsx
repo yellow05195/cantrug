@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { LogoMark } from "@/components/brand/Logo";
+import { Logo } from "@/components/brand/Logo";
 import { ENV } from "@/lib/env";
 import { HeaderWallet, MiniCounter, MobileMenu, NavLinks, ThemeToggle } from "./HeaderParts";
 
@@ -10,9 +10,8 @@ export function Header({ stats }: { stats: { lamports: string; launched: number;
   return (
     <header className="pointer-events-none sticky top-3 z-40 mt-3 px-3 sm:px-4">
       <div className="capsule pointer-events-auto mx-auto w-full max-w-6xl">
-        <Link href="/" className="flex flex-none items-center gap-2 font-display text-[17px] font-semibold tracking-tight text-ink" aria-label={t("home")}>
-          <LogoMark size={26} />
-          FLOORED
+        <Link href="/" className="flex flex-none items-center gap-2 text-[17px]" aria-label={t("home")}>
+          <Logo size={30} />
           {ENV.isDevnet ? (
             <span className="num ml-1 hidden rounded-full border border-seam px-1.5 py-0.5 text-[10px] uppercase tracking-wider text-ink-2 sm:inline" title={t("devnetHint")}>
               devnet

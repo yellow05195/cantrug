@@ -1,6 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
-  <!-- 16 px version: 3 px slab, 2 px stems, stays legible at favicon size -->
-  <rect width="16" height="16" fill="#141414"/>
-  <rect x="1" y="13" width="14" height="3" fill="#FF5F1F"/>
-  <path fill="#EDEBE6" d="M4 1h9v3H7v2h5v3H7v4H4z"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <circle cx="32" cy="32" r="30" fill="#9a9ea6"/>
+  <circle cx="32" cy="32" r="30" fill="none" stroke="#f6f5f2" stroke-width="3"/>
+  <path d="M4.5 32a27.5 27.5 0 0 1 55 0z" fill="#c9ccd1"/>
+  <path d="M4.5 37h55a27.5 27.5 0 0 1-55 0z" fill="#6d7178"/>
+  <rect x="5" y="33.5" width="54" height="5" fill="#ee5a1c"/>
+  <ellipse cx="32" cy="31" rx="11" ry="4" fill="#b8400e"/>
+  <rect x="21" y="23" width="22" height="8" fill="#ee5a1c"/>
+  <ellipse cx="32" cy="23" rx="11" ry="4" fill="#ff7a3d"/>
+  <rect x="21" y="15" width="22" height="8" fill="#ee5a1c"/>
+  <ellipse cx="32" cy="15" rx="11" ry="4" fill="#ff7a3d"/>
+  <ellipse cx="32" cy="15" rx="5" ry="1.8" fill="#ffb48a"/>
 </svg>

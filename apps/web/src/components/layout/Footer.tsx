@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { LogoMark } from "@/components/brand/Logo";
+import { Logo } from "@/components/brand/Logo";
 import { CopyButton } from "@/components/ui/Bits";
 import { Scene } from "@/components/ui/Scene";
 import { ENV, explorerAddress } from "@/lib/env";
@@ -40,9 +40,7 @@ export function Footer() {
     <footer className="relative z-[1] mt-24 border-t border-seam bg-bg-2">
       <div className="mx-auto grid max-w-6xl gap-10 px-6 py-14 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div className="flex flex-col items-start gap-3">
-          <div className="flex items-center gap-2 font-display text-lg font-semibold text-ink">
-            <LogoMark size={28} /> FLOORED
-          </div>
+          <Logo size={34} className="text-lg" />
           <p className="max-w-[260px] text-sm leading-relaxed text-ink-2">{t("tagline")}</p>
           <div className="mt-1 h-24 w-48 overflow-hidden rounded-xl border border-seam">
             <Scene seed="footer" variant="city" w={96} h={40} className="h-full" />
