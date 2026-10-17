@@ -33,6 +33,7 @@ if [ -z "${RPC_URL:-}" ]; then
 fi
 
 [ -f "$DEPLOYER" ] || { echo "deployer keypair missing: $DEPLOYER (solana-keygen new --no-bip39-passphrase -o $DEPLOYER)"; exit 1; }
+case "$DEPLOYER" in /*) ;; *) DEPLOYER="$(pwd)/$DEPLOYER" ;; esac   # the demo scripts run from packages/demo
 [ -f "$PROGRAM_KP" ] || { echo "program keypair missing: $PROGRAM_KP"; exit 1; }
 [ "$(solana address -k "$PROGRAM_KP")" = "$PROGRAM_ID" ] || { echo "program keypair does not match $PROGRAM_ID"; exit 1; }
 
@@ -50,12 +51,9 @@ solana program show "$PROGRAM_ID" -u "$RPC_URL" 2>&1 | sed 's/^/  /' || true
 echo
 
 need_sol() {
-  # rent for the program data (bytes of the .so, plus header) + a buffer account of the same size during deploy + fees
+  # rent-exempt minimum for an account of `bytes` (the program data account holds the .so plus a 45-byte header)
   local bytes="$1"
-  local rent
-  rent="$(solana rent "$bytes" -u "$RPC_URL" --lamports 2>/dev/null | tail -1 | awk '{print $NF}')"
-  python_free_div() { awk -v a="$1" 'BEGIN { printf "%.3f", a / 1e9 }'; }
-  echo "$(python_free_div "$rent")"
+  solana rent "$((bytes + 45))" -u "$RPC_URL" 2>/dev/null | grep -i "minimum" | awk '{print $(NF-1)}'
 }
 
 case "$MODE" in

@@ -22,3 +22,6 @@ Thumbs.db
 
 # test fixture (mainnet bytecode of the Metaplex metadata program) is committed on purpose
 !tests-rs/fixtures/*.so
+
+.vercel
+.env*
