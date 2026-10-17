@@ -153,7 +153,7 @@ export function ChallengeReplay({ coin, mint, dev }: { coin: CoinJson | null; mi
 
   if (error) return <p className="text-md text-down">{t("loadError", { cluster: ENV.cluster })}</p>;
   if (!trades) return <Skeleton className="h-[420px]" />;
-  if (!ep) return <p className="rounded-sm border border-dashed border-line-2 p-6 text-md text-ink-2">{t("noDump")}</p>;
+  if (!ep) return <p className="rounded-xl border-2 border-dashed border-stroke p-6 text-md text-ink-2">{t("noDump")}</p>;
 
   // Even spacing per event: the hours before T0 and the one-minute windows after read at the same scale.
   const pts = ep.points;
@@ -190,14 +190,14 @@ export function ChallengeReplay({ coin, mint, dev }: { coin: CoinJson | null; mi
 
   return (
     <div className="space-y-8">
-      <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-sm border border-line bg-line lg:grid-cols-4">
+      <dl className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <Stat k={t("statDump")} v={<Num unit={coin?.symbol}>{tokens(ep.devTokens)}</Num>} hint={t("statDumpHint", { pct: pct(devShare) })} />
         <Stat k={t("statStep")} v={<Num>{`${pct(ep.maxStepDrop)} %`}</Num>} hint={t("statStepHint")} />
         <Stat k={t("statFloor")} v={<Num className="text-floor">{`${ep.floorChange >= 0 ? "+" : ""}${pct(ep.floorChange)} %`}</Num>} hint={t("statFloorHint")} />
         <Stat k={t("statWindows")} v={<Num>{ep.windows}</Num>} hint={t("statWindowsHint")} />
       </dl>
 
-      <div className="overflow-hidden rounded-sm border border-line bg-bg-2">
+      <div className="overflow-hidden sticker">
         <div className={cn("grid transition-[grid-template-rows] duration-300", engaged ? "grid-rows-[1fr]" : "grid-rows-[0fr]")}>
           <div className="overflow-hidden">
             <div className="bg-brake text-brake-ink">
@@ -261,7 +261,7 @@ export function ChallengeReplay({ coin, mint, dev }: { coin: CoinJson | null; mi
 
       <div className="grid gap-8 lg:grid-cols-2">
         <section>
-          <h2 className="title-tight text-xl font-semibold">{t("stairsTitle")}</h2>
+          <h2 className="title-tight text-xl font-extrabold">{t("stairsTitle")}</h2>
           <p className="mt-2 text-md text-ink-2">{t("stairsText")}</p>
           <ol className="mt-4 space-y-1.5">
             {ep.steps.slice(0, 12).map((s, i) => (
@@ -277,8 +277,8 @@ export function ChallengeReplay({ coin, mint, dev }: { coin: CoinJson | null; mi
           </ol>
           <p className="mt-2 text-xs text-ink-3">{t("stairsLimit")}</p>
         </section>
-        <section className="rounded-sm border border-line bg-bg-2 p-5">
-          <h2 className="title-tight text-xl font-semibold">{t("cfTitle")}</h2>
+        <section className="sticker p-5">
+          <h2 className="title-tight text-xl font-extrabold">{t("cfTitle")}</h2>
           <dl className="mt-4 space-y-3">
             <div className="flex items-baseline justify-between gap-4">
               <dt className="text-md text-ink-2">{t("cfSold", { n: ep.windows })}</dt>
@@ -307,8 +307,8 @@ export function ChallengeReplay({ coin, mint, dev }: { coin: CoinJson | null; mi
 
 function Stat({ k, v, hint }: { k: string; v: React.ReactNode; hint: string }) {
   return (
-    <div className="bg-bg p-4">
-      <dt className="text-sm text-ink-2">{k}</dt>
+    <div className="sticker p-4">
+      <dt className="text-sm font-semibold text-ink-2">{k}</dt>
       <dd className="mt-2 text-2xl">{v}</dd>
       <p className="mt-1 text-xs text-ink-3">{hint}</p>
     </div>

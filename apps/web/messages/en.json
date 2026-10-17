@@ -84,7 +84,30 @@
       "floor": "Floor",
       "volume": "Volume"
     },
-    "emptyAll": "No coins yet. Launch the first one."
+    "emptyAll": "No coins yet. Launch the first one.",
+    "headlineA": "Pump burns your dead money.",
+    "headlineB": "We give it back.",
+    "hotTitle": "Hot right now",
+    "columnsLabel": "Live coins",
+    "numbersLabel": "FLOORED in numbers",
+    "rugs": "Rugs avoided",
+    "trio": {
+      "floor": {
+        "title": "The floor",
+        "text": "The pool's SOL belongs to holders. Burn your tokens, take your share, any time.",
+        "formula": "floor = S / C"
+      },
+      "brake": {
+        "title": "The brake",
+        "text": "No sale can drop the price more than 20 % per window. The rest waits in a queue.",
+        "formula": "−20 % max per window"
+      },
+      "verify": {
+        "title": "Verify it yourself",
+        "text": "Three accounts and one division. Read them on chain and recompute the floor.",
+        "formula": "read on chain"
+      }
+    }
   },
   "floor": {
     "atGraduation": "Floor active at graduation",
@@ -326,7 +349,9 @@
     "rpcStale": "The last chain read failed; numbers may be a few seconds old.",
     "barBuy": "Buy",
     "barSell": "Sell",
-    "barRedeem": "Redeem"
+    "barRedeem": "Redeem",
+    "closeLanding": "Dismiss",
+    "graduatedNow": "${symbol} just graduated. The floor is on."
   },
   "create": {
     "metaTitle": "Launch a coin",
@@ -372,7 +397,10 @@
     "openCoin": "Open the coin",
     "shareKit": "Download share card",
     "explorer": "View on explorer",
-    "close": "Close"
+    "close": "Close",
+    "avatarHint": "No image yet: this building is generated from your ticker. On chain, from your mint.",
+    "avatarImage": "Your image, framed as a sticker on its slab.",
+    "slabLabel": "The curve starts at, SOL per token"
   },
   "portfolio": {
     "title": "Portfolio",
@@ -579,5 +607,31 @@
     "cfNote": "Redeeming takes the floor instantly and leaves the price alone. Selling through the queue can pay more when the price is above the floor, but it takes time.",
     "dumpTx": "Dump transaction:",
     "openCoin": "Open the coin page"
+  },
+  "ticker": {
+    "label": "Live trades across every coin",
+    "live": "live",
+    "open": "Open the live trade feed",
+    "title": "Live trades",
+    "close": "Close",
+    "waiting": "Waiting for the first trade.",
+    "noIndexer": "Live trades need an indexer."
+  },
+  "hot": {
+    "king": "King of the hill",
+    "brake": "brake",
+    "price": "Price",
+    "mcap": "Market cap",
+    "vol1h": "Volume 1 h",
+    "trade": "Trade ${symbol}",
+    "jump": "Biggest floor jump",
+    "highestFloor": "Highest floor",
+    "newestGrad": "Newest graduate",
+    "mostBraked": "Most braked",
+    "brakes": "{n, plural, one {# brake} other {# brakes}}"
+  },
+  "slab": {
+    "floor": "Floor, SOL per token",
+    "preview": "Floor at graduation"
   }
 }

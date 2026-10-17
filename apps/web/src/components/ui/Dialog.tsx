@@ -45,17 +45,18 @@ export function Dialog({
         if (dismissable && e.target === ref.current) onClose();
       }}
       className={cn(
-        "fl-dialog float-layer m-0 w-full max-w-none border border-line-2 bg-bg-2 p-0 text-ink backdrop:bg-black/55",
-        "max-sm:mt-auto max-sm:rounded-t-sm sm:m-auto sm:w-[min(440px,calc(100vw-32px))] sm:rounded-sm",
+        "fl-dialog m-0 w-full max-w-none bg-surface p-0 text-ink backdrop:bg-black/60",
+        "max-sm:mt-auto max-sm:rounded-t-2xl sm:m-auto sm:w-[min(460px,calc(100vw-32px))] sm:rounded-2xl",
         className,
       )}
     >
       {open ? (
         <div className="max-h-[85dvh] overflow-y-auto p-5 pb-[max(20px,env(safe-area-inset-bottom))]">
+          <span aria-hidden className="mx-auto -mt-2 mb-3 block h-1.5 w-12 rounded-full bg-stroke shadow-[0_2px_0_0_var(--shadow)] sm:hidden" />
           <div className="mb-4 flex items-start justify-between gap-4">
-            <h2 className="title-tight text-lg font-semibold">{title}</h2>
+            <h2 className="title-tight text-xl font-extrabold">{title}</h2>
             {dismissable ? (
-              <button type="button" onClick={onClose} className="press -mr-1 -mt-1 grid size-8 place-items-center rounded-sm text-ink-2 hover:bg-bg-3 hover:text-ink" aria-label={closeLabel}>
+              <button type="button" onClick={onClose} className="press -mr-1 -mt-1 grid size-9 place-items-center rounded-full border-2 border-stroke text-ink-2 hover:text-ink" aria-label={closeLabel}>
                 <X size={16} />
               </button>
             ) : null}

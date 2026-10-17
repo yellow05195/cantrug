@@ -4,6 +4,7 @@ import { useState } from "react";
 import { cn } from "@/lib/cn";
 import { age } from "@/lib/format";
 import { useNow } from "@/lib/hooks/useNow";
+import { BuildingAvatar } from "@/components/coin/BuildingAvatar";
 
 export function CopyButton({ value, label, copiedLabel, className, children }: { value: string; label: string; copiedLabel: string; className?: string; children?: React.ReactNode }) {
   const [done, setDone] = useState(false);
@@ -38,23 +39,20 @@ export function Age({ ts, className }: { ts: string | number | null | undefined;
   );
 }
 
-export function CoinAvatar({ src, symbol, size = 56, className }: { src: string | null | undefined; symbol: string; size?: number; className?: string }) {
+export function CoinAvatar({ src, symbol, seed, size = 56, className }: { src: string | null | undefined; symbol: string; seed?: string; size?: number; className?: string }) {
   const [broken, setBroken] = useState(false);
-  const style = { width: size, height: size };
-  if (!src || broken) {
-    return (
-      <span style={style} className={cn("grid shrink-0 place-items-center rounded-sm border border-line bg-bg-3 font-semibold text-ink-2", className)} aria-hidden>
-        {symbol.slice(0, 1)}
-      </span>
-    );
-  }
+  const radius = size >= 40 ? "rounded-xl" : "rounded-md";
+  if (!src || broken) return <BuildingAvatar seed={seed ?? symbol} size={size} className={cn(radius, className)} />;
   return (
-    // User-supplied images come from arbitrary hosts (IPFS, Arweave, data URLs): plain <img>, fixed box, no layout shift.
-    // eslint-disable-next-line @next/next/no-img-element
-    <img src={src} alt="" width={size} height={size} style={style} loading="lazy" decoding="async" onError={() => setBroken(true)} className={cn("shrink-0 rounded-sm border border-line bg-bg-3 object-cover", className)} />
+    <span className={cn("relative block shrink-0 overflow-hidden border-2 border-stroke bg-bg-3", radius, className)} style={{ width: size, height: size }}>
+      {/* User images come from arbitrary hosts (IPFS, Arweave, data URLs): plain <img>, fixed box, no layout shift. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={src} alt="" width={size} height={size} loading="lazy" decoding="async" onError={() => setBroken(true)} className="size-full object-cover" />
+      <span aria-hidden className="absolute inset-x-[8%] bottom-[5%] h-[6%] min-h-[2px] rounded-[1px] bg-floor" />
+    </span>
   );
 }
 
 export function Skeleton({ className }: { className?: string }) {
-  return <span aria-hidden className={cn("block rounded-sm bg-bg-3", className)} />;
+  return <span aria-hidden className={cn("block rounded-xl bg-bg-3", className)} />;
 }

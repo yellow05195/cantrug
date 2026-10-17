@@ -5,7 +5,6 @@
  */
 import { LAMPORTS_PER_SOL, TOTAL_SUPPLY } from "@floored/sdk";
 import { PublicKey } from "@solana/web3.js";
-import { coinImage } from "./images";
 import { hashSeed, rng, type Rng } from "./rng";
 import {
   SLOT_MS,
@@ -91,7 +90,7 @@ function safe<T>(f: () => T): T | null {
   }
 }
 
-function build(p: Profile, idx: number, now: number): MockCoin {
+function build(p: Profile, _idx: number, now: number): MockCoin {
   const r = rng(hashSeed(p.symbol) ^ 0x51ab);
   const users = Array.from({ length: 34 }, () => r.pubkey().toBase58());
   const whale = r.pubkey().toBase58();
@@ -99,7 +98,7 @@ function build(p: Profile, idx: number, now: number): MockCoin {
   const mint = p.mint ? new PublicKey(p.mint) : r.pubkey();
   const creator = r.pubkey();
   const c = newMockCoin(
-    { name: p.name, symbol: p.symbol, description: p.description, image: coinImage(p.symbol, idx), socials: p.socials ?? {}, createdMs, graduatedMs: null },
+    { name: p.name, symbol: p.symbol, description: p.description, image: "", socials: p.socials ?? {}, createdMs, graduatedMs: null },
     mint,
     creator,
   );

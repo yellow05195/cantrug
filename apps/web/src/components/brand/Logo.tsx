@@ -13,8 +13,8 @@ export function LogoMark({ size = 24, className, title }: { size?: number; class
 export function Logo({ className }: { className?: string }) {
   return (
     <span className={cn("inline-flex items-center gap-2", className)}>
-      <LogoMark size={24} />
-      <span className="text-[15px] font-bold tracking-[0.06em]">FLOORED</span>
+      <LogoMark size={28} />
+      <span className="text-base font-extrabold tracking-[0.04em]">FLOORED</span>
     </span>
   );
 }

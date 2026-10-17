@@ -106,8 +106,10 @@ export function TradePanel({
   const inputLabel = tab === "buy" ? t("amountSol") : t("amountTokens", { symbol });
 
   return (
-    <div className="rounded-sm border border-line bg-bg-2">
+    <div className={cn("sticker overflow-hidden", tab === "redeem" && "border-floor-deep")}>
+      <div className="p-3 pb-0">
       <Tabs
+        size="lg"
         idPrefix={`trade${id}`}
         fill
         value={tab}
@@ -118,7 +120,8 @@ export function TradePanel({
           { key: "redeem", label: t("tabRedeem"), floor: true },
         ]}
       />
-      <div className={cn("space-y-4 p-4", tab === "redeem" && "bg-floor-dim/40")} role="tabpanel" id={`trade${id}-panel-${tab}`} aria-labelledby={`trade${id}-tab-${tab}`}>
+      </div>
+      <div className={cn("space-y-4 p-4", tab === "redeem" && "bg-floor-dim/50")} role="tabpanel" id={`trade${id}-panel-${tab}`} aria-labelledby={`trade${id}-tab-${tab}`}>
         {tab === "redeem" && state && !graduated ? (
           <div className="space-y-2 py-2">
             <p className="text-md">{t("redeemClosed")}</p>
@@ -141,7 +144,7 @@ export function TradePanel({
                   </button>
                 ) : null}
               </div>
-              <div className={cn("flex items-center rounded-sm border bg-bg focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-floor", overBalance || overSol ? "border-down" : "border-line-2")}>
+              <div className={cn("flex items-center rounded-lg border-2 bg-bg-3 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-floor", overBalance || overSol ? "border-down" : "border-stroke")}>
                 <input
                   id={`amt${id}`}
                   inputMode="decimal"
@@ -149,7 +152,7 @@ export function TradePanel({
                   placeholder="0.00"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value.replace(/[^\d.,]/g, ""))}
-                  className="num h-14 min-w-0 flex-1 bg-transparent px-3 text-2xl outline-none placeholder:text-ink-3"
+                  className="num h-16 min-w-0 flex-1 bg-transparent px-4 text-3xl outline-none placeholder:text-ink-3"
                   aria-invalid={overBalance || overSol || undefined}
                   aria-describedby={`q${id}`}
                 />
@@ -158,7 +161,7 @@ export function TradePanel({
               <div className="mt-2 grid grid-cols-4 gap-1.5">
                 {tab === "buy"
                   ? BUY_PRESETS.map((p) => (
-                      <button key={p} type="button" onClick={() => setAmount(p)} className="press num h-10 rounded-sm border border-line text-sm text-ink-2 hover:border-line-2 hover:text-ink lg:h-8">
+                      <button key={p} type="button" onClick={() => setAmount(p)} className="press num h-10 rounded-full border-2 border-stroke bg-bg-3 text-sm font-medium text-ink-2 hover:border-stroke-strong hover:text-ink lg:h-9">
                         {p}
                       </button>
                     ))
@@ -168,7 +171,7 @@ export function TradePanel({
                         type="button"
                         disabled={!account.connected || balance === 0n}
                         onClick={() => setAmount(tokensInput((balance * BigInt(f)) / 100n))}
-                        className="press num h-10 rounded-sm border border-line text-sm text-ink-2 hover:border-line-2 hover:text-ink disabled:opacity-40 lg:h-8"
+                        className="press num h-10 rounded-full border-2 border-stroke bg-bg-3 text-sm font-medium text-ink-2 hover:border-stroke-strong hover:text-ink disabled:opacity-40 lg:h-9"
                       >
                         {f} %
                       </button>
@@ -232,7 +235,7 @@ export function TradePanel({
                         type="button"
                         aria-pressed={slippageBps === b}
                         onClick={() => setSlippageBps(b)}
-                        className={cn("press num h-7 flex-1 rounded-sm border text-xs", slippageBps === b ? "border-ink text-ink" : "border-line text-ink-2 hover:text-ink")}
+                        className={cn("press num h-8 flex-1 rounded-full border-2 text-xs font-medium", slippageBps === b ? "border-stroke-strong bg-surface text-ink" : "border-stroke text-ink-2 hover:text-ink")}
                       >
                         {bps(b)}
                       </button>

@@ -19,9 +19,9 @@ export function BigNumbers({ stats }: { stats: StatsJson }) {
     { k: t("rugs"), v: <span className="num">{stats.rugs_avoided}</span>, hint: t("rugsHint") },
   ];
   return (
-    <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-sm border border-line bg-line lg:grid-cols-4">
+    <dl className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
       {items.map((it) => (
-        <div key={it.k} className={cn("bg-bg p-4 sm:p-5", it.wide && "col-span-2 lg:col-span-1")}>
+        <div key={it.k} className={cn("sticker p-4 sm:p-5", it.wide && "col-span-2 lg:col-span-1")}>
           <dt className="text-sm text-ink-2">{it.k}</dt>
           <dd className="mt-3 flex items-baseline gap-2 text-3xl sm:text-4xl">
             {it.v}
@@ -85,7 +85,7 @@ export function ReturnedChart({ series }: { series: StatsJson["sol_redeemed_by_d
     };
   }, [series]);
   return (
-    <figure className="rounded-sm border border-line bg-bg-2">
+    <figure className="sticker">
       <figcaption className="flex items-baseline justify-between border-b border-line px-4 py-2.5 text-sm">
         <span>{t("chartTitle")}</span>
         <span className="text-xs text-ink-3">{t("chartUnit")}</span>

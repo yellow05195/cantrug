@@ -19,7 +19,6 @@ import {
   type EngineEvent,
   type MockCoin,
 } from "@/lib/mock/engine";
-import { coinImage } from "@/lib/mock/images";
 import { rng } from "@/lib/mock/rng";
 import { TxError, errorKey } from "./errors";
 import { emptyOutcome, type Outcome, type Prepared, type TxAction } from "./types";
@@ -102,7 +101,7 @@ export async function prepareMock(action: TxAction, owner: string): Promise<Prep
         name: action.name,
         symbol: action.symbol,
         description: meta.description ?? "",
-        image: meta.image ?? coinImage(action.symbol, ds.coins.length),
+        image: meta.image ?? "",
         socials: {},
         createdMs: now,
         graduatedMs: null,

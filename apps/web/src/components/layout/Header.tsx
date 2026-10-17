@@ -7,18 +7,18 @@ import { HeaderWallet, LangToggle, MiniCounter, MobileMenu, NavLinks, ThemeToggl
 export function Header({ theme, stats }: { theme: "dark" | "light"; stats: { lamports: string; launched: number; brakes: number } | null }) {
   const t = useTranslations("nav");
   return (
-    <header className="sticky top-0 z-40 h-16 border-b border-line bg-bg">
+    <header className="sticky top-0 z-40 h-16 border-b-2 border-stroke bg-bg shadow-[0_3px_0_0_var(--shadow)]">
       <div className="gutter mx-auto flex h-full max-w-[1440px] items-center gap-3">
         <Link href="/" className="press -ml-1 flex items-center gap-2 rounded-sm px-1 py-1" aria-label={t("home")}>
           <Logo />
         </Link>
         {ENV.isDevnet ? (
-          <span className="num rounded-sm border border-line-2 px-1.5 py-0.5 text-xs text-ink-2" title={t("devnetHint")}>
+          <span className="num rounded-full border-2 border-stroke bg-bg-3 px-2 py-0.5 text-xs text-ink-2" title={t("devnetHint")}>
             devnet
           </span>
         ) : null}
         {ENV.mock ? (
-          <span className="hidden whitespace-nowrap rounded-sm border border-dashed border-line-2 px-1.5 py-0.5 text-xs text-ink-3 xl:inline" title={t("mockHint")}>
+          <span className="hidden whitespace-nowrap rounded-full border-2 border-dashed border-stroke px-2 py-0.5 text-xs text-ink-3 xl:inline" title={t("mockHint")}>
             {t("mock")}
           </span>
         ) : null}

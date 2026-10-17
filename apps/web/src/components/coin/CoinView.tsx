@@ -23,6 +23,7 @@ import { BrakeBanner, type BrakeInfo } from "./BrakeBanner";
 import { Chart } from "./Chart";
 import { AboutCoin, BagFloorBox, CoinHeader, KeyNumbers } from "./CoinBits";
 import { Holders, QueuePanel, TradesFeed, useFreshKeys } from "./Feeds";
+import { SlabLands, slabShouldPlay } from "./SlabLands";
 import { TradePanel, type TradeTab } from "./TradePanel";
 
 const STEP: Record<CandleInterval, number> = { "1m": 60, "5m": 300, "1h": 3600 };
@@ -94,6 +95,9 @@ export function CoinView({ mint, initial, initialCandles, initialTrades, initial
   const [holders, setHolders] = useState<HoldersJson | null>(null);
   const [queue, setQueue] = useState<QueueJson | null>(null);
   const [walletOpen, setWalletOpen] = useState(false);
+  // "The slab lands" when the coin graduates while this page is open (once per coin per session).
+  const [landed, setLanded] = useState(false);
+  const [lastPhase, setLastPhase] = useState<string | null>(null);
 
   // RPC-only mode: name, symbol and image come from the Metaplex metadata account.
   useEffect(() => {
@@ -220,11 +224,16 @@ export function CoinView({ mint, initial, initialCandles, initialTrades, initial
     setSheet(true);
   };
 
+  if (m && m.phase !== lastPhase) {
+    if (lastPhase === "curve" && m.phase === "graduated" && slabShouldPlay(mint)) setLanded(true);
+    setLastPhase(m.phase);
+  }
+
   if (!coin || !m) {
     if (chain.loading || (!chain.missing && !chain.error)) return <CoinSkeleton />;
     return (
       <div className="gutter mx-auto max-w-[720px] py-24">
-        <h1 className="title-tight text-2xl font-semibold">{t("notFound")}</h1>
+        <h1 className="title-tight text-2xl font-extrabold">{t("notFound")}</h1>
         <p className="mt-3 text-md text-ink-2">{chain.error ? t("rpcError", { rpc: ENV.rpcUrl }) : t("notFoundHint", { cluster: ENV.cluster })}</p>
         <ButtonLink href="/" variant="secondary" className="mt-6">
           {t("back")}
@@ -234,16 +243,26 @@ export function CoinView({ mint, initial, initialCandles, initialTrades, initial
   }
 
   const graduated = m.phase === "graduated";
+  const landing = landed && graduated;
   const chartEmpty = !api.available ? t("noHistory") : null;
   const feedEmpty = !api.available ? t("noFeed") : undefined;
 
   return (
-    <div className="pb-24 lg:pb-0">
+    <div className="pb-28 lg:pb-0">
       {brake ? <BrakeBanner info={brake} onExit={exitAtFloor} exitDisabled={!graduated} /> : null}
       <div className="gutter mx-auto max-w-[1440px] pt-6 lg:pt-8">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-8">
           <div className="min-w-0 space-y-5 lg:col-span-8">
             <CoinHeader coin={coin} m={m} />
+            {landing ? (
+              <div className="sticker relative p-4" role="status">
+                <button type="button" onClick={() => setLanded(false)} className="absolute right-3 top-3 text-xs font-semibold text-ink-2 hover:text-ink">
+                  {t("closeLanding")}
+                </button>
+                <p className="text-center text-lg font-extrabold">{t("graduatedNow", { symbol: coin.symbol })}</p>
+                <SlabLands floorSol={m.floorSol} />
+              </div>
+            ) : null}
             <Chart
               candles={candles}
               interval={interval}
@@ -283,13 +302,14 @@ export function CoinView({ mint, initial, initialCandles, initialTrades, initial
               {/* One TradePanel: a bottom sheet under lg, the sticky column above. */}
               <div
                 className={cn(
-                  "max-lg:fixed max-lg:inset-x-0 max-lg:bottom-0 max-lg:z-[70] max-lg:max-h-[88dvh] max-lg:overflow-y-auto max-lg:border-t max-lg:border-line-2 max-lg:bg-bg max-lg:pb-[env(safe-area-inset-bottom)] max-lg:shadow-[var(--float-shadow)]",
+                  "max-lg:fixed max-lg:inset-x-0 max-lg:bottom-0 max-lg:z-[70] max-lg:max-h-[88dvh] max-lg:overflow-y-auto max-lg:rounded-t-3xl max-lg:border-x-2 max-lg:border-t-2 max-lg:border-stroke max-lg:bg-bg-2 max-lg:pb-[env(safe-area-inset-bottom)]",
                   "max-lg:transition-transform max-lg:duration-300 max-lg:ease-[cubic-bezier(0.32,0.72,0,1)]",
                   sheet ? "max-lg:translate-y-0" : "max-lg:pointer-events-none max-lg:translate-y-full max-lg:invisible",
                 )}
               >
-                <div className="flex items-center justify-between px-4 pb-1 pt-3 lg:hidden">
-                  <span className="text-sm text-ink-2">{t("tradeSheet", { symbol: coin.symbol })}</span>
+                <span aria-hidden className="mx-auto mt-2.5 block h-1.5 w-12 rounded-full bg-stroke shadow-[0_2px_0_0_var(--shadow)] lg:hidden" />
+                <div className="flex items-center justify-between px-4 pb-1 pt-1 lg:hidden">
+                  <span className="text-md font-bold">{t("tradeSheet", { symbol: coin.symbol })}</span>
                   <button type="button" onClick={() => setSheet(false)} className="press -mr-2 grid size-11 place-items-center rounded-sm text-ink-2 hover:text-ink" aria-label={t("closeSheet")}>
                     <X size={18} />
                   </button>
@@ -306,18 +326,18 @@ export function CoinView({ mint, initial, initialCandles, initialTrades, initial
         </div>
       </div>
 
-      {sheet ? <button type="button" aria-label={t("closeSheet")} onClick={() => setSheet(false)} className="fixed inset-0 z-[65] bg-black/50 lg:hidden" /> : null}
+      {sheet ? <button type="button" aria-label={t("closeSheet")} onClick={() => setSheet(false)} className="fixed inset-0 z-[65] bg-black/60 lg:hidden" /> : null}
 
       {/* Mobile: the trade panel is one tap away, never below the chart. */}
-      <div className="fixed inset-x-0 bottom-0 z-[60] border-t border-line bg-bg/95 px-4 pb-[max(12px,env(safe-area-inset-bottom))] pt-3 backdrop-blur-sm lg:hidden">
-        <div className="grid grid-cols-3 gap-2">
+      <div className="fixed inset-x-3 bottom-[max(12px,env(safe-area-inset-bottom))] z-[60] lg:hidden">
+        <div className="sticker grid grid-cols-3 gap-2 p-2">
           <Button variant="primary" onClick={() => openSheet("buy")}>
             {t("barBuy")}
           </Button>
           <Button variant="secondary" onClick={() => openSheet("sell")}>
             {t("barSell")}
           </Button>
-          <Button variant="floor" onClick={() => openSheet("redeem")}>
+          <Button variant="floorOutline" onClick={() => openSheet("redeem")}>
             {t("barRedeem")}
           </Button>
         </div>

@@ -29,7 +29,7 @@ function CoinCell({ c }: { c: { mint: string; name: string; symbol: string; imag
 function Table({ title, head, rows, empty }: { title: string; head: string[]; rows: React.ReactNode[][]; empty: string }) {
   return (
     <section className="min-w-0">
-      <h2 className="title-tight border-b border-line pb-2 text-lg font-semibold">{title}</h2>
+      <h2 className="title-tight border-b border-line pb-2 text-lg font-extrabold">{title}</h2>
       {rows.length ? (
         <table className="mt-1 w-full text-sm">
           <thead>
@@ -66,7 +66,7 @@ export default async function StatsPage() {
   if (!stats) {
     return (
       <div className="gutter mx-auto max-w-[1280px] pt-14">
-        <h1 className="display-tight text-4xl font-semibold">{t("title")}</h1>
+        <h1 className="display-tight text-4xl font-extrabold">{t("title")}</h1>
         <p className="mt-4 max-w-[60ch] text-md text-ink-2">{t("noIndexer")}</p>
       </div>
     );
@@ -78,7 +78,7 @@ export default async function StatsPage() {
 
   return (
     <div className="gutter mx-auto max-w-[1280px] pt-10 lg:pt-14">
-      <h1 className="display-tight text-4xl font-semibold sm:text-5xl">{t("title")}</h1>
+      <h1 className="display-tight text-4xl font-extrabold sm:text-5xl">{t("title")}</h1>
       <p className="mt-4 max-w-[60ch] text-md text-ink-2">{t("lede")}</p>
       <div className="mt-10">
         <BigNumbers stats={stats} />

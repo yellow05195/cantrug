@@ -78,7 +78,7 @@ function BrakeBody({ info, onExit, exitLabel, exitDisabled }: { info: BrakeInfo;
     <div className="bg-brake text-brake-ink">
       <div aria-hidden className="brake-stripes h-1.5" />
       <div className="gutter mx-auto flex max-w-[1440px] flex-col gap-3 py-3 md:flex-row md:items-center md:justify-between">
-        <p className="num text-sm leading-relaxed md:text-md">
+        <p className="num max-w-[88ch] text-sm leading-relaxed md:text-md">
           <span className="font-medium">{t("engaged")}</span>{" "}
           {secs !== null ? (
             <>
@@ -87,7 +87,7 @@ function BrakeBody({ info, onExit, exitLabel, exitDisabled }: { info: BrakeInfo;
           ) : null}
           {t("queued", { tokens: tokens(info.queued), pct: pct(share) })} {t("proRata")}
         </p>
-        <Button variant="floor" size="md" onClick={onExit} disabled={exitDisabled} className="shrink-0 self-start border border-brake-ink/20 md:self-auto">
+        <Button variant="floor" size="md" onClick={onExit} disabled={exitDisabled} className="shrink-0 self-start md:self-auto">
           {exitLabel ?? t("exit")}
         </Button>
       </div>

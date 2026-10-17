@@ -44,7 +44,7 @@ export function ReadOnChain() {
   const c = s && res ? circulatingSupply(s, res.chain.supply) : 0n;
 
   return (
-    <div className="not-prose my-8 rounded-sm border border-line bg-bg-2 p-4">
+    <div className="not-prose my-8 sticker p-4">
       <label htmlFor="roc-mint" className="text-sm text-ink-2">
         {t("label")}
       </label>
@@ -54,7 +54,7 @@ export function ReadOnChain() {
           value={mint}
           onChange={(e) => setMint(e.target.value)}
           spellCheck={false}
-          className="num h-10 min-w-0 flex-1 rounded-sm border border-line-2 bg-bg px-3 text-sm outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-floor"
+          className="num h-10 min-w-0 flex-1 rounded-lg border-2 border-stroke bg-bg-3 px-3 text-sm outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-floor"
         />
         <Button variant="primary" onClick={() => void go()} loading={busy}>
           {t("read")}

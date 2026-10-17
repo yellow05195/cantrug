@@ -113,6 +113,10 @@ export interface CoinJson {
   socials?: { website?: string; x?: string; telegram?: string } | null;
   /** 24 h volume in lamports, when provided. */
   volume_24h_sol?: string;
+  /** Last-hour volume in lamports, when provided (mock mode; not served by the indexer yet). */
+  volume_1h_sol?: string;
+  /** Floor change over 24 h in bps, when provided (mock mode). */
+  floor_change_24h_bps?: number | null;
 }
 
 export interface CoinListJson {

@@ -32,7 +32,10 @@ export function NavLinks({ className, onNavigate }: { className?: string; onNavi
             href={n.href}
             onClick={onNavigate}
             aria-current={active ? "page" : undefined}
-            className={cn("rounded-sm px-2.5 py-1.5 text-md transition-colors duration-150", active ? "text-ink" : "text-ink-2 hover:text-ink")}
+            className={cn(
+              "rounded-full border-2 px-3 py-1 text-md font-semibold transition-[background-color,border-color,color] duration-150",
+              active ? "border-stroke bg-surface text-ink shadow-[0_2px_0_0_var(--shadow)]" : "border-transparent text-ink-2 hover:text-ink",
+            )}
           >
             {t(n.key)}
           </Link>
@@ -104,9 +107,9 @@ export function MiniCounter({ seed }: { seed: { lamports: string; launched: numb
   const s = useLiveStats(seed ? { lamports: BigInt(seed.lamports), launched: seed.launched, brakes: seed.brakes } : null);
   if (s.total === null) return null;
   return (
-    <Link href="/stats" className="group hidden items-baseline gap-2 whitespace-nowrap rounded-sm px-2 py-1 hover:bg-bg-3 xl:flex" title={t("counterLabel")}>
+    <Link href="/stats" className="group hidden items-baseline gap-2 whitespace-nowrap rounded-full border-2 border-floor/40 bg-floor-dim px-3 py-1 hover:border-floor xl:flex" title={t("counterLabel")}>
       <NumRoll value={solFixed(s.total, 2)} className="text-md text-floor" label={`${solFixed(s.total, 2)} SOL`} />
-      <span className="text-xs text-ink-3">{t("counterShort")}</span>
+      <span className="text-xs text-ink-2">{t("counterShort")}</span>
     </Link>
   );
 }
@@ -134,7 +137,7 @@ export function MobileMenu({ theme }: { theme: "dark" | "light" }) {
       {open ? (
         <div className="fixed inset-0 z-[80]" role="dialog" aria-modal="true" aria-label={t("menu")}>
           <button type="button" aria-label={t("closeMenu")} className="absolute inset-0 bg-black/55 motion-safe:animate-[backdrop-in_200ms_ease-out]" onClick={() => setOpen(false)} />
-          <div className="float-layer absolute inset-x-0 bottom-0 rounded-t-sm border-t border-line-2 bg-bg-2 pb-[max(16px,env(safe-area-inset-bottom))] motion-safe:animate-[sheet-in_280ms_cubic-bezier(0.32,0.72,0,1)]">
+          <div className="absolute inset-x-0 bottom-0 rounded-t-2xl border-t-2 border-stroke bg-bg-2 pb-[max(16px,env(safe-area-inset-bottom))] motion-safe:animate-[sheet-in_280ms_cubic-bezier(0.32,0.72,0,1)]">
             <div className="flex items-center justify-between border-b border-line px-4 py-3">
               <span className="text-sm text-ink-2">{t("menu")}</span>
               <button type="button" onClick={() => setOpen(false)} className="press grid size-11 place-items-center rounded-sm text-ink-2 hover:text-ink" aria-label={t("closeMenu")}>
@@ -154,5 +157,5 @@ export function MobileMenu({ theme }: { theme: "dark" | "light" }) {
 }
 
 export function HeaderWallet() {
-  return <WalletButton />;
+  return <WalletButton variant="secondary" />;
 }

@@ -4,8 +4,9 @@ import { ImageSquare, UploadSimple } from "@phosphor-icons/react/dist/ssr";
 import { useTranslations } from "next-intl";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { CoinCard } from "@/components/coin/CoinCard";
-import { Button, ButtonLink } from "@/components/ui/Button";
-import { CopyButton } from "@/components/ui/Bits";
+import { Button, ButtonLink, buttonClass } from "@/components/ui/Button";
+import { SlabLands } from "@/components/coin/SlabLands";
+import { CoinAvatar, CopyButton } from "@/components/ui/Bits";
 import { Dialog } from "@/components/ui/Dialog";
 import { Price } from "@/components/ui/Num";
 import { ConnectPrompt } from "@/components/wallet/WalletButton";
@@ -52,7 +53,7 @@ function Field({ id, label, hint, error, children }: { id: string; label: string
   );
 }
 
-const inputCls = "h-11 w-full rounded-sm border border-line-2 bg-bg px-3 text-md outline-none placeholder:text-ink-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-floor aria-[invalid=true]:border-down";
+const inputCls = "h-12 w-full rounded-lg border-2 border-stroke bg-bg-3 px-3.5 text-md outline-none placeholder:text-ink-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-floor aria-[invalid=true]:border-down";
 
 export function CreateForm() {
   const t = useTranslations("create");
@@ -248,9 +249,9 @@ export function CreateForm() {
               const fl = e.dataTransfer.files?.[0];
               if (fl && fl.type.startsWith("image/")) choose(fl);
             }}
-            className={cn("flex items-center gap-4 rounded-sm border border-dashed p-4 transition-colors duration-150", drag ? "border-ink bg-bg-3" : err("image") ? "border-down" : "border-line-2")}
+            className={cn("flex items-center gap-4 rounded-xl border-2 border-dashed p-4 transition-colors duration-150", drag ? "border-floor bg-floor-dim" : err("image") ? "border-down" : "border-stroke")}
           >
-            <div className="grid size-24 shrink-0 place-items-center overflow-hidden rounded-sm border border-line bg-bg-3">
+            <div className="grid size-24 shrink-0 place-items-center overflow-hidden rounded-xl border-2 border-stroke bg-bg-3">
               {preview ? (
                 // Local object URL preview of the chosen file, square-cropped.
                 // eslint-disable-next-line @next/next/no-img-element
@@ -296,9 +297,9 @@ export function CreateForm() {
           </Field>
         </div>
 
-        <div className="rounded-sm border border-line bg-bg-2 p-4">
+        <div className="sticker p-4">
           <Field id={`${uid}buy`} label={t("firstBuy")} error={err("firstBuy")}>
-            <div className="flex items-center rounded-sm border border-line-2 bg-bg focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-floor">
+            <div className="flex items-center rounded-lg border-2 border-stroke bg-bg-3 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-floor">
               <input id={`${uid}buy`} className="num h-12 min-w-0 flex-1 bg-transparent px-3 text-xl outline-none placeholder:text-ink-3" inputMode="decimal" placeholder="0.00" value={f.firstBuy} onChange={set("firstBuy")} />
               <span className="num pr-3 text-ink-3">SOL</span>
             </div>
@@ -324,7 +325,18 @@ export function CreateForm() {
 
       <aside className="min-w-0 lg:col-span-5">
         <div className="space-y-4 lg:sticky lg:top-[88px]">
-          <p className="text-sm text-ink-2">{t("previewLabel")}</p>
+          <p className="text-sm font-semibold text-ink-2">{t("previewLabel")}</p>
+          {/* The building re-forms as the ticker changes, until an image is chosen. */}
+          <div className="sticker flex items-center gap-5 p-5">
+            <span key={preview ? "img" : f.symbol || "seed"} className="avatar-morph">
+              <CoinAvatar src={preview} symbol={f.symbol || "T"} seed={f.symbol || "TICKER"} size={112} />
+            </span>
+            <div className="min-w-0">
+              <p className="title-tight truncate text-xl font-extrabold sm:text-2xl">{f.name || t("previewName")}</p>
+              <p className="num text-md text-ink-2">${f.symbol || "TICKER"}</p>
+              <p className="mt-2 text-xs text-ink-3">{preview ? t("avatarImage") : t("avatarHint")}</p>
+            </div>
+          </div>
           <CoinCard coin={previewCoin} preview />
           <FloorFrame startPrice={startPrice} />
         </div>
@@ -333,6 +345,7 @@ export function CreateForm() {
       <Dialog open={created !== null} onClose={() => setCreated(null)} title={t("createdTitle", { symbol: created?.symbol ?? "" })} closeLabel={t("close")}>
         {created ? (
           <div className="space-y-4">
+            <SlabLands floorSol={startPrice} label={t("slabLabel")} />
             <div>
               <p className="text-xs text-ink-3">{t("mint")}</p>
               <div className="mt-1 flex items-center gap-2">
@@ -344,11 +357,11 @@ export function CreateForm() {
               <ButtonLink href={`/coin/${created.mint}`} variant="primary">
                 {t("openCoin")}
               </ButtonLink>
-              <a href={`/api/og/${created.mint}`} download={`${created.symbol}-floored.png`} className="press inline-flex h-10 items-center rounded-sm border border-line-2 px-4 text-md hover:bg-bg-3">
+              <a href={`/api/og/${created.mint}`} download={`${created.symbol}-floored.png`} className={buttonClass({ variant: "secondary" })}>
                 {t("shareKit")}
               </a>
               {!ENV.mock ? (
-                <a href={explorerAddress(created.mint)} target="_blank" rel="noreferrer" className="press inline-flex h-10 items-center rounded-sm px-3 text-md text-ink-2 hover:text-ink">
+                <a href={explorerAddress(created.mint)} target="_blank" rel="noreferrer" className={buttonClass({ variant: "ghost" })}>
                   {t("explorer")}
                 </a>
               ) : null}
@@ -364,7 +377,7 @@ export function CreateForm() {
 function FloorFrame({ startPrice }: { startPrice: number }) {
   const t = useTranslations("create");
   return (
-    <figure className="rounded-sm border border-line bg-bg-2 p-4">
+    <figure className="sticker p-4">
       <svg viewBox="0 0 320 140" className="h-auto w-full" role="img" aria-label={t("frameAria")}>
         <defs>
           <pattern id="grid" width="32" height="28" patternUnits="userSpaceOnUse">

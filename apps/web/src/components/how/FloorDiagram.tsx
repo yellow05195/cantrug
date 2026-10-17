@@ -74,7 +74,7 @@ export function FloorDiagram() {
   const blocks = Array.from({ length: 10 }, (_, i) => i);
   return (
     <figure className="my-10">
-      <div className="rounded-sm border border-line bg-bg-2 p-3 sm:p-5">
+      <div className="sticker p-3 sm:p-5">
         <svg ref={root} viewBox="0 0 640 304" className="h-auto w-full" role="img" aria-label={t("aria")}>
           {/* pool vault */}
           <text x="40" y="30" fill="var(--ink-2)" fontSize="19">

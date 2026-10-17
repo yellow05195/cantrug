@@ -18,7 +18,7 @@ const FORMULAS = ["floor = S / C", "C = supply − T − Q", "redeem(x) = S·x /
 
 function H2({ id, children }: { id: string; children: React.ReactNode }) {
   return (
-    <h2 id={id} className="title-tight mt-20 scroll-mt-24 text-2xl font-semibold sm:text-[1.75rem]">
+    <h2 id={id} className="title-tight mt-20 scroll-mt-24 text-2xl font-extrabold sm:text-[1.75rem]">
       {children}
     </h2>
   );
@@ -33,7 +33,7 @@ export default async function HowItWorks() {
   const faq = ["zero", "promise", "rug", "queue", "creator", "audit"] as const;
   return (
     <article className="gutter mx-auto max-w-[70ch] pt-12 lg:pt-20">
-      <h1 className="display-tight text-4xl font-semibold leading-[1.05] sm:text-5xl">{t("title")}</h1>
+      <h1 className="display-tight text-4xl font-extrabold leading-[1.05] sm:text-5xl">{t("title")}</h1>
       <p className="mt-6 text-lg text-ink-2">{t("lede")}</p>
       <nav aria-label={t("tocLabel")} className="mt-8 flex flex-wrap gap-x-5 gap-y-2 border-y border-line py-3 text-sm">
         {(["problem", "floor", "brake", "compare", "verify", "fees", "faq"] as const).map((k) => (
@@ -56,7 +56,7 @@ export default async function HowItWorks() {
       <H2 id="brake">{t("brake.title")}</H2>
       <P>{t("brake.p1")}</P>
       <figure className="my-10">
-        <Image src={brakeImg} alt={t("brake.alt")} placeholder="blur" sizes="(min-width: 768px) 70ch, 100vw" className="h-auto w-full rounded-sm border border-line" />
+        <Image src={brakeImg} alt={t("brake.alt")} placeholder="blur" sizes="(min-width: 768px) 70ch, 100vw" className="h-auto w-full rounded-xl border-2 border-stroke shadow-[0_4px_0_0_var(--shadow)]" />
         <figcaption className="mt-3 text-sm text-ink-2">{t("brake.caption")}</figcaption>
       </figure>
       <P>{t("brake.p2")}</P>
@@ -65,7 +65,7 @@ export default async function HowItWorks() {
       <H2 id="compare">{t("compare.title")}</H2>
       <P>{t("compare.p1")}</P>
       <figure className="my-10">
-        <Image src={compareImg} alt={t("compare.alt")} placeholder="blur" sizes="(min-width: 768px) 70ch, 100vw" className="h-auto w-full rounded-sm border border-line" />
+        <Image src={compareImg} alt={t("compare.alt")} placeholder="blur" sizes="(min-width: 768px) 70ch, 100vw" className="h-auto w-full rounded-xl border-2 border-stroke shadow-[0_4px_0_0_var(--shadow)]" />
         <figcaption className="mt-3 grid grid-cols-2 gap-4 text-sm text-ink-2">
           <span>{t("compare.left")}</span>
           <span>{t("compare.right")}</span>
@@ -75,7 +75,7 @@ export default async function HowItWorks() {
 
       <H2 id="verify">{t("verify.title")}</H2>
       <P>{t("verify.p1")}</P>
-      <div className="my-8 rounded-sm border border-line bg-bg-2 p-4">
+      <div className="my-8 sticker p-4">
         <ul className="num space-y-2 text-[0.9375rem]">
           {FORMULAS.map((f, i) => (
             <li key={f} className={i === 0 ? "text-floor" : "text-ink"}>

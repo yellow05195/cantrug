@@ -5,12 +5,15 @@ import { cn } from "@/lib/cn";
 export interface TabItem<K extends string> {
   key: K;
   label: ReactNode;
-  /** Orange tab (only "Redeem at floor"). */
+  /** Orange when active (only "Redeem at floor"). */
   floor?: boolean;
   disabled?: boolean;
 }
 
-/** Underlined tabs on a 1 px rule. Arrow keys move between tabs. */
+/**
+ * Chunky pill tabs (v2). The active pill is a small sticker; the Redeem pill
+ * turns orange. Arrow keys move between tabs (no animation on keyboard moves).
+ */
 export function Tabs<K extends string>({
   items,
   value,
@@ -24,7 +27,7 @@ export function Tabs<K extends string>({
   value: K;
   onChange: (k: K) => void;
   className?: string;
-  size?: "sm" | "md";
+  size?: "sm" | "md" | "lg";
   idPrefix: string;
   fill?: boolean;
 }) {
@@ -43,7 +46,7 @@ export function Tabs<K extends string>({
     }
   };
   return (
-    <div role="tablist" className={cn("flex border-b border-line", className)}>
+    <div role="tablist" className={cn("inline-flex max-w-full gap-1 rounded-full border-2 border-stroke bg-bg-2 p-1", fill && "flex w-full", className)}>
       {items.map((it, i) => {
         const active = it.key === value;
         return (
@@ -62,14 +65,14 @@ export function Tabs<K extends string>({
             onClick={() => onChange(it.key)}
             onKeyDown={(e) => onKey(e, i)}
             className={cn(
-              "relative -mb-px whitespace-nowrap border-b-2 px-3 font-medium transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-40",
-              size === "sm" ? "h-9 text-sm" : "h-11 text-md",
-              fill && "flex-1",
+              "relative whitespace-nowrap rounded-full border-2 font-semibold transition-[background-color,border-color,color,box-shadow] duration-150 ease-[var(--ease-out)] disabled:cursor-not-allowed disabled:opacity-40",
+              size === "sm" ? "h-7 px-3 text-xs" : size === "lg" ? "h-11 px-4 text-md sm:text-base" : "h-9 px-4 text-sm",
+              fill && "min-w-0 flex-auto truncate px-2.5",
               active
                 ? it.floor
-                  ? "border-floor text-floor"
-                  : "border-ink text-ink"
-                : cn("border-transparent hover:text-ink", it.floor ? "text-floor/80" : "text-ink-2"),
+                  ? "border-floor-deep bg-floor text-floor-ink shadow-[0_2px_0_0_var(--floor-deep)]"
+                  : "border-stroke-strong bg-surface text-ink shadow-[0_2px_0_0_var(--shadow)]"
+                : cn("border-transparent hover:text-ink", it.floor ? "text-floor" : "text-ink-2"),
             )}
           >
             {it.label}

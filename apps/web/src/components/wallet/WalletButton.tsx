@@ -43,7 +43,7 @@ export function WalletModal({ open, onClose }: { open: boolean; onClose: () => v
               }}
               className="press flex w-full items-center gap-3 rounded-sm px-2 py-2.5 text-left hover:bg-bg-3"
             >
-              <span className="grid size-8 place-items-center rounded-sm border border-line-2 bg-bg text-floor">
+              <span className="grid size-8 place-items-center rounded-xl border-2 border-stroke bg-bg text-floor">
                 <WalletIconGlyph size={18} />
               </span>
               <span className="flex-1">
@@ -82,7 +82,7 @@ export function WalletModal({ open, onClose }: { open: boolean; onClose: () => v
   );
 }
 
-export function WalletButton({ className, compact }: { className?: string; compact?: boolean }) {
+export function WalletButton({ className, compact, variant = "primary" }: { className?: string; compact?: boolean; variant?: "primary" | "secondary" }) {
   const t = useTranslations("wallet");
   const mounted = useMounted();
   const account = useAccount();
@@ -107,7 +107,7 @@ export function WalletButton({ className, compact }: { className?: string; compa
   if (!mounted || !account.connected || !account.address) {
     return (
       <>
-        <Button variant="primary" size="sm" className={className} onClick={() => setOpen(true)} loading={mounted && account.connecting}>
+        <Button variant={variant} size="sm" className={className} onClick={() => setOpen(true)} loading={mounted && account.connecting}>
           {compact ? (
             t("connectShort")
           ) : (
@@ -129,7 +129,7 @@ export function WalletButton({ className, compact }: { className?: string; compa
         onClick={() => setMenu((v) => !v)}
         aria-expanded={menu}
         aria-haspopup="menu"
-        className="press flex h-8 items-center gap-2 whitespace-nowrap rounded-sm border border-line-2 px-2.5 text-sm hover:bg-bg-3"
+        className="btn-slab flex h-9 items-center gap-2 whitespace-nowrap rounded-lg border-2 border-stroke bg-surface px-3 text-sm font-semibold"
       >
         {account.walletIcon ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -141,7 +141,7 @@ export function WalletButton({ className, compact }: { className?: string; compa
         <CaretDown size={12} className="hidden text-ink-3 sm:block" />
       </button>
       {menu ? (
-        <div role="menu" className="float-layer absolute right-0 top-10 z-50 w-56 rounded-sm border border-line-2 bg-bg-2 p-1">
+        <div role="menu" className="sticker absolute right-0 top-11 z-50 w-56 p-1.5">
           <p className="px-2.5 py-2 text-xs text-ink-3">{account.isDemo ? t("demo") : account.walletName}</p>
           <Link role="menuitem" href="/portfolio" onClick={() => setMenu(false)} className="flex h-9 items-center rounded-sm px-2.5 text-sm hover:bg-bg-3">
             {t("portfolio")}

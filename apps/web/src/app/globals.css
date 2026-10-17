@@ -4,56 +4,76 @@
 
 :root {
   color-scheme: dark;
+  /* v2 "chantier vivant" (DESIGN.md v2). */
   --bg: #141414;
   --bg-2: #1c1c1b;
-  --bg-3: #242423;
+  --bg-3: #262624;
+  --surface: #2a2a28;
+  --stroke: #3a3a38;
+  --stroke-strong: #56544f;
+  --shadow: #0a0a0a;
   --line: #2e2e2c;
   --line-2: #3a3a38;
-  --ink: #edebe6;
-  --ink-2: #a5a29b;
-  /* DESIGN.md #6F6D68 lifted to pass WCAG AA (4.5:1) for the small labels it carries. */
-  --ink-3: #8c8982;
+  --ink: #f2efe9;
+  --ink-2: #b3afa6;
+  /* DESIGN.md v2 #8C8982 lifted so small labels pass AA (4.5:1) on the #2A2A28 sticker fill. */
+  --ink-3: #9a978f;
   --floor: #ff5f1f;
+  --floor-hot: #ff7a3d;
+  --floor-deep: #b8400e;
   --floor-ink: #141414;
-  --floor-dim: rgba(255, 95, 31, 0.14);
+  --floor-dim: rgba(255, 95, 31, 0.16);
   --brake: #ffd400;
   --brake-ink: #111111;
-  --up: #6fa287;
-  --down: #b5635c;
+  --up: #5fbf8a;
+  --down: #e0605a;
   --grain-opacity: 0.05;
-  --float-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.6);
-  --ease-mech: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --float-shadow: 0 6px 0 0 var(--shadow);
+  --ease-mech: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
   --header-h: 64px;
 }
 
 :root[data-theme="light"] {
   color-scheme: light;
+  /* Béton clair keeps the v1 base with the v2 deltas; ink-3 and the orange are darkened for AA. */
   --bg: #e9e6e0;
   --bg-2: #f2f0eb;
-  --bg-3: #ddd9d1;
+  --bg-3: #e0dcd4;
+  --surface: #f8f6f1;
+  --stroke: #bdb7ac;
+  --stroke-strong: #8f897e;
+  --shadow: #a8a296;
   --line: #cfcac0;
   --line-2: #b9b3a8;
-  --ink: #171716;
-  --ink-2: #5b5955;
-  /* Béton clair: ink-3 and the floor orange darkened from DESIGN.md (#8A877F, #E8500F) so small text and the Redeem button pass AA. */
+  --ink: #141413;
+  --ink-2: #57554f;
   --ink-3: #64615b;
   --floor: #b83f0a;
+  --floor-hot: #d24a10;
+  --floor-deep: #7a2905;
   --floor-ink: #ffffff;
-  --floor-dim: rgba(184, 63, 10, 0.12);
+  --floor-dim: rgba(184, 63, 10, 0.14);
   --brake: #f2c800;
   --brake-ink: #111111;
-  --up: #3e7a5a;
-  --down: #9a4a43;
+  --up: #2f7d55;
+  --down: #b23b35;
   --grain-opacity: 0.08;
-  --float-shadow: 0 24px 48px -24px rgba(40, 32, 20, 0.35);
 }
 
 @theme inline {
   --color-bg: var(--bg);
   --color-bg-2: var(--bg-2);
   --color-bg-3: var(--bg-3);
+  --color-surface: var(--surface);
+  --color-stroke: var(--stroke);
+  --color-stroke-strong: var(--stroke-strong);
+  --color-shadow: var(--shadow);
+  --color-floor-hot: var(--floor-hot);
+  --color-floor-deep: var(--floor-deep);
   --color-line: var(--line);
   --color-line-2: var(--line-2);
   --color-ink: var(--ink);
@@ -91,16 +111,18 @@
   --text-4xl--line-height: 1.08;
   --text-5xl: 4.5rem;
   --text-5xl--line-height: 1;
+  --text-hero: 5.5rem;
+  --text-hero--line-height: 0.98;
   --text-6xl: 6rem;
   --text-6xl--line-height: 1;
 
-  /* 2 px on everything. Right angles like a plan. */
-  --radius-xs: 2px;
-  --radius-sm: 2px;
-  --radius-md: 2px;
-  --radius-lg: 2px;
-  --radius-xl: 2px;
-  --radius-2xl: 2px;
+  /* v2 shape rule: 12 px cards and panels (rounded-xl), 10 px buttons and inputs (rounded-lg), 999 chips (rounded-full). */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
 
   --ease-mech: cubic-bezier(0.2, 0.7, 0.2, 1);
   --breakpoint-xs: 26rem;
@@ -195,7 +217,7 @@ body::after {
 }
 
 @utility display-tight {
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
 }
 
 @utility title-tight {
@@ -203,11 +225,68 @@ body::after {
 }
 
 @utility press {
-  transition-property: transform, background-color, border-color, color, opacity;
+  transition-property: transform, box-shadow, background-color, border-color, color, opacity;
   transition-duration: 160ms;
-  transition-timing-function: var(--ease-mech);
+  transition-timing-function: var(--ease-out);
   &:active:not(:disabled) {
-    transform: scale(0.98);
+    transform: translateY(1px) scale(0.98);
+    transition-duration: 100ms;
+  }
+}
+
+/* ───────────── v2 stickers: 2 px stroke, solid offset "slab shadow" ───────────── */
+
+@utility sticker {
+  background-color: var(--surface);
+  border: 2px solid var(--stroke);
+  border-radius: 12px;
+  box-shadow: 0 4px 0 0 var(--shadow);
+}
+
+@utility sticker-flat {
+  background-color: var(--bg-3);
+  border: 2px solid var(--stroke);
+  border-radius: 12px;
+}
+
+/* Hover lifts 2 px (shadow 6 px), press pushes down 2 px (shadow 2 px). */
+@utility lift {
+  transition-property: transform, box-shadow, border-color, background-color;
+  transition-duration: 160ms;
+  transition-timing-function: var(--ease-out);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 0 var(--lift-shadow, var(--shadow));
+      border-color: var(--stroke-strong);
+    }
+  }
+  &:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 0 var(--lift-shadow, var(--shadow));
+    transition-duration: 100ms;
+  }
+}
+
+@utility btn-slab {
+  box-shadow: 0 4px 0 0 var(--btn-shadow, var(--shadow));
+  transition-property: transform, box-shadow, background-color, border-color, color;
+  transition-duration: 160ms;
+  transition-timing-function: var(--ease-out);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 0 var(--btn-shadow, var(--shadow));
+    }
+  }
+  &:active:not(:disabled) {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 0 var(--btn-shadow, var(--shadow));
+    transition-duration: 100ms;
+  }
+  &:disabled {
+    box-shadow: 0 2px 0 0 var(--btn-shadow, var(--shadow));
+    transform: translateY(2px);
   }
 }
 
@@ -303,6 +382,8 @@ body::after {
 
 .fl-dialog {
   max-height: 100dvh;
+  border: 2px solid var(--stroke);
+  box-shadow: 0 6px 0 0 var(--shadow);
 }
 .fl-dialog[open] {
   animation: dialog-in 200ms var(--ease-out-strong);
@@ -353,5 +434,193 @@ body::after {
     @starting-style {
       transform: none;
     }
+  }
+}
+
+
+/* ───────────────────────── v2 motion ───────────────────────── */
+
+/* Duotone icons: the back layer is the floor orange at 40 %. */
+svg [opacity="0.2"] {
+  fill: var(--floor);
+  opacity: 0.4;
+}
+
+/* 1. Route transitions: the page rises 8 px and fades in, 220 ms. Ends at `none` so fixed children stay fixed. */
+.route-in {
+  transition:
+    opacity 220ms var(--ease-out),
+    translate 220ms var(--ease-out);
+  @starting-style {
+    opacity: 0;
+    translate: 0 8px;
+  }
+}
+::view-transition-group(*) {
+  animation-duration: 260ms;
+  animation-timing-function: var(--ease-in-out);
+}
+
+/* 3. Live ticker: the site's single marquee. */
+@keyframes ticker-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.ticker-track {
+  animation: ticker-scroll 45s linear infinite;
+}
+@media (hover: hover) and (pointer: fine) {
+  .ticker:hover .ticker-track {
+    animation-play-state: paused;
+  }
+}
+@keyframes ticker-in {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+}
+.ticker-new {
+  animation: ticker-in 160ms var(--ease-out);
+}
+
+/* 4. Feeds: rows drop in and flash their side's color. */
+@keyframes row-drop {
+  from {
+    transform: translateY(-100%);
+  }
+}
+@keyframes row-tint-up {
+  from {
+    background-color: color-mix(in srgb, var(--up) 20%, transparent);
+  }
+}
+@keyframes row-tint-down {
+  from {
+    background-color: color-mix(in srgb, var(--down) 20%, transparent);
+  }
+}
+@keyframes row-tint-floor {
+  from {
+    background-color: var(--floor-dim);
+  }
+}
+.row-in-up {
+  animation:
+    row-drop 160ms var(--ease-out),
+    row-tint-up 300ms linear;
+}
+.row-in-down {
+  animation:
+    row-drop 160ms var(--ease-out),
+    row-tint-down 300ms linear;
+}
+.row-in-floor {
+  animation:
+    row-drop 160ms var(--ease-out),
+    row-tint-floor 300ms linear;
+}
+
+/* Changed numbers hold their direction color for 150 ms, then settle. */
+@keyframes flash-up {
+  0%,
+  40% {
+    color: var(--up);
+  }
+}
+@keyframes flash-down {
+  0%,
+  40% {
+    color: var(--down);
+  }
+}
+.flash-up {
+  animation: flash-up 380ms linear;
+}
+.flash-down {
+  animation: flash-down 380ms linear;
+}
+
+/* 5. Home columns: cards stagger 50 ms on first paint. */
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+.stagger-in > * {
+  animation: card-in 280ms var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 50ms);
+}
+
+/* Create preview: the building re-forms when the ticker changes. */
+@keyframes avatar-morph {
+  from {
+    opacity: 0.4;
+    transform: scale(0.94);
+  }
+}
+.avatar-morph {
+  animation: avatar-morph 220ms var(--ease-out);
+}
+
+/* 8. King of the hill: the spotlight's orange ring breathes. */
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+.breathe-ring {
+  animation: breathe 4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-in {
+    transition: opacity 160ms ease-out;
+    @starting-style {
+      translate: none;
+    }
+  }
+  .ticker-track,
+  .breathe-ring {
+    animation: none;
+  }
+  .ticker-new {
+    animation: none;
+  }
+  .row-in-up {
+    animation: row-tint-up 300ms linear;
+  }
+  .row-in-down {
+    animation: row-tint-down 300ms linear;
+  }
+  .row-in-floor {
+    animation: row-tint-floor 300ms linear;
+  }
+  .stagger-in > *,
+  .avatar-morph {
+    animation-name: fade-only;
+  }
+  .lift,
+  .btn-slab,
+  .press {
+    transition-property: box-shadow, border-color, background-color, color;
+  }
+  .lift:hover,
+  .lift:active,
+  .btn-slab:hover,
+  .btn-slab:active,
+  .press:active {
+    transform: none !important;
+  }
+}
+@keyframes fade-only {
+  from {
+    opacity: 0;
   }
 }

@@ -26,7 +26,13 @@ function TradeRow({ tr, fresh, symbol, style }: { tr: TradeJson; fresh: boolean;
   const g = glyph(tr);
   const queued = BigInt(tr.queued_remainder || "0");
   return (
-    <div style={style} className={cn("grid h-9 grid-cols-[1.25rem_4.5rem_1fr_1fr_5rem_2.5rem] items-center gap-2 border-b border-line/60 px-3 text-sm sm:grid-cols-[1.25rem_5.5rem_1fr_1fr_6.5rem_3rem]", fresh && "row-flash")}>
+    <div
+      style={style}
+      className={cn(
+        "grid h-9 grid-cols-[1.25rem_4.5rem_1fr_1fr_5rem_2.5rem] items-center gap-2 border-b border-line/70 px-3 text-sm sm:grid-cols-[1.25rem_5.5rem_1fr_1fr_6.5rem_3rem]",
+        fresh && (g.key === "buy" ? "row-in-up" : g.key === "redeem" ? "row-in-floor" : g.key === "sell" ? "row-in-down" : "row-in-floor"),
+      )}
+    >
       <span aria-hidden className={cn("text-xs", g.cls)}>
         {g.g}
       </span>
@@ -56,11 +62,11 @@ export function TradesFeed({ trades, freshKeys, symbol, emptyNote }: { trades: T
   const end = virtual ? Math.min(trades.length, start + Math.ceil(viewH / ROW_H) + 16) : trades.length;
   const key = (tr: TradeJson) => `${tr.signature}:${tr.event_index}:${tr.kind ?? "t"}`;
 
-  if (!trades.length) return <p className="rounded-sm border border-dashed border-line-2 p-4 text-sm text-ink-2">{emptyNote ?? t("empty")}</p>;
+  if (!trades.length) return <p className="rounded-xl border-2 border-dashed border-stroke p-4 text-sm text-ink-2">{emptyNote ?? t("empty")}</p>;
 
   return (
-    <div className="rounded-sm border border-line">
-      <div className="grid h-8 grid-cols-[1.25rem_4.5rem_1fr_1fr_5rem_2.5rem] items-center gap-2 border-b border-line px-3 text-xs text-ink-3 sm:grid-cols-[1.25rem_5.5rem_1fr_1fr_6.5rem_3rem]">
+    <div className="sticker overflow-hidden">
+      <div className="grid h-9 bg-bg-3 grid-cols-[1.25rem_4.5rem_1fr_1fr_5rem_2.5rem] items-center gap-2 border-b-2 border-stroke px-3 text-xs font-semibold text-ink-3 sm:grid-cols-[1.25rem_5.5rem_1fr_1fr_6.5rem_3rem]">
         <span />
         <span>{t("side")}</span>
         <span className="text-right">SOL</span>
@@ -85,13 +91,13 @@ export function TradesFeed({ trades, freshKeys, symbol, emptyNote }: { trades: T
 
 export function Holders({ data, m, symbol }: { data: HoldersJson | null; m: CoinMetrics; symbol: string }) {
   const t = useTranslations("holders");
-  if (!data || !data.items.length) return <p className="rounded-sm border border-dashed border-line-2 p-4 text-sm text-ink-2">{t("empty")}</p>;
+  if (!data || !data.items.length) return <p className="rounded-xl border-2 border-dashed border-stroke p-4 text-sm text-ink-2">{t("empty")}</p>;
   const fq = m.phase === "graduated" ? m.floorQ64 : 0n;
   return (
-    <div className="overflow-x-auto rounded-sm border border-line">
+    <div className="overflow-x-auto rounded-xl border-2 border-stroke">
       <table className="w-full min-w-[480px] text-sm">
         <thead>
-          <tr className="h-8 border-b border-line text-left text-xs text-ink-3">
+          <tr className="h-9 border-b-2 border-stroke bg-bg-3 text-left text-xs font-semibold text-ink-3">
             <th className="w-10 pl-3 font-normal">#</th>
             <th className="font-normal">{t("wallet")}</th>
             <th className="text-right font-normal">{symbol}</th>
@@ -133,7 +139,7 @@ export function QueuePanel({ queue, chain, user, mint, symbol, connected, onDone
 
   return (
     <div className="grid gap-4 md:grid-cols-2">
-      <section className="rounded-sm border border-line bg-bg-2 p-4" aria-labelledby="q-you">
+      <section className="sticker p-4" aria-labelledby="q-you">
         <h3 id="q-you" className="text-md font-semibold">
           {t("yours")}
         </h3>
@@ -172,7 +178,7 @@ export function QueuePanel({ queue, chain, user, mint, symbol, connected, onDone
           </>
         )}
       </section>
-      <section className="rounded-sm border border-line p-4" aria-labelledby="q-public">
+      <section className="sticker p-4" aria-labelledby="q-public">
         <h3 id="q-public" className="text-md font-semibold">
           {t("public")}
         </h3>

@@ -101,6 +101,10 @@ export function coinJson(c: MockCoin, now: number): CoinJson {
   const mcap = valueAtQ64(pq, c.supply);
   const dayAgo = now - 86_400_000;
   const vol24 = c.trades.filter((t) => t.ms >= dayAgo && t.kind !== "redeem").reduce((a, t) => a + t.sol, 0n);
+  const vol1h = c.trades.filter((t) => t.ms >= now - 3_600_000 && t.kind !== "redeem").reduce((a, t) => a + t.sol, 0n);
+  const floorThen = [...c.samples].reverse().find((x) => x.ms <= dayAgo && x.floor > 0)?.floor ?? c.samples.find((x) => x.floor > 0)?.floor ?? 0;
+  const floorNow = q64ToSolPerToken(fq);
+  const floorChange = graduated && floorThen > 0 ? Math.round((floorNow / floorThen - 1) * 10_000) : null;
   const last = c.trades[c.trades.length - 1];
   const amounts = (k: string, v: bigint, kind: "sol" | "tok") => ({ [k]: v.toString(), [`${k}_display`]: kind === "sol" ? solD(v) : tokD(v) });
   return {
@@ -110,7 +114,7 @@ export function coinJson(c: MockCoin, now: number): CoinJson {
     name: c.meta.name,
     symbol: c.meta.symbol,
     uri: "",
-    image_url: c.meta.image,
+    image_url: c.meta.image || null,
     description: c.meta.description,
     params: paramsJson(s.params),
     phase: graduated ? "graduated" : "curve",
@@ -147,6 +151,8 @@ export function coinJson(c: MockCoin, now: number): CoinJson {
     updated_at: new Date(now).toISOString(),
     socials: c.meta.socials,
     volume_24h_sol: vol24.toString(),
+    volume_1h_sol: vol1h.toString(),
+    floor_change_24h_bps: floorChange,
   };
 }
 

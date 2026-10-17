@@ -94,7 +94,7 @@ export function PortfolioView() {
 
   if (!account.connected) {
     return (
-      <div className="max-w-md space-y-4 rounded-sm border border-dashed border-line-2 p-6">
+      <div className="max-w-md space-y-4 rounded-xl border-2 border-dashed border-stroke p-6">
         <p className="text-md text-ink-2">{t("connect")}</p>
         <ConnectPrompt />
       </div>
@@ -115,7 +115,7 @@ export function PortfolioView() {
 
   if (!rows.length) {
     return (
-      <div className="max-w-lg space-y-4 rounded-sm border border-dashed border-line-2 p-6">
+      <div className="max-w-lg space-y-4 rounded-xl border-2 border-dashed border-stroke p-6">
         <p className="text-md">{t("empty")}</p>
         <div className="flex flex-wrap gap-2">
           <ButtonLink href="/" variant="primary">
@@ -176,7 +176,7 @@ export function PortfolioView() {
       </div>
 
       {/* Phones: one block per coin, value at floor first. */}
-      <ul className="divide-y divide-line rounded-sm border border-line md:hidden">
+      <ul className="divide-y divide-line rounded-xl border-2 border-stroke md:hidden">
         {rows.map((r) => (
           <li key={r.mint}>
             <Link href={`/coin/${r.mint}`} className="flex gap-3 p-3">
@@ -204,7 +204,7 @@ export function PortfolioView() {
         </li>
       </ul>
 
-      <div className="hidden overflow-x-auto rounded-sm border border-line md:block">
+      <div className="hidden overflow-x-auto rounded-xl border-2 border-stroke md:block">
         <table className="w-full min-w-[760px] text-sm">
           <thead>
             <tr className="h-9 border-b border-line text-left text-xs text-ink-3">

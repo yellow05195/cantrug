@@ -84,7 +84,30 @@
       "floor": "Plancher",
       "volume": "Volume"
     },
-    "emptyAll": "Aucun coin pour l'instant. Lance le premier."
+    "emptyAll": "Aucun coin pour l'instant. Lance le premier.",
+    "headlineA": "Pump brûle ton argent mort.",
+    "headlineB": "Nous, on te le rend.",
+    "hotTitle": "Ça chauffe",
+    "columnsLabel": "Coins en direct",
+    "numbersLabel": "FLOORED en chiffres",
+    "rugs": "Rugs évités",
+    "trio": {
+      "floor": {
+        "title": "Le plancher",
+        "text": "Le SOL du pool appartient aux holders. Brûle tes tokens, prends ta part, à tout moment.",
+        "formula": "plancher = S / C"
+      },
+      "brake": {
+        "title": "Le frein",
+        "text": "Aucune vente ne fait baisser le prix de plus de 20 % par fenêtre. Le reste attend dans la file.",
+        "formula": "−20 % max par fenêtre"
+      },
+      "verify": {
+        "title": "Vérifie toi-même",
+        "text": "Trois comptes et une division. Lis-les sur la chaîne et recalcule le plancher.",
+        "formula": "lire sur la chaîne"
+      }
+    }
   },
   "floor": {
     "atGraduation": "Plancher actif à la graduation",
@@ -326,7 +349,9 @@
     "rpcStale": "La dernière lecture de la chaîne a échoué ; les chiffres peuvent dater de quelques secondes.",
     "barBuy": "Acheter",
     "barSell": "Vendre",
-    "barRedeem": "Plancher"
+    "barRedeem": "Plancher",
+    "closeLanding": "Fermer",
+    "graduatedNow": "${symbol} vient de graduer. Le plancher est allumé."
   },
   "create": {
     "metaTitle": "Lancer un coin",
@@ -372,7 +397,10 @@
     "openCoin": "Ouvrir le coin",
     "shareKit": "Télécharger la carte de partage",
     "explorer": "Voir sur l'explorer",
-    "close": "Fermer"
+    "close": "Fermer",
+    "avatarHint": "Pas encore d'image : ce bâtiment est généré depuis ton ticker. On-chain, depuis ton mint.",
+    "avatarImage": "Ton image, encadrée en sticker sur sa dalle.",
+    "slabLabel": "La courbe démarre à, SOL par token"
   },
   "portfolio": {
     "title": "Portefeuille",
@@ -579,5 +607,31 @@
     "cfNote": "Rendre au plancher prend le plancher tout de suite et ne touche pas au prix. Vendre via la file peut rapporter plus quand le prix est au-dessus du plancher, mais ça prend du temps.",
     "dumpTx": "Transaction du dump :",
     "openCoin": "Ouvrir la page du coin"
+  },
+  "ticker": {
+    "label": "Trades en direct sur tous les coins",
+    "live": "direct",
+    "open": "Ouvrir le flux des trades en direct",
+    "title": "Trades en direct",
+    "close": "Fermer",
+    "waiting": "En attente du premier trade.",
+    "noIndexer": "Les trades en direct demandent un indexeur."
+  },
+  "hot": {
+    "king": "Roi de la colline",
+    "brake": "frein",
+    "price": "Prix",
+    "mcap": "Capitalisation",
+    "vol1h": "Volume 1 h",
+    "trade": "Trader ${symbol}",
+    "jump": "Plus forte hausse du plancher",
+    "highestFloor": "Plus haut plancher",
+    "newestGrad": "Dernier gradué",
+    "mostBraked": "Le plus freiné",
+    "brakes": "{n, plural, one {# frein} other {# freins}}"
+  },
+  "slab": {
+    "floor": "Plancher, SOL par token",
+    "preview": "Plancher à la graduation"
   }
 }

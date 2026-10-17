@@ -11,9 +11,11 @@ const DIGITS = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
  * that changed move: 240 ms, power3.out. Reduced motion: digits jump.
  * The server render already shows the right digits (inline transform).
  */
-export function NumRoll({ value, className, label }: { value: string; className?: string; label?: string }) {
+export function NumRoll({ value, className, label, rollFrom }: { value: string; className?: string; label?: string; rollFrom?: string | null }) {
   const root = useRef<HTMLSpanElement>(null);
-  const prev = useRef<string>(value);
+  // `rollFrom`: pour in from these digits on mount (hero entrance), otherwise start settled.
+  const prev = useRef<string>(rollFrom ?? value);
+  const pouring = useRef(Boolean(rollFrom));
 
   useGSAP(
     () => {
@@ -37,8 +39,14 @@ export function NumRoll({ value, className, label }: { value: string; className?
           gsap.set(col, { y: 0, yPercent: -next * 10 });
           return;
         }
-        gsap.fromTo(col, { y: 0, yPercent: -from * 10 }, { y: 0, yPercent: -next * 10, duration: MOTION.flap, ease: "power3.out", overwrite: true });
+        const pour = pouring.current;
+        gsap.fromTo(
+          col,
+          { y: 0, yPercent: -from * 10 },
+          { y: 0, yPercent: -next * 10, duration: pour ? 0.7 : MOTION.flap, delay: pour ? 0.25 + i * 0.04 : 0, ease: "power3.out", overwrite: true },
+        );
       });
+      pouring.current = false;
     },
     { dependencies: [value], scope: root },
   );

@@ -108,3 +108,91 @@ Honesty rule for copy: the floor is a current, verifiable minimum, not a promise
 ## 5. Logo
 
 A heavy sans "F" (Inter Tight 800, optical corrections in SVG) standing on a thick orange slab 1/5 of the cap height, the slab wider than the letter by one stem on each side. Monochrome ink on dark, slab orange. Favicon: the F and slab at 16 px (slab 3 px). Avatar: F on slab centered on `--bg`. Banner (1500×500): the wordmark FLOORED with the slab running under all letters, the tagline at right in mono.
+
+
+---
+
+# v2: "chantier vivant", cartoon-pro
+
+Second pass, asked after the first build: the site must feel **alive** and **beautiful**, in the energy of a fomo/degen launchpad, a little **cartoon** but executed like a pro product, with real **transitions**, and clearly **organised**. The DA stays: concrete, one safety-orange accent, yellow/black only for the brake. What changes is the material (stickers on wet concrete instead of an architect's plan), the shapes, and the amount of motion. Everything below overrides section 1 where they disagree; sections 2 to 5 stay valid unless restated.
+
+## Concept
+
+A construction site at night. The slab is poured, the orange laser is on, and the site is busy: trucks, lights, people shouting numbers. Every coin is a **building** (the lore): a small cartoon building silhouette generated from its mint is its default avatar, standing on an orange slab. UI elements are **stickers and signs** stuck on the concrete: thick strokes, rounded corners, a solid offset shadow that makes them look cut out of thick vinyl. Numbers stay mono and exact; the cartoon lives in the shapes, the avatars and the motion, never in the data.
+
+## Tokens v2
+
+Colors (dark default; light "béton clair" keeps its v1 values with the same deltas):
+
+| token | value | role |
+|---|---|---|
+| `--bg` | `#141414` | page |
+| `--bg-2` | `#1C1C1B` | panels |
+| `--bg-3` | `#262624` | raised rows, inputs |
+| `--surface` | `#2A2A28` | sticker/card fill |
+| `--stroke` | `#3A3A38` | 2 px sticker stroke |
+| `--stroke-strong` | `#56544F` | hovered stroke, dividers that matter |
+| `--shadow` | `#0A0A0A` | the solid offset shadow under stickers |
+| `--ink` | `#F2EFE9` | text |
+| `--ink-2` | `#B3AFA6` | secondary |
+| `--ink-3` | `#8C8982` | tertiary |
+| `--floor` | `#FF5F1F` | the accent: floor line, floor numbers, Redeem, and in v2 the primary CTA too (the only orange button besides Redeem) |
+| `--floor-hot` | `#FF7A3D` | hover of orange elements, glow |
+| `--floor-deep` | `#B8400E` | offset shadow under orange stickers |
+| `--floor-dim` | `rgba(255,95,31,.16)` | fills |
+| `--brake` / `--brake-ink` | `#FFD400` / `#111111` | brake only |
+| `--up` / `--down` | `#5FBF8A` / `#E0605A` | price moves and candles (a notch more saturated than v1 so the feed feels alive) |
+
+Still one accent. Green and red appear only on price data. No gradients except the glow under the hero slab image.
+
+Shape: **radius 12 px** on cards and panels, **10 px** on buttons and inputs, **999** on tags and chips (one documented rule). **2 px strokes** on every sticker. **Slab shadow**: `box-shadow: 0 4px 0 0 var(--shadow)` on cards and buttons (orange buttons use `--floor-deep`); hover lifts the element 2 px and the shadow grows to 6 px; press pushes it down 2 px and the shadow shrinks to 2 px (tactile, 100 ms). Surfaces are still matte: no blur, no glass, no soft drop shadows anywhere.
+
+Type: Inter Tight **800** for display at `-0.03em`, sizes one step bigger than v1 (hero 3.5 rem mobile / 5.5 rem desktop); 600 for UI; JetBrains Mono for every number, tabular. Headlines stay sentence case; tickers stay as they are.
+
+Icons: Phosphor **duotone** weight, duotone color = `--floor` at 40 %, for the cartoon feel; 20 px in UI, 32 px in sticker cards.
+
+Grain: keep the fixed noise overlay at 5 %. Add the formwork joints as 1 px `--stroke` vertical rules only on the home hero.
+
+## Coin avatars
+
+`BuildingAvatar(mint, size)`: a deterministic flat cartoon building from the mint hash: 1 to 3 stacked blocks, a roof shape (flat, saw-tooth, antenna, water tank), 2 to 6 lit windows (orange), palette from four concrete greys plus `--floor` for lights, all standing on a 3 px orange slab. Square, 12 px radius, `--stroke` border. Used wherever a coin has no image, and as the mark on OG images. Coins with an image get the image inside the same sticker frame with the slab under it.
+
+## Motion v2 (vivid, but each one has a job)
+
+Rules from the animation skill apply: transform and opacity only, `--ease-out: cubic-bezier(.23,1,.32,1)` for entrances, `--ease-in-out: cubic-bezier(.77,0,.175,1)` for on-screen movement, UI under 300 ms, hover gated by `(hover: hover) and (pointer: fine)`, `prefers-reduced-motion` keeps opacity only.
+
+1. **Route transitions** (purpose: continuity): `app/template.tsx` fades and rises the page content 220 ms `--ease-out` with `@starting-style`; the coin avatar and name carry `view-transition-name: coin-<mint>` so card to coin page morphs where the View Transitions API exists (Chrome), degrades to the fade elsewhere. Back navigation reverses.
+2. **Hero entrance** (once per session, explanation tier): headline lines rise 12 px and fade with a 60 ms stagger, the counter pours in (split-flap), the orange line of the slab image "ignites" with a 600 ms opacity sweep. 1.1 s total, nothing blocks interaction.
+3. **Live ticker** (state indication): one marquee under the header showing the last trades across all coins (avatar, ticker, up/down amount, age), `linear` 45 s per loop, pauses on hover, new items enter at the left edge with a 160 ms slide. This is the single marquee of the site.
+4. **Feeds** (preventing jarring changes): new trade rows enter with `translateY(-100%)` to 0 over 160 ms `--ease-out`, background flashes `--up`/`--down` at 20 % for 300 ms; numbers that change (price, floor, counter) flash their color 150 ms and roll (split-flap) only in the hero and the coin header.
+5. **Stickers** (feedback): hover lift 2 px / shadow 6 px in 160 ms `--ease-out`; press 100 ms; cards in the three home columns stagger 50 ms on first paint only.
+6. **Brake banner** (state): slides down 320 ms `--ease-out`, then a 2-frame 1 px shiver; stripes crawl `linear` 40 s while engaged; exits in 200 ms upward.
+7. **The slab lands** (delight, rare): when a coin graduates while you are on its page, or right after a successful `create_coin`, a one-time 900 ms sequence: a concrete dust puff (8 particles, opacity and transform), the floor line draws from left to right, the floor value pours in. Plays once per coin per session.
+8. **King of the hill** (marketing only): the spotlight card on the home page breathes: a 4 s `ease-in-out` opacity loop on its orange glow. Off under reduced motion.
+9. **Chart**: floor pour on first paint (v1). Candle updates are not animated (data).
+
+Tooling: CSS first (`@starting-style`, transitions), GSAP only for the three sequences (hero, slab lands, split-flap). Nothing on keyboard-driven actions.
+
+## Organisation
+
+Header (64 px, sticky, sticker bottom edge): mark + FLOORED, nav Coins / Create / Portfolio / How it works / Stats, right: live SOL-returned counter (lg and up), EN/FR, theme, wallet. Under it, the live ticker (36 px, hidden below md, collapses to a "live" chip that opens the feed).
+
+### Home
+1. **Hero** (compact, one viewport): the slab image as a full-width background crop behind a left-aligned sticker block: headline, one line, two buttons (orange "Launch a coin", stroke "See the coins"); the giant counter sits top-right on desktop and under the headline on mobile. Formwork joint rules frame the content.
+2. **Hot right now**: one spotlight sticker (king of the hill): the coin with the most SOL traded in the last hour, with a mini chart, floor badge, gap meter and a "Trade" button; three small chips at its right: biggest floor jump, newest graduate, most braked.
+3. **Live columns**: New / About to graduate / Highest floor, as three columns on desktop and as chunky pill tabs on mobile; each row is a sticker card with the building avatar.
+4. **How the floor works**: three sticker cards with duotone icons (The floor, The brake, Verify it yourself), the single card grid of the page; each links to the matching section of How it works.
+5. **Numbers strip**: SOL returned, coins launched, brakes engaged, rugs avoided, mono, with the floor-orange line under it.
+6. Footer.
+
+### Coin page
+Same grid as v1 (8 / 4, sticky right column), every block a sticker card: header card (avatar, name, ticker, creator, phase pill, socials), brake banner above everything when engaged, chart card with chunky interval pills, tabs as pills (Trades / Holders / Queue / About), trade panel card with the three big tabs (Buy / Sell / **Redeem at floor**, the last one orange when active), the bag-floor box, key numbers in a 2-column mono grid. Mobile: bottom trade bar as a sticker, sheet with a slab-shadow handle.
+
+### Create
+Two columns; the preview column shows the live sticker card and the building avatar morphing as the ticker changes (seeded by the typed ticker until an image is uploaded). Success: the slab-lands sequence in the dialog, then share kit links.
+
+### Portfolio, Stats, How it works, Challenge
+Keep v1 structure; restyle as stickers; How it works keeps its editorial measure with the three illustrations in sticker frames; Stats uses four big sticker tiles and the orange line chart; Challenge keeps the replay with the brake banner.
+
+## What stays forbidden
+Gradient buttons, glass panels, soft shadows, purple anything, confetti outside the two delight moments, more than one marquee, animated numbers in tables, em dashes, all-caps labels, three identical feature cards anywhere except the "How the floor works" trio.

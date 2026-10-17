@@ -19,7 +19,7 @@ export default async function ChallengePage() {
   return (
     <div className="gutter mx-auto max-w-[1280px] pt-10 lg:pt-14">
       <div className="max-w-[62ch]">
-        <h1 className="display-tight text-4xl font-semibold leading-[1.05] sm:text-5xl">{t("title")}</h1>
+        <h1 className="display-tight text-4xl font-extrabold leading-[1.05] sm:text-5xl">{t("title")}</h1>
         <p className="mt-5 text-lg text-ink-2">{t("lede")}</p>
         <p className="mt-3 text-sm text-ink-3">
           {t("subject", { name: coin?.name ?? "Floored Demo", symbol: coin?.symbol ?? "FLRD", dev: shortAddress(ENV.challengeDev) })}

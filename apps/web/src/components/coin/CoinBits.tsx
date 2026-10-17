@@ -2,7 +2,11 @@
 import { coinPriceQ64, redeemQuote, valueAtQ64, type CoinState } from "@floored/sdk";
 import { GlobeSimple, TelegramLogo, XLogo } from "@phosphor-icons/react/dist/ssr";
 import { useTranslations } from "next-intl";
+import { ViewTransition } from "react";
 import { Age, CoinAvatar, CopyButton } from "@/components/ui/Bits";
+import { Flash } from "@/components/ui/Flash";
+import { Chip } from "@/components/ui/Sticker";
+import { vtName } from "./CoinCard";
 import { CurveProgress, gapText } from "@/components/ui/Floor";
 import { Num, Price } from "@/components/ui/Num";
 import { NumRoll } from "@/components/ui/NumRoll";
@@ -15,16 +19,39 @@ import { pct, shortAddress, sol, solCompact, tiny, tokens } from "@/lib/format";
 
 export function CoinHeader({ coin, m }: { coin: CoinJson; m: CoinMetrics }) {
   const t = useTranslations("coin");
+  const tk = useTranslations("keys");
   const s = coin.socials ?? {};
+  const graduated = m.phase === "graduated";
+  const social = "press grid size-9 place-items-center rounded-full border-2 border-stroke bg-bg-3 text-ink-2 hover:border-stroke-strong hover:text-ink";
   return (
-    <div className="flex flex-wrap items-start gap-4">
-      <CoinAvatar src={coin.image_url} symbol={coin.symbol} size={64} />
+    <div className="sticker flex flex-wrap items-center gap-x-5 gap-y-4 p-4 sm:p-5">
+      <ViewTransition name={vtName(coin.mint, "av")} share="auto" default="none">
+        <CoinAvatar src={coin.image_url} symbol={coin.symbol} seed={coin.mint} size={76} />
+      </ViewTransition>
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-          <h1 className="title-tight text-2xl font-semibold leading-tight">{coin.name}</h1>
+          <ViewTransition name={vtName(coin.mint, "nm")} share="auto" default="none">
+            <h1 className="title-tight text-2xl font-extrabold leading-tight sm:text-3xl">{coin.name}</h1>
+          </ViewTransition>
           <span className="num text-lg text-ink-2">${coin.symbol}</span>
         </div>
-        <div className="mt-1.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-ink-2">
+        <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-ink-2">
+          {graduated ? (
+            <Chip tone="floor">
+              {t("graduated")}
+              {coin.graduated_at ? (
+                <>
+                  {" "}
+                  <Age ts={coin.graduated_at} />
+                </>
+              ) : null}
+            </Chip>
+          ) : (
+            <span className="flex items-center gap-2">
+              <Chip>{t("toGraduation", { pct: pct(m.progress * 100) })}</Chip>
+              <CurveProgress value={m.progress} className="w-20" />
+            </span>
+          )}
           <span>
             {t("by")}{" "}
             <a href={explorerAddress(coin.creator)} target="_blank" rel="noreferrer" className="num text-ink hover:underline">
@@ -36,41 +63,42 @@ export function CoinHeader({ coin, m }: { coin: CoinJson; m: CoinMetrics }) {
               {t("created")} <Age ts={coin.created_at} className="text-ink" />
             </span>
           ) : null}
-          {m.phase === "graduated" ? (
-            <span className="text-ink">
-              {t("graduated")}
-              {coin.graduated_at ? (
-                <>
-                  {" "}
-                  <Age ts={coin.graduated_at} className="text-ink-2" />
-                </>
-              ) : null}
-            </span>
-          ) : (
-            <span className="flex items-center gap-2">
-              <span className="num text-ink">{t("toGraduation", { pct: pct(m.progress * 100) })}</span>
-              <CurveProgress value={m.progress} className="w-24" />
-            </span>
-          )}
-          <span className="flex items-center gap-1">
+          <span className="flex items-center gap-1.5">
             {s.website ? (
-              <a href={s.website} target="_blank" rel="noreferrer nofollow" aria-label={t("website")} className="press grid size-7 place-items-center rounded-sm hover:bg-bg-3 hover:text-ink">
-                <GlobeSimple size={16} />
+              <a href={s.website} target="_blank" rel="noreferrer nofollow" aria-label={t("website")} className={social}>
+                <GlobeSimple size={16} weight="duotone" />
               </a>
             ) : null}
             {s.x ? (
-              <a href={s.x} target="_blank" rel="noreferrer nofollow" aria-label="X" className="press grid size-7 place-items-center rounded-sm hover:bg-bg-3 hover:text-ink">
+              <a href={s.x} target="_blank" rel="noreferrer nofollow" aria-label="X" className={social}>
                 <XLogo size={16} />
               </a>
             ) : null}
             {s.telegram ? (
-              <a href={s.telegram} target="_blank" rel="noreferrer nofollow" aria-label="Telegram" className="press grid size-7 place-items-center rounded-sm hover:bg-bg-3 hover:text-ink">
-                <TelegramLogo size={16} />
+              <a href={s.telegram} target="_blank" rel="noreferrer nofollow" aria-label="Telegram" className={social}>
+                <TelegramLogo size={16} weight="duotone" />
               </a>
             ) : null}
           </span>
         </div>
       </div>
+      {/* Live numbers roll here (and in the hero) only. */}
+      <dl className="flex w-full gap-6 border-t-2 border-stroke pt-3 sm:w-auto sm:border-0 sm:pt-0 sm:text-right">
+        <div>
+          <dt className="text-xs font-semibold text-ink-3">{tk("price")}</dt>
+          <dd className="mt-0.5 text-xl">
+            <Flash value={m.priceSol}>
+              <NumRoll value={tiny(m.priceSol, 4)} label={`${m.priceSol.toPrecision(4)} SOL`} />
+            </Flash>
+          </dd>
+        </div>
+        <div>
+          <dt className="text-xs font-semibold text-ink-3">{graduated ? tk("floor") : tk("floorStart")}</dt>
+          <dd className="mt-0.5 text-xl text-floor">
+            {graduated ? <NumRoll value={tiny(m.floorSol, 4)} label={`${m.floorSol.toPrecision(4)} SOL`} /> : <Price value={m.floorPreviewSol} className="text-ink-2" />}
+          </dd>
+        </div>
+      </dl>
     </div>
   );
 }
@@ -93,7 +121,7 @@ export function BagFloorBox({ chain, user, symbol, connected }: { chain: CoinCha
   }
   const queued = user?.queue?.remaining ?? 0n;
   return (
-    <div className="rounded-sm border border-line bg-bg-2 p-4">
+    <div className="sticker p-4">
       {!user ? (
         <p className="text-sm text-ink-3">{t("reading")}</p>
       ) : bal === 0n && queued === 0n ? (
@@ -142,10 +170,16 @@ export function KeyNumbers({ coin, m, className }: { coin: CoinJson; m: CoinMetr
   const graduated = m.phase === "graduated";
   const vol24 = coin.volume_24h_sol ? BigInt(coin.volume_24h_sol) : null;
   const items: { k: string; v: React.ReactNode; floor?: boolean }[] = [
-    { k: t("price"), v: <Price value={m.priceSol} unit="SOL" /> },
+    { k: t("price"), v: <Flash value={m.priceSol}><Price value={m.priceSol} unit="SOL" /></Flash> },
     {
       k: graduated ? t("floor") : t("floorStart"),
-      v: graduated ? <NumRoll value={tiny(m.floorSol, 4)} className="text-floor" label={`${m.floorSol.toPrecision(4)} SOL`} /> : <Price value={m.floorPreviewSol} className="text-ink-2" />,
+      v: graduated ? (
+        <Flash value={m.floorSol}>
+          <Price value={m.floorSol} className="text-floor" />
+        </Flash>
+      ) : (
+        <Price value={m.floorPreviewSol} className="text-ink-2" />
+      ),
       floor: graduated,
     },
     { k: t("gap"), v: <span className="text-md">{graduated ? gapText(tf, m.gapPct) : tf("atGraduationShort")}</span> },
@@ -156,9 +190,9 @@ export function KeyNumbers({ coin, m, className }: { coin: CoinJson; m: CoinMetr
     { k: t("returned"), v: <Num unit="SOL" className="text-floor">{sol(BigInt(coin.total_redeemed_sol || "0"), 2)}</Num>, floor: true },
   ];
   return (
-    <dl className={cn("no-scrollbar flex gap-px overflow-x-auto rounded-sm border border-line bg-line lg:grid lg:grid-cols-2 lg:overflow-visible", className)}>
+    <dl className={cn("sticker no-scrollbar flex gap-0.5 overflow-x-auto bg-stroke p-0 lg:grid lg:grid-cols-2 lg:overflow-hidden", className)}>
       {items.map((it) => (
-        <div key={it.k} className="min-w-[44%] shrink-0 bg-bg-2 px-3 py-2.5 xs:min-w-[36%] lg:min-w-0">
+        <div key={it.k} className="min-w-[44%] shrink-0 bg-surface px-3.5 py-3 xs:min-w-[36%] lg:min-w-0">
           <dt className="text-xs text-ink-3">{it.k}</dt>
           <dd className={cn("mt-1 text-md", it.floor && "text-floor")}>{it.v}</dd>
         </div>
@@ -188,7 +222,7 @@ export function AboutCoin({ coin, chain }: { coin: CoinJson; chain: CoinChain | 
       <div>
         <p className="max-w-[60ch] text-md text-ink-2">{coin.description || t("noDescription")}</p>
       </div>
-      <dl className="divide-y divide-line rounded-sm border border-line text-sm">
+      <dl className="divide-y divide-line rounded-xl border-2 border-stroke text-sm">
         {rows.map(([k, v]) => (
           <div key={k} className="flex items-center justify-between gap-4 px-3 py-2">
             <dt className="text-ink-3">{k}</dt>
