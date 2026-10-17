@@ -463,6 +463,16 @@
         "title": "Les frais remontent le plancher",
         "detail": "Chaque trade et chaque rendu laisse quelque chose dans le pool. Le plancher ne fait que monter de là."
       }
+    },
+    "numbers": {
+      "kicker": "En chiffres",
+      "title": "Le plancher, mesuré.",
+      "lede": "Chaque chiffre ci-dessous est lu sur la chaîne et se met à jour en direct. Rien ici n'est une projection.",
+      "cta": "Toutes les stats",
+      "returned": "Rendus aux porteurs",
+      "coins": "Coins lancés",
+      "brakes": "Freins enclenchés",
+      "keys": "Clés admin sur le pool"
     }
   },
   "floor": {

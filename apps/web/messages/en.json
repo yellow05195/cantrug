@@ -463,6 +463,16 @@
         "title": "Fees lift the floor",
         "detail": "Every trade and every redeem leaves something in the pool. The floor only climbs from that."
       }
+    },
+    "numbers": {
+      "kicker": "In numbers",
+      "title": "The floor, measured.",
+      "lede": "Every figure below is read from the chain and updates as it happens. Nothing here is a projection.",
+      "cta": "All the stats",
+      "returned": "Returned to holders",
+      "coins": "Coins launched",
+      "brakes": "Brakes engaged",
+      "keys": "Admin keys on the pool"
     }
   },
   "floor": {

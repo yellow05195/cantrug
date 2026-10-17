@@ -336,3 +336,11 @@ staircase of slabs with a coin coming down one step at a time), `vault`
 (a sealed block with a padlock mark and no door), `city` (the skyline of
 floors, used for the closing banner and the footer). Feature cards and page
 banners pick their subject by name.
+
+**Site organisation (2026-10-18).** Pages carry one role each. Home is
+short: the words, the board (the product), the three guarantees as cards,
+the live numbers in one card, the closing banner. How it works carries the
+long explanation in reading order: the problem, the seven-step mechanism,
+the floor with the redeem calculator, the brake, the comparison, verify,
+fees, FAQ. Stats carries the numbers, Challenge the proof, Create and
+Portfolio the actions.

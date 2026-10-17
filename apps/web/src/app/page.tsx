@@ -1,6 +1,7 @@
 import { Board, type BoardList } from "@/components/home/Board";
 import { Hero } from "@/components/home/Hero";
-import { Compare, Faq, FeatureCards, FinalCta, Flywheel, Specimen, Trust } from "@/components/home/HomeSections";
+import { FeatureCards, FinalCta } from "@/components/home/HomeSections";
+import { Numbers } from "@/components/home/Numbers";
 import { LiveTicker } from "@/components/layout/LiveTicker";
 import { api, safely } from "@/lib/api/client";
 import type { CoinJson, SortKey } from "@/lib/api/types";
@@ -11,9 +12,9 @@ export const dynamic = "force-dynamic";
 const SORTS: SortKey[] = ["new", "graduating", "floor", "volume"];
 
 /*
- * The homepage of a launchpad: the words, then the coins. Everything that
- * explains the mechanism comes after the product, in the order a newcomer
- * asks the questions.
+ * The homepage of a launchpad is short: the words, the coins, the three
+ * guarantees, the numbers, one closing call. Everything that explains the
+ * mechanism in depth lives on How it works.
  */
 export default async function Home({ searchParams }: { searchParams: Promise<{ sort?: string }> }) {
   const sp = await searchParams;
@@ -38,7 +39,6 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ s
     <>
       <Hero stats={seed} />
 
-      {/* The product, right under the words */}
       <section id="board" className="mx-auto max-w-6xl scroll-mt-24 px-3 py-20 md:px-6">
         <LiveTicker />
         <div className="mt-8">
@@ -47,11 +47,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ s
       </section>
 
       <FeatureCards />
-      <Flywheel />
-      <Specimen />
-      <Compare />
-      <Trust />
-      <Faq />
+      <Numbers stats={seed} />
       <FinalCta />
     </>
   );

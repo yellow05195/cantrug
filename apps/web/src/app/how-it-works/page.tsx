@@ -4,6 +4,7 @@ import Link from "next/link";
 import { BrakeDiagram, CompareDiagram, VerifyDiagram } from "@/components/how/Diagrams";
 import { FloorDiagram } from "@/components/how/FloorDiagram";
 import { ReadOnChain } from "@/components/how/ReadOnChain";
+import { Flywheel, Specimen } from "@/components/home/HomeSections";
 import { LevelRule } from "@/components/ui/Floor";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { ENV, explorerAddress } from "@/lib/env";
@@ -57,11 +58,19 @@ export default async function HowItWorks() {
       <P>{t("problem.p1")}</P>
       <P>{t("problem.p2")}</P>
 
+      <div className="-mx-4 sm:-mx-6">
+        <Flywheel />
+      </div>
+
       <H2 id="floor">{t("floor.title")}</H2>
       <P>{t("floor.p1")}</P>
       <FloorDiagram />
       <P>{t("floor.p2")}</P>
       <P>{t("floor.p3")}</P>
+
+      <div className="-mx-4 sm:-mx-6">
+        <Specimen />
+      </div>
 
       <H2 id="brake">{t("brake.title")}</H2>
       <P>{t("brake.p1")}</P>
