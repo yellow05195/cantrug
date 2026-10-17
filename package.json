@@ -1,0 +1,20 @@
+{
+  "name": "floored",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@11.22.0",
+  "scripts": {
+    "idl": "node scripts/idl.mjs",
+    "test:core": "cargo test -p floored-core --release",
+    "test:program": "bash scripts/test-program.sh",
+    "build:program": "bash scripts/build-program.sh",
+    "dev": "pnpm --filter @floored/web dev",
+    "build": "pnpm -r build",
+    "test": "pnpm -r test",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "pnpm": {
+    "ignoredBuiltDependencies": ["esbuild", "bigint-buffer", "bufferutil", "utf-8-validate"]
+  }
+}

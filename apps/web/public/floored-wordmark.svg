@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 72" width="400" height="72" role="img" aria-label="FLOORED">
+  <style>
+    text { font-family: "Inter Tight", "Inter", "Helvetica Neue", Arial, sans-serif; font-weight: 800; letter-spacing: -0.03em; }
+  </style>
+  <!-- the slab runs under every letter -->
+  <rect x="0" y="60" width="400" height="8" fill="#FF5F1F"/>
+  <text x="0" y="54" font-size="64" fill="#EDEBE6">FLOORED</text>
+</svg>

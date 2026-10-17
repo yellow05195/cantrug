@@ -1,0 +1,24 @@
+# Rust / Anchor
+target/
+.anchor/
+test-ledger/
+**/*.so
+# Node
+node_modules/
+.next/
+out/
+dist/
+.turbo/
+*.tsbuildinfo
+# Env & keys
+.env
+.env.*
+!.env.example
+*.keypair.json
+keys/
+# OS
+.DS_Store
+Thumbs.db
+
+# test fixture (mainnet bytecode of the Metaplex metadata program) is committed on purpose
+!tests-rs/fixtures/*.so

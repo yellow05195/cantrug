@@ -1,0 +1,68 @@
+"use client";
+import { X } from "@phosphor-icons/react/dist/ssr";
+import { useEffect, useRef, type ReactNode } from "react";
+import { cn } from "@/lib/cn";
+
+/**
+ * Native <dialog> (focus trap, Esc, inert background for free). Centered
+ * modal on desktop, bottom sheet under 640 px. Enter: opacity + 0.97 scale /
+ * slide, 200 ms strong ease-out; exit is instant.
+ */
+export function Dialog({
+  open,
+  onClose,
+  title,
+  children,
+  className,
+  closeLabel = "Close",
+  dismissable = true,
+}: {
+  open: boolean;
+  onClose: () => void;
+  title: ReactNode;
+  children: ReactNode;
+  className?: string;
+  closeLabel?: string;
+  dismissable?: boolean;
+}) {
+  const ref = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    const d = ref.current;
+    if (!d) return;
+    if (open && !d.open) d.showModal();
+    if (!open && d.open) d.close();
+  }, [open]);
+
+  return (
+    <dialog
+      ref={ref}
+      onCancel={(e) => {
+        e.preventDefault();
+        if (dismissable) onClose();
+      }}
+      onClick={(e) => {
+        if (dismissable && e.target === ref.current) onClose();
+      }}
+      className={cn(
+        "fl-dialog float-layer m-0 w-full max-w-none border border-line-2 bg-bg-2 p-0 text-ink backdrop:bg-black/55",
+        "max-sm:mt-auto max-sm:rounded-t-sm sm:m-auto sm:w-[min(440px,calc(100vw-32px))] sm:rounded-sm",
+        className,
+      )}
+    >
+      {open ? (
+        <div className="max-h-[85dvh] overflow-y-auto p-5 pb-[max(20px,env(safe-area-inset-bottom))]">
+          <div className="mb-4 flex items-start justify-between gap-4">
+            <h2 className="title-tight text-lg font-semibold">{title}</h2>
+            {dismissable ? (
+              <button type="button" onClick={onClose} className="press -mr-1 -mt-1 grid size-8 place-items-center rounded-sm text-ink-2 hover:bg-bg-3 hover:text-ink" aria-label={closeLabel}>
+                <X size={16} />
+              </button>
+            ) : null}
+          </div>
+          {children}
+        </div>
+      ) : null}
+    </dialog>
+  );
+}

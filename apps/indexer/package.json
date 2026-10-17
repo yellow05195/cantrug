@@ -1,0 +1,36 @@
+{
+  "name": "@floored/indexer",
+  "version": "0.1.0",
+  "private": true,
+  "description": "FLOORED indexer: Helius webhook ingestion, Postgres projection, public read API and websocket fan-out.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "scripts": {
+    "dev": "tsx watch --env-file-if-exists=.env src/index.ts",
+    "start": "node --env-file-if-exists=.env dist/index.js",
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "backfill": "tsx --env-file-if-exists=.env src/backfill.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx --env-file-if-exists=.env src/db/migrate.ts",
+    "db:studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.19.11",
+    "@hono/node-ws": "^1.3.1",
+    "@solana/web3.js": "^1.98.4",
+    "drizzle-orm": "^0.45.0",
+    "hono": "^4.10.0",
+    "pino": "^9.7.0",
+    "postgres": "^3.4.7",
+    "zod": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "drizzle-kit": "^0.31.4",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
+}

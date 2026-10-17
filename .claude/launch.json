@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "web",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--config.verify-deps-before-run=false", "--filter", "@floored/web", "dev"],
+      "port": 3000
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "signatures": {
+    "create": [
+      "55f3WQAr5V3ncRa9xk13zktEGQvTwE28veNphVyy4ZcQFBFkNbJt2Nb7zQ5Pcp6PNqLH7zX6vcWFzkWjV6srCaAR"
+    ],
+    "buys": [
+      "5hgyMMVckCotyNRagP1dJFqyBNof5dRhhZ3U3vMfsiLf3q6wfHFPTakcGJX5cNiQHUF4jv3tbDyShZ2nVWKYNnmB",
+      "HXQYvk9fwQxQBU4MwsSNsBZZ2W7ntiagw42RgHVGtzJSxJmqSbNHcev7YA3DqSVtLw9vc2EK3aEpBYZ9qEvsMum",
+      "4an6AQHkA3h6wGkSpuPvUVVBBYcWTYqJdHeNPd3ga3QC6xLY8Riucsa4yKNA2aG615YKBw4Cu7TCr7wfCJQ34cVD",
+      "5z29x6EeL6GndiadoQC9FqjEqY8LawTeMsYturaRTyTCBh3XMutNDJ2xDT3im7rjCb9nRUzc8cVgsGHkGAzouMXH",
+      "fSngmvefHZbxHTEcKgLDUyTJk3pVwuGEfRjNwLAPGbRow4uSTTrEJKh7Zz3U7FbDHPNNKUBetWZqNQ8CYqmfMBC",
+      "5aVhmjjKJeV9EJaQuaUHsG18z8Hfhs3nukcB5EGy4GETR3WFfDahCdgPYRqKAyaNfrGFettMj81F7L7DSLKxrVVh",
+      "48J1T9DtN1KHbG1qzbXrVz4X547Ntzxu4ZBdqYG2VoCA25GTzjPb2drqFz2sX5YAV2L83NUT6a52nWLHa2pBmLHc",
+      "YtwYLNoHWAu8j9U4v76Mao6LwxCtTfLA1LSBjERmYbm6xdbgrMuqLmJUBKhkvQujrfFQkmxEYY2U9ccJvbZCbec"
+    ],
+    "graduate": [
+      "US9xtEphBaRg9yNz4HAgRbhz8DjywEyi4WDuqhv2FcHmDqJoWQmAmv57gZK1K2qgbbrVYqVDfuRgueZS1Vci9Up"
+    ],
+    "dump": [
+      "2kWvEJQBGpZmqnT3MLzctZSmA12HSYsRwARsps6yAGDcBBVb3ytjTB3cKoXK9PkB7ZsiqUw4aGAzpsP3jU7JJH3V",
+      "35VDf7AUyfDG8mDNmmZMYrhwzzgbfjMgxv1DhkfuNfsTednaTFnkatHuXteAeHVPPYhWQr6XnbbX2aMhdNb7mJgA",
+      "4aKydgpifZi5d6P8x6KC1C2hasCyUJ5sw4j7YqfxHFGK7erF3fpcCC57v257crMhch6LXXaTHJNAu1CoyrJ8yU1e",
+      "61qUGEBp8HCUNiD7XDMuNkAeEZd7krY7urdtP7dedN9LaVBxCJ63F2cXobJG1s9bEW3dH6xs64yCuwgGkPmf1Qby",
+      "N3JvC2cYNYbgpPMT5YtgkDh38pAbKgxHW8qun5VocAnrx9erwsgSEe597dLCd7K4KarTZvpPqRUNToxCSGackLE",
+      "96zVDB2RaYPRTma5ghuT6yGEWSAUnNWSKQbC9dvNgm4nAB5HNEyY7dcEnCAGA6XnwpgrkzvjTaU9sA9S48VHiwZ"
+    ],
+    "redeem": [
+      "kM7TDtbeA3YrCnY8sGxM7b5CtLjMmfbDtTLmrHYwBqzXmwaNv2m8rjefcxUCYszdP1BBbbo4dUzf2ULcAug1KDW",
+      "3pLFzRtCZ8ujHpZaJKHoAy6dMMso4qNUd2RFeLCnEAbqvgcFyNXFjzUvY5tKH5nVxJHoXuwnSKoJjqfS8ePjFfdt",
+      "4UyY1cAt4KHE5r6u22KwCUBeGJUr5X41dZTS44aiTw3sbo5nBJL8h8oUTiX8arW2azUFbfwL1ErJdXSjSjRPnRFG"
+    ]
+  },
+  "mint": "7PwqFN6yrgWQDim5RFR4au4znTbr2NBGH6ND1JQgFVYY",
+  "creator": "A3tpvBJccnhTETYGfVAbReuKhE33gdXqGCLtwAScHYVN",
+  "dev": "5rA2GzrTpitKbeeuK9EPzvZR1TaCGZ5feZ2PhJmJ7evE",
+  "buyers": [
+    "6Lzf2LdCzaSRKvCkTp4VPxD6gdog8zHxbUq2Mdmif9fn",
+    "72JsUxuh9keNwBH3Xj2g8GeYocbh6oVFRgjDtAEG7vvK"
+  ]
+}

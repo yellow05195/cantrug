@@ -1,0 +1,41 @@
+[package]
+name = "floored-tests"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "On-chain integration tests for FLOORED: the built floored.so runs in-process on LiteSVM; every operation is replayed on floored-core and the CoinState must match the model to the lamport."
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+litesvm = "0.16"
+floored = { path = "../programs/floored", features = ["no-entrypoint"] }
+floored-core = { path = "../core" }
+anchor-lang = "1.2.1"
+solana-address = "2"
+solana-keypair = "3"
+solana-signer = "3"
+solana-instruction = "3"
+solana-transaction = "4"
+solana-account = "4"
+solana-clock = "3"
+solana-system-interface = { version = "3", features = ["bincode"] }
+solana-compute-budget-interface = "3"
+solana-program-pack = "3"
+spl-token-interface = "2"
+spl-associated-token-account-interface = "2"
+sha2 = "0.10"
+serde_json = "1"
+
+# Standalone crate: NOT a member of the root workspace. Run with
+# `cargo test --release` from this directory after `cargo-build-sbf` in programs/floored.
+[workspace]
+
+[profile.release]
+overflow-checks = true
+debug = 0
+
+[profile.dev]
+debug = 0
+incremental = false

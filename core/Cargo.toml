@@ -1,0 +1,14 @@
+[package]
+name = "floored-core"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "FLOORED arithmetic: bonding curve, program-owned pool, floor redemption and the sell brake. Pure integer math, no Solana dependency, property-tested natively."
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+
+[dev-dependencies]
+proptest = "1.5"

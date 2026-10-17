@@ -1,0 +1,482 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "FLOORED indexer API",
+    "version": "0.1.0",
+    "description": "Public read API over the FLOORED program (E7ZbamLD8wenjjHitR8bUHwuNKA4Em39sqybnhk3nc87). Amounts are raw integer strings (lamports / token base units, 6-decimal token) with a lossy `_display` number next to them. Prices are objects with exact decimal strings. GET responses carry `Cache-Control: public, max-age=3, s-maxage=3, stale-while-revalidate=10` and CORS headers."
+  },
+  "servers": [{ "url": "http://localhost:8787" }],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Liveness and database check",
+        "responses": {
+          "200": { "description": "Healthy", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Health" } } } },
+          "503": { "description": "Database unreachable", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Health" } } } }
+        }
+      }
+    },
+    "/webhooks/helius": {
+      "post": {
+        "summary": "Helius raw-transaction webhook",
+        "description": "Accepts an array (or a single object) of raw transactions as sent by Helius `raw` webhooks. Each transaction is applied idempotently in its own DB transaction (keyed by signature). Failed transactions (`meta.err` set) are recorded and ignored. Returns 500 on a storage error so Helius retries; replays are harmless.",
+        "security": [{ "heliusSecret": [] }],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "oneOf": [{ "type": "array", "items": { "$ref": "#/components/schemas/HeliusRawTransaction" } }, { "$ref": "#/components/schemas/HeliusRawTransaction" }] } } }
+        },
+        "responses": {
+          "200": {
+            "description": "Processed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "received": { "type": "integer" },
+                    "applied": { "type": "integer" },
+                    "duplicates": { "type": "integer" },
+                    "failed_txs": { "type": "integer" },
+                    "no_events": { "type": "integer" },
+                    "events": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "description": "Authorization header missing or not equal to HELIUS_WEBHOOK_SECRET" },
+          "413": { "description": "Payload larger than 25 MiB" },
+          "500": { "description": "Storage error; retry" }
+        }
+      }
+    },
+    "/ws": {
+      "get": {
+        "summary": "Websocket fan-out of applied events",
+        "description": "Upgrade to a websocket. Every applied event is pushed as `{type, mint, signature, slot, ts, data}` where `type` is the event name (CoinCreated, Trade, Graduated, Redeemed, BrakeEngaged, BrakeReleased, QueueJoined, QueueProcessed, QueueSettled, FeesClaimed) and `data` the decoded event with u64 as strings. Send `{\"subscribe\": \"<mint>\"}` to filter (several allowed), `{\"subscribe\": \"*\"}` for everything, `{\"unsubscribe\": \"<mint>\"}` to remove one. With no subscription the client receives everything.",
+        "responses": { "101": { "description": "Switching protocols" } }
+      }
+    },
+    "/api/coins": {
+      "get": {
+        "summary": "List coins",
+        "parameters": [
+          { "name": "sort", "in": "query", "schema": { "type": "string", "enum": ["new", "graduating", "floor", "volume"], "default": "new" }, "description": "new = created_slot desc; graduating = curve coins by real_sol desc (closest to graduation); floor = floor desc; volume = volume_sol desc" },
+          { "name": "phase", "in": "query", "schema": { "type": "string", "enum": ["curve", "graduated"] } },
+          { "name": "limit", "in": "query", "schema": { "type": "integer", "minimum": 1, "maximum": 100, "default": 50 } },
+          { "name": "cursor", "in": "query", "schema": { "type": "string" }, "description": "Opaque `next_cursor` from the previous page" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Page of coins",
+            "content": { "application/json": { "schema": { "type": "object", "properties": { "items": { "type": "array", "items": { "$ref": "#/components/schemas/Coin" } }, "next_cursor": { "type": ["string", "null"] } } } } }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      }
+    },
+    "/api/coins/{mint}": {
+      "get": {
+        "summary": "One coin: full row, gap_bps, brake state and window ETA",
+        "parameters": [{ "$ref": "#/components/parameters/Mint" }],
+        "responses": {
+          "200": { "description": "Coin", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Coin" } } } },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+    "/api/coins/{mint}/trades": {
+      "get": {
+        "summary": "Recent trades, newest first",
+        "parameters": [
+          { "$ref": "#/components/parameters/Mint" },
+          { "name": "limit", "in": "query", "schema": { "type": "integer", "minimum": 1, "maximum": 200, "default": 50 } },
+          { "name": "before", "in": "query", "schema": { "type": "string" }, "description": "A slot (exclusive) or a trade signature; use `next_before` from the previous page" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Trades",
+            "content": { "application/json": { "schema": { "type": "object", "properties": { "items": { "type": "array", "items": { "$ref": "#/components/schemas/Trade" } }, "next_before": { "type": ["string", "null"] } } } } }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      }
+    },
+    "/api/coins/{mint}/floor": {
+      "get": {
+        "summary": "Floor snapshots (one per minute, downsampled to `interval`)",
+        "parameters": [
+          { "$ref": "#/components/parameters/Mint" },
+          { "$ref": "#/components/parameters/From" },
+          { "$ref": "#/components/parameters/To" },
+          { "name": "interval", "in": "query", "schema": { "type": "string", "enum": ["1m", "5m", "15m", "1h", "4h", "1d"], "default": "1m" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Snapshots (default range: last 24 h, max 31 days)",
+            "content": { "application/json": { "schema": { "type": "object", "properties": { "interval": { "type": "string" }, "from": { "type": "string" }, "to": { "type": "string" }, "items": { "type": "array", "items": { "$ref": "#/components/schemas/FloorSnapshot" } } } } } }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      }
+    },
+    "/api/coins/{mint}/candles": {
+      "get": {
+        "summary": "OHLCV candles in SOL per token, with floor_at_close",
+        "parameters": [
+          { "$ref": "#/components/parameters/Mint" },
+          { "name": "interval", "in": "query", "schema": { "type": "string", "enum": ["1m", "5m", "1h"], "default": "1m" } },
+          { "$ref": "#/components/parameters/From" },
+          { "$ref": "#/components/parameters/To" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Candles ascending (default range: 1 day for 1m, 7 days for 5m, 30 days for 1h; max 5000)",
+            "content": { "application/json": { "schema": { "type": "object", "properties": { "interval": { "type": "string" }, "unit": { "type": "string" }, "items": { "type": "array", "items": { "$ref": "#/components/schemas/Candle" } } } } } }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      }
+    },
+    "/api/coins/{mint}/queue": {
+      "get": {
+        "summary": "Brake state, per-wallet queue estimates and recent queue events",
+        "parameters": [{ "$ref": "#/components/parameters/Mint" }],
+        "responses": {
+          "200": {
+            "description": "Queue",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "brake": { "$ref": "#/components/schemas/Brake" },
+                    "entries": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "user": { "type": "string" },
+                          "queued_estimate": { "type": "string" },
+                          "queued_estimate_display": { "type": "number" },
+                          "joined_total": { "type": "string" },
+                          "last_slot": { "type": "integer" }
+                        }
+                      }
+                    },
+                    "entries_note": { "type": "string" },
+                    "recent": { "type": "array", "items": { "$ref": "#/components/schemas/QueueEvent" } }
+                  }
+                }
+              }
+            }
+          },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+    "/api/coins/{mint}/holders": {
+      "get": {
+        "summary": "Top holders (filled by the optional holders refresher)",
+        "parameters": [{ "$ref": "#/components/parameters/Mint" }, { "name": "limit", "in": "query", "schema": { "type": "integer", "minimum": 1, "maximum": 500, "default": 50 } }],
+        "responses": {
+          "200": {
+            "description": "Holders",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "holders_count": { "type": "integer" },
+                    "refreshed": { "type": "boolean" },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "owner": { "type": "string" },
+                          "balance": { "type": "string" },
+                          "balance_display": { "type": "number" },
+                          "share_of_supply_bps": { "type": ["integer", "null"] },
+                          "share_of_circulating_bps": { "type": ["integer", "null"] },
+                          "last_updated": { "type": "string", "format": "date-time" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+    "/api/stats": {
+      "get": {
+        "summary": "Global stats and SOL redeemed per day (last 90 days)",
+        "responses": {
+          "200": {
+            "description": "Stats",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sol_redeemed_total": { "type": "string" },
+                    "sol_redeemed_total_display": { "type": "number" },
+                    "coins_created": { "type": "integer" },
+                    "coins_graduated": { "type": "integer" },
+                    "brake_engagements_total": { "type": "integer" },
+                    "rugs_avoided": { "type": "integer", "description": "Brake episodes (mint, epoch) whose peak queue reached 10 % of supply" },
+                    "updated_at": { "type": ["string", "null"] },
+                    "sol_redeemed_by_day": {
+                      "type": "array",
+                      "items": { "type": "object", "properties": { "day": { "type": "string" }, "sol_out": { "type": "string" }, "sol_out_display": { "type": "number" }, "count": { "type": "integer" } } }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/portfolio/{owner}": {
+      "get": {
+        "summary": "Coins a wallet traded or holds, valued at price and at floor",
+        "parameters": [{ "name": "owner", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": {
+            "description": "Portfolio",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "owner": { "type": "string" },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "mint": { "type": "string" },
+                          "name": { "type": "string" },
+                          "symbol": { "type": "string" },
+                          "phase": { "type": "string" },
+                          "balance": { "type": "string" },
+                          "balance_display": { "type": "number" },
+                          "balance_source": { "type": "string", "enum": ["holders", "trades_estimate"] },
+                          "price": { "$ref": "#/components/schemas/Price" },
+                          "floor": { "$ref": "#/components/schemas/Price" },
+                          "floor_preview": { "$ref": "#/components/schemas/Price" },
+                          "floor_active": { "type": "boolean" },
+                          "value_at_price": { "type": "string", "description": "lamports" },
+                          "value_at_price_display": { "type": "number" },
+                          "value_at_floor": { "type": "string", "description": "lamports (0 before graduation)" },
+                          "value_at_floor_display": { "type": "number" },
+                          "trades": { "type": "integer" },
+                          "sol_spent": { "type": "string" },
+                          "sol_received": { "type": "string" },
+                          "sol_redeemed": { "type": "string" },
+                          "last_trade_at": { "type": ["string", "null"] }
+                        }
+                      }
+                    },
+                    "total_value_at_price": { "type": "string" },
+                    "total_value_at_price_display": { "type": "number" },
+                    "total_value_at_floor": { "type": "string" },
+                    "total_value_at_floor_display": { "type": "number" },
+                    "note": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "heliusSecret": { "type": "apiKey", "in": "header", "name": "Authorization", "description": "Must equal HELIUS_WEBHOOK_SECRET (a `Bearer ` prefix is tolerated)" }
+    },
+    "parameters": {
+      "Mint": { "name": "mint", "in": "path", "required": true, "schema": { "type": "string", "pattern": "^[1-9A-HJ-NP-Za-km-z]{32,44}$" } },
+      "From": { "name": "from", "in": "query", "schema": { "type": "string" }, "description": "Unix seconds, unix ms or ISO date" },
+      "To": { "name": "to", "in": "query", "schema": { "type": "string" }, "description": "Unix seconds, unix ms or ISO date (default now)" }
+    },
+    "responses": {
+      "BadRequest": { "description": "Invalid input", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+      "NotFound": { "description": "Unknown mint", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+    },
+    "schemas": {
+      "Error": { "type": "object", "properties": { "error": { "type": "string" }, "message": { "type": "string" } } },
+      "Health": { "type": "object", "properties": { "ok": { "type": "boolean" }, "db": { "type": "boolean" }, "ws_clients": { "type": "integer" } } },
+      "Price": {
+        "type": ["object", "null"],
+        "properties": {
+          "sol_per_token": { "type": "string", "description": "Exact decimal, 18 places, floored" },
+          "lamports_per_token": { "type": "string" },
+          "lamports_per_base_unit": { "type": "string", "description": "Raw on-chain ratio (sol_reserves / token_reserves or pool_sol / circulating)" },
+          "display": { "type": "number" }
+        }
+      },
+      "BrakeWindow": {
+        "type": ["object", "null"],
+        "properties": {
+          "window_slots": { "type": "integer" },
+          "est_current_slot": { "type": "integer" },
+          "current_window_start": { "type": "integer" },
+          "next_window_start": { "type": "integer" },
+          "slots_remaining": { "type": "integer" },
+          "eta_seconds": { "type": "number" },
+          "eta_ts": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Brake": {
+        "type": "object",
+        "properties": {
+          "engaged": { "type": "boolean" },
+          "epoch": { "type": "integer" },
+          "engagements": { "type": "integer" },
+          "drop_bps": { "type": "integer" },
+          "window_slots": { "type": "integer" },
+          "window_start": { "type": ["integer", "null"], "description": "Last known window start (from creation, graduation, BrakeEngaged or QueueProcessed)" },
+          "ref_price": { "$ref": "#/components/schemas/Price" },
+          "queued": { "type": "string" },
+          "queued_display": { "type": "number" },
+          "window": { "$ref": "#/components/schemas/BrakeWindow" }
+        }
+      },
+      "Coin": {
+        "type": "object",
+        "description": "Every amount field X comes with X_display (SOL or tokens).",
+        "properties": {
+          "mint": { "type": "string" },
+          "coin": { "type": "string" },
+          "creator": { "type": "string" },
+          "name": { "type": "string" },
+          "symbol": { "type": "string" },
+          "uri": { "type": "string" },
+          "image_url": { "type": ["string", "null"] },
+          "description": { "type": ["string", "null"] },
+          "params": { "type": ["object", "null"] },
+          "phase": { "type": "string", "enum": ["curve", "graduated"] },
+          "created_slot": { "type": ["integer", "null"] },
+          "created_at": { "type": ["string", "null"] },
+          "graduated_slot": { "type": ["integer", "null"] },
+          "graduated_at": { "type": ["string", "null"] },
+          "real_sol": { "type": "string" },
+          "floor_reserve": { "type": "string" },
+          "pool_sol": { "type": "string" },
+          "tokens_sold": { "type": "string" },
+          "pool_tok": { "type": "string" },
+          "queued": { "type": "string" },
+          "supply": { "type": "string" },
+          "circulating": { "type": "string" },
+          "sol_reserves": { "type": "string" },
+          "token_reserves": { "type": "string" },
+          "mcap_sol": { "type": "string" },
+          "volume_sol": { "type": "string" },
+          "total_redeemed_sol": { "type": "string" },
+          "price": { "$ref": "#/components/schemas/Price" },
+          "floor": { "$ref": "#/components/schemas/Price" },
+          "floor_active": { "type": "boolean" },
+          "floor_preview": { "$ref": "#/components/schemas/Price" },
+          "gap_bps": { "type": ["integer", "null"], "description": "(price - floor) / price in bps, floored; negative when the floor is above the price. Uses floor_preview before graduation." },
+          "graduation_progress_bps": { "type": ["integer", "null"] },
+          "holders_count": { "type": "integer" },
+          "redeem_count": { "type": "integer" },
+          "buy_count": { "type": "integer" },
+          "sell_count": { "type": "integer" },
+          "brake": { "$ref": "#/components/schemas/Brake" },
+          "last_trade_at": { "type": ["string", "null"] },
+          "last_event_slot": { "type": "integer" },
+          "updated_at": { "type": "string" }
+        }
+      },
+      "Trade": {
+        "type": "object",
+        "properties": {
+          "signature": { "type": "string" },
+          "event_index": { "type": "integer" },
+          "user": { "type": "string", "description": "Coin PDA for aggregate queue fills" },
+          "side": { "type": "string", "enum": ["buy", "sell"] },
+          "phase": { "type": "string", "enum": ["curve", "graduated"] },
+          "is_queue_fill": { "type": "boolean" },
+          "sol_amount": { "type": "string" },
+          "token_amount": { "type": "string" },
+          "fee_total": { "type": "string" },
+          "fee_to_floor": { "type": "string" },
+          "queued_remainder": { "type": "string" },
+          "price_after": { "type": "string", "description": "SOL per token" },
+          "floor_after": { "type": "string", "description": "SOL per token (preview on the curve)" },
+          "slot": { "type": "integer" },
+          "ts": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Candle": {
+        "type": "object",
+        "properties": {
+          "bucket_ts": { "type": "string", "format": "date-time" },
+          "time": { "type": "integer", "description": "Unix seconds" },
+          "open": { "type": "string" },
+          "high": { "type": "string" },
+          "low": { "type": "string" },
+          "close": { "type": "string" },
+          "floor_at_close": { "type": "string" },
+          "volume_sol": { "type": "string", "description": "lamports" },
+          "trades": { "type": "integer" },
+          "display": { "type": "object" }
+        }
+      },
+      "FloorSnapshot": {
+        "type": "object",
+        "properties": {
+          "minute": { "type": "string", "format": "date-time" },
+          "time": { "type": "integer" },
+          "floor": { "type": "string" },
+          "floor_display": { "type": "number" },
+          "price": { "type": "string" },
+          "price_display": { "type": "number" },
+          "floor_active": { "type": "boolean" },
+          "pool_sol": { "type": "string" },
+          "pool_tok": { "type": "string" },
+          "circulating": { "type": "string" }
+        }
+      },
+      "QueueEvent": {
+        "type": "object",
+        "properties": {
+          "signature": { "type": "string" },
+          "event_index": { "type": "integer" },
+          "kind": { "type": "string", "enum": ["joined", "processed", "settled", "engaged", "released"] },
+          "user": { "type": ["string", "null"] },
+          "epoch": { "type": ["integer", "null"] },
+          "amount": { "type": ["string", "null"] },
+          "queued_total": { "type": ["string", "null"] },
+          "sol_amount": { "type": ["string", "null"] },
+          "settle_kind": { "type": ["integer", "null"], "description": "0 claim, 1 cancel, 2 redeem" },
+          "window_start": { "type": ["integer", "null"] },
+          "data": { "type": "object" },
+          "slot": { "type": "integer" },
+          "ts": { "type": "string", "format": "date-time" }
+        }
+      },
+      "HeliusRawTransaction": {
+        "type": "object",
+        "required": ["slot", "meta", "transaction"],
+        "properties": {
+          "slot": { "type": "integer" },
+          "blockTime": { "type": ["integer", "null"] },
+          "meta": { "type": ["object", "null"], "properties": { "err": {}, "logMessages": { "type": ["array", "null"], "items": { "type": "string" } } } },
+          "transaction": { "type": "object", "properties": { "signatures": { "type": "array", "items": { "type": "string" } } } }
+        }
+      }
+    }
+  }
+}

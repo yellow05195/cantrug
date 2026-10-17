@@ -1,0 +1,357 @@
+@import "tailwindcss";
+
+/* ───────────────────────── tokens (DESIGN.md §1) ───────────────────────── */
+
+:root {
+  color-scheme: dark;
+  --bg: #141414;
+  --bg-2: #1c1c1b;
+  --bg-3: #242423;
+  --line: #2e2e2c;
+  --line-2: #3a3a38;
+  --ink: #edebe6;
+  --ink-2: #a5a29b;
+  /* DESIGN.md #6F6D68 lifted to pass WCAG AA (4.5:1) for the small labels it carries. */
+  --ink-3: #8c8982;
+  --floor: #ff5f1f;
+  --floor-ink: #141414;
+  --floor-dim: rgba(255, 95, 31, 0.14);
+  --brake: #ffd400;
+  --brake-ink: #111111;
+  --up: #6fa287;
+  --down: #b5635c;
+  --grain-opacity: 0.05;
+  --float-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.6);
+  --ease-mech: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --header-h: 64px;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #e9e6e0;
+  --bg-2: #f2f0eb;
+  --bg-3: #ddd9d1;
+  --line: #cfcac0;
+  --line-2: #b9b3a8;
+  --ink: #171716;
+  --ink-2: #5b5955;
+  /* Béton clair: ink-3 and the floor orange darkened from DESIGN.md (#8A877F, #E8500F) so small text and the Redeem button pass AA. */
+  --ink-3: #64615b;
+  --floor: #b83f0a;
+  --floor-ink: #ffffff;
+  --floor-dim: rgba(184, 63, 10, 0.12);
+  --brake: #f2c800;
+  --brake-ink: #111111;
+  --up: #3e7a5a;
+  --down: #9a4a43;
+  --grain-opacity: 0.08;
+  --float-shadow: 0 24px 48px -24px rgba(40, 32, 20, 0.35);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-bg-3: var(--bg-3);
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-floor: var(--floor);
+  --color-floor-ink: var(--floor-ink);
+  --color-floor-dim: var(--floor-dim);
+  --color-brake: var(--brake);
+  --color-brake-ink: var(--brake-ink);
+  --color-up: var(--up);
+  --color-down: var(--down);
+
+  --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SFMono-Regular", monospace;
+
+  /* Type scale (rem): .75 / .8125 / .875 / 1 / 1.125 / 1.375 / 1.75 / 2.25 / 3 / 4.5 / 6 */
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.4;
+  --text-sm: 0.8125rem;
+  --text-sm--line-height: 1.45;
+  --text-md: 0.875rem;
+  --text-md--line-height: 1.5;
+  --text-base: 1rem;
+  --text-base--line-height: 1.5;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.45;
+  --text-xl: 1.375rem;
+  --text-xl--line-height: 1.25;
+  --text-2xl: 1.75rem;
+  --text-2xl--line-height: 1.15;
+  --text-3xl: 2.25rem;
+  --text-3xl--line-height: 1.15;
+  --text-4xl: 3rem;
+  --text-4xl--line-height: 1.08;
+  --text-5xl: 4.5rem;
+  --text-5xl--line-height: 1;
+  --text-6xl: 6rem;
+  --text-6xl--line-height: 1;
+
+  /* 2 px on everything. Right angles like a plan. */
+  --radius-xs: 2px;
+  --radius-sm: 2px;
+  --radius-md: 2px;
+  --radius-lg: 2px;
+  --radius-xl: 2px;
+  --radius-2xl: 2px;
+
+  --ease-mech: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --breakpoint-xs: 26rem;
+}
+
+/* ───────────────────────── base ───────────────────────── */
+
+@layer base {
+  html {
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scrollbar-color: var(--line-2) var(--bg);
+  }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.5;
+    min-height: 100dvh;
+    -webkit-tap-highlight-color: transparent;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 600;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  ::selection {
+    background: var(--floor-dim);
+    color: var(--ink);
+  }
+  input,
+  textarea {
+    caret-color: var(--floor);
+  }
+  :focus-visible {
+    outline: 2px solid var(--floor);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+  button,
+  [role="button"],
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+  input,
+  textarea,
+  select {
+    font-size: max(16px, 1em);
+  }
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+}
+
+/* Concrete grain: fixed, never on scrolling containers. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5  0 0 0 0 .5  0 0 0 0 .5  0 0 0 1.4 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* ───────────────────────── utilities ───────────────────────── */
+
+@utility num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums slashed-zero;
+  font-feature-settings: "tnum" 1, "zero" 1;
+  letter-spacing: 0;
+}
+
+@utility display-tight {
+  letter-spacing: -0.02em;
+}
+
+@utility title-tight {
+  letter-spacing: -0.01em;
+}
+
+@utility press {
+  transition-property: transform, background-color, border-color, color, opacity;
+  transition-duration: 160ms;
+  transition-timing-function: var(--ease-mech);
+  &:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+}
+
+@utility gutter {
+  padding-inline: 16px;
+  @media (width >= 48rem) {
+    padding-inline: 24px;
+  }
+  @media (width >= 64rem) {
+    padding-inline: 32px;
+  }
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility float-layer {
+  box-shadow: var(--float-shadow);
+}
+
+/* Brake stripes: 45°, 12 px bands. Scroll very slowly while engaged. */
+@utility brake-stripes {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--brake) 0 12px,
+    var(--brake-ink) 12px 24px
+  );
+  background-size: 33.94px 33.94px;
+  animation: stripes-scroll 40s linear infinite;
+}
+
+@keyframes stripes-scroll {
+  to {
+    background-position: 678.8px 0;
+  }
+}
+
+/* Live rows: 160 ms background flash, no slide. */
+@keyframes row-flash {
+  0%,
+  35% {
+    background-color: var(--bg-3);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+@utility row-flash {
+  animation: row-flash 460ms var(--ease-mech);
+}
+
+@keyframes dash-step {
+  0%,
+  32% {
+    opacity: 1;
+  }
+  33%,
+  100% {
+    opacity: 0.25;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brake-stripes {
+    animation: none;
+  }
+  .row-flash {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hover-row:hover {
+    background-color: var(--bg-3);
+  }
+}
+
+/* lightweight-charts attribution logo sits in the corner; keep it legible but quiet. */
+.tv-lightweight-charts a[href*="tradingview"] {
+  opacity: 0.35;
+}
+
+/* ───────────────────────── dialogs and sheets ───────────────────────── */
+
+.fl-dialog {
+  max-height: 100dvh;
+}
+.fl-dialog[open] {
+  animation: dialog-in 200ms var(--ease-out-strong);
+}
+.fl-dialog[open]::backdrop {
+  animation: backdrop-in 200ms ease-out;
+}
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+@keyframes sheet-in {
+  from {
+    transform: translateY(100%);
+  }
+}
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+@media (width < 40rem) {
+  .fl-dialog[open] {
+    animation: sheet-in 280ms var(--ease-drawer);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fl-dialog[open] {
+    animation: backdrop-in 160ms ease-out;
+  }
+}
+
+/* Toasts: enter from below, exit fast. */
+.fl-toast {
+  transition:
+    transform 240ms var(--ease-out-strong),
+    opacity 240ms var(--ease-out-strong);
+  @starting-style {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fl-toast {
+    transition: opacity 160ms ease-out;
+    @starting-style {
+      transform: none;
+    }
+  }
+}

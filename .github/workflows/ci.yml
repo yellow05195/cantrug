@@ -1,0 +1,81 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+env:
+  SOLANA_VERSION: v4.3.0
+  CARGO_TERM_COLOR: always
+
+jobs:
+  core:
+    name: floored-core (unit + property tests)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo clippy -p floored-core --release -- -D warnings
+      - run: cargo test -p floored-core --release
+
+  program:
+    name: program (cargo-build-sbf + LiteSVM scenarios)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: |
+            programs/floored
+            tests-rs
+            packages/jupiter-amm
+      - name: Install Solana CLI
+        run: |
+          sh -c "$(curl -sSfL https://release.anza.xyz/${SOLANA_VERSION}/install)"
+          echo "$HOME/.local/share/solana/install/active_release/bin" >> "$GITHUB_PATH"
+      - name: Build program
+        working-directory: programs/floored
+        run: cargo-build-sbf
+      - name: Host type-check (clippy)
+        working-directory: programs/floored
+        run: cargo clippy --no-deps -- -D warnings
+      - name: Fetch Metaplex metadata program (test fixture)
+        run: |
+          mkdir -p tests-rs/fixtures
+          solana program dump -u https://api.mainnet-beta.solana.com metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s tests-rs/fixtures/mpl_token_metadata.so
+      - name: Generate IDL and check it is committed
+        run: |
+          node scripts/idl.mjs
+          git diff --exit-code programs/floored/idl/floored.json
+      - name: LiteSVM scenarios + fuzz (20 seeds)
+        working-directory: tests-rs
+        run: cargo test --release
+      - name: Jupiter adapter (quote / execution parity on the built program)
+        working-directory: packages/jupiter-amm
+        run: cargo test --release
+
+  node:
+    name: sdk + indexer + web
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @floored/sdk build
+      - run: pnpm --filter @floored/sdk test
+      - run: pnpm --filter @floored/indexer typecheck
+      - run: pnpm --filter @floored/indexer test
+      - run: pnpm --filter @floored/web lint
+      - run: pnpm --filter @floored/web typecheck
+      - run: pnpm --filter @floored/web build
+        env:
+          NEXT_PUBLIC_MOCK: "1"

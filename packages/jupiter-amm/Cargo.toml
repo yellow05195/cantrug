@@ -1,0 +1,33 @@
+[package]
+name = "floored-jupiter-amm"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "jupiter-amm-interface implementation for FLOORED pools (post-graduation constant-product pool with holder floor). Quotes come from floored-core; swap account metas target swap_buy / swap_sell."
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+jupiter-amm-interface = "1.0.0-beta.0"
+floored-core = { path = "../../core" }
+anyhow = "1"
+rust_decimal = "1.36"
+solana-pubkey = "3"
+solana-instruction = "3"
+solana-account = "3.4"
+sha2 = "0.10"
+
+[dev-dependencies]
+# Parity test: the built floored.so in LiteSVM through the tests-rs harness.
+floored-tests = { path = "../../tests-rs" }
+litesvm = "0.16"
+solana-address = "2"
+solana-keypair = "3"
+solana-signer = "3"
+solana-transaction = "4"
+solana-compute-budget-interface = "3"
+ahash = "0.8"
+
+# Standalone crate (off-chain, used by Jupiter's router). Not a member of the root workspace.
+[workspace]

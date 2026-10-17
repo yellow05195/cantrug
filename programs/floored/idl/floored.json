@@ -1,0 +1,2245 @@
+{
+  "address": "E7ZbamLD8wenjjHitR8bUHwuNKA4Em39sqybnhk3nc87",
+  "metadata": {
+    "name": "floored",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "FLOORED: a Solana memecoin launchpad where the pool belongs to the holders. Any holder can redeem tokens for their exact share of the pool SOL (the floor); no sale can drop the price more than 20 % per minute (the brake). No admin withdrawal, no oracle, no LP token."
+  },
+  "instructions": [
+    {
+      "name": "initialize",
+      "docs": [
+        "One-time setup. `params` become the defaults copied into every coin."
+      ],
+      "discriminator": [
+        175,
+        175,
+        109,
+        31,
+        13,
+        152,
+        155,
+        237
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config",
+          "writable": true
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": {
+              "name": "CoinParams"
+            }
+          }
+        },
+        {
+          "name": "crank_reward",
+          "type": "u64"
+        },
+        {
+          "name": "create_fee",
+          "type": "u64"
+        },
+        {
+          "name": "protocol_fee_recipient",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "update_config",
+      "docs": [
+        "Change defaults for coins created from now on, the fee recipient, the",
+        "crank reward, or hand the authority over. Existing coins are untouched."
+      ],
+      "discriminator": [
+        29,
+        158,
+        252,
+        191,
+        10,
+        83,
+        219,
+        99
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "signer": true
+        },
+        {
+          "name": "config",
+          "writable": true
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "option": {
+              "defined": {
+                "name": "CoinParams"
+              }
+            }
+          }
+        },
+        {
+          "name": "crank_reward",
+          "type": {
+            "option": "u64"
+          }
+        },
+        {
+          "name": "create_fee",
+          "type": {
+            "option": "u64"
+          }
+        },
+        {
+          "name": "protocol_fee_recipient",
+          "type": {
+            "option": "pubkey"
+          }
+        },
+        {
+          "name": "new_authority",
+          "type": {
+            "option": "pubkey"
+          }
+        }
+      ]
+    },
+    {
+      "name": "create_coin",
+      "docs": [
+        "Mint 1 000 000 000 tokens into the curve vault, create the Metaplex",
+        "metadata, revoke the mint authority, open the five lamport vaults, and",
+        "freeze the parameters into the coin. An optional first buy is a",
+        "separate `buy` instruction in the same transaction (same rules)."
+      ],
+      "discriminator": [
+        208,
+        85,
+        34,
+        37,
+        235,
+        182,
+        111,
+        78
+      ],
+      "accounts": [
+        {
+          "name": "creator",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config",
+          "writable": true
+        },
+        {
+          "name": "protocol_fee_recipient",
+          "writable": true
+        },
+        {
+          "name": "coin",
+          "writable": true
+        },
+        {
+          "name": "mint",
+          "docs": [
+            "New mint; any keypair (vanity addresses welcome). Mint authority is the coin PDA and is revoked in this instruction. No freeze authority."
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "curve_vault",
+          "writable": true
+        },
+        {
+          "name": "floor_reserve",
+          "writable": true
+        },
+        {
+          "name": "pool_sol_vault",
+          "writable": true
+        },
+        {
+          "name": "fee_vault",
+          "writable": true
+        },
+        {
+          "name": "queue_sol_vault",
+          "writable": true
+        },
+        {
+          "name": "curve_token_vault",
+          "writable": true
+        },
+        {
+          "name": "pool_token_vault",
+          "writable": true
+        },
+        {
+          "name": "queue_escrow",
+          "writable": true
+        },
+        {
+          "name": "metadata",
+          "writable": true
+        },
+        {
+          "name": "token_metadata_program"
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "system_program"
+        },
+        {
+          "name": "rent"
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "symbol",
+          "type": "string"
+        },
+        {
+          "name": "uri",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "buy",
+      "docs": [
+        "Buy on the curve with at most `sol_max` lamports (fee included). The",
+        "last buy is capped so the curve collects exactly its graduation SOL;",
+        "the unused part is simply not charged. Buys are never braked."
+      ],
+      "discriminator": [
+        102,
+        6,
+        61,
+        18,
+        1,
+        218,
+        235,
+        234
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "coin",
+          "writable": true
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "curve_vault",
+          "writable": true
+        },
+        {
+          "name": "floor_reserve",
+          "writable": true
+        },
+        {
+          "name": "fee_vault",
+          "writable": true
+        },
+        {
+          "name": "curve_token_vault",
+          "writable": true
+        },
+        {
+          "name": "user_token",
+          "writable": true
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "associated_token_program"
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "sol_max",
+          "type": "u64"
+        },
+        {
+          "name": "min_tokens_out",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "sell",
+      "docs": [
+        "Sell on the curve. The previous window's queue is filled first; then",
+        "the part of this order that fits under the brake executes at once and",
+        "the rest is queued (if `queue_remainder`) or left in the wallet.",
+        "`min_sol_out` is a price limit: it applies pro rata to the part that executes."
+      ],
+      "discriminator": [
+        51,
+        230,
+        133,
+        164,
+        1,
+        127,
+        131,
+        173
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config"
+        },
+        {
+          "name": "coin",
+          "writable": true
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "curve_vault",
+          "writable": true
+        },
+        {
+          "name": "floor_reserve",
+          "writable": true
+        },
+        {
+          "name": "fee_vault",
+          "writable": true
+        },
+        {
+          "name": "queue_sol_vault",
+          "writable": true
+        },
+        {
+          "name": "curve_token_vault",
+          "writable": true
+        },
+        {
+          "name": "queue_escrow",
+          "writable": true
+        },
+        {
+          "name": "user_token",
+          "writable": true
+        },
+        {
+          "name": "queue_entry",
+          "writable": true
+        },
+        {
+          "name": "epoch_record",
+          "writable": true
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "tokens_in",
+          "type": "u64"
+        },
+        {
+          "name": "min_sol_out",
+          "type": "u64"
+        },
+        {
+          "name": "queue_remainder",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "graduate",
+      "docs": [
+        "Permissionless. Opens the program-owned pool with every real lamport",
+        "of the curve plus the floor reserve, and every unsold token. No LP",
+        "token, no burn. The caller earns `crank_reward` from accrued protocol fees."
+      ],
+      "discriminator": [
+        45,
+        235,
+        225,
+        181,
+        17,
+        218,
+        64,
+        130
+      ],
+      "accounts": [
+        {
+          "name": "caller",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config",
+          "writable": true
+        },
+        {
+          "name": "coin",
+          "writable": true
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "curve_vault",
+          "writable": true
+        },
+        {
+          "name": "floor_reserve",
+          "writable": true
+        },
+        {
+          "name": "pool_sol_vault",
+          "writable": true
+        },
+        {
+          "name": "fee_vault",
+          "writable": true
+        },
+        {
+          "name": "curve_token_vault",
+          "writable": true
+        },
+        {
+          "name": "pool_token_vault",
+          "writable": true
+        },
+        {
+          "name": "token_program"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "swap_buy",
+      "docs": [
+        "Buy from the pool with `sol_in` lamports (fee included). 0.2 % of the",
+        "trade stays in the pool. Buys are never braked."
+      ],
+      "discriminator": [
+        76,
+        98,
+        154,
+        93,
+        42,
+        113,
+        62,
+        139
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "coin",
+          "writable": true
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "pool_sol_vault",
+          "writable": true
+        },
+        {
+          "name": "fee_vault",
+          "writable": true
+        },
+        {
+          "name": "pool_token_vault",
+          "writable": true
+        },
+        {
+          "name": "user_token",
+          "writable": true
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "associated_token_program"
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "sol_in",
+          "type": "u64"
+        },
+        {
+          "name": "min_tokens_out",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "swap_sell",
+      "docs": [
+        "Sell into the pool, under the brake (see `sell`)."
+      ],
+      "discriminator": [
+        176,
+        40,
+        55,
+        165,
+        110,
+        62,
+        84,
+        97
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config"
+        },
+        {
+          "name": "coin",
+          "writable": true
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "pool_sol_vault",
+          "writable": true
+        },
+        {
+          "name": "fee_vault",
+          "writable": true
+        },
+        {
+          "name": "queue_sol_vault",
+          "writable": true
+        },
+        {
+          "name": "pool_token_vault",
+          "writable": true
+        },
+        {
+          "name": "queue_escrow",
+          "writable": true
+        },
+        {
+          "name": "user_token",
+          "writable": true
+        },
+        {
+          "name": "queue_entry",
+          "writable": true
+        },
+        {
+          "name": "epoch_record",
+          "writable": true
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "tokens_in",
+          "type": "u64"
+        },
+        {
+          "name": "min_sol_out",
+          "type": "u64"
+        },
+        {
+          "name": "queue_remainder",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "redeem",
+      "docs": [
+        "Burn `tokens` and receive their exact share of the pool SOL, minus a",
+        "0.5 % exit fee that stays in the pool (waived for the last holder).",
+        "Never braked, never paused, never permissioned."
+      ],
+      "discriminator": [
+        184,
+        12,
+        86,
+        149,
+        70,
+        196,
+        97,
+        225
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config",
+          "writable": true
+        },
+        {
+          "name": "coin",
+          "writable": true
+        },
+        {
+          "name": "mint",
+          "writable": true
+        },
+        {
+          "name": "pool_sol_vault",
+          "writable": true
+        },
+        {
+          "name": "pool_token_vault",
+          "writable": true
+        },
+        {
+          "name": "user_token",
+          "writable": true
+        },
+        {
+          "name": "token_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "tokens",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "process_queue",
+      "docs": [
+        "Permissionless crank: when a new window has started and the queue is",
+        "not empty, sell the window's allowance for the queue in one aggregate",
+        "swap. The caller earns `crank_reward` out of that swap's protocol fee."
+      ],
+      "discriminator": [
+        178,
+        215,
+        43,
+        144,
+        239,
+        34,
+        170,
+        155
+      ],
+      "accounts": [
+        {
+          "name": "caller",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config"
+        },
+        {
+          "name": "coin",
+          "writable": true
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "curve_vault",
+          "writable": true
+        },
+        {
+          "name": "floor_reserve",
+          "writable": true
+        },
+        {
+          "name": "pool_sol_vault",
+          "writable": true
+        },
+        {
+          "name": "fee_vault",
+          "writable": true
+        },
+        {
+          "name": "queue_sol_vault",
+          "writable": true
+        },
+        {
+          "name": "curve_token_vault",
+          "writable": true
+        },
+        {
+          "name": "pool_token_vault",
+          "writable": true
+        },
+        {
+          "name": "queue_escrow",
+          "writable": true
+        },
+        {
+          "name": "epoch_record",
+          "writable": true
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "claim_queue",
+      "docs": [
+        "Take the SOL your queued tokens have earned so far and stay in the queue."
+      ],
+      "discriminator": [
+        118,
+        116,
+        6,
+        82,
+        230,
+        129,
+        91,
+        42
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "coin",
+          "writable": true
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "queue_sol_vault",
+          "writable": true
+        },
+        {
+          "name": "queue_escrow",
+          "writable": true
+        },
+        {
+          "name": "user_token",
+          "writable": true
+        },
+        {
+          "name": "queue_entry",
+          "writable": true
+        },
+        {
+          "name": "epoch_record"
+        },
+        {
+          "name": "token_program"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "cancel_queue",
+      "docs": [
+        "Leave the queue: get back the tokens not yet sold and the SOL earned."
+      ],
+      "discriminator": [
+        214,
+        250,
+        216,
+        211,
+        8,
+        237,
+        59,
+        101
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "coin",
+          "writable": true
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "queue_sol_vault",
+          "writable": true
+        },
+        {
+          "name": "queue_escrow",
+          "writable": true
+        },
+        {
+          "name": "user_token",
+          "writable": true
+        },
+        {
+          "name": "queue_entry",
+          "writable": true
+        },
+        {
+          "name": "epoch_record"
+        },
+        {
+          "name": "token_program"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "queue_to_redeem",
+      "docs": [
+        "Leave the queue and redeem what is left at the floor, right now."
+      ],
+      "discriminator": [
+        215,
+        162,
+        23,
+        210,
+        236,
+        201,
+        142,
+        95
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config",
+          "writable": true
+        },
+        {
+          "name": "coin",
+          "writable": true
+        },
+        {
+          "name": "mint",
+          "writable": true
+        },
+        {
+          "name": "pool_sol_vault",
+          "writable": true
+        },
+        {
+          "name": "pool_token_vault",
+          "writable": true
+        },
+        {
+          "name": "queue_sol_vault",
+          "writable": true
+        },
+        {
+          "name": "queue_escrow",
+          "writable": true
+        },
+        {
+          "name": "queue_entry",
+          "writable": true
+        },
+        {
+          "name": "epoch_record"
+        },
+        {
+          "name": "token_program"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "claim_creator_fees",
+      "discriminator": [
+        0,
+        23,
+        125,
+        234,
+        156,
+        118,
+        134,
+        89
+      ],
+      "accounts": [
+        {
+          "name": "creator",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "coin",
+          "writable": true
+        },
+        {
+          "name": "fee_vault",
+          "writable": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "claim_protocol_fees",
+      "docs": [
+        "Anyone can push the protocol's share to the recipient set in config."
+      ],
+      "discriminator": [
+        34,
+        142,
+        219,
+        112,
+        109,
+        54,
+        133,
+        23
+      ],
+      "accounts": [
+        {
+          "name": "caller",
+          "signer": true
+        },
+        {
+          "name": "config"
+        },
+        {
+          "name": "coin",
+          "writable": true
+        },
+        {
+          "name": "fee_vault",
+          "writable": true
+        },
+        {
+          "name": "protocol_fee_recipient",
+          "writable": true
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "CoinState",
+      "discriminator": [
+        189,
+        144,
+        92,
+        87,
+        39,
+        80,
+        60,
+        64
+      ]
+    },
+    {
+      "name": "GlobalConfig",
+      "discriminator": [
+        149,
+        8,
+        156,
+        202,
+        160,
+        252,
+        176,
+        217
+      ]
+    },
+    {
+      "name": "QueueEntry",
+      "discriminator": [
+        211,
+        46,
+        29,
+        56,
+        240,
+        146,
+        48,
+        178
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "BrakeEngaged",
+      "type": {
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "window_start",
+            "type": "u64"
+          },
+          {
+            "name": "ref_sol",
+            "type": "u64"
+          },
+          {
+            "name": "ref_tok",
+            "type": "u64"
+          },
+          {
+            "name": "queued_total",
+            "type": "u64"
+          },
+          {
+            "name": "epoch",
+            "type": "u32"
+          },
+          {
+            "name": "slot",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ],
+        "kind": "struct"
+      }
+    },
+    {
+      "name": "BrakeReleased",
+      "type": {
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "epoch",
+            "type": "u32"
+          },
+          {
+            "docs": [
+              "0 = queue fully served by a window fill, 1 = last position cancelled or switched to the floor."
+            ],
+            "name": "reason",
+            "type": "u8"
+          },
+          {
+            "name": "slot",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ],
+        "kind": "struct"
+      }
+    },
+    {
+      "name": "CoinCreated",
+      "type": {
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "coin",
+            "type": "pubkey"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "symbol",
+            "type": "string"
+          },
+          {
+            "name": "uri",
+            "type": "string"
+          },
+          {
+            "name": "params",
+            "type": {
+              "defined": {
+                "name": "CoinParams"
+              }
+            }
+          },
+          {
+            "name": "supply",
+            "type": "u64"
+          },
+          {
+            "name": "slot",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ],
+        "kind": "struct"
+      }
+    },
+    {
+      "docs": [
+        "0 = creator, 1 = protocol."
+      ],
+      "name": "FeesClaimed",
+      "type": {
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "kind",
+            "type": "u8"
+          },
+          {
+            "name": "recipient",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "slot",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ],
+        "kind": "struct"
+      }
+    },
+    {
+      "name": "Graduated",
+      "type": {
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "caller",
+            "type": "pubkey"
+          },
+          {
+            "name": "pool_sol",
+            "type": "u64"
+          },
+          {
+            "name": "pool_tok",
+            "type": "u64"
+          },
+          {
+            "name": "floor_reserve_added",
+            "type": "u64"
+          },
+          {
+            "name": "tokens_sold",
+            "type": "u64"
+          },
+          {
+            "name": "supply",
+            "type": "u64"
+          },
+          {
+            "name": "slot",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ],
+        "kind": "struct"
+      }
+    },
+    {
+      "name": "QueueJoined",
+      "type": {
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "user",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "queued_total",
+            "type": "u64"
+          },
+          {
+            "name": "epoch",
+            "type": "u32"
+          },
+          {
+            "name": "slot",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ],
+        "kind": "struct"
+      }
+    },
+    {
+      "name": "QueueProcessed",
+      "type": {
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "caller",
+            "type": "pubkey"
+          },
+          {
+            "name": "epoch",
+            "type": "u32"
+          },
+          {
+            "name": "window_start",
+            "type": "u64"
+          },
+          {
+            "name": "sold",
+            "type": "u64"
+          },
+          {
+            "name": "sol_out",
+            "type": "u64"
+          },
+          {
+            "name": "queued_after",
+            "type": "u64"
+          },
+          {
+            "name": "closed_epoch",
+            "type": "bool"
+          },
+          {
+            "name": "crank_reward",
+            "type": "u64"
+          },
+          {
+            "name": "slot",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ],
+        "kind": "struct"
+      }
+    },
+    {
+      "docs": [
+        "A seller settled their queue position: 0 = claim (keeps queuing), 1 = cancel, 2 = redeem at the floor."
+      ],
+      "name": "QueueSettled",
+      "type": {
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "user",
+            "type": "pubkey"
+          },
+          {
+            "name": "kind",
+            "type": "u8"
+          },
+          {
+            "name": "tokens_returned",
+            "type": "u64"
+          },
+          {
+            "name": "tokens_redeemed",
+            "type": "u64"
+          },
+          {
+            "name": "sol_paid",
+            "type": "u64"
+          },
+          {
+            "docs": [
+              "Queue size after this settlement (0 means the brake released)."
+            ],
+            "name": "queued_after",
+            "type": "u64"
+          },
+          {
+            "name": "epoch",
+            "type": "u32"
+          },
+          {
+            "name": "slot",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ],
+        "kind": "struct"
+      }
+    },
+    {
+      "name": "Redeemed",
+      "type": {
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "user",
+            "type": "pubkey"
+          },
+          {
+            "name": "tokens_burned",
+            "type": "u64"
+          },
+          {
+            "name": "pool_tokens_burned",
+            "type": "u64"
+          },
+          {
+            "name": "sol_out",
+            "type": "u64"
+          },
+          {
+            "name": "fee_kept",
+            "type": "u64"
+          },
+          {
+            "name": "pool_sol_after",
+            "type": "u64"
+          },
+          {
+            "name": "pool_tok_after",
+            "type": "u64"
+          },
+          {
+            "name": "supply_after",
+            "type": "u64"
+          },
+          {
+            "name": "circulating_after",
+            "type": "u64"
+          },
+          {
+            "name": "queued",
+            "type": "u64"
+          },
+          {
+            "docs": [
+              "True when the tokens came from the sender's queue position."
+            ],
+            "name": "from_queue",
+            "type": "bool"
+          },
+          {
+            "name": "slot",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ],
+        "kind": "struct"
+      }
+    },
+    {
+      "docs": [
+        "One executed trade (direct, or an aggregate queue fill when `is_queue_fill`)."
+      ],
+      "name": "Trade",
+      "type": {
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "user",
+            "type": "pubkey"
+          },
+          {
+            "name": "is_buy",
+            "type": "bool"
+          },
+          {
+            "docs": [
+              "0 = curve, 1 = pool."
+            ],
+            "name": "phase",
+            "type": "u8"
+          },
+          {
+            "name": "is_queue_fill",
+            "type": "bool"
+          },
+          {
+            "docs": [
+              "SOL the user paid (buy, fee included) or received (sell, fee deducted)."
+            ],
+            "name": "sol_amount",
+            "type": "u64"
+          },
+          {
+            "name": "token_amount",
+            "type": "u64"
+          },
+          {
+            "name": "fee_total",
+            "type": "u64"
+          },
+          {
+            "docs": [
+              "Part of the fee that stays with the holders (floor reserve on the curve, pool SOL after)."
+            ],
+            "name": "fee_to_floor",
+            "type": "u64"
+          },
+          {
+            "docs": [
+              "Pricing reserves after the trade: virtual reserves on the curve, pool reserves after."
+            ],
+            "name": "sol_reserves",
+            "type": "u64"
+          },
+          {
+            "name": "token_reserves",
+            "type": "u64"
+          },
+          {
+            "name": "real_sol",
+            "type": "u64"
+          },
+          {
+            "name": "tokens_sold",
+            "type": "u64"
+          },
+          {
+            "name": "floor_reserve",
+            "type": "u64"
+          },
+          {
+            "name": "pool_sol",
+            "type": "u64"
+          },
+          {
+            "name": "pool_tok",
+            "type": "u64"
+          },
+          {
+            "name": "queued",
+            "type": "u64"
+          },
+          {
+            "name": "supply",
+            "type": "u64"
+          },
+          {
+            "docs": [
+              "Tokens of this order that went to the brake queue instead of executing."
+            ],
+            "name": "queued_remainder",
+            "type": "u64"
+          },
+          {
+            "name": "slot",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ],
+        "kind": "struct"
+      }
+    },
+    {
+      "name": "BrakeState",
+      "docs": [
+        "Brake window and queue accumulator (see `floored_core::QueueAcc`)."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "ref_sol",
+            "docs": [
+              "Reserves at the start of the current window; `ref_sol / ref_tok` is the reference price."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "ref_tok",
+            "type": "u64"
+          },
+          {
+            "name": "window_start",
+            "type": "u64"
+          },
+          {
+            "name": "epoch",
+            "type": "u32"
+          },
+          {
+            "name": "scale",
+            "type": "u128"
+          },
+          {
+            "name": "sol_index",
+            "type": "u128"
+          },
+          {
+            "name": "queued_total",
+            "docs": [
+              "Tokens in the queue escrow, the `Q` of the floor formula."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "engagements",
+            "docs": [
+              "Number of times the queue went from empty to non-empty."
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "windows_processed",
+            "docs": [
+              "Number of aggregate fills executed."
+            ],
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Bumps",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "coin",
+            "type": "u8"
+          },
+          {
+            "name": "curve_vault",
+            "type": "u8"
+          },
+          {
+            "name": "floor_reserve",
+            "type": "u8"
+          },
+          {
+            "name": "pool_sol_vault",
+            "type": "u8"
+          },
+          {
+            "name": "fee_vault",
+            "type": "u8"
+          },
+          {
+            "name": "queue_sol_vault",
+            "type": "u8"
+          },
+          {
+            "name": "curve_token_vault",
+            "type": "u8"
+          },
+          {
+            "name": "pool_token_vault",
+            "type": "u8"
+          },
+          {
+            "name": "queue_escrow",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CoinParams",
+      "docs": [
+        "Per-coin parameters, frozen at creation. Mirrors `floored_core::Params`."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "virtual_sol",
+            "type": "u64"
+          },
+          {
+            "name": "virtual_tok",
+            "type": "u64"
+          },
+          {
+            "name": "curve_supply",
+            "type": "u64"
+          },
+          {
+            "name": "graduation_sol",
+            "type": "u64"
+          },
+          {
+            "name": "curve_fee_bps",
+            "type": "u16"
+          },
+          {
+            "name": "curve_fee_creator_share_bps",
+            "type": "u16"
+          },
+          {
+            "name": "curve_fee_protocol_share_bps",
+            "type": "u16"
+          },
+          {
+            "name": "pool_fee_bps",
+            "type": "u16"
+          },
+          {
+            "name": "pool_fee_pool_share_bps",
+            "type": "u16"
+          },
+          {
+            "name": "pool_fee_creator_share_bps",
+            "type": "u16"
+          },
+          {
+            "name": "redeem_fee_bps",
+            "type": "u16"
+          },
+          {
+            "name": "brake_drop_bps",
+            "type": "u16"
+          },
+          {
+            "name": "brake_window_slots",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CoinState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "params",
+            "type": {
+              "defined": {
+                "name": "CoinParams"
+              }
+            }
+          },
+          {
+            "name": "phase",
+            "docs": [
+              "0 = curve, 1 = graduated."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "real_sol",
+            "docs": [
+              "Real SOL in `curve_vault` (lamports, excluding rent)."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "tokens_sold",
+            "type": "u64"
+          },
+          {
+            "name": "floor_reserve",
+            "docs": [
+              "SOL in `floor_reserve` (0.3 % of curve volume), poured into the pool at graduation."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "pool_sol",
+            "docs": [
+              "`S`: SOL in `pool_sol_vault` (excluding rent)."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "pool_tok",
+            "docs": [
+              "`T`: tokens in `pool_token_vault`."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "creator_fees_owed",
+            "type": "u64"
+          },
+          {
+            "name": "protocol_fees_owed",
+            "type": "u64"
+          },
+          {
+            "name": "creator_fees_claimed",
+            "type": "u64"
+          },
+          {
+            "name": "protocol_fees_claimed",
+            "type": "u64"
+          },
+          {
+            "name": "total_redeemed_sol",
+            "type": "u64"
+          },
+          {
+            "name": "redeem_count",
+            "type": "u64"
+          },
+          {
+            "name": "total_pool_burned",
+            "type": "u64"
+          },
+          {
+            "name": "buy_count",
+            "type": "u64"
+          },
+          {
+            "name": "sell_count",
+            "type": "u64"
+          },
+          {
+            "name": "volume_sol",
+            "type": "u64"
+          },
+          {
+            "name": "brake",
+            "type": {
+              "defined": {
+                "name": "BrakeState"
+              }
+            }
+          },
+          {
+            "name": "created_slot",
+            "type": "u64"
+          },
+          {
+            "name": "graduated_slot",
+            "type": "u64"
+          },
+          {
+            "name": "vault_rent",
+            "docs": [
+              "Rent-exempt minimum of a 0-byte vault at creation; vault balance − this = tracked amount."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "bumps",
+            "type": {
+              "defined": {
+                "name": "Bumps"
+              }
+            }
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "GlobalConfig",
+      "docs": [
+        "Protocol-wide settings. The authority can only change what applies to",
+        "coins created *later* and where protocol fees are sent. It has no",
+        "instruction that moves SOL out of any vault."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "protocol_fee_recipient",
+            "type": "pubkey"
+          },
+          {
+            "name": "params",
+            "docs": [
+              "Defaults copied into every new coin."
+            ],
+            "type": {
+              "defined": {
+                "name": "CoinParams"
+              }
+            }
+          },
+          {
+            "name": "crank_reward",
+            "docs": [
+              "Reward paid to permissionless crankers (`graduate`, `process_queue`),",
+              "taken from the protocol share of the fees of the very trade they crank."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "create_fee",
+            "docs": [
+              "Flat fee paid by the creator at `create_coin`, to the protocol recipient."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "coins_created",
+            "type": "u64"
+          },
+          {
+            "name": "coins_graduated",
+            "type": "u64"
+          },
+          {
+            "name": "total_redeemed_sol",
+            "docs": [
+              "Sum of every lamport ever paid out by `redeem`, protocol-wide."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "total_redeems",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "QueueEntry",
+      "docs": [
+        "One seller's position in the brake queue (one per wallet per coin)."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "coin",
+            "type": "pubkey"
+          },
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "epoch",
+            "type": "u32"
+          },
+          {
+            "name": "shares",
+            "type": "u128"
+          },
+          {
+            "name": "sol_index_at_join",
+            "type": "u128"
+          },
+          {
+            "name": "joined_slot",
+            "type": "u64"
+          },
+          {
+            "name": "amount_queued",
+            "docs": [
+              "Tokens the seller put in the queue (informational; the live remainder is `shares · scale`)."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "Overflow",
+      "msg": "arithmetic overflow"
+    },
+    {
+      "code": 6001,
+      "name": "ZeroAmount",
+      "msg": "amount must be greater than zero"
+    },
+    {
+      "code": 6002,
+      "name": "DustOutput",
+      "msg": "output rounds to nothing"
+    },
+    {
+      "code": 6003,
+      "name": "CurveComplete",
+      "msg": "the curve is complete: call graduate"
+    },
+    {
+      "code": 6004,
+      "name": "CurveNotComplete",
+      "msg": "the curve is not complete yet"
+    },
+    {
+      "code": 6005,
+      "name": "ExceedsAvailable",
+      "msg": "amount exceeds what is available"
+    },
+    {
+      "code": 6006,
+      "name": "NothingInCirculation",
+      "msg": "nothing in circulation"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidParams",
+      "msg": "invalid parameters"
+    },
+    {
+      "code": 6008,
+      "name": "ExceedsQueue",
+      "msg": "queue fill exceeds the queue"
+    },
+    {
+      "code": 6009,
+      "name": "WrongPhase",
+      "msg": "instruction not available in this phase"
+    },
+    {
+      "code": 6010,
+      "name": "SlippageExceeded",
+      "msg": "slippage limit exceeded"
+    },
+    {
+      "code": 6011,
+      "name": "NameTooLong",
+      "msg": "name longer than 32 bytes"
+    },
+    {
+      "code": 6012,
+      "name": "SymbolTooLong",
+      "msg": "symbol longer than 10 bytes"
+    },
+    {
+      "code": 6013,
+      "name": "UriTooLong",
+      "msg": "uri longer than 200 bytes"
+    },
+    {
+      "code": 6014,
+      "name": "NothingToClaim",
+      "msg": "nothing to claim"
+    },
+    {
+      "code": 6015,
+      "name": "StaleQueueEntry",
+      "msg": "queue entry belongs to a closed epoch: settle it with claim_queue / cancel_queue first"
+    },
+    {
+      "code": 6016,
+      "name": "QueueEntryMismatch",
+      "msg": "queue entry does not match this coin / owner"
+    },
+    {
+      "code": 6017,
+      "name": "EpochRecordMismatch",
+      "msg": "epoch record does not match the expected epoch"
+    },
+    {
+      "code": 6018,
+      "name": "EpochNotClosed",
+      "msg": "epoch is not closed yet"
+    },
+    {
+      "code": 6019,
+      "name": "WindowNotElapsed",
+      "msg": "the brake window has not elapsed"
+    },
+    {
+      "code": 6020,
+      "name": "QueueEmpty",
+      "msg": "the queue is empty"
+    },
+    {
+      "code": 6021,
+      "name": "VaultAccounting",
+      "msg": "vault balance does not cover the tracked amount"
+    },
+    {
+      "code": 6022,
+      "name": "Unauthorized",
+      "msg": "unauthorized"
+    },
+    {
+      "code": 6023,
+      "name": "InvalidVault",
+      "msg": "invalid vault account"
+    },
+    {
+      "code": 6024,
+      "name": "NotQueued",
+      "msg": "no queue position for this wallet"
+    },
+    {
+      "code": 6025,
+      "name": "AlreadyInitialized",
+      "msg": "account already initialized"
+    }
+  ],
+  "events": [
+    {
+      "discriminator": [
+        249,
+        108,
+        247,
+        133,
+        40,
+        159,
+        89,
+        243
+      ],
+      "name": "BrakeEngaged"
+    },
+    {
+      "discriminator": [
+        45,
+        126,
+        77,
+        186,
+        189,
+        99,
+        34,
+        17
+      ],
+      "name": "BrakeReleased"
+    },
+    {
+      "discriminator": [
+        155,
+        248,
+        204,
+        17,
+        205,
+        237,
+        158,
+        104
+      ],
+      "name": "CoinCreated"
+    },
+    {
+      "discriminator": [
+        22,
+        104,
+        110,
+        222,
+        38,
+        157,
+        14,
+        62
+      ],
+      "name": "FeesClaimed"
+    },
+    {
+      "discriminator": [
+        51,
+        241,
+        66,
+        50,
+        140,
+        245,
+        156,
+        192
+      ],
+      "name": "Graduated"
+    },
+    {
+      "discriminator": [
+        56,
+        81,
+        235,
+        53,
+        196,
+        128,
+        138,
+        193
+      ],
+      "name": "QueueJoined"
+    },
+    {
+      "discriminator": [
+        114,
+        18,
+        3,
+        52,
+        204,
+        225,
+        127,
+        46
+      ],
+      "name": "QueueProcessed"
+    },
+    {
+      "discriminator": [
+        8,
+        113,
+        169,
+        123,
+        156,
+        102,
+        188,
+        124
+      ],
+      "name": "QueueSettled"
+    },
+    {
+      "discriminator": [
+        14,
+        29,
+        183,
+        71,
+        31,
+        165,
+        107,
+        38
+      ],
+      "name": "Redeemed"
+    },
+    {
+      "discriminator": [
+        24,
+        254,
+        218,
+        152,
+        253,
+        43,
+        18,
+        81
+      ],
+      "name": "Trade"
+    }
+  ]
+}

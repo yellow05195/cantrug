@@ -1,0 +1,39 @@
+[package]
+name = "floored"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "FLOORED: a Solana memecoin launchpad where the pool belongs to the holders. Any holder can redeem tokens for their exact share of the pool SOL (the floor); no sale can drop the price more than 20 % per minute (the brake). No admin withdrawal, no oracle, no LP token."
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "floored"
+
+[features]
+default = []
+cpi = ["no-entrypoint"]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+idl-build = ["anchor-lang/idl-build", "anchor-spl/idl-build"]
+anchor-debug = []
+custom-heap = []
+custom-panic = []
+
+[dependencies]
+anchor-lang = { version = "1.2.1", features = ["init-if-needed"] }
+anchor-spl = { version = "1.2.1", features = ["metadata"] }
+floored-core = { path = "../../core" }
+
+# Standalone crate: built with `cargo-build-sbf` (Solana toolchain), not a
+# member of the root workspace (which only builds the Solana-free core).
+[workspace]
+
+[profile.release]
+overflow-checks = true
+lto = "fat"
+codegen-units = 1
+opt-level = "z"
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(target_os, values("solana"))', 'cfg(feature, values("anchor-debug", "custom-heap", "custom-panic"))'] }

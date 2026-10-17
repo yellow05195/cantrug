@@ -1,0 +1,158 @@
+"use client";
+import { List, Moon, Sun, X } from "@phosphor-icons/react/dist/ssr";
+import { useLocale, useTranslations } from "next-intl";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState, useTransition } from "react";
+import { NumRoll } from "@/components/ui/NumRoll";
+import { WalletButton } from "@/components/wallet/WalletButton";
+import { LOCALE_COOKIE, THEME_COOKIE } from "@/i18n/config";
+import { cn } from "@/lib/cn";
+import { solFixed } from "@/lib/format";
+import { useLiveStats } from "@/lib/live/solReturned";
+
+export const NAV = [
+  { href: "/", key: "coins" },
+  { href: "/create", key: "create" },
+  { href: "/portfolio", key: "portfolio" },
+  { href: "/how-it-works", key: "how" },
+  { href: "/stats", key: "stats" },
+] as const;
+
+export function NavLinks({ className, onNavigate }: { className?: string; onNavigate?: () => void }) {
+  const t = useTranslations("nav");
+  const path = usePathname();
+  return (
+    <nav className={className} aria-label={t("label")}>
+      {NAV.map((n) => {
+        const active = n.href === "/" ? path === "/" || path.startsWith("/coin/") : path.startsWith(n.href);
+        return (
+          <Link
+            key={n.href}
+            href={n.href}
+            onClick={onNavigate}
+            aria-current={active ? "page" : undefined}
+            className={cn("rounded-sm px-2.5 py-1.5 text-md transition-colors duration-150", active ? "text-ink" : "text-ink-2 hover:text-ink")}
+          >
+            {t(n.key)}
+          </Link>
+        );
+      })}
+    </nav>
+  );
+}
+
+function setCookie(name: string, value: string) {
+  document.cookie = `${name}=${value}; path=/; max-age=31536000; samesite=lax`;
+}
+
+export function LangToggle({ className }: { className?: string }) {
+  const locale = useLocale();
+  const router = useRouter();
+  const t = useTranslations("nav");
+  const [pending, start] = useTransition();
+  const choose = (l: "en" | "fr") => {
+    if (l === locale) return;
+    setCookie(LOCALE_COOKIE, l);
+    document.documentElement.setAttribute("lang", l);
+    start(() => router.refresh());
+  };
+  return (
+    <div className={cn("flex items-center text-sm", pending && "opacity-60", className)} role="group" aria-label={t("language")}>
+      {(["en", "fr"] as const).map((l, i) => (
+        <span key={l} className="flex items-center">
+          {i > 0 ? <span className="px-0.5 text-ink-3">/</span> : null}
+          <button
+            type="button"
+            onClick={() => choose(l)}
+            aria-pressed={locale === l}
+            className={cn("press min-h-8 rounded-sm px-1.5 py-1 uppercase", locale === l ? "text-ink" : "text-ink-3 hover:text-ink-2")}
+          >
+            {l}
+          </button>
+        </span>
+      ))}
+    </div>
+  );
+}
+
+export function ThemeToggle({ initial, className }: { initial: "dark" | "light"; className?: string }) {
+  const t = useTranslations("nav");
+  const [theme, setTheme] = useState(initial);
+  const flip = () => {
+    const current = document.documentElement.getAttribute("data-theme") === "light" ? "light" : theme === "light" ? "light" : "dark";
+    const next = current === "dark" ? "light" : "dark";
+    setTheme(next);
+    setCookie(THEME_COOKIE, next);
+    document.documentElement.setAttribute("data-theme", next);
+  };
+  return (
+    <button
+      type="button"
+      onClick={flip}
+      className={cn("press grid size-8 place-items-center rounded-sm text-ink-2 hover:bg-bg-3 hover:text-ink", className)}
+      aria-label={theme === "dark" ? t("themeLight") : t("themeDark")}
+      title={theme === "dark" ? t("themeLight") : t("themeDark")}
+    >
+      {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+    </button>
+  );
+}
+
+export function MiniCounter({ seed }: { seed: { lamports: string; launched: number; brakes: number } | null }) {
+  const t = useTranslations("home");
+  const s = useLiveStats(seed ? { lamports: BigInt(seed.lamports), launched: seed.launched, brakes: seed.brakes } : null);
+  if (s.total === null) return null;
+  return (
+    <Link href="/stats" className="group hidden items-baseline gap-2 whitespace-nowrap rounded-sm px-2 py-1 hover:bg-bg-3 xl:flex" title={t("counterLabel")}>
+      <NumRoll value={solFixed(s.total, 2)} className="text-md text-floor" label={`${solFixed(s.total, 2)} SOL`} />
+      <span className="text-xs text-ink-3">{t("counterShort")}</span>
+    </Link>
+  );
+}
+
+export function MobileMenu({ theme }: { theme: "dark" | "light" }) {
+  const t = useTranslations("nav");
+  const [open, setOpen] = useState(false);
+  const path = usePathname();
+  useEffect(() => {
+    // Close on route change.
+    const id = setTimeout(() => setOpen(false), 0);
+    return () => clearTimeout(id);
+  }, [path]);
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+  return (
+    <div className="lg:hidden">
+      <button type="button" onClick={() => setOpen(true)} className="press -mr-2 grid size-11 place-items-center rounded-sm text-ink hover:bg-bg-3" aria-label={t("menu")} aria-expanded={open}>
+        <List size={20} />
+      </button>
+      {open ? (
+        <div className="fixed inset-0 z-[80]" role="dialog" aria-modal="true" aria-label={t("menu")}>
+          <button type="button" aria-label={t("closeMenu")} className="absolute inset-0 bg-black/55 motion-safe:animate-[backdrop-in_200ms_ease-out]" onClick={() => setOpen(false)} />
+          <div className="float-layer absolute inset-x-0 bottom-0 rounded-t-sm border-t border-line-2 bg-bg-2 pb-[max(16px,env(safe-area-inset-bottom))] motion-safe:animate-[sheet-in_280ms_cubic-bezier(0.32,0.72,0,1)]">
+            <div className="flex items-center justify-between border-b border-line px-4 py-3">
+              <span className="text-sm text-ink-2">{t("menu")}</span>
+              <button type="button" onClick={() => setOpen(false)} className="press grid size-11 place-items-center rounded-sm text-ink-2 hover:text-ink" aria-label={t("closeMenu")}>
+                <X size={18} />
+              </button>
+            </div>
+            <NavLinks className="flex flex-col px-2 py-2 [&>a]:py-3 [&>a]:text-lg" onNavigate={() => setOpen(false)} />
+            <div className="mx-4 flex items-center justify-between border-t border-line pt-3">
+              <LangToggle />
+              <ThemeToggle initial={theme} />
+            </div>
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+export function HeaderWallet() {
+  return <WalletButton />;
+}

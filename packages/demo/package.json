@@ -1,0 +1,26 @@
+{
+  "name": "@floored/demo",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Devnet demo scripts: initialize the config, launch a coin, drive it to graduation, dump 30 % through the brake, redeem at the floor.",
+  "scripts": {
+    "init-config": "tsx src/01-initialize.ts",
+    "launch": "tsx src/02-launch.ts",
+    "dump": "tsx src/03-dump.ts",
+    "redeem": "tsx src/04-redeem.ts",
+    "verify": "tsx src/05-verify-floor.ts",
+    "smoke": "tsx src/06-smoke.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@floored/sdk": "workspace:*",
+    "@solana/spl-token": "^0.4.13",
+    "@solana/web3.js": "^1.98.4"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0"
+  }
+}
