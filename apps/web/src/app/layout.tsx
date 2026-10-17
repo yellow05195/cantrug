@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
 import { Fredoka, Inter, JetBrains_Mono } from "next/font/google";
+import Script from "next/script";
 import type { ReactNode } from "react";
 import { BootScreen } from "@/components/layout/BootScreen";
 import { Footer } from "@/components/layout/Footer";
@@ -44,10 +45,10 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   const seed = stats ? { lamports: stats.sol_redeemed_total, launched: stats.coins_created, brakes: stats.brake_engagements_total } : null;
   return (
     <html lang={locale} className={`${fredoka.variable} ${inter.variable} ${jetbrains.variable} h-full antialiased`} suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_BOOT }} />
-      </head>
       <body className="flex min-h-full flex-col">
+        <Script id="theme-boot" strategy="beforeInteractive">
+          {THEME_BOOT}
+        </Script>
         <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-ink focus:px-3 focus:py-2 focus:text-bg">
           {t("skip")}
         </a>

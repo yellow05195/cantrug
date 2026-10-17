@@ -143,7 +143,7 @@
         "gap": "Price above floor"
       },
       "toGrad": "to graduation",
-      "kicker": "Live from the chain"
+      "kicker": "The board"
     },
     "datumLabel": "floor line, the datum of every chart on this site",
     "band": {
@@ -473,6 +473,14 @@
       "coins": "Coins launched",
       "brakes": "Brakes engaged",
       "keys": "Admin keys on the pool"
+    },
+    "latest": {
+      "kicker": "Live from the chain",
+      "title": "Latest on the floor.",
+      "all": "See the whole board",
+      "toGrad": "on the curve",
+      "mintYours": "Launch yours",
+      "mintNote": "One name, one ticker, one image."
     }
   },
   "floor": {

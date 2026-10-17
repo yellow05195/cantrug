@@ -340,12 +340,13 @@ body::after {
   }
 }
 @utility pill-primary {
-  background: var(--ink);
-  color: var(--bg);
+  background: var(--floor);
+  color: var(--floor-ink);
   border: 1px solid transparent;
+  box-shadow: 0 10px 30px -12px rgba(238, 90, 28, 0.55);
   @media (hover: hover) and (pointer: fine) {
     &:hover:not(:disabled) {
-      filter: brightness(1.15);
+      filter: brightness(1.06);
     }
   }
 }
@@ -1012,8 +1013,3 @@ body {
   }
 }
 
-/* After dark the label pill turns orange, like the honey pill in the night workshop. */
-:root[data-theme="dark"] .pill-primary {
-  background: var(--floor);
-  color: var(--floor-ink);
-}

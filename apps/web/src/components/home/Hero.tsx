@@ -6,57 +6,85 @@ import { Scene } from "@/components/ui/Scene";
 import { ENV } from "@/lib/env";
 import { solFixed } from "@/lib/format";
 import { useLiveStats } from "@/lib/live/solReturned";
+import { BrakeMark, FloorMark, SolanaMark, TokenBadge } from "./Marks";
 
 /*
- * A real homepage hero: the words first, big and centred on the page axis,
- * the two actions, the live numbers as chips; then the construction site
- * runs across the page as a wide band with the receipt standing in it.
+ * Hero: the words on the left, the construction site on the right with the
+ * redeem receipt standing on its floor and two tokens floating around it.
+ * Orange is the action. Lines rise once on load.
  */
 export function Hero({ stats }: { stats: { lamports: string; launched: number; brakes: number } | null }) {
   const t = useTranslations("home.hero");
   const s = useLiveStats(stats ? { lamports: BigInt(stats.lamports), launched: stats.launched, brakes: stats.brakes } : null);
   const total = s.total !== null ? solFixed(s.total, 0) : null;
+  const rise = (i: number) => ({ className: "rise", style: { ["--rise-delay" as string]: `${70 * i}ms` } });
 
   return (
-    <section className="mx-auto max-w-6xl px-3 md:px-6">
-      <div className="mx-auto flex max-w-[860px] flex-col items-center pt-14 text-center sm:pt-20">
-        <p className="kicker">{t("kicker")}</p>
-        <h1 className="mt-5 text-[clamp(40px,6.4vw,78px)] leading-[1.02]">
-          {t("a")}
-          <br />
-          <span className="text-floor">{t("b")}</span>
-        </h1>
-        <p className="mt-6 max-w-[56ch] text-base leading-relaxed text-ink-2 sm:text-lg">{t("lede")}</p>
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <ButtonLink href="/create" variant="primary" size="lg">
-            {t("ctaLaunch")}
-          </ButtonLink>
-          <ButtonLink href="#coins" variant="secondary" size="lg">
-            {t("ctaCoins")}
-          </ButtonLink>
+    <section className="mx-auto max-w-6xl px-3 pt-10 md:px-6 md:pt-16">
+      <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
+        <div>
+          <p {...rise(0)} className="rise kicker">
+            {t("kicker")}
+          </p>
+          <h1 className="mt-5 text-[clamp(40px,5.6vw,68px)] leading-[1.02]">
+            <span {...rise(1)} className="rise block">
+              {t("a")}
+            </span>
+            <span {...rise(2)} className="rise block text-floor">
+              {t("b")}
+            </span>
+          </h1>
+          <p {...rise(3)} className="rise mt-6 max-w-[52ch] text-base leading-relaxed text-ink-2 sm:text-lg">
+            {t("lede")}
+          </p>
+          <div {...rise(4)} className="rise mt-8 flex flex-wrap items-center gap-3">
+            <ButtonLink href="/create" variant="primary" size="lg">
+              {t("ctaLaunch")}
+            </ButtonLink>
+            <ButtonLink href="#coins" variant="secondary" size="lg">
+              {t("ctaCoins")}
+            </ButtonLink>
+          </div>
+          <div {...rise(5)} className="rise mt-6 flex flex-wrap items-center gap-2">
+            <Link className="chip-mono text-ink" href="/stats">
+              <span className="h-1.5 w-1.5 rounded-full bg-up" aria-hidden />
+              {total === null ? t("chips.loading") : <>{total} SOL {t("chips.returned")}</>}
+            </Link>
+            <span className="chip-mono">
+              {s.launched.toLocaleString("en-US")} {t("status.coins")}
+            </span>
+            <span className="chip-mono">
+              {s.brakes.toLocaleString("en-US")} {t("status.brakes")}
+            </span>
+            <a className="chip-mono text-ink" href={ENV.githubUrl} target="_blank" rel="noreferrer">
+              {t("chips.source")} <span aria-hidden>↗</span>
+            </a>
+          </div>
         </div>
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
-          <Link className="chip-mono text-ink" href="/stats">
-            <span className="h-1.5 w-1.5 rounded-full bg-up" aria-hidden />
-            {total === null ? t("chips.loading") : <>{total} SOL {t("chips.returned")}</>}
-          </Link>
-          <span className="chip-mono">
-            {s.launched.toLocaleString("en-US")} {t("status.coins")}
-          </span>
-          <span className="chip-mono">
-            {s.brakes.toLocaleString("en-US")} {t("status.brakes")}
-          </span>
-          <a className="chip-mono text-ink" href={ENV.githubUrl} target="_blank" rel="noreferrer">
-            {t("chips.source")} <span aria-hidden>↗</span>
-          </a>
-        </div>
-      </div>
 
-      {/* the site: a wide band with the receipt standing on the floor */}
-      <div className="relative mt-12 overflow-hidden rounded-3xl border border-seam shadow-[0_24px_70px_-20px_var(--shadow)]">
-        <Scene seed="hero" variant="site" w={240} h={64} density="busy" className="h-[240px] sm:h-[300px] md:h-[340px]" />
-        <div className="pointer-events-none absolute bottom-5 right-[5%] hidden w-[280px] md:block">
-          <Receipt />
+        {/* the site, standing on the right */}
+        <div {...rise(2)} className="rise relative">
+          <div className="relative overflow-hidden rounded-3xl border border-seam shadow-[0_24px_70px_-20px_var(--shadow)]">
+            <Scene seed="hero" variant="site" w={150} h={120} density="busy" className="h-[360px] sm:h-[440px] lg:h-[520px]" />
+            <div className="absolute inset-x-4 bottom-4 sm:inset-x-auto sm:right-6 sm:w-[270px]">
+              <Receipt />
+            </div>
+          </div>
+          <div className="absolute -left-6 top-10 hidden lg:block" aria-hidden="true">
+            <div className="float">
+              <TokenBadge mark={<SolanaMark className="h-7 w-8 text-floor" />} label="SOL" />
+            </div>
+          </div>
+          <div className="absolute -right-5 top-1/3 hidden xl:block" aria-hidden="true">
+            <div className="float-2">
+              <TokenBadge mark={<FloorMark className="h-11 w-11" />} label={t("badgeFloor")} />
+            </div>
+          </div>
+          <div className="absolute -left-4 bottom-24 hidden xl:block" aria-hidden="true">
+            <div className="float-3">
+              <TokenBadge mark={<BrakeMark className="h-11 w-11" />} label={t("badgeBrake")} />
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -74,7 +102,7 @@ function Receipt() {
     [t("rows.paid"), "5.3319 SOL", true],
   ];
   return (
-    <div className="patch-card -rotate-2 px-5 py-4 font-mono text-[12px]">
+    <div className="patch-card -rotate-1 px-5 py-4 font-mono text-[12px]">
       <div className="flex items-baseline justify-between pb-3">
         <b className="font-display text-sm font-semibold text-ink">{t("title")}</b>
         <span className="text-ink-3">{t("subtitle")}</span>

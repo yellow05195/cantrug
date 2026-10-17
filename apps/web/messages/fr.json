@@ -143,7 +143,7 @@
         "gap": "Prix au-dessus du plancher"
       },
       "toGrad": "vers la graduation",
-      "kicker": "En direct de la chaîne"
+      "kicker": "Le tableau"
     },
     "datumLabel": "ligne de plancher, le niveau de référence de tous les graphiques du site",
     "band": {
@@ -473,6 +473,14 @@
       "coins": "Coins lancés",
       "brakes": "Freins enclenchés",
       "keys": "Clés admin sur le pool"
+    },
+    "latest": {
+      "kicker": "En direct de la chaîne",
+      "title": "Les derniers sur le plancher.",
+      "all": "Voir tout le tableau",
+      "toGrad": "sur la courbe",
+      "mintYours": "Lance le tien",
+      "mintNote": "Un nom, un ticker, une image."
     }
   },
   "floor": {
