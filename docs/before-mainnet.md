@@ -57,3 +57,7 @@ Defaults are Pump-like (30 / 1 073 000 000 virtual reserves, 793 100 000 curve s
 
 - Deploy, initialize config with the frozen parameters, transfer authority to Squads, verify the build (`solana-verify`), publish the IDL on-chain (`anchor idl init` or the Anchor IDL program).
 - Launch the demo coin, run the Rug-proof challenge on it with a public dev wallet, link every signature in the thread.
+
+## Update 2026-10-17: cranks without a host
+
+Two cranks now ride inside ordinary transactions (`apps/web/src/lib/tx/live.ts`): `process_queue` is prepended to any buy or redeem when a brake window has closed with tokens still queued (the wallet earns the crank reward; sells already serve the queue inside the program), and `graduate` is appended to the buy that completes the curve. Both are optional: if the simulation refuses them, the transaction is rebuilt without. A Vercel cron (`/api/cron/crank`, every 5 minutes, `CRON_SECRET` + `CRANK_KEYPAIR`) catches coins nobody trades. Section 6's "two cranks on independent hosts" therefore becomes: fund the crank wallet, watch `/api/cron/crank`'s JSON (`due`, `sent`, `results`), and add a second host only if volume demands it. The runbook is `docs/LAUNCH.md`.
