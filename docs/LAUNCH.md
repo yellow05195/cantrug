@@ -12,7 +12,7 @@ ordered security list (audit, Squads, immutability) is in
 | Same program id on mainnet | reserved by `target/deploy/floored-keypair.json`, **not deployed yet** (needs SOL, see below) |
 | Mainnet deployer / config authority | `keys/floored-mainnet.json` = `EpQt7k2KaSubGuz78NjVj2HkX8hNBjG769Z7CQArgQ1x` (0 SOL) |
 | Crank wallet | `keys/floored-crank.json` = `GLuYjwGd34f55b2yezRVX7u5ezZk2AZdSBa2YYNVNDSq` (0 SOL; set as `CRANK_KEYPAIR` on Vercel) |
-| Site | Vercel project `floored` (root `apps/web`), chain mode: no indexer, no Postgres, the site reads the chain through its own `/api/rpc` proxy and `/api/coins`, `/api/stats`, … route handlers |
+| Site | **live on devnet data**: https://floored-hahfhndsjnddgh-3216.vercel.app (Vercel project `floored`, root `apps/web`, build `pnpm --filter @floored/sdk build && next build`), chain mode: no indexer, no Postgres, the site reads the chain through its own `/api/rpc` proxy and `/api/coins`, `/api/stats`, … route handlers. Vercel Authentication is still ON for that URL (see step 0) |
 | Uploads | Vercel Blob store `floored-uploads` (public), route `/api/upload`, wired automatically in live mode |
 | Cranks | ride inside trades (`process_queue` before a buy or a redeem when a window closed with a queue, `graduate` after the buy that completes the curve) + cron backstop `/api/cron/crank` every 5 minutes |
 | GitHub | `yellow05195/floored` (private) created; first push blocked, see step 0 |
@@ -27,6 +27,13 @@ ordered security list (audit, Squads, immutability) is in
 3. **GitHub token scope**: the push was refused because `.github/workflows/ci.yml` needs the
    `workflow` scope. Run, in this terminal: `! gh auth refresh -h github.com -s workflow`
    then `git push -u origin main`.
+
+4. **Make the site public.** The project was created with Vercel Authentication on every
+   deployment that has no custom domain, so https://floored-hahfhndsjnddgh-3216.vercel.app
+   redirects visitors to a Vercel login (your own browser, logged into Vercel, gets through).
+   Either turn it off in the dashboard (project floored → Settings → Deployment Protection →
+   Vercel Authentication → Disabled; the CLI route was refused by my permissions), or attach a
+   custom domain, which is exempt.
 
 Optional: the domain. `floored.fun` was free on 2026-10-17 (`floored.xyz` and `floored.app`
 are taken). `vercel domains buy floored.fun` charges the Vercel card; then
