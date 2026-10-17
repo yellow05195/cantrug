@@ -1,8 +1,10 @@
 "use client";
 /**
- * Live event stream. One shared connection per tab; components subscribe to
- * a mint (or "*") and get `{type, mint, data}` frames.
- * - live: the indexer websocket (`/ws`), reconnecting with backoff;
+ * Live event stream. One shared source per tab; components subscribe to a
+ * mint (or "*") and get `{type, mint, data}` frames.
+ * - indexer: its websocket (`/ws`), reconnecting with backoff;
+ * - chain: polling `/api/events?after=<signature>` every few seconds (paused
+ *   while the tab is hidden), the frames being the same shape;
  * - mock: an in-tab emitter driven by the mock dataset (a trade every few seconds).
  */
 import { ENV, hasApi, wsUrl } from "@/lib/env";
@@ -14,6 +16,9 @@ const handlers = new Map<string, Set<Handler>>();
 let socket: WebSocket | null = null;
 let retry = 0;
 let mockStarted = false;
+let pollStarted = false;
+
+const POLL_MS = 5000;
 
 function dispatch(m: WsMessage) {
   handlers.get(m.mint)?.forEach((h) => h(m));
@@ -51,6 +56,34 @@ function connectLive() {
   ws.onerror = () => ws.close();
 }
 
+/** Chain mode: poll the program's newest transactions and replay them as frames. */
+function startPolling() {
+  if (pollStarted || typeof window === "undefined") return;
+  pollStarted = true;
+  let latest: string | null = null;
+  let busy = false;
+  const tick = async () => {
+    if (busy || handlers.size === 0 || document.visibilityState === "hidden") return;
+    busy = true;
+    try {
+      const res = await fetch(`/api/events${latest ? `?after=${latest}` : ""}`, { cache: "no-store", headers: { accept: "application/json" } });
+      if (!res.ok) return;
+      const page = (await res.json()) as { items: WsMessage[]; latest: string | null };
+      if (latest !== null) for (const m of page.items) dispatch(m);
+      if (page.latest) latest = page.latest;
+    } catch {
+      /* next tick */
+    } finally {
+      busy = false;
+    }
+  };
+  void tick();
+  setInterval(() => void tick(), POLL_MS);
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") void tick();
+  });
+}
+
 async function startMock() {
   if (mockStarted || typeof window === "undefined") return;
   mockStarted = true;
@@ -86,6 +119,11 @@ export function emitEngineEvents(events: { type: string; signature: string; slot
   }
 }
 
+/** Dispatch a frame produced locally (e.g. the events of a transaction this tab just confirmed). */
+export function emitLocal(m: WsMessage) {
+  dispatch(m);
+}
+
 export function subscribe(key: string, h: Handler): () => void {
   let set = handlers.get(key);
   const isNew = !set;
@@ -95,6 +133,7 @@ export function subscribe(key: string, h: Handler): () => void {
   }
   set.add(h);
   if (ENV.mock) void startMock();
+  else if (ENV.chain) startPolling();
   else {
     connectLive();
     if (isNew) sendSub(key);
