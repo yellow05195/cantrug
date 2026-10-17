@@ -24,7 +24,8 @@ export function CoinHeader({ coin, m }: { coin: CoinJson; m: CoinMetrics }) {
   const graduated = m.phase === "graduated";
   const social = "press grid size-9 place-items-center rounded-full border-2 border-stroke bg-bg-3 text-ink-2 hover:border-stroke-strong hover:text-ink";
   return (
-    <div className="sticker flex flex-wrap items-center gap-x-5 gap-y-4 p-4 sm:p-5">
+    <div className="sticker overflow-hidden">
+      <div className="flex flex-wrap items-center gap-x-5 gap-y-4 p-4 sm:p-5">
       <ViewTransition name={vtName(coin.mint, "av")} share="auto" default="none">
         <CoinAvatar src={coin.image_url} symbol={coin.symbol} seed={coin.mint} size={76} />
       </ViewTransition>
@@ -83,22 +84,26 @@ export function CoinHeader({ coin, m }: { coin: CoinJson; m: CoinMetrics }) {
         </div>
       </div>
       {/* Live numbers roll here (and in the hero) only. */}
-      <dl className="flex w-full gap-6 border-t-2 border-stroke pt-3 sm:w-auto sm:border-0 sm:pt-0 sm:text-right">
-        <div>
-          <dt className="text-xs font-semibold text-ink-3">{tk("price")}</dt>
-          <dd className="mt-0.5 text-xl">
-            <Flash value={m.priceSol}>
-              <NumRoll value={tiny(m.priceSol, 4)} label={`${m.priceSol.toPrecision(4)} SOL`} />
-            </Flash>
-          </dd>
-        </div>
-        <div>
-          <dt className="text-xs font-semibold text-ink-3">{graduated ? tk("floor") : tk("floorStart")}</dt>
-          <dd className="mt-0.5 text-xl text-floor">
-            {graduated ? <NumRoll value={tiny(m.floorSol, 4)} label={`${m.floorSol.toPrecision(4)} SOL`} /> : <Price value={m.floorPreviewSol} className="text-ink-2" />}
-          </dd>
-        </div>
+      <dl className="flex w-full items-baseline justify-between gap-3 border-t border-stroke pt-3 sm:block sm:w-auto sm:border-0 sm:pt-0 sm:text-right">
+        <dt className="text-xs font-semibold text-ink-3">{tk("price")}</dt>
+        <dd className="mt-0.5 text-2xl">
+          <Flash value={m.priceSol}>
+            <NumRoll value={tiny(m.priceSol, 4)} label={`${m.priceSol.toPrecision(4)} SOL`} />
+          </Flash>
+        </dd>
       </dl>
+      </div>
+      {/* The datum: the floor value stands on the orange line, with its ruler and level mark. */}
+      <div aria-label={graduated ? tk("floor") : tk("floorStart")}>
+        <div className="flex items-end justify-between gap-3 px-4 pb-1.5 sm:px-5">
+          <span className="num text-xs text-ink-3">±0.00 {graduated ? tk("floor") : tk("floorStart")}</span>
+          <span className={graduated ? "text-2xl text-floor" : "text-xl text-ink-2"}>
+            {graduated ? <NumRoll value={tiny(m.floorSol, 4)} label={`${m.floorSol.toPrecision(4)} SOL`} /> : <Price value={m.floorPreviewSol} />}
+          </span>
+        </div>
+        <div aria-hidden className="datum-ticks h-2.5 w-full" />
+        <div aria-hidden className={graduated ? "h-1.5 w-full bg-floor" : "h-0 w-full border-t-[3px] border-dashed border-floor/70"} />
+      </div>
     </div>
   );
 }

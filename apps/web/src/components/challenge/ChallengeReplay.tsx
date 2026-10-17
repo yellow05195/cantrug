@@ -13,6 +13,7 @@ import { cn } from "@/lib/cn";
 import { ENV, explorerTx } from "@/lib/env";
 import { countdown, pct, shortAddress, sol, tiny, tokens } from "@/lib/format";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
+import { EmptyState } from "@/components/ui/EmptyState";
 
 interface Point {
   ms: number;
@@ -153,7 +154,7 @@ export function ChallengeReplay({ coin, mint, dev }: { coin: CoinJson | null; mi
 
   if (error) return <p className="text-md text-down">{t("loadError", { cluster: ENV.cluster })}</p>;
   if (!trades) return <Skeleton className="h-[420px]" />;
-  if (!ep) return <p className="rounded-xl border-2 border-dashed border-stroke p-6 text-md text-ink-2">{t("noDump")}</p>;
+  if (!ep) return <EmptyState className="text-md">{t("noDump")}</EmptyState>;
 
   // Even spacing per event: the hours before T0 and the one-minute windows after read at the same scale.
   const pts = ep.points;

@@ -264,7 +264,8 @@ export function Chart({
   const empty = !loading && candles.length === 0;
 
   return (
-    <div className="sticker">
+    <div className="sticker overflow-hidden">
+      <div aria-hidden className="datum-ticks h-2 w-full opacity-80" />
       <div className="flex items-center justify-between gap-3 border-b-2 border-stroke py-2 pl-4 pr-2">
         <div className="flex items-center gap-3 py-2 text-xs text-ink-2">
           <span className="flex items-center gap-1.5">
@@ -276,13 +277,13 @@ export function Chart({
             {t("priceLegend")}
           </span>
         </div>
-        <Tabs idPrefix="chart" size="sm" items={INTERVALS.map((i) => ({ key: i, label: <span className="num">{i}</span> }))} value={interval} onChange={onInterval} className="border-stroke" />
+        <Tabs idPrefix="chart" flat size="sm" items={INTERVALS.map((i) => ({ key: i, label: <span className="num">{i}</span> }))} value={interval} onChange={onInterval} className="border-stroke" />
       </div>
       <div className="relative">
         <div ref={box} className={cn("w-full", "h-[var(--h-m)] lg:h-[var(--h-d)]")} style={{ ["--h-m" as string]: `${height.mobile}px`, ["--h-d" as string]: `${height.desktop}px` }} role="img" aria-label={t("aria")} />
         {empty ? (
           <div className="pointer-events-none absolute inset-x-0 top-6 z-10 flex justify-center px-6">
-            <p className="max-w-sm rounded-full border-2 border-stroke bg-bg-2/95 px-3 py-2 text-center text-xs text-ink-2">{emptyNote ?? t("empty")}</p>
+            <p className="max-w-sm rounded-lg border-2 border-dashed border-stroke bg-bg-2/95 px-3 py-2 text-center text-xs text-ink-2">{emptyNote ?? t("empty")}</p>
           </div>
         ) : null}
       </div>

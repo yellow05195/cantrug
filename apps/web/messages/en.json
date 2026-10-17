@@ -45,7 +45,6 @@
     "lede": "Every FLOORED coin has a floor: the pool's SOL belongs to holders, redeemable any time. And no sale can crash it.",
     "ctaLaunch": "Launch a coin",
     "ctaCoins": "See the coins",
-    "heroAlt": "A concrete slab seen from below, an orange line of light along its edge",
     "counterLabel": "SOL returned to holders",
     "counterShort": "SOL returned",
     "launched": "Coins launched",
@@ -107,6 +106,36 @@
         "text": "Three accounts and one division. Read them on chain and recompute the floor.",
         "formula": "read on chain"
       }
+    },
+    "kicker": "Solana launchpad. The pool belongs to the holders.",
+    "hotSub": "Most SOL traded in the last hour, and three coins worth a look.",
+    "scene": {
+      "alt": "A price line climbs, breaks and falls in steps onto an orange concrete slab that holds.",
+      "levelMark": "the floor",
+      "perWindow": "max per 60 s"
+    },
+    "board": {
+      "title": "On the board",
+      "sub": "Every FLOORED coin, live. Price, floor, and how far one is above the other.",
+      "tab": {
+        "new": "New",
+        "graduating": "Graduating",
+        "floor": "Highest floor",
+        "all": "All"
+      },
+      "col": {
+        "coin": "Coin",
+        "price": "Price",
+        "floor": "Floor",
+        "gap": "Price above floor"
+      },
+      "toGrad": "to graduation"
+    },
+    "datumLabel": "floor line, the datum of every chart on this site",
+    "band": {
+      "title": "Launch a coin that cannot go to zero.",
+      "text": "One name, one ticker, one image. The floor is active at graduation, and nobody, not even us, can touch the pool.",
+      "how": "How it works"
     }
   },
   "floor": {
@@ -466,15 +495,15 @@
     "brake": {
       "title": "The brake",
       "p1": "A brake window lasts 150 slots, about a minute. Within a window, no sale can push the price more than 20 % below where it started.",
-      "alt": "A red price line falls in a staircase of short steps, each one held by a yellow and black barrier, and stops on an orange line above a concrete slab",
-      "caption": "A −90 % dump becomes a staircase of −20 % steps. The floor never moves.",
+      "alt": "A price line stepping down in short stairs, each step held by a yellow brake mark, stopping above the orange floor line",
+      "caption": "A crash becomes a staircase: at most −20 % per window, above the floor line.",
       "p2": "What the window cannot absorb goes into a queue. At the start of each window the queue is sold first, as much as the 20 % limit allows, and the SOL is shared pro rata between everyone queued.",
       "p3": "Queued sellers can claim what they have earned, cancel and take their tokens back, or switch to the floor and redeem the rest instantly."
     },
     "compare": {
       "title": "FLOORED vs Pump",
       "p1": "Same curve, same graduation, different ending. What happens to the last 20 % of holders decides everything.",
-      "alt": "Two glass tanks of water. On the left the water drains into cracked ground and burns. On the right it pours onto a glowing orange slab.",
+      "alt": "Left: a price line falls through broken ground to zero. Right: the same fall stops in steps on the orange floor line.",
       "left": "Pump: the liquidity is burned. The last holders are left with nothing to sell into.",
       "right": "FLOORED: the liquidity stays under the holders. The last one out still gets their share.",
       "p2": "There is no team wallet that can pull the pool. The pool is a program account; only redeem and the swap can move its SOL."
@@ -497,7 +526,8 @@
       "curve": "not active (curve)",
       "sourceRpc": "Read just now from {rpc} and recomputed in your browser.",
       "sourceMock": "Not found on chain; showing the mock dataset's state for this mint.",
-      "accounts": "Accounts read:"
+      "accounts": "Accounts read:",
+      "diagramCaption": "Two vault balances and the mint supply, read straight from the chain, give the floor."
     },
     "fees": {
       "title": "Fees",

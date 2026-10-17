@@ -297,7 +297,7 @@ export function CreateForm() {
           </Field>
         </div>
 
-        <div className="sticker p-4">
+        <div className="border-t-2 border-stroke pt-5">
           <Field id={`${uid}buy`} label={t("firstBuy")} error={err("firstBuy")}>
             <div className="flex items-center rounded-lg border-2 border-stroke bg-bg-3 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-floor">
               <input id={`${uid}buy`} className="num h-12 min-w-0 flex-1 bg-transparent px-3 text-xl outline-none placeholder:text-ink-3" inputMode="decimal" placeholder="0.00" value={f.firstBuy} onChange={set("firstBuy")} />

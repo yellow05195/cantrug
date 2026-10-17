@@ -22,6 +22,7 @@ export function Tabs<K extends string>({
   size = "md",
   idPrefix,
   fill,
+  flat,
 }: {
   items: TabItem<K>[];
   value: K;
@@ -30,6 +31,8 @@ export function Tabs<K extends string>({
   size?: "sm" | "md" | "lg";
   idPrefix: string;
   fill?: boolean;
+  /** Inside a sticker: no outline of its own, just a recessed track (never a sticker in a sticker). */
+  flat?: boolean;
 }) {
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
   const onKey = (e: KeyboardEvent, i: number) => {
@@ -46,7 +49,7 @@ export function Tabs<K extends string>({
     }
   };
   return (
-    <div role="tablist" className={cn("inline-flex max-w-full gap-1 rounded-full border-2 border-stroke bg-bg-2 p-1", fill && "flex w-full", className)}>
+    <div role="tablist" className={cn("inline-flex max-w-full gap-1 rounded-full p-1", flat ? "bg-bg-3" : "border-2 border-stroke bg-bg-2", fill && "flex w-full", className)}>
       {items.map((it, i) => {
         const active = it.key === value;
         return (

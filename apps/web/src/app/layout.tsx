@@ -22,7 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase: new URL(ENV.siteUrl),
     title: { default: t("title"), template: "%s | FLOORED" },
     description: t("description"),
-    openGraph: { title: t("title"), description: t("description"), siteName: "FLOORED", images: ["/assets/og-bg.webp"] },
+    openGraph: { title: t("title"), description: t("description"), siteName: "FLOORED" },
     twitter: { card: "summary_large_image" },
   };
 }

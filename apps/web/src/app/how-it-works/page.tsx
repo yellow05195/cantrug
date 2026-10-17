@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import Image from "next/image";
 import Link from "next/link";
-import brakeImg from "../../../public/assets/howitworks-brake.webp";
-import compareImg from "../../../public/assets/howitworks-compare.webp";
+import { BrakeDiagram, CompareDiagram, VerifyDiagram } from "@/components/how/Diagrams";
 import { FloorDiagram } from "@/components/how/FloorDiagram";
 import { ReadOnChain } from "@/components/how/ReadOnChain";
 import { LevelRule } from "@/components/ui/Floor";
@@ -21,6 +19,19 @@ function H2({ id, children }: { id: string; children: React.ReactNode }) {
     <h2 id={id} className="title-tight mt-20 scroll-mt-24 text-2xl font-extrabold sm:text-[1.75rem]">
       {children}
     </h2>
+  );
+}
+
+/** A drawn diagram on the drafting grid, with a short caption under it. */
+function Drawing({ children, caption, label }: { children: React.ReactNode; caption: React.ReactNode; label: string }) {
+  return (
+    <figure className="my-10">
+      <div role="img" aria-label={label} className="relative overflow-hidden rounded-xl border-2 border-stroke bg-bg-2 px-4 pb-0 pt-5 sm:px-8 sm:pt-7">
+        <div aria-hidden className="blueprint-grid absolute inset-0 opacity-70" />
+        <div className="relative">{children}</div>
+      </div>
+      <figcaption className="mt-3 text-sm text-ink-2">{caption}</figcaption>
+    </figure>
   );
 }
 
@@ -55,22 +66,25 @@ export default async function HowItWorks() {
 
       <H2 id="brake">{t("brake.title")}</H2>
       <P>{t("brake.p1")}</P>
-      <figure className="my-10">
-        <Image src={brakeImg} alt={t("brake.alt")} placeholder="blur" sizes="(min-width: 768px) 70ch, 100vw" className="h-auto w-full rounded-xl border-2 border-stroke shadow-[0_4px_0_0_var(--shadow)]" />
-        <figcaption className="mt-3 text-sm text-ink-2">{t("brake.caption")}</figcaption>
-      </figure>
+      <Drawing caption={t("brake.caption")} label={t("brake.alt")}>
+        <BrakeDiagram className="h-auto w-full" />
+      </Drawing>
       <P>{t("brake.p2")}</P>
       <P>{t("brake.p3")}</P>
 
       <H2 id="compare">{t("compare.title")}</H2>
       <P>{t("compare.p1")}</P>
-      <figure className="my-10">
-        <Image src={compareImg} alt={t("compare.alt")} placeholder="blur" sizes="(min-width: 768px) 70ch, 100vw" className="h-auto w-full rounded-xl border-2 border-stroke shadow-[0_4px_0_0_var(--shadow)]" />
-        <figcaption className="mt-3 grid grid-cols-2 gap-4 text-sm text-ink-2">
-          <span>{t("compare.left")}</span>
-          <span>{t("compare.right")}</span>
-        </figcaption>
-      </figure>
+      <Drawing
+        label={t("compare.alt")}
+        caption={
+          <span className="grid grid-cols-2 gap-4">
+            <span>{t("compare.left")}</span>
+            <span>{t("compare.right")}</span>
+          </span>
+        }
+      >
+        <CompareDiagram className="h-auto w-full" />
+      </Drawing>
       <P>{t("compare.p2")}</P>
 
       <H2 id="verify">{t("verify.title")}</H2>
@@ -85,6 +99,9 @@ export default async function HowItWorks() {
         </ul>
         <p className="mt-4 border-t border-line pt-3 text-sm text-ink-3">{t("verify.legend")}</p>
       </div>
+      <Drawing caption={t("verify.diagramCaption")} label={t("verify.diagramCaption")}>
+        <VerifyDiagram className="h-auto w-full" />
+      </Drawing>
       <P>{t("verify.p2")}</P>
       <ul className="mt-4 space-y-1.5 text-sm text-ink-2">
         <li>

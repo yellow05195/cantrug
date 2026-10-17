@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { BigNumbers, ReturnedChart } from "@/components/stats/StatsParts";
 import { CoinAvatar } from "@/components/ui/Bits";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { Price } from "@/components/ui/Num";
 import { api, safely } from "@/lib/api/client";
 import type { CoinJson } from "@/lib/api/types";
@@ -67,7 +68,7 @@ export default async function StatsPage() {
     return (
       <div className="gutter mx-auto max-w-[1280px] pt-14">
         <h1 className="display-tight text-4xl font-extrabold">{t("title")}</h1>
-        <p className="mt-4 max-w-[60ch] text-md text-ink-2">{t("noIndexer")}</p>
+        <EmptyState className="mt-8 max-w-2xl text-md">{t("noIndexer")}</EmptyState>
       </div>
     );
   }

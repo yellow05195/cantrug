@@ -85,10 +85,13 @@ export function ReturnedChart({ series }: { series: StatsJson["sol_redeemed_by_d
     };
   }, [series]);
   return (
-    <figure className="sticker">
-      <figcaption className="flex items-baseline justify-between border-b border-line px-4 py-2.5 text-sm">
-        <span>{t("chartTitle")}</span>
-        <span className="text-xs text-ink-3">{t("chartUnit")}</span>
+    <figure className="sticker overflow-hidden">
+      <figcaption className="border-b-2 border-stroke text-sm font-semibold">
+        <span aria-hidden className="datum-ticks block h-2 w-full opacity-80" />
+        <span className="flex items-baseline justify-between px-4 py-2.5">
+          <span>{t("chartTitle")}</span>
+          <span className="text-xs text-ink-3">{t("chartUnit")}</span>
+        </span>
       </figcaption>
       <div ref={box} className="h-[260px] w-full sm:h-[320px]" role="img" aria-label={t("chartTitle")} />
     </figure>

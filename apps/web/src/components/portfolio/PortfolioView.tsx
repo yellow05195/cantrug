@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 import { CoinAvatar, Skeleton } from "@/components/ui/Bits";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { Dialog } from "@/components/ui/Dialog";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { gapText } from "@/components/ui/Floor";
 import { toast } from "@/components/ui/Toaster";
 import { ConnectPrompt } from "@/components/wallet/WalletButton";
@@ -94,10 +95,12 @@ export function PortfolioView() {
 
   if (!account.connected) {
     return (
-      <div className="max-w-md space-y-4 rounded-xl border-2 border-dashed border-stroke p-6">
-        <p className="text-md text-ink-2">{t("connect")}</p>
-        <ConnectPrompt />
-      </div>
+      <EmptyState className="max-w-md">
+        <div className="space-y-4">
+          <p className="text-md text-ink-2">{t("connect")}</p>
+          <ConnectPrompt />
+        </div>
+      </EmptyState>
     );
   }
 
@@ -115,7 +118,8 @@ export function PortfolioView() {
 
   if (!rows.length) {
     return (
-      <div className="max-w-lg space-y-4 rounded-xl border-2 border-dashed border-stroke p-6">
+      <EmptyState className="max-w-lg">
+      <div className="space-y-4">
         <p className="text-md">{t("empty")}</p>
         <div className="flex flex-wrap gap-2">
           <ButtonLink href="/" variant="primary">
@@ -126,6 +130,7 @@ export function PortfolioView() {
           </ButtonLink>
         </div>
       </div>
+      </EmptyState>
     );
   }
 

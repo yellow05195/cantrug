@@ -12,6 +12,7 @@ import { cn } from "@/lib/cn";
 import { explorerAddress, explorerTx } from "@/lib/env";
 import { bpsPct, shortAddress, sol, tokens } from "@/lib/format";
 import { useTx } from "@/lib/tx/TxProvider";
+import { EmptyState } from "@/components/ui/EmptyState";
 
 const ROW_H = 36;
 
@@ -62,7 +63,7 @@ export function TradesFeed({ trades, freshKeys, symbol, emptyNote }: { trades: T
   const end = virtual ? Math.min(trades.length, start + Math.ceil(viewH / ROW_H) + 16) : trades.length;
   const key = (tr: TradeJson) => `${tr.signature}:${tr.event_index}:${tr.kind ?? "t"}`;
 
-  if (!trades.length) return <p className="rounded-xl border-2 border-dashed border-stroke p-4 text-sm text-ink-2">{emptyNote ?? t("empty")}</p>;
+  if (!trades.length) return <EmptyState>{emptyNote ?? t("empty")}</EmptyState>;
 
   return (
     <div className="sticker overflow-hidden">
@@ -91,7 +92,7 @@ export function TradesFeed({ trades, freshKeys, symbol, emptyNote }: { trades: T
 
 export function Holders({ data, m, symbol }: { data: HoldersJson | null; m: CoinMetrics; symbol: string }) {
   const t = useTranslations("holders");
-  if (!data || !data.items.length) return <p className="rounded-xl border-2 border-dashed border-stroke p-4 text-sm text-ink-2">{t("empty")}</p>;
+  if (!data || !data.items.length) return <EmptyState>{t("empty")}</EmptyState>;
   const fq = m.phase === "graduated" ? m.floorQ64 : 0n;
   return (
     <div className="overflow-x-auto rounded-xl border-2 border-stroke">

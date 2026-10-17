@@ -4,6 +4,7 @@ import { X } from "@phosphor-icons/react/dist/ssr";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Skeleton } from "@/components/ui/Bits";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { TabPanel, Tabs } from "@/components/ui/Tabs";
 import { WalletModal } from "@/components/wallet/WalletButton";
@@ -234,7 +235,7 @@ export function CoinView({ mint, initial, initialCandles, initialTrades, initial
     return (
       <div className="gutter mx-auto max-w-[720px] py-24">
         <h1 className="title-tight text-2xl font-extrabold">{t("notFound")}</h1>
-        <p className="mt-3 text-md text-ink-2">{chain.error ? t("rpcError", { rpc: ENV.rpcUrl }) : t("notFoundHint", { cluster: ENV.cluster })}</p>
+        <EmptyState className="mt-4 text-md">{chain.error ? t("rpcError", { rpc: ENV.rpcUrl }) : t("notFoundHint", { cluster: ENV.cluster })}</EmptyState>
         <ButtonLink href="/" variant="secondary" className="mt-6">
           {t("back")}
         </ButtonLink>

@@ -38,11 +38,14 @@ export function HeroMotion({ children, className }: { children: ReactNode; class
       setTimeout(() => {
         cached = false;
       }, 1500);
+      const el = root.current;
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-      tl.from("[data-hero-line]", { y: 12, opacity: 0, duration: 0.5, stagger: 0.06 }, 0)
-        .from("[data-hero-sub]", { y: 12, opacity: 0, duration: 0.45, stagger: 0.06 }, 0.18)
-        .fromTo("[data-hero-veil]", { opacity: 0.85, clipPath: "inset(0 0% 0 0)" }, { opacity: 0.85, clipPath: "inset(0 0% 0 100%)", duration: 0.6, ease: "power2.inOut" }, 0.35)
-        .set("[data-hero-veil]", { opacity: 0 });
+      // Only animate targets that exist on the current hero (GSAP warns on empty selectors).
+      if (el?.querySelector("[data-hero-line]")) tl.from("[data-hero-line]", { y: 12, opacity: 0, duration: 0.5, stagger: 0.06 }, 0);
+      if (el?.querySelector("[data-hero-sub]")) tl.from("[data-hero-sub]", { y: 12, opacity: 0, duration: 0.45, stagger: 0.06 }, 0.18);
+      if (el?.querySelector("[data-hero-veil]")) {
+        tl.fromTo("[data-hero-veil]", { opacity: 0.85, clipPath: "inset(0 0% 0 0)" }, { opacity: 0.85, clipPath: "inset(0 0% 0 100%)", duration: 0.6, ease: "power2.inOut" }, 0.35).set("[data-hero-veil]", { opacity: 0 });
+      }
     },
     { scope: root },
   );

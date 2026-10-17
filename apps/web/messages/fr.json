@@ -45,7 +45,6 @@
     "lede": "Chaque coin FLOORED a un plancher : le SOL du pool appartient aux holders, récupérable à tout moment. Et aucune vente ne peut le faire s'effondrer.",
     "ctaLaunch": "Lancer un coin",
     "ctaCoins": "Voir les coins",
-    "heroAlt": "Une dalle de béton vue d'en dessous, une ligne de lumière orange le long de sa tranche",
     "counterLabel": "SOL rendus aux holders",
     "counterShort": "SOL rendus",
     "launched": "Coins lancés",
@@ -107,6 +106,36 @@
         "text": "Trois comptes et une division. Lis-les sur la chaîne et recalcule le plancher.",
         "formula": "lire sur la chaîne"
       }
+    },
+    "kicker": "Launchpad Solana. Le pool appartient aux porteurs.",
+    "hotSub": "Le plus de SOL échangés sur la dernière heure, et trois coins à regarder.",
+    "scene": {
+      "alt": "Une courbe de prix monte, casse et tombe par paliers sur une dalle de béton orange qui tient.",
+      "levelMark": "le plancher",
+      "perWindow": "max par 60 s"
+    },
+    "board": {
+      "title": "Au tableau",
+      "sub": "Tous les coins FLOORED, en direct. Le prix, le plancher, et l'écart entre les deux.",
+      "tab": {
+        "new": "Nouveaux",
+        "graduating": "Bientôt gradués",
+        "floor": "Plancher le plus haut",
+        "all": "Tous"
+      },
+      "col": {
+        "coin": "Coin",
+        "price": "Prix",
+        "floor": "Plancher",
+        "gap": "Prix au-dessus du plancher"
+      },
+      "toGrad": "vers la graduation"
+    },
+    "datumLabel": "ligne de plancher, le niveau de référence de tous les graphiques du site",
+    "band": {
+      "title": "Lance un coin qui ne peut pas tomber à zéro.",
+      "text": "Un nom, un ticker, une image. Le plancher est actif à la graduation, et personne, pas même nous, ne peut toucher au pool.",
+      "how": "Comment ça marche"
     }
   },
   "floor": {
@@ -466,15 +495,15 @@
     "brake": {
       "title": "Le frein",
       "p1": "Une fenêtre du frein dure 150 slots, environ une minute. Dans une fenêtre, aucune vente ne peut pousser le prix plus de 20 % sous son niveau de départ.",
-      "alt": "Une ligne de prix rouge descend en escalier de petites marches, chacune retenue par une barrière jaune et noire, et s'arrête sur une ligne orange au-dessus d'une dalle de béton",
-      "caption": "Un dump de −90 % devient un escalier de marches de −20 %. Le plancher ne bouge pas.",
+      "alt": "Une ligne de prix qui descend en petites marches, chacune retenue par une marque jaune du frein, et s'arrête au-dessus de la ligne orange du plancher",
+      "caption": "Un krach devient un escalier : au plus −20 % par fenêtre, au-dessus de la ligne du plancher.",
       "p2": "Ce que la fenêtre ne peut pas absorber part en file d'attente. Au début de chaque fenêtre, la file est vendue en premier, autant que la limite de 20 % le permet, et le SOL est partagé au prorata entre tous ceux qui attendent.",
       "p3": "Les vendeurs en file peuvent récupérer ce qu'ils ont gagné, quitter la file et reprendre leurs tokens, ou passer au plancher et rendre le reste tout de suite."
     },
     "compare": {
       "title": "FLOORED vs Pump",
       "p1": "Même courbe, même graduation, fin différente. Ce qui arrive aux derniers 20 % de holders décide de tout.",
-      "alt": "Deux cuves de verre remplies d'eau. À gauche, l'eau s'écoule dans un sol fissuré et brûle. À droite, elle se déverse sur une dalle orange lumineuse.",
+      "alt": "À gauche : une ligne de prix traverse un sol cassé jusqu'à zéro. À droite : la même chute s'arrête en marches sur la ligne orange du plancher.",
       "left": "Pump : la liquidité est brûlée. Les derniers holders n'ont plus rien à qui vendre.",
       "right": "FLOORED : la liquidité reste sous les holders. Le dernier à sortir reçoit encore sa part.",
       "p2": "Aucun wallet d'équipe ne peut retirer le pool. Le pool est un compte du programme ; seuls le rachat au plancher et le swap peuvent déplacer son SOL."
@@ -497,7 +526,8 @@
       "curve": "pas actif (courbe)",
       "sourceRpc": "Lu à l'instant sur {rpc} et recalculé dans ton navigateur.",
       "sourceMock": "Introuvable sur la chaîne ; affichage de l'état fictif de ce mint.",
-      "accounts": "Comptes lus :"
+      "accounts": "Comptes lus :",
+      "diagramCaption": "Deux soldes de coffres et l'offre du mint, lus directement sur la chaîne, donnent le plancher."
     },
     "fees": {
       "title": "Frais",

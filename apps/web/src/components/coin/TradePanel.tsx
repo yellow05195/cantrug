@@ -109,6 +109,7 @@ export function TradePanel({
     <div className={cn("sticker overflow-hidden", tab === "redeem" && "border-floor-deep")}>
       <div className="p-3 pb-0">
       <Tabs
+        flat
         size="lg"
         idPrefix={`trade${id}`}
         fill

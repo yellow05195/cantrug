@@ -196,3 +196,11 @@ Keep v1 structure; restyle as stickers; How it works keeps its editorial measure
 
 ## What stays forbidden
 Gradient buttons, glass panels, soft shadows, purple anything, confetti outside the two delight moments, more than one marquee, animated numbers in tables, em dashes, all-caps labels, three identical feature cards anywhere except the "How the floor works" trio.
+
+---
+
+# v3: drawn, not photographed
+
+After the v2 pass the user found the generated photos odd and the result generic. Rule from now on: **no raster imagery anywhere**. The site draws its own world with the drafting vocabulary already in the brand: a dot grid like drafting paper, the orange floor line as a page-wide datum with a ruler of ticks above it and the level mark ±0.00 at its left end, thin dimension lines with mono labels, hazard ledges for the brake, board-formed concrete rendered as flat fills with tie holes, and the building avatars. Photos and renders (hero slab, explainer illustrations, kit background, OG background) are removed from the app; the Higgsfield files stay in assets/ for social posts only.
+
+Homepage, as built: a compact hero (kicker, headline, lede, two buttons) with the CrashScene drawing at its right (the price climbs, breaks, falls in brake steps onto the slab, dust, a live marker; drawn once per session), the datum under it with the live SOL-returned counter standing on the line and the three counts; "Hot right now" spotlight; the board (one dense list with New / Graduating / Highest floor / All tabs and real column headers) instead of three identical card columns; the blueprint strip (three columns separated by rules, drawn diagrams, formula in mono, 01 02 03 numbering because it is a sequence of reading); a closing band on the drafting grid. Stickers are kept for interactive surfaces only; inside a sticker, rows and hairlines, never another sticker.
