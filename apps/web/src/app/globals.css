@@ -236,57 +236,54 @@ body::after {
 
 /* ───────────── v2 stickers: 2 px stroke, solid offset "slab shadow" ───────────── */
 
+/* v3 calm: flat surfaces, hairline strokes, no offset shadows. The orange line is the only emphasis. */
 @utility sticker {
   background-color: var(--surface);
-  border: 2px solid var(--stroke);
+  border: 1px solid var(--stroke);
   border-radius: 12px;
-  box-shadow: 0 4px 0 0 var(--shadow);
 }
 
 @utility sticker-flat {
   background-color: var(--bg-3);
-  border: 2px solid var(--stroke);
+  border: 1px solid var(--stroke);
   border-radius: 12px;
 }
 
 /* Hover lifts 2 px (shadow 6 px), press pushes down 2 px (shadow 2 px). */
 @utility lift {
-  transition-property: transform, box-shadow, border-color, background-color;
+  transition-property: border-color, background-color, transform;
   transition-duration: 160ms;
   transition-timing-function: var(--ease-out);
   @media (hover: hover) and (pointer: fine) {
     &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 0 0 var(--lift-shadow, var(--shadow));
       border-color: var(--stroke-strong);
+      background-color: color-mix(in oklab, var(--surface) 92%, var(--ink) 8%);
     }
   }
   &:active {
-    transform: translateY(2px);
-    box-shadow: 0 2px 0 0 var(--lift-shadow, var(--shadow));
+    transform: scale(0.995);
     transition-duration: 100ms;
   }
 }
 
 @utility btn-slab {
-  box-shadow: 0 4px 0 0 var(--btn-shadow, var(--shadow));
-  transition-property: transform, box-shadow, background-color, border-color, color;
+  box-shadow: 0 2px 0 0 var(--btn-shadow, var(--shadow));
+  transition-property: transform, box-shadow, background-color, border-color, color, filter;
   transition-duration: 160ms;
   transition-timing-function: var(--ease-out);
   @media (hover: hover) and (pointer: fine) {
     &:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 0 0 var(--btn-shadow, var(--shadow));
+      filter: brightness(1.06);
     }
   }
   &:active:not(:disabled) {
-    transform: translateY(2px);
-    box-shadow: 0 2px 0 0 var(--btn-shadow, var(--shadow));
+    transform: translateY(1px) scale(0.99);
+    box-shadow: 0 1px 0 0 var(--btn-shadow, var(--shadow));
     transition-duration: 100ms;
   }
   &:disabled {
-    box-shadow: 0 2px 0 0 var(--btn-shadow, var(--shadow));
-    transform: translateY(2px);
+    box-shadow: none;
+    opacity: 0.6;
   }
 }
 

@@ -303,7 +303,7 @@ export function CoinView({ mint, initial, initialCandles, initialTrades, initial
               {/* One TradePanel: a bottom sheet under lg, the sticky column above. */}
               <div
                 className={cn(
-                  "max-lg:fixed max-lg:inset-x-0 max-lg:bottom-0 max-lg:z-[70] max-lg:max-h-[88dvh] max-lg:overflow-y-auto max-lg:rounded-t-3xl max-lg:border-x-2 max-lg:border-t-2 max-lg:border-stroke max-lg:bg-bg-2 max-lg:pb-[env(safe-area-inset-bottom)]",
+                  "max-lg:fixed max-lg:inset-x-0 max-lg:bottom-0 max-lg:z-[70] max-lg:max-h-[88dvh] max-lg:overflow-y-auto max-lg:rounded-t-3xl max-lg:border-x max-lg:border-t max-lg:border-stroke max-lg:bg-bg-2 max-lg:pb-[env(safe-area-inset-bottom)]",
                   "max-lg:transition-transform max-lg:duration-300 max-lg:ease-[cubic-bezier(0.32,0.72,0,1)]",
                   sheet ? "max-lg:translate-y-0" : "max-lg:pointer-events-none max-lg:translate-y-full max-lg:invisible",
                 )}

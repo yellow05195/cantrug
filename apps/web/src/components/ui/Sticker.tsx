@@ -27,7 +27,7 @@ const TONES: Record<ChipTone, string> = {
 /** Tags and chips: the only 999 px radius in the system. */
 export function Chip({ tone = "neutral", className, children, title }: { tone?: ChipTone; className?: string; children: ReactNode; title?: string }) {
   return (
-    <span title={title} className={cn("inline-flex items-center gap-1 whitespace-nowrap rounded-full border-2 px-2.5 py-0.5 text-xs font-semibold leading-4", TONES[tone], className)}>
+    <span title={title} className={cn("inline-flex items-center gap-1 whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-semibold leading-4", TONES[tone], className)}>
       {children}
     </span>
   );

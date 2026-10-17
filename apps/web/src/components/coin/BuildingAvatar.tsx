@@ -123,7 +123,7 @@ export function BuildingSvg({ spec, colors = BUILDING_COLORS, size }: { spec: Bu
 /** The avatar sticker: square, 12 px radius, 2 px stroke. */
 export function BuildingAvatar({ seed, size = 56, className }: { seed: string; size?: number; className?: string }) {
   return (
-    <span className={`block shrink-0 overflow-hidden rounded-xl border-2 border-stroke ${className ?? ""}`} style={{ width: size, height: size }} aria-hidden>
+    <span className={`block shrink-0 overflow-hidden rounded-xl border border-stroke ${className ?? ""}`} style={{ width: size, height: size }} aria-hidden>
       <BuildingSvg spec={buildingSpec(seed)} size={size - 4} />
     </span>
   );

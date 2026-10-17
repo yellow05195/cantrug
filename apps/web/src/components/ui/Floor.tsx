@@ -8,14 +8,14 @@ export function FloorBadge({ floorSol, active, size = "sm", className, short }: 
   const t = useTranslations("floor");
   if (!active) {
     return (
-      <span className={cn("inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border-2 border-dashed border-stroke px-2.5 py-0.5 text-xs font-medium text-ink-2", className)}>
+      <span className={cn("inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-dashed border-stroke px-2.5 py-0.5 text-xs font-medium text-ink-2", className)}>
         <span className="num text-ink-3">±0.00</span>
         {short ? t("atGraduationCard") : t("atGraduation")}
       </span>
     );
   }
   return (
-    <span className={cn("inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border-2 border-floor/45 bg-floor-dim px-2.5 py-0.5 font-medium text-floor", size === "md" ? "text-md" : "text-xs", className)}>
+    <span className={cn("inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-floor/45 bg-floor-dim px-2.5 py-0.5 font-medium text-floor", size === "md" ? "text-md" : "text-xs", className)}>
       <span className="num opacity-70">±0.00</span>
       <Price value={floorSol} />
     </span>

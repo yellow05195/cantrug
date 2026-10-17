@@ -145,7 +145,7 @@ export function TradePanel({
                   </button>
                 ) : null}
               </div>
-              <div className={cn("flex items-center rounded-lg border-2 bg-bg-3 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-floor", overBalance || overSol ? "border-down" : "border-stroke")}>
+              <div className={cn("flex items-center rounded-lg border bg-bg-3 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-floor", overBalance || overSol ? "border-down" : "border-stroke")}>
                 <input
                   id={`amt${id}`}
                   inputMode="decimal"
@@ -162,7 +162,7 @@ export function TradePanel({
               <div className="mt-2 grid grid-cols-4 gap-1.5">
                 {tab === "buy"
                   ? BUY_PRESETS.map((p) => (
-                      <button key={p} type="button" onClick={() => setAmount(p)} className="press num h-10 rounded-full border-2 border-stroke bg-bg-3 text-sm font-medium text-ink-2 hover:border-stroke-strong hover:text-ink lg:h-9">
+                      <button key={p} type="button" onClick={() => setAmount(p)} className="press num h-10 rounded-full border border-stroke bg-bg-3 text-sm font-medium text-ink-2 hover:border-stroke-strong hover:text-ink lg:h-9">
                         {p}
                       </button>
                     ))
@@ -172,7 +172,7 @@ export function TradePanel({
                         type="button"
                         disabled={!account.connected || balance === 0n}
                         onClick={() => setAmount(tokensInput((balance * BigInt(f)) / 100n))}
-                        className="press num h-10 rounded-full border-2 border-stroke bg-bg-3 text-sm font-medium text-ink-2 hover:border-stroke-strong hover:text-ink disabled:opacity-40 lg:h-9"
+                        className="press num h-10 rounded-full border border-stroke bg-bg-3 text-sm font-medium text-ink-2 hover:border-stroke-strong hover:text-ink disabled:opacity-40 lg:h-9"
                       >
                         {f} %
                       </button>
@@ -236,7 +236,7 @@ export function TradePanel({
                         type="button"
                         aria-pressed={slippageBps === b}
                         onClick={() => setSlippageBps(b)}
-                        className={cn("press num h-8 flex-1 rounded-full border-2 text-xs font-medium", slippageBps === b ? "border-stroke-strong bg-surface text-ink" : "border-stroke text-ink-2 hover:text-ink")}
+                        className={cn("press num h-8 flex-1 rounded-full border text-xs font-medium", slippageBps === b ? "border-stroke-strong bg-surface text-ink" : "border-stroke text-ink-2 hover:text-ink")}
                       >
                         {bps(b)}
                       </button>

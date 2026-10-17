@@ -19,17 +19,13 @@ export function Blueprint() {
     { k: "verify", href: "/how-it-works#verify", D: VerifyDiagram },
   ] as const;
   return (
-    <div className="grid grid-cols-1 gap-y-10 md:grid-cols-3 md:gap-x-0 md:divide-x-2 md:divide-stroke">
-      {cols.map(({ k, href, D }, i) => (
+    <div className="grid grid-cols-1 gap-y-10 md:grid-cols-3 md:gap-x-0 md:divide-x md:divide-stroke">
+      {cols.map(({ k, href, D }) => (
         <Link key={k} href={href} className="group block md:px-8 md:first:pl-0 md:last:pr-0" aria-label={t(`trio.${k}.title`)}>
-          <div className="num mb-3 flex items-center gap-2 text-xs text-ink-3">
-            <span>{String(i + 1).padStart(2, "0")}</span>
-            <span className="h-px flex-1 bg-stroke" />
-            <span className="text-floor">{t(`trio.${k}.formula`)}</span>
-          </div>
           <D />
-          <h3 className="title-tight mt-4 text-xl font-extrabold">{t(`trio.${k}.title`)}</h3>
+          <h3 className="title-tight mt-5 text-xl font-bold">{t(`trio.${k}.title`)}</h3>
           <p className="mt-2 max-w-[36ch] text-md text-ink-2">{t(`trio.${k}.text`)}</p>
+          <p className="num mt-2 text-sm text-floor">{t(`trio.${k}.formula`)}</p>
           <span className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-ink group-hover:text-floor">
             {t("stripLink")}
             <ArrowRight size={16} className="transition-transform duration-150 group-hover:translate-x-0.5" />
@@ -55,7 +51,7 @@ export function Datum({ stats }: { stats: StatsJson | null }) {
         <div>
           <p className="text-sm font-semibold text-ink-2">{t("counterLabel")}</p>
           <div className="mt-1 flex items-baseline gap-3">
-            <NumRoll value={value} rollFrom={rollFrom} label={`${value} SOL`} className="text-[clamp(2.6rem,9vw,5rem)] font-medium tracking-[-0.03em] text-floor" />
+            <NumRoll value={value} rollFrom={rollFrom} label={`${value} SOL`} className="text-[clamp(2.4rem,8vw,4.25rem)] font-medium tracking-[-0.03em] text-floor" />
             <span className="num text-lg text-ink-3">SOL</span>
           </div>
         </div>
@@ -72,13 +68,8 @@ export function Datum({ stats }: { stats: StatsJson | null }) {
           ))}
         </dl>
       </div>
-      {/* the ruler and the line */}
-      <div aria-hidden className="datum-ticks h-3 w-full" />
-      <div aria-hidden className="h-1.5 w-full bg-floor shadow-[0_3px_0_0_var(--floor-deep)]" />
-      <div aria-hidden className="gutter mx-auto flex max-w-[1280px] items-center justify-between pt-1.5 text-[10px] text-ink-3 num">
-        <span>±0.00</span>
-        <span>{t("datumLabel")}</span>
-      </div>
+      {/* the floor line: the one graphic element of the page */}
+      <div aria-hidden className="h-0.5 w-full bg-floor" />
     </div>
   );
 }
@@ -87,11 +78,10 @@ export function Datum({ stats }: { stats: StatsJson | null }) {
 export function LaunchBand() {
   const t = useTranslations("home");
   return (
-    <div className="relative overflow-hidden rounded-xl border-2 border-stroke bg-bg-2">
-      <div className="blueprint-grid absolute inset-0 opacity-60" aria-hidden />
+    <div className="relative overflow-hidden rounded-xl border border-stroke bg-bg-2">
       <div className="relative grid gap-6 p-6 sm:p-10 lg:grid-cols-12 lg:items-center">
         <div className="lg:col-span-8">
-          <h2 className="title-tight text-3xl font-extrabold sm:text-4xl">{t("band.title")}</h2>
+          <h2 className="title-tight text-3xl font-bold sm:text-4xl">{t("band.title")}</h2>
           <p className="mt-3 max-w-[52ch] text-lg text-ink-2">{t("band.text")}</p>
         </div>
         <div className="flex flex-wrap gap-3 lg:col-span-4 lg:justify-end">
@@ -103,7 +93,7 @@ export function LaunchBand() {
           </ButtonLink>
         </div>
       </div>
-      <div aria-hidden className="h-1.5 w-full bg-floor" />
+      <div aria-hidden className="h-0.5 w-full bg-floor" />
     </div>
   );
 }

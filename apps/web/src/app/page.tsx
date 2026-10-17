@@ -66,15 +66,9 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ s
     <div className="relative">
       {/* 1. Hero: a drawing, not a photo. The headline on the left, the crash scene on the right, the datum under both. */}
       <HeroMotion className="relative isolate overflow-hidden">
-        <div className="blueprint-grid absolute inset-0 -z-10" aria-hidden />
-        <div aria-hidden className="pointer-events-none absolute inset-y-0 left-1/2 hidden w-full max-w-[1280px] -translate-x-1/2 border-x border-stroke xl:block" />
         <div className="gutter relative mx-auto grid max-w-[1280px] grid-cols-1 items-end gap-x-10 gap-y-8 pb-10 pt-10 sm:pt-14 lg:grid-cols-12 lg:pt-16">
           <div className="lg:col-span-7">
-            <p data-hero-line className="num mb-4 inline-flex items-center gap-2 text-xs text-ink-3">
-              <span className="inline-block size-1.5 rounded-full bg-floor" aria-hidden />
-              {t("kicker")}
-            </p>
-            <h1 className="text-[2.75rem] font-extrabold leading-[0.96] tracking-[-0.035em] sm:text-[3.75rem] lg:text-[4.75rem] xl:text-[5.5rem]">
+            <h1 className="text-[2.5rem] font-bold leading-[1] tracking-[-0.03em] sm:text-[3.25rem] lg:text-[4rem] xl:text-[4.5rem]">
               <span data-hero-line className="block">
                 {l1}
               </span>
@@ -104,11 +98,11 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ s
       {/* 2. Hot right now */}
       {hot.king ? (
         <section aria-labelledby="hot" className="gutter mx-auto mt-14 max-w-[1280px]">
-          <div className="mb-5 flex items-end justify-between gap-4">
-            <h2 id="hot" className="title-tight text-2xl font-extrabold sm:text-3xl">
+          <div className="mb-5">
+            <h2 id="hot" className="title-tight text-2xl font-bold sm:text-3xl">
               {t("hotTitle")}
             </h2>
-            <p className="hidden text-md text-ink-2 sm:block">{t("hotSub")}</p>
+            <p className="mt-1 text-md text-ink-2">{t("hotSub")}</p>
           </div>
           <Spotlight coin={hot.king} candles={hotCandles?.items ?? []} jump={hot.jump} grad={hot.grad} braked={hot.braked} />
         </section>
@@ -121,12 +115,9 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ s
 
       {/* 4. Blueprint: how the floor works */}
       <section aria-labelledby="floor-strip" className="gutter mx-auto mt-20 max-w-[1280px]">
-        <div className="mb-8 flex items-end justify-between gap-4 border-b-2 border-stroke pb-4">
-          <h2 id="floor-strip" className="title-tight text-2xl font-extrabold sm:text-3xl">
-            {t("stripTitle")}
-          </h2>
-          <span className="num hidden text-xs text-ink-3 sm:block">{t("stripRule")}</span>
-        </div>
+        <h2 id="floor-strip" className="title-tight mb-8 text-2xl font-bold sm:text-3xl">
+          {t("stripTitle")}
+        </h2>
         <Blueprint />
       </section>
 

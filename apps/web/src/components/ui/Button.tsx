@@ -11,11 +11,11 @@ export type ButtonVariant = "floor" | "floorOutline" | "primary" | "secondary" |
 export type ButtonSize = "sm" | "md" | "lg";
 
 const VARIANTS: Record<ButtonVariant, string> = {
-  floor: "btn-slab border-2 border-floor-deep bg-floor text-floor-ink [--btn-shadow:var(--floor-deep)] hover:bg-floor-hot disabled:opacity-45",
-  primary: "btn-slab border-2 border-floor-deep bg-floor text-floor-ink [--btn-shadow:var(--floor-deep)] hover:bg-floor-hot disabled:opacity-45",
-  floorOutline: "btn-slab border-2 border-floor/60 bg-floor-dim text-floor [--btn-shadow:var(--floor-deep)] hover:border-floor disabled:opacity-45",
-  secondary: "btn-slab border-2 border-stroke bg-surface text-ink hover:border-stroke-strong disabled:text-ink-3",
-  brake: "btn-slab border-2 border-brake-ink bg-brake-ink text-brake [--btn-shadow:#000]",
+  floor: "btn-slab border border-floor-deep bg-floor text-floor-ink [--btn-shadow:var(--floor-deep)] hover:bg-floor-hot disabled:opacity-45",
+  primary: "btn-slab border border-floor-deep bg-floor text-floor-ink [--btn-shadow:var(--floor-deep)] hover:bg-floor-hot disabled:opacity-45",
+  floorOutline: "btn-slab border border-floor/60 bg-floor-dim text-floor [--btn-shadow:var(--floor-deep)] hover:border-floor disabled:opacity-45",
+  secondary: "btn-slab border border-stroke bg-surface text-ink hover:border-stroke-strong disabled:text-ink-3",
+  brake: "btn-slab border border-brake-ink bg-brake-ink text-brake [--btn-shadow:#000]",
   ghost: "press text-ink-2 hover:bg-bg-3 hover:text-ink disabled:text-ink-3",
 };
 

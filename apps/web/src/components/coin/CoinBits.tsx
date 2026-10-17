@@ -22,7 +22,7 @@ export function CoinHeader({ coin, m }: { coin: CoinJson; m: CoinMetrics }) {
   const tk = useTranslations("keys");
   const s = coin.socials ?? {};
   const graduated = m.phase === "graduated";
-  const social = "press grid size-9 place-items-center rounded-full border-2 border-stroke bg-bg-3 text-ink-2 hover:border-stroke-strong hover:text-ink";
+  const social = "press grid size-9 place-items-center rounded-full border border-stroke bg-bg-3 text-ink-2 hover:border-stroke-strong hover:text-ink";
   return (
     <div className="sticker overflow-hidden">
       <div className="flex flex-wrap items-center gap-x-5 gap-y-4 p-4 sm:p-5">
@@ -67,7 +67,7 @@ export function CoinHeader({ coin, m }: { coin: CoinJson; m: CoinMetrics }) {
           <span className="flex items-center gap-1.5">
             {s.website ? (
               <a href={s.website} target="_blank" rel="noreferrer nofollow" aria-label={t("website")} className={social}>
-                <GlobeSimple size={16} weight="duotone" />
+                <GlobeSimple size={16} weight="regular" />
               </a>
             ) : null}
             {s.x ? (
@@ -77,7 +77,7 @@ export function CoinHeader({ coin, m }: { coin: CoinJson; m: CoinMetrics }) {
             ) : null}
             {s.telegram ? (
               <a href={s.telegram} target="_blank" rel="noreferrer nofollow" aria-label="Telegram" className={social}>
-                <TelegramLogo size={16} weight="duotone" />
+                <TelegramLogo size={16} weight="regular" />
               </a>
             ) : null}
           </span>
@@ -101,7 +101,7 @@ export function CoinHeader({ coin, m }: { coin: CoinJson; m: CoinMetrics }) {
             {graduated ? <NumRoll value={tiny(m.floorSol, 4)} label={`${m.floorSol.toPrecision(4)} SOL`} /> : <Price value={m.floorPreviewSol} />}
           </span>
         </div>
-        <div aria-hidden className="datum-ticks h-2.5 w-full" />
+        
         <div aria-hidden className={graduated ? "h-1.5 w-full bg-floor" : "h-0 w-full border-t-[3px] border-dashed border-floor/70"} />
       </div>
     </div>
@@ -227,7 +227,7 @@ export function AboutCoin({ coin, chain }: { coin: CoinJson; chain: CoinChain | 
       <div>
         <p className="max-w-[60ch] text-md text-ink-2">{coin.description || t("noDescription")}</p>
       </div>
-      <dl className="divide-y divide-line rounded-xl border-2 border-stroke text-sm">
+      <dl className="divide-y divide-line rounded-xl border border-stroke text-sm">
         {rows.map(([k, v]) => (
           <div key={k} className="flex items-center justify-between gap-4 px-3 py-2">
             <dt className="text-ink-3">{k}</dt>

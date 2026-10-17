@@ -44,7 +44,7 @@ export function CoinAvatar({ src, symbol, seed, size = 56, className }: { src: s
   const radius = size >= 40 ? "rounded-xl" : "rounded-md";
   if (!src || broken) return <BuildingAvatar seed={seed ?? symbol} size={size} className={cn(radius, className)} />;
   return (
-    <span className={cn("relative block shrink-0 overflow-hidden border-2 border-stroke bg-bg-3", radius, className)} style={{ width: size, height: size }}>
+    <span className={cn("relative block shrink-0 overflow-hidden border border-stroke bg-bg-3", radius, className)} style={{ width: size, height: size }}>
       {/* User images come from arbitrary hosts (IPFS, Arweave, data URLs): plain <img>, fixed box, no layout shift. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={src} alt="" width={size} height={size} loading="lazy" decoding="async" onError={() => setBroken(true)} className="size-full object-cover" />

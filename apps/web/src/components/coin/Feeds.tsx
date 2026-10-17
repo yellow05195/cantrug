@@ -67,7 +67,7 @@ export function TradesFeed({ trades, freshKeys, symbol, emptyNote }: { trades: T
 
   return (
     <div className="sticker overflow-hidden">
-      <div className="grid h-9 bg-bg-3 grid-cols-[1.25rem_4.5rem_1fr_1fr_5rem_2.5rem] items-center gap-2 border-b-2 border-stroke px-3 text-xs font-semibold text-ink-3 sm:grid-cols-[1.25rem_5.5rem_1fr_1fr_6.5rem_3rem]">
+      <div className="grid h-9 bg-bg-3 grid-cols-[1.25rem_4.5rem_1fr_1fr_5rem_2.5rem] items-center gap-2 border-b border-stroke px-3 text-xs font-semibold text-ink-3 sm:grid-cols-[1.25rem_5.5rem_1fr_1fr_6.5rem_3rem]">
         <span />
         <span>{t("side")}</span>
         <span className="text-right">SOL</span>
@@ -95,10 +95,10 @@ export function Holders({ data, m, symbol }: { data: HoldersJson | null; m: Coin
   if (!data || !data.items.length) return <EmptyState>{t("empty")}</EmptyState>;
   const fq = m.phase === "graduated" ? m.floorQ64 : 0n;
   return (
-    <div className="overflow-x-auto rounded-xl border-2 border-stroke">
+    <div className="overflow-x-auto rounded-xl border border-stroke">
       <table className="w-full min-w-[480px] text-sm">
         <thead>
-          <tr className="h-9 border-b-2 border-stroke bg-bg-3 text-left text-xs font-semibold text-ink-3">
+          <tr className="h-9 border-b border-stroke bg-bg-3 text-left text-xs font-semibold text-ink-3">
             <th className="w-10 pl-3 font-normal">#</th>
             <th className="font-normal">{t("wallet")}</th>
             <th className="text-right font-normal">{symbol}</th>

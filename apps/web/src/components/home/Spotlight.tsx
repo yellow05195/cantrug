@@ -1,5 +1,5 @@
 "use client";
-import { ArrowUpRight, Barricade, Buildings, Fire, TrendUp } from "@phosphor-icons/react/dist/ssr";
+import { ArrowUpRight, Barricade, Buildings, TrendUp } from "@phosphor-icons/react/dist/ssr";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { ButtonLink } from "@/components/ui/Button";
@@ -64,13 +64,10 @@ export function Spotlight({ coin: initial, candles, jump, grad, braked }: { coin
   return (
     <div className="grid grid-cols-1 gap-5 lg:grid-cols-12">
       <div className="relative lg:col-span-8">
-        <span aria-hidden className="breathe-ring pointer-events-none absolute -inset-1.5 rounded-[18px] border-[3px] border-floor" />
-        <article className="sticker relative grid gap-5 p-5 sm:grid-cols-[1fr_1.1fr] sm:p-6 [--shadow:var(--floor-deep)]" style={{ boxShadow: "0 5px 0 0 var(--floor-deep)", borderColor: "var(--floor-deep)" }}>
+        <article className="sticker relative grid gap-5 p-5 sm:grid-cols-[1fr_1.1fr] sm:p-6">
           <div className="min-w-0">
-            <div className="flex items-center gap-2">
-              <Chip tone="solid">
-                <Fire size={14} weight="duotone" /> {t("king")}
-              </Chip>
+            <div className="flex items-center gap-2 text-xs font-semibold text-ink-2">
+              <span>{t("king")}</span>
               {coin.brake.engaged ? <Chip tone="brake">{t("brake")}</Chip> : null}
             </div>
             <div className="mt-4 flex items-center gap-4">
@@ -134,13 +131,13 @@ export function Spotlight({ coin: initial, candles, jump, grad, braked }: { coin
       </div>
       <div className="flex flex-col gap-3 lg:col-span-4">
         <SideChip
-          icon={<TrendUp size={16} weight="duotone" />}
+          icon={<TrendUp size={16} weight="regular" />}
           label={jump?.floor_change_24h_bps != null ? t("jump") : t("highestFloor")}
           coin={jump}
           value={jump?.floor_change_24h_bps != null ? <span className="num font-medium text-up">+{bpsPct(jump.floor_change_24h_bps)}&nbsp;%</span> : jump ? <Price value={metricsFromJson(jump).floorSol} className="text-floor" /> : null}
         />
-        <SideChip icon={<Buildings size={16} weight="duotone" />} label={t("newestGrad")} coin={grad} value={grad ? <Price value={metricsFromJson(grad).floorSol} className="text-floor" /> : null} />
-        <SideChip icon={<Barricade size={16} weight="duotone" />} label={t("mostBraked")} coin={braked} value={braked ? <span className="num font-medium">{t("brakes", { n: braked.brake.engagements })}</span> : null} />
+        <SideChip icon={<Buildings size={16} weight="regular" />} label={t("newestGrad")} coin={grad} value={grad ? <Price value={metricsFromJson(grad).floorSol} className="text-floor" /> : null} />
+        <SideChip icon={<Barricade size={16} weight="regular" />} label={t("mostBraked")} coin={braked} value={braked ? <span className="num font-medium">{t("brakes", { n: braked.brake.engagements })}</span> : null} />
       </div>
     </div>
   );

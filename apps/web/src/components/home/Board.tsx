@@ -59,7 +59,7 @@ export function Board({ lists, available, demoMint }: { lists: BoardList[]; avai
 
       <div className="sticker overflow-hidden p-0" role="tabpanel" id={`board-panel-${tab}`}>
         {/* header row */}
-        <div className="hidden grid-cols-[minmax(0,2.2fr)_1fr_1fr_minmax(0,1.6fr)_28px] items-center gap-4 border-b-2 border-stroke px-4 py-2.5 text-xs font-semibold text-ink-3 md:grid">
+        <div className="hidden grid-cols-[minmax(0,2.2fr)_1fr_1fr_minmax(0,1.6fr)_28px] items-center gap-4 border-b border-stroke px-4 py-2.5 text-xs font-semibold text-ink-3 md:grid">
           <span>{t("board.col.coin")}</span>
           <span className="text-right">{t("board.col.price")}</span>
           <span className="text-right">{t("board.col.floor")}</span>
@@ -67,7 +67,7 @@ export function Board({ lists, available, demoMint }: { lists: BoardList[]; avai
           <span />
         </div>
         {rows.length ? (
-          <ul className="stagger-in divide-y-2 divide-stroke">
+          <ul className="stagger-in divide-y divide-stroke">
             {rows.map((c, i) => {
               const m = metricsFromJson(c);
               const graduated = m.phase === "graduated";

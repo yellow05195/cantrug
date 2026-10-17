@@ -56,7 +56,7 @@ export function Dialog({
           <div className="mb-4 flex items-start justify-between gap-4">
             <h2 className="title-tight text-xl font-extrabold">{title}</h2>
             {dismissable ? (
-              <button type="button" onClick={onClose} className="press -mr-1 -mt-1 grid size-9 place-items-center rounded-full border-2 border-stroke text-ink-2 hover:text-ink" aria-label={closeLabel}>
+              <button type="button" onClick={onClose} className="press -mr-1 -mt-1 grid size-9 place-items-center rounded-full border border-stroke text-ink-2 hover:text-ink" aria-label={closeLabel}>
                 <X size={16} />
               </button>
             ) : null}

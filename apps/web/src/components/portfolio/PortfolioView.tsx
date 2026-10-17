@@ -181,7 +181,7 @@ export function PortfolioView() {
       </div>
 
       {/* Phones: one block per coin, value at floor first. */}
-      <ul className="divide-y divide-line rounded-xl border-2 border-stroke md:hidden">
+      <ul className="divide-y divide-line rounded-xl border border-stroke md:hidden">
         {rows.map((r) => (
           <li key={r.mint}>
             <Link href={`/coin/${r.mint}`} className="flex gap-3 p-3">
@@ -209,7 +209,7 @@ export function PortfolioView() {
         </li>
       </ul>
 
-      <div className="hidden overflow-x-auto rounded-xl border-2 border-stroke md:block">
+      <div className="hidden overflow-x-auto rounded-xl border border-stroke md:block">
         <table className="w-full min-w-[760px] text-sm">
           <thead>
             <tr className="h-9 border-b border-line text-left text-xs text-ink-3">

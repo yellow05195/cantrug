@@ -26,8 +26,7 @@ function H2({ id, children }: { id: string; children: React.ReactNode }) {
 function Drawing({ children, caption, label }: { children: React.ReactNode; caption: React.ReactNode; label: string }) {
   return (
     <figure className="my-10">
-      <div role="img" aria-label={label} className="relative overflow-hidden rounded-xl border-2 border-stroke bg-bg-2 px-4 pb-0 pt-5 sm:px-8 sm:pt-7">
-        <div aria-hidden className="blueprint-grid absolute inset-0 opacity-70" />
+      <div role="img" aria-label={label} className="relative overflow-hidden rounded-xl border border-stroke bg-bg-2 px-4 pb-0 pt-5 sm:px-8 sm:pt-7">
         <div className="relative">{children}</div>
       </div>
       <figcaption className="mt-3 text-sm text-ink-2">{caption}</figcaption>

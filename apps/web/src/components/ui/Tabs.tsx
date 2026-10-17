@@ -49,7 +49,7 @@ export function Tabs<K extends string>({
     }
   };
   return (
-    <div role="tablist" className={cn("inline-flex max-w-full gap-1 rounded-full p-1", flat ? "bg-bg-3" : "border-2 border-stroke bg-bg-2", fill && "flex w-full", className)}>
+    <div role="tablist" className={cn("inline-flex max-w-full gap-1 rounded-full p-1", flat ? "bg-bg-3" : "border border-stroke bg-bg-2", fill && "flex w-full", className)}>
       {items.map((it, i) => {
         const active = it.key === value;
         return (
@@ -68,7 +68,7 @@ export function Tabs<K extends string>({
             onClick={() => onChange(it.key)}
             onKeyDown={(e) => onKey(e, i)}
             className={cn(
-              "relative whitespace-nowrap rounded-full border-2 font-semibold transition-[background-color,border-color,color,box-shadow] duration-150 ease-[var(--ease-out)] disabled:cursor-not-allowed disabled:opacity-40",
+              "relative whitespace-nowrap rounded-full border font-semibold transition-[background-color,border-color,color,box-shadow] duration-150 ease-[var(--ease-out)] disabled:cursor-not-allowed disabled:opacity-40",
               size === "sm" ? "h-7 px-3 text-xs" : size === "lg" ? "h-11 px-4 text-md sm:text-base" : "h-9 px-4 text-sm",
               fill && "min-w-0 flex-auto truncate px-2.5",
               active

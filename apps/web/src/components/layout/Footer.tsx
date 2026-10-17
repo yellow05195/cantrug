@@ -9,7 +9,7 @@ import { LangToggle } from "./HeaderParts";
 export function Footer() {
   const t = useTranslations("footer");
   return (
-    <footer className="mt-24 border-t-2 border-stroke bg-bg-2">
+    <footer className="mt-24 border-t border-stroke bg-bg-2">
       <div className="gutter mx-auto grid max-w-[1280px] gap-8 py-10 md:grid-cols-[1.4fr_1fr_1fr]">
         <div className="space-y-3">
           <div className="flex items-center gap-2 text-ink-2">

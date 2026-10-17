@@ -53,7 +53,7 @@ function Field({ id, label, hint, error, children }: { id: string; label: string
   );
 }
 
-const inputCls = "h-12 w-full rounded-lg border-2 border-stroke bg-bg-3 px-3.5 text-md outline-none placeholder:text-ink-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-floor aria-[invalid=true]:border-down";
+const inputCls = "h-12 w-full rounded-lg border border-stroke bg-bg-3 px-3.5 text-md outline-none placeholder:text-ink-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-floor aria-[invalid=true]:border-down";
 
 export function CreateForm() {
   const t = useTranslations("create");
@@ -249,9 +249,9 @@ export function CreateForm() {
               const fl = e.dataTransfer.files?.[0];
               if (fl && fl.type.startsWith("image/")) choose(fl);
             }}
-            className={cn("flex items-center gap-4 rounded-xl border-2 border-dashed p-4 transition-colors duration-150", drag ? "border-floor bg-floor-dim" : err("image") ? "border-down" : "border-stroke")}
+            className={cn("flex items-center gap-4 rounded-xl border border-dashed p-4 transition-colors duration-150", drag ? "border-floor bg-floor-dim" : err("image") ? "border-down" : "border-stroke")}
           >
-            <div className="grid size-24 shrink-0 place-items-center overflow-hidden rounded-xl border-2 border-stroke bg-bg-3">
+            <div className="grid size-24 shrink-0 place-items-center overflow-hidden rounded-xl border border-stroke bg-bg-3">
               {preview ? (
                 // Local object URL preview of the chosen file, square-cropped.
                 // eslint-disable-next-line @next/next/no-img-element
@@ -297,9 +297,9 @@ export function CreateForm() {
           </Field>
         </div>
 
-        <div className="border-t-2 border-stroke pt-5">
+        <div className="border-t border-stroke pt-5">
           <Field id={`${uid}buy`} label={t("firstBuy")} error={err("firstBuy")}>
-            <div className="flex items-center rounded-lg border-2 border-stroke bg-bg-3 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-floor">
+            <div className="flex items-center rounded-lg border border-stroke bg-bg-3 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-floor">
               <input id={`${uid}buy`} className="num h-12 min-w-0 flex-1 bg-transparent px-3 text-xl outline-none placeholder:text-ink-3" inputMode="decimal" placeholder="0.00" value={f.firstBuy} onChange={set("firstBuy")} />
               <span className="num pr-3 text-ink-3">SOL</span>
             </div>

@@ -54,7 +54,7 @@ export function ReadOnChain() {
           value={mint}
           onChange={(e) => setMint(e.target.value)}
           spellCheck={false}
-          className="num h-10 min-w-0 flex-1 rounded-lg border-2 border-stroke bg-bg-3 px-3 text-sm outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-floor"
+          className="num h-10 min-w-0 flex-1 rounded-lg border border-stroke bg-bg-3 px-3 text-sm outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-floor"
         />
         <Button variant="primary" onClick={() => void go()} loading={busy}>
           {t("read")}

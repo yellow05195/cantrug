@@ -43,7 +43,7 @@ export function WalletModal({ open, onClose }: { open: boolean; onClose: () => v
               }}
               className="press flex w-full items-center gap-3 rounded-sm px-2 py-2.5 text-left hover:bg-bg-3"
             >
-              <span className="grid size-8 place-items-center rounded-xl border-2 border-stroke bg-bg text-floor">
+              <span className="grid size-8 place-items-center rounded-xl border border-stroke bg-bg text-floor">
                 <WalletIconGlyph size={18} />
               </span>
               <span className="flex-1">
@@ -129,7 +129,7 @@ export function WalletButton({ className, compact, variant = "primary" }: { clas
         onClick={() => setMenu((v) => !v)}
         aria-expanded={menu}
         aria-haspopup="menu"
-        className="btn-slab flex h-9 items-center gap-2 whitespace-nowrap rounded-lg border-2 border-stroke bg-surface px-3 text-sm font-semibold"
+        className="btn-slab flex h-9 items-center gap-2 whitespace-nowrap rounded-lg border border-stroke bg-surface px-3 text-sm font-semibold"
       >
         {account.walletIcon ? (
           // eslint-disable-next-line @next/next/no-img-element
