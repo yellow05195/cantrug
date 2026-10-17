@@ -201,6 +201,33 @@ function readOutcome(action: TxAction, owner: PublicKey, events: FlooredEvent[],
   return o;
 }
 
+const pause = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+/**
+ * Confirmation by polling `getSignatureStatuses`: the site talks to the chain
+ * through an HTTP proxy (`/api/rpc`) that has no websocket, which
+ * `connection.confirmTransaction` would need. Gives up when the blockhash
+ * expires (or after 90 s when the block height cannot be read).
+ */
+async function confirmBySignature(c: Connection, signature: string, lastValidBlockHeight: number): Promise<void> {
+  const deadline = Date.now() + 90_000;
+  for (;;) {
+    const st = (await c.getSignatureStatuses([signature])).value[0];
+    if (st) {
+      if (st.err) throw new TxError(errorKey(st.err));
+      if (st.confirmationStatus === "confirmed" || st.confirmationStatus === "finalized") return;
+    }
+    let height: number | null = null;
+    try {
+      height = await c.getBlockHeight("confirmed");
+    } catch {
+      /* method not proxied: fall back to the time budget */
+    }
+    if ((height !== null && height > lastValidBlockHeight) || Date.now() > deadline) throw new TxError("expired");
+    await pause(1200);
+  }
+}
+
 async function confirmedEvents(c: Connection, signature: string): Promise<FlooredEvent[] | null> {
   try {
     const tx = await c.getTransaction(signature, { commitment: "confirmed", maxSupportedTransactionVersion: 0 });
@@ -313,8 +340,7 @@ export async function prepareLive(action: TxAction, signer: Signer): Promise<Pre
       } catch (e) {
         throw new TxError(errorKey(e));
       }
-      const res = await c.confirmTransaction({ signature, blockhash: built.blockhash, lastValidBlockHeight: built.lastValidBlockHeight }, "confirmed");
-      if (res.value.err) throw new TxError(errorKey(res.value.err));
+      await confirmBySignature(c, signature, built.lastValidBlockHeight);
       const confirmed = await confirmedEvents(c, signature);
       const final = confirmed ? readOutcome(action, owner, confirmed, outcome) : outcome;
       if (newMint && !final.mint) final.mint = newMint;

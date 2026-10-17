@@ -121,7 +121,7 @@ Other events: `CoinCreated`, `Graduated`, `Redeemed`, `BrakeEngaged`, `BrakeRele
 
 ## Before mainnet
 
-External audit, fuzzing against the built program, Squads multisig then immutability, parameter review, Jupiter submission, Dexscreener / GMGN / Axiom / Photon onboarding, cranks and monitoring, legal. The ordered list with details: [docs/before-mainnet.md](docs/before-mainnet.md).
+External audit, fuzzing against the built program, Squads multisig then immutability, parameter review, Jupiter submission, Dexscreener / GMGN / Axiom / Photon onboarding, cranks and monitoring, legal. The ordered list with details: [docs/before-mainnet.md](docs/before-mainnet.md). The operational runbook (mainnet deploy script, Vercel chain mode, cranks, what the user must fund): [docs/LAUNCH.md](docs/LAUNCH.md).
 
 ## License
 
