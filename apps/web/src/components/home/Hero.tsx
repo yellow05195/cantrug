@@ -9,9 +9,9 @@ import { solFixed } from "@/lib/format";
 import { useLiveStats } from "@/lib/live/solReturned";
 
 /*
- * Hero (Plush Pons): one wide drawn scene in a rounded banner, the redeem
- * receipt standing in it, a frosted card with the words. Chips and a mono
- * status line under it.
+ * A real homepage hero: the words first, big and centred on the page axis,
+ * the two actions, the live numbers as chips; then the construction site
+ * runs across the page as a wide band with the receipt standing in it.
  */
 export function Hero({ stats }: { stats: { lamports: string; launched: number; brakes: number } | null }) {
   const t = useTranslations("home.hero");
@@ -19,57 +19,56 @@ export function Hero({ stats }: { stats: { lamports: string; launched: number; b
   const total = s.total !== null ? solFixed(s.total, 0) : null;
 
   return (
-    <section className="mx-auto max-w-6xl px-3 pt-5 md:px-6">
-      <div className="relative overflow-hidden rounded-3xl border border-seam shadow-[0_24px_70px_-20px_var(--shadow)]">
-        <Scene seed="hero" variant="site" w={220} h={84} density="busy" className="h-[520px] md:h-[540px]" />
+    <section className="mx-auto max-w-6xl px-3 md:px-6">
+      <div className="mx-auto flex max-w-[860px] flex-col items-center pt-14 text-center sm:pt-20">
+        <p className="kicker">{t("kicker")}</p>
+        <h1 className="mt-5 text-[clamp(40px,6.4vw,78px)] leading-[1.02]">
+          {t("a")}
+          <br />
+          <span className="text-floor">{t("b")}</span>
+        </h1>
+        <p className="mt-6 max-w-[56ch] text-base leading-relaxed text-ink-2 sm:text-lg">{t("lede")}</p>
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <ButtonLink href="/create" variant="primary" size="lg">
+            {t("ctaLaunch")}
+          </ButtonLink>
+          <ButtonLink href="#coins" variant="secondary" size="lg">
+            {t("ctaCoins")}
+          </ButtonLink>
+        </div>
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+          <Link className="chip-mono text-ink" href="/stats">
+            <span className="h-1.5 w-1.5 rounded-full bg-up" aria-hidden />
+            {total === null ? t("chips.loading") : <>{total} SOL {t("chips.returned")}</>}
+          </Link>
+          <span className="chip-mono">
+            {s.launched.toLocaleString("en-US")} {t("status.coins")}
+          </span>
+          <span className="chip-mono">
+            {s.brakes.toLocaleString("en-US")} {t("status.brakes")}
+          </span>
+          <a className="chip-mono text-ink" href={ENV.githubUrl} target="_blank" rel="noreferrer">
+            {t("chips.source")} <span aria-hidden>↗</span>
+          </a>
+        </div>
+      </div>
 
-        {/* the receipt standing on the floor */}
-        <div className="pointer-events-none absolute bottom-6 left-[5%] hidden w-[300px] md:block lg:left-[7%]">
+      {/* the site: a wide band with the receipt standing on the floor */}
+      <div className="relative mt-12 overflow-hidden rounded-3xl border border-seam shadow-[0_24px_70px_-20px_var(--shadow)]">
+        <Scene seed="hero" variant="site" w={240} h={64} density="busy" className="h-[220px] sm:h-[280px] md:h-[320px]" />
+        <div className="pointer-events-none absolute bottom-5 right-[5%] hidden w-[280px] md:block">
           <Receipt />
         </div>
-
-        {/* frosted card */}
-        <div className="absolute inset-x-3 bottom-3 md:inset-x-auto md:right-8 md:top-1/2 md:w-[440px] md:-translate-y-1/2">
-          <div className="glass-card p-6 md:p-8">
-            <h1 className="text-[clamp(28px,3.6vw,40px)] text-ink">
-              {t("a")} <span className="text-floor">{t("b")}</span>
-            </h1>
-            <p className="mt-3 text-sm leading-relaxed text-ink-2">{t("lede")}</p>
-            <div className="mt-5 flex flex-wrap items-center gap-3">
-              <ButtonLink href="/create" variant="primary" size="md">
-                {t("ctaLaunch")}
-              </ButtonLink>
-              <ButtonLink href="#board" variant="secondary" size="md">
-                {t("ctaCoins")}
-              </ButtonLink>
-            </div>
-            <Link href="/how-it-works" className="mt-4 inline-block text-sm text-ink-2 underline decoration-dashed underline-offset-4 hover:text-ink">
-              {t("ctaHow")}
-            </Link>
-          </div>
-        </div>
+        <p className="absolute bottom-3 left-4 font-mono text-[10px] uppercase tracking-wider text-ink-2 md:left-6">
+          {total === null ? (
+            t("status.loading")
+          ) : (
+            <>
+              <NumRoll value={total} label={`${total} SOL`} /> SOL {t("status.returned")}
+            </>
+          )}
+        </p>
       </div>
-
-      {/* chips row */}
-      <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
-        <span className="chip-mono">{t("chips.stack")}</span>
-        <a className="chip-mono text-ink" href={ENV.githubUrl} target="_blank" rel="noreferrer">
-          {t("chips.source")} <span aria-hidden>↗</span>
-        </a>
-        <Link className="chip-mono text-ink" href="/stats">
-          <span className="h-1.5 w-1.5 rounded-full bg-up" aria-hidden />
-          {total === null ? t("chips.loading") : <>{total} SOL {t("chips.returned")}</>} <span aria-hidden>↗</span>
-        </Link>
-      </div>
-      <p className="mt-2 px-1 text-center font-mono text-[11px] uppercase tracking-wider text-ink-2">
-        {total === null ? (
-          t("status.loading")
-        ) : (
-          <>
-            <NumRoll value={total} label={`${total} SOL`} /> SOL {t("status.returned")} · {s.launched.toLocaleString("en-US")} {t("status.coins")} · {s.brakes.toLocaleString("en-US")} {t("status.brakes")}
-          </>
-        )}
-      </p>
     </section>
   );
 }
@@ -83,7 +82,6 @@ function Receipt() {
     [t("rows.share"), "5.3587 SOL"],
     [t("rows.fee"), "− 0.0268 SOL"],
     [t("rows.paid"), "5.3319 SOL", true],
-    [t("rows.price"), "0.00 %"],
   ];
   return (
     <div className="patch-card -rotate-2 px-5 py-4 font-mono text-[12px]">
