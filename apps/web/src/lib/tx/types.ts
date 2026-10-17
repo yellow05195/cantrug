@@ -5,6 +5,10 @@ export type TxAction =
   | { kind: "claim"; mint: string; symbol: string }
   | { kind: "cancel"; mint: string; symbol: string }
   | { kind: "queueToRedeem"; mint: string; symbol: string }
+  /** Permissionless crank: serve the brake queue for the window that just closed. The caller earns the crank reward. */
+  | { kind: "crank"; mint: string; symbol: string }
+  /** Permissionless crank: open the pool of a coin whose curve is complete. */
+  | { kind: "graduate"; mint: string; symbol: string }
   | {
       kind: "create";
       name: string;
@@ -35,10 +39,31 @@ export interface Outcome {
   staleSettledSol: bigint;
   /** New coin mint (create). */
   mint?: string;
+  /** Crank reward paid to the wallet (crank, or a trade that served the queue on the way). */
+  crankReward: bigint;
+  /** The transaction graduated the coin (graduate, or the buy that completed the curve). */
+  graduated: boolean;
+  /** Tokens sold for the queue by the aggregate fill this transaction triggered. */
+  queueServed: bigint;
 }
 
 export function emptyOutcome(kind: TxAction["kind"], symbol: string): Outcome {
-  return { kind, symbol, solIn: 0n, solOut: 0n, tokensIn: 0n, tokensOut: 0n, executed: 0n, queued: 0n, dropped: 0n, feeKept: 0n, staleSettledSol: 0n };
+  return {
+    kind,
+    symbol,
+    solIn: 0n,
+    solOut: 0n,
+    tokensIn: 0n,
+    tokensOut: 0n,
+    executed: 0n,
+    queued: 0n,
+    dropped: 0n,
+    feeKept: 0n,
+    staleSettledSol: 0n,
+    crankReward: 0n,
+    graduated: false,
+    queueServed: 0n,
+  };
 }
 
 export interface Prepared {

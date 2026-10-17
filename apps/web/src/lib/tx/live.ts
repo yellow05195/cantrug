@@ -2,6 +2,17 @@
  * Live transaction path: SDK instruction → compute budget → simulate →
  * parse the simulated program events (exact outcome) → the caller confirms →
  * the wallet signs and sends → confirm → re-read the confirmed events.
+ *
+ * The two permissionless cranks ride along with ordinary trades, so the site
+ * needs no hosted crank to stay correct:
+ * - `process_queue` is prepended to a buy or a redeem when a brake window has
+ *   closed with tokens still queued (the program serves the queue inside a
+ *   sell by itself). The wallet earns the crank reward.
+ * - `graduate` is appended to the buy that completes the curve, so the pool
+ *   and the floor open in the same transaction as the last curve buy.
+ * Both are optional: if the simulation refuses the transaction with them
+ * (another wallet cranked first, the window has not closed yet), it is rebuilt
+ * without them.
  */
 import {
   buyIx,
@@ -11,7 +22,9 @@ import {
   createCoinTx,
   curveBuy,
   eventsOf,
+  graduateIx,
   phase,
+  processQueueIx,
   queueToRedeemIx,
   redeemIx,
   sellIx,
@@ -20,7 +33,9 @@ import {
   setComputeUnitPrice,
   swapBuyIx,
   swapSellIx,
+  windowStart,
   withSlippage,
+  type CoinState,
   type FlooredEvent,
 } from "@floored/sdk";
 import {
@@ -52,6 +67,18 @@ interface Built {
   lastValidBlockHeight: number;
 }
 
+/** A brake window has closed since the last fill and tokens are still queued: `process_queue` would succeed. */
+export function queueFillDue(s: CoinState, slot: bigint): boolean {
+  if (s.brake.queuedTotal === 0n) return false;
+  const len = s.params.brakeWindowSlots;
+  return windowStart(s.brake.windowStart, len, slot) > s.brake.windowStart;
+}
+
+/** The curve has collected its graduation SOL and the pool is not open yet. */
+export function graduationDue(s: CoinState): boolean {
+  return phase(s) === "curve" && s.realSol >= s.params.graduationSol;
+}
+
 async function buildAndSimulate(c: Connection, payer: PublicKey, ixs: TransactionInstruction[], signers: Keypair[] = []): Promise<Built> {
   const { blockhash, lastValidBlockHeight } = await c.getLatestBlockhash("confirmed");
   const draft = new VersionedTransaction(
@@ -73,13 +100,56 @@ async function buildAndSimulate(c: Connection, payer: PublicKey, ixs: Transactio
   return { tx, events: parseFlooredEvents(logs), logs, blockhash, lastValidBlockHeight };
 }
 
+/**
+ * Simulate with the optional crank instructions first; if the program refuses
+ * (someone else cranked, the window is still open), simulate the bare
+ * transaction. The bare transaction's own error is the one reported.
+ */
+async function buildWithOptional(
+  c: Connection,
+  payer: PublicKey,
+  core: TransactionInstruction[],
+  before: TransactionInstruction[],
+  after: TransactionInstruction[],
+  signers: Keypair[] = [],
+): Promise<Built> {
+  if (before.length || after.length) {
+    try {
+      return await buildAndSimulate(c, payer, [...before, ...core, ...after], signers);
+    } catch {
+      /* fall back to the bare transaction */
+    }
+  }
+  return buildAndSimulate(c, payer, core, signers);
+}
+
 function readOutcome(action: TxAction, owner: PublicKey, events: FlooredEvent[], base: Outcome): Outcome {
-  const o: Outcome = { ...base, solIn: 0n, solOut: 0n, tokensIn: 0n, tokensOut: 0n, executed: 0n, queued: 0n, feeKept: 0n, staleSettledSol: 0n };
+  const o: Outcome = {
+    ...base,
+    solIn: 0n,
+    solOut: 0n,
+    tokensIn: 0n,
+    tokensOut: 0n,
+    executed: 0n,
+    queued: 0n,
+    feeKept: 0n,
+    staleSettledSol: 0n,
+    crankReward: 0n,
+    graduated: false,
+    queueServed: 0n,
+  };
   const mine = <T extends { user: PublicKey }>(xs: T[]) => xs.filter((x) => x.user.equals(owner));
   const trades = mine(eventsOf(events, "Trade")).filter((t) => !t.isQueueFill);
   const settled = mine(eventsOf(events, "QueueSettled"));
   const redeemed = mine(eventsOf(events, "Redeemed"));
   const joined = mine(eventsOf(events, "QueueJoined"));
+  // Cranks this wallet performed, alone or on the way.
+  for (const p of eventsOf(events, "QueueProcessed")) {
+    if (!p.caller.equals(owner)) continue;
+    o.crankReward += p.crankReward;
+    o.queueServed += p.sold;
+  }
+  o.graduated = eventsOf(events, "Graduated").some((g) => g.caller.equals(owner));
   switch (action.kind) {
     case "buy":
     case "create": {
@@ -123,6 +193,10 @@ function readOutcome(action: TxAction, owner: PublicKey, events: FlooredEvent[],
       o.tokensIn = settled.reduce((a, s) => a + s.tokensRedeemed, 0n);
       break;
     }
+    case "crank":
+    case "graduate":
+      // Nothing but the crank fields above.
+      break;
   }
   return o;
 }
@@ -140,6 +214,8 @@ export async function prepareLive(action: TxAction, signer: Signer): Promise<Pre
   const c = connection();
   const owner = new PublicKey(signer.address);
   const ixs: TransactionInstruction[] = [];
+  const before: TransactionInstruction[] = [];
+  const after: TransactionInstruction[] = [];
   const extraSigners: Keypair[] = [];
   const symbol = action.symbol;
   let newMint: string | undefined;
@@ -172,8 +248,10 @@ export async function prepareLive(action: TxAction, signer: Signer): Promise<Pre
     const s = chain.state;
     const mint = new PublicKey(action.mint);
     const user = await readUser(action.mint, signer.address, s, c);
+    const fillDue = queueFillDue(s, chain.slot);
     switch (action.kind) {
       case "buy": {
+        if (fillDue) before.push(processQueueIx({ caller: owner, mint, epoch: s.brake.epoch }));
         const q = buyQuote(s, action.lamports);
         const minTokensOut = withSlippage(q.tokensOut, action.slippageBps);
         ixs.push(
@@ -181,6 +259,8 @@ export async function prepareLive(action: TxAction, signer: Signer): Promise<Pre
             ? buyIx({ user: owner, mint, solMax: action.lamports, minTokensOut })
             : swapBuyIx({ user: owner, mint, solIn: action.lamports, minTokensOut }),
         );
+        // The buy that completes the curve opens the pool in the same transaction.
+        if (q.venue === "curve" && q.completes) after.push(graduateIx({ caller: owner, mint }));
         break;
       }
       case "sell": {
@@ -195,6 +275,7 @@ export async function prepareLive(action: TxAction, signer: Signer): Promise<Pre
         break;
       }
       case "redeem":
+        if (fillDue) before.push(processQueueIx({ caller: owner, mint, epoch: s.brake.epoch }));
         ixs.push(redeemIx({ user: owner, mint, tokens: action.tokens }));
         break;
       case "claim":
@@ -205,10 +286,20 @@ export async function prepareLive(action: TxAction, signer: Signer): Promise<Pre
         ixs.push(action.kind === "claim" ? claimQueueIx(a) : action.kind === "cancel" ? cancelQueueIx(a) : queueToRedeemIx(a));
         break;
       }
+      case "crank":
+        if (s.brake.queuedTotal === 0n) throw new TxError("program.QueueEmpty");
+        if (!fillDue) throw new TxError("program.WindowNotElapsed");
+        ixs.push(processQueueIx({ caller: owner, mint, epoch: s.brake.epoch }));
+        break;
+      case "graduate":
+        if (phase(s) !== "curve") throw new TxError("program.WrongPhase");
+        if (!graduationDue(s)) throw new TxError("program.CurveNotComplete");
+        ixs.push(graduateIx({ caller: owner, mint }));
+        break;
     }
   }
 
-  const built = await buildAndSimulate(c, owner, ixs, extraSigners);
+  const built = await buildWithOptional(c, owner, ixs, before, after, extraSigners);
   const base = emptyOutcome(action.kind, symbol);
   const outcome = readOutcome(action, owner, built.events, base);
   if (newMint && !outcome.mint) outcome.mint = newMint;

@@ -3,7 +3,7 @@
  * running the action on a copy of the coin (exact SDK math), the confirm
  * step applies it for real to the in-tab dataset and broadcasts the events.
  */
-import { DEFAULT_PARAMS } from "@floored/sdk";
+import { DEFAULT_PARAMS, phase } from "@floored/sdk";
 import { emitEngineEvents } from "@/lib/api/ws";
 import { dataset } from "@/lib/mock/api";
 import {
@@ -14,6 +14,7 @@ import {
   redeem,
   sell,
   settleQueue,
+  settleWindow,
   slotAt,
   type Ctx,
   type EngineEvent,
@@ -25,6 +26,9 @@ import { emptyOutcome, type Outcome, type Prepared, type TxAction } from "./type
 
 const r = rng(0x7a11);
 
+/** The mock config's crank reward (mainnet default, 0.002 SOL). */
+const MOCK_CRANK_REWARD = 2_000_000n;
+
 function run(c: MockCoin, action: TxAction, owner: string, ctx: Ctx): Outcome {
   const o = emptyOutcome(action.kind, action.symbol);
   switch (action.kind) {
@@ -32,9 +36,11 @@ function run(c: MockCoin, action: TxAction, owner: string, ctx: Ctx): Outcome {
     case "create": {
       const lamports = action.kind === "buy" ? action.lamports : action.firstBuyLamports;
       if (lamports > 0n) {
+        const wasCurve = phase(c.state) === "curve";
         const res = buy(c, owner, lamports, ctx);
         o.solIn = res.solCharged;
         o.tokensOut = res.tokensOut;
+        o.graduated = wasCurve && phase(c.state) === "graduated";
       }
       o.mint = c.state.mint.toBase58();
       return o;
@@ -72,6 +78,20 @@ function run(c: MockCoin, action: TxAction, owner: string, ctx: Ctx): Outcome {
       o.tokensOut = res.tokensReturned;
       o.tokensIn = res.tokensRedeemed;
       return o;
+    }
+    case "crank": {
+      const before = c.state.brake.queuedTotal;
+      if (before === 0n) throw new TxError("program.QueueEmpty");
+      settleWindow(c, ctx);
+      const served = before - c.state.brake.queuedTotal;
+      if (served === 0n) throw new TxError("program.WindowNotElapsed");
+      o.queueServed = served;
+      o.crankReward = MOCK_CRANK_REWARD;
+      return o;
+    }
+    case "graduate": {
+      // The mock engine graduates inside the buy that completes the curve, so there is never a pending graduation.
+      throw new TxError(phase(c.state) === "curve" ? "program.CurveNotComplete" : "program.WrongPhase");
     }
   }
 }

@@ -1,8 +1,9 @@
 /**
  * Pluggable uploader for coin images and metadata JSON.
  * - NEXT_PUBLIC_UPLOAD_URL set: POST multipart `file` to it, expects `{ "url": "https://..." }`.
- * - otherwise: a dev stub that returns data URLs (fine in mock mode; on chain the
- *   metadata URI is limited to 200 bytes, so a real uploader is required there).
+ * - live mode without it: the site's own `/api/upload` (Vercel Blob, see app/api/upload/route.ts).
+ * - mock mode: a dev stub that returns data URLs (on chain the metadata URI is
+ *   limited to 200 bytes, so a real uploader is required there).
  */
 import { ENV } from "@/lib/env";
 
@@ -11,11 +12,23 @@ export interface Uploader {
   uploadJson(json: unknown): Promise<string>;
 }
 
+/** Where uploads go: an explicit endpoint, else the site's own route in live mode, else nothing (dev stub). */
+export const uploadEndpoint: string = ENV.uploadUrl || (ENV.mock ? "" : "/api/upload");
+
 async function post(body: Blob, name: string): Promise<string> {
   const form = new FormData();
   form.append("file", body, name);
-  const res = await fetch(ENV.uploadUrl, { method: "POST", body: form });
-  if (!res.ok) throw new Error(`upload failed (${res.status})`);
+  const res = await fetch(uploadEndpoint, { method: "POST", body: form });
+  if (!res.ok) {
+    let msg = `upload failed (${res.status})`;
+    try {
+      const j = (await res.json()) as { error?: string };
+      if (j.error) msg = j.error;
+    } catch {
+      /* not json */
+    }
+    throw new Error(msg);
+  }
   const j = (await res.json()) as { url?: string; uri?: string };
   const url = j.url ?? j.uri;
   if (!url) throw new Error("upload response has no url");
@@ -62,5 +75,5 @@ const devUploader: Uploader = {
   uploadJson: async (json) => `data:application/json,${encodeURIComponent(JSON.stringify(json))}`,
 };
 
-export const uploader: Uploader = ENV.uploadUrl ? httpUploader : devUploader;
-export const hasRealUploader = Boolean(ENV.uploadUrl);
+export const uploader: Uploader = uploadEndpoint ? httpUploader : devUploader;
+export const hasRealUploader = Boolean(uploadEndpoint);

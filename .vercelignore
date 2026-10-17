@@ -1,0 +1,18 @@
+# What the site build needs on Vercel: the pnpm workspace (every importer in pnpm-lock.yaml must exist) minus
+# build outputs, Rust artifacts, env files and keys.
+/*
+!/apps
+!/packages
+!/package.json
+!/pnpm-lock.yaml
+!/pnpm-workspace.yaml
+**/node_modules
+**/.next
+**/dist
+**/target
+**/.env
+**/.env.*
+**/*keypair*
+**/*RECOVERY*
+**/keys
+/packages/jupiter-amm/Cargo.lock

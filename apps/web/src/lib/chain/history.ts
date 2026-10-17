@@ -8,15 +8,15 @@
  * kept if the RPC gives up.
  */
 import { circulating, coinKeys, eventsOf, floorQ64, priceQ64, q64ToSolPerToken, type FlooredEvent } from "@floored/sdk";
-import { PublicKey, type ConfirmedSignatureInfo } from "@solana/web3.js";
+import { PublicKey, type ConfirmedSignatureInfo, type Connection } from "@solana/web3.js";
 import type { TradeJson } from "@/lib/api/types";
+import { challengeConnection } from "./challengeRpc";
 import { parseFlooredEvents } from "./events";
 import { connection } from "./reads";
 
 const pause = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-async function eventsOfTx(signature: string): Promise<FlooredEvent[] | null> {
-  const c = connection();
+async function eventsOfTx(c: Connection, signature: string): Promise<FlooredEvent[] | null> {
   for (let attempt = 0; attempt < 3; attempt++) {
     try {
       const tx = await c.getTransaction(signature, { commitment: "confirmed", maxSupportedTransactionVersion: 0 });
@@ -28,7 +28,8 @@ async function eventsOfTx(signature: string): Promise<FlooredEvent[] | null> {
   return null;
 }
 
-function rowsOf(mintStr: string, sig: string, events: FlooredEvent[]): TradeJson[] {
+/** Feed rows of one transaction's events (trades and redeems of `mintStr`). */
+export function rowsOf(mintStr: string, sig: string, events: FlooredEvent[]): TradeJson[] {
   const rows: TradeJson[] = [];
   let idx = 0;
   for (const t of eventsOf(events, "Trade")) {
@@ -94,12 +95,12 @@ function rowsOf(mintStr: string, sig: string, events: FlooredEvent[]): TradeJson
   return rows;
 }
 
-async function rowsForSignatures(mintStr: string, sigs: ConfirmedSignatureInfo[], onProgress?: (rows: TradeJson[]) => void): Promise<TradeJson[]> {
+async function rowsForSignatures(c: Connection, mintStr: string, sigs: ConfirmedSignatureInfo[], onProgress?: (rows: TradeJson[]) => void): Promise<TradeJson[]> {
   const rows: TradeJson[] = [];
   let failures = 0;
   for (const s of sigs) {
     if (s.err) continue;
-    const ev = await eventsOfTx(s.signature);
+    const ev = await eventsOfTx(c, s.signature);
     if (ev === null) {
       // Rate limited: back off, give up after three misses in a row.
       if (++failures >= 3) break;
@@ -114,29 +115,30 @@ async function rowsForSignatures(mintStr: string, sigs: ConfirmedSignatureInfo[]
   return sortRows(rows);
 }
 
-function sortRows(rows: TradeJson[]): TradeJson[] {
+export function sortRows(rows: TradeJson[]): TradeJson[] {
   return [...rows].sort((a, b) => a.slot - b.slot || a.event_index - b.event_index);
 }
 
 /** The latest `limit` events of a coin, oldest first. */
-export async function readTradeHistory(mintStr: string, limit = 60, onProgress?: (rows: TradeJson[]) => void): Promise<TradeJson[]> {
+export async function readTradeHistory(mintStr: string, limit = 60, onProgress?: (rows: TradeJson[]) => void, c: Connection = connection()): Promise<TradeJson[]> {
   const { coin } = coinKeys(new PublicKey(mintStr));
-  const sigs = await connection().getSignaturesForAddress(coin, { limit });
-  return rowsForSignatures(mintStr, sigs, onProgress);
+  const sigs = await c.getSignaturesForAddress(coin, { limit });
+  return rowsForSignatures(c, mintStr, sigs, onProgress);
 }
 
 /**
  * The challenge episode without an indexer: find the dev's latest braked dump
  * from the dev wallet's own (short) history, then read the coin's transactions
- * around it: a few before, every queue fill after.
+ * around it: a few before, every queue fill after. Always read from the
+ * challenge coin's own cluster (devnet), whatever cluster the site runs on.
  */
 export async function readChallengeHistory(mintStr: string, dev: string): Promise<TradeJson[]> {
-  const c = connection();
+  const c = challengeConnection();
   const devSigs = await c.getSignaturesForAddress(new PublicKey(dev), { limit: 25 });
   let dump: ConfirmedSignatureInfo | null = null;
   for (const s of devSigs) {
     if (s.err) continue;
-    const ev = await eventsOfTx(s.signature);
+    const ev = await eventsOfTx(c, s.signature);
     if (ev === null) break;
     const hit = eventsOf(ev, "Trade").some((t) => t.mint.toBase58() === mintStr && !t.isBuy && t.user.toBase58() === dev && t.queuedRemainder > 0n);
     if (hit) {
@@ -145,9 +147,9 @@ export async function readChallengeHistory(mintStr: string, dev: string): Promis
     }
     await pause(220);
   }
-  if (!dump) return readTradeHistory(mintStr, 60);
+  if (!dump) return readTradeHistory(mintStr, 60, undefined, c);
   const { coin } = coinKeys(new PublicKey(mintStr));
   const after = await c.getSignaturesForAddress(coin, { until: dump.signature, limit: 120 });
   const before = await c.getSignaturesForAddress(coin, { before: dump.signature, limit: 10 });
-  return rowsForSignatures(mintStr, [...before.reverse(), dump, ...after.reverse()]);
+  return rowsForSignatures(c, mintStr, [...before.reverse(), dump, ...after.reverse()]);
 }
