@@ -106,7 +106,7 @@ export function TradePanel({
   const inputLabel = tab === "buy" ? t("amountSol") : t("amountTokens", { symbol });
 
   return (
-    <div className={cn("sticker overflow-hidden", tab === "redeem" && "border-floor-deep")}>
+    <div className={cn("plate overflow-hidden", tab === "redeem" && "border-floor-deep")}>
       <div className="p-3 pb-0">
       <Tabs
         flat
@@ -145,7 +145,7 @@ export function TradePanel({
                   </button>
                 ) : null}
               </div>
-              <div className={cn("flex items-center rounded-lg border bg-bg-3 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-floor", overBalance || overSol ? "border-down" : "border-stroke")}>
+              <div className="relative">
                 <input
                   id={`amt${id}`}
                   inputMode="decimal"
@@ -153,16 +153,16 @@ export function TradePanel({
                   placeholder="0.00"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value.replace(/[^\d.,]/g, ""))}
-                  className="num h-16 min-w-0 flex-1 bg-transparent px-4 text-3xl outline-none placeholder:text-ink-3"
+                  className={cn("field num h-16 pr-20 text-3xl", (overBalance || overSol) && "border-down")}
                   aria-invalid={overBalance || overSol || undefined}
                   aria-describedby={`q${id}`}
                 />
-                <span className="num pr-3 text-md text-ink-3">{tab === "buy" ? "SOL" : symbol}</span>
+                <span className="num pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-md text-ink-3">{tab === "buy" ? "SOL" : symbol}</span>
               </div>
               <div className="mt-2 grid grid-cols-4 gap-1.5">
                 {tab === "buy"
                   ? BUY_PRESETS.map((p) => (
-                      <button key={p} type="button" onClick={() => setAmount(p)} className="press num h-10 rounded-full border border-stroke bg-bg-3 text-sm font-medium text-ink-2 hover:border-stroke-strong hover:text-ink lg:h-9">
+                      <button key={p} type="button" onClick={() => setAmount(p)} className="press num h-10 rounded-xs border border-line bg-card-2 text-sm font-medium text-ink-2 hover:border-line-2 hover:text-ink lg:h-9">
                         {p}
                       </button>
                     ))
@@ -172,7 +172,7 @@ export function TradePanel({
                         type="button"
                         disabled={!account.connected || balance === 0n}
                         onClick={() => setAmount(tokensInput((balance * BigInt(f)) / 100n))}
-                        className="press num h-10 rounded-full border border-stroke bg-bg-3 text-sm font-medium text-ink-2 hover:border-stroke-strong hover:text-ink disabled:opacity-40 lg:h-9"
+                        className="press num h-10 rounded-xs border border-line bg-card-2 text-sm font-medium text-ink-2 hover:border-line-2 hover:text-ink disabled:opacity-40 lg:h-9"
                       >
                         {f} %
                       </button>
@@ -200,8 +200,7 @@ export function TradePanel({
                 <>
                   <QuoteLine label={t("youReceive")} value={`${sol(quote.solOut)} SOL`} strong />
                   {quote.braked > 0n ? (
-                    <div className="rounded-sm bg-bg-3 p-2.5 text-ink">
-                      <span aria-hidden className="brake-stripes mb-2 block h-1 w-10 rounded-[1px]" />
+                    <div className="border-t-2 border-brake bg-brake/10 p-2.5 text-ink">
                       {t("brakeSplit", { exec: pct(quote.execPct), rest: pct(100 - quote.execPct) })}
                       <label className="mt-1.5 flex items-center gap-2 text-xs text-ink-2">
                         <input type="checkbox" checked={queueRest} onChange={(e) => setQueueRest(e.target.checked)} className="size-3.5 accent-[var(--ink)]" />
@@ -236,7 +235,7 @@ export function TradePanel({
                         type="button"
                         aria-pressed={slippageBps === b}
                         onClick={() => setSlippageBps(b)}
-                        className={cn("press num h-8 flex-1 rounded-full border text-xs font-medium", slippageBps === b ? "border-stroke-strong bg-surface text-ink" : "border-stroke text-ink-2 hover:text-ink")}
+                        className={cn("press num h-8 flex-1 rounded-xs border text-xs font-medium", slippageBps === b ? "border-line-2 bg-card-2 text-ink" : "border-line text-ink-2 hover:text-ink")}
                       >
                         {bps(b)}
                       </button>
@@ -249,15 +248,28 @@ export function TradePanel({
             {!account.connected ? (
               <ConnectPrompt block />
             ) : (
-              <Button
-                variant={tab === "buy" ? "primary" : tab === "sell" ? "secondary" : "floor"}
-                size="lg"
-                block
-                disabled={!chain || parsed === null || parsed === 0n || overBalance || overSol || quote?.kind === "error" || tx.busy}
-                onClick={submit}
-              >
-                {tab === "buy" ? t("buy") : tab === "sell" ? t("sell") : t("redeem")}
-              </Button>
+              // Buy and Redeem are the orange primary of their tab, Sell the hairline secondary.
+              tab === "buy" ? (
+                <Button
+                  variant="primary"
+                  size="lg"
+                  block
+                  disabled={!chain || parsed === null || parsed === 0n || overBalance || overSol || quote?.kind === "error" || tx.busy}
+                  onClick={submit}
+                >
+                  {t("buy")}
+                </Button>
+              ) : (
+                <Button
+                  variant={tab === "sell" ? "secondary" : "floor"}
+                  size="lg"
+                  block
+                  disabled={!chain || parsed === null || parsed === 0n || overBalance || overSol || quote?.kind === "error" || tx.busy}
+                  onClick={submit}
+                >
+                  {tab === "sell" ? t("sell") : t("redeem")}
+                </Button>
+              )
             )}
             {fees ? (
               <p className="text-xs text-ink-3">

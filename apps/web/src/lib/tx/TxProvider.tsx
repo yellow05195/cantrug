@@ -114,6 +114,10 @@ export function TxProvider({ children }: { children: ReactNode }) {
             return t("done.queueToRedeem", { sol: sol(o.solOut) });
           case "create":
             return t("done.create", { symbol });
+          case "crank":
+            return t("done.crank", { sol: sol(o.crankReward) });
+          case "graduate":
+            return t("done.graduate", { symbol });
         }
       })();
       toast({
@@ -218,8 +222,7 @@ function OutcomeLines({ o }: { o: Outcome }) {
             {sol(o.solOut)} <span className="text-ink-3">SOL</span>
           </p>
           {o.queued > 0n || o.dropped > 0n ? (
-            <p className="rounded-sm bg-bg-3 p-3 text-md">
-              <span aria-hidden className="brake-stripes mb-2 block h-1 w-10 rounded-[1px]" />
+            <p className="border-t-2 border-brake bg-brake/10 p-3 text-md">
               {o.queued > 0n
                 ? t("brakeSplit", { exec: pct(shareOf(o.executed, whole)), sol: sol(o.solOut), queued: pct(shareOf(o.queued, whole)) })
                 : t("brakeDrop", { exec: pct(shareOf(o.executed, whole)), dropped: pct(shareOf(o.dropped, whole)) })}

@@ -4,31 +4,39 @@
 
 :root {
   color-scheme: dark;
-  /* v2 "chantier vivant" (DESIGN.md v2). */
-  --bg: #141414;
-  --bg-2: #1c1c1b;
-  --bg-3: #262624;
-  --surface: #2a2a28;
-  --stroke: #3a3a38;
-  --stroke-strong: #56544f;
-  --shadow: #0a0a0a;
-  --line: #2e2e2c;
-  --line-2: #3a3a38;
-  --ink: #f2efe9;
-  --ink-2: #b3afa6;
-  /* DESIGN.md v2 #8C8982 lifted so small labels pass AA (4.5:1) on the #2A2A28 sticker fill. */
-  --ink-3: #9a978f;
+  /*
+    v5 "flat": graphite ground, solid 1 px hairlines, square corners, no glow,
+    no halo, no gradient. One accent, safety orange, for the floor and the
+    primary action. Everything else is grey ink on dark grey.
+  */
+  --bg: #0b0c0e;
+  --bg-2: #101114;
+  --bg-3: #141619;
+  --surface: #141619;
+  --card: #141619;
+  --card-2: #1a1d21;
+  --card-3: #23272c;
+  --stroke: #24282e;
+  --stroke-strong: #363c44;
+  --line: #24282e;
+  --line-2: #363c44;
+  --shadow: rgba(0, 0, 0, 0.6);
+  --ink: #f2f3f5;
+  --ink-2: #a4aab3;
+  --ink-3: #6e7580;
   --floor: #ff5f1f;
   --floor-hot: #ff7a3d;
   --floor-deep: #b8400e;
-  --floor-ink: #141414;
-  --floor-dim: rgba(255, 95, 31, 0.16);
+  --floor-ink: #0b0c0e;
+  --floor-dim: rgba(255, 95, 31, 0.12);
   --brake: #ffd400;
   --brake-ink: #111111;
-  --up: #5fbf8a;
-  --down: #e0605a;
-  --grain-opacity: 0.05;
-  --float-shadow: 0 6px 0 0 var(--shadow);
+  --up: #2fcf72;
+  --up-soft: rgba(47, 207, 114, 0.12);
+  --down: #ff5c6c;
+  --down-soft: rgba(255, 92, 108, 0.12);
+  --grain-opacity: 0;
+  --float-shadow: none;
   --ease-mech: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
@@ -37,31 +45,9 @@
   --header-h: 64px;
 }
 
+/* Dark only: the light theme is retired; the attribute is kept so nothing breaks. */
 :root[data-theme="light"] {
-  color-scheme: light;
-  /* Béton clair keeps the v1 base with the v2 deltas; ink-3 and the orange are darkened for AA. */
-  --bg: #e9e6e0;
-  --bg-2: #f2f0eb;
-  --bg-3: #e0dcd4;
-  --surface: #f8f6f1;
-  --stroke: #bdb7ac;
-  --stroke-strong: #8f897e;
-  --shadow: #a8a296;
-  --line: #cfcac0;
-  --line-2: #b9b3a8;
-  --ink: #141413;
-  --ink-2: #57554f;
-  --ink-3: #64615b;
-  --floor: #b83f0a;
-  --floor-hot: #d24a10;
-  --floor-deep: #7a2905;
-  --floor-ink: #ffffff;
-  --floor-dim: rgba(184, 63, 10, 0.14);
-  --brake: #f2c800;
-  --brake-ink: #111111;
-  --up: #2f7d55;
-  --down: #b23b35;
-  --grain-opacity: 0.08;
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -72,6 +58,11 @@
   --color-stroke: var(--stroke);
   --color-stroke-strong: var(--stroke-strong);
   --color-shadow: var(--shadow);
+  --color-card: var(--card);
+  --color-card-2: var(--card-2);
+  --color-card-3: var(--card-3);
+  --color-up-soft: var(--up-soft);
+  --color-down-soft: var(--down-soft);
   --color-floor-hot: var(--floor-hot);
   --color-floor-deep: var(--floor-deep);
   --color-line: var(--line);
@@ -87,8 +78,8 @@
   --color-up: var(--up);
   --color-down: var(--down);
 
-  --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, "SFMono-Regular", monospace;
+  --font-sans: var(--font-geist), "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
 
   /* Type scale (rem): .75 / .8125 / .875 / 1 / 1.125 / 1.375 / 1.75 / 2.25 / 3 / 4.5 / 6 */
   --text-xs: 0.75rem;
@@ -116,13 +107,13 @@
   --text-6xl: 6rem;
   --text-6xl--line-height: 1;
 
-  /* v2 shape rule: 12 px cards and panels (rounded-xl), 10 px buttons and inputs (rounded-lg), 999 chips (rounded-full). */
-  --radius-xs: 4px;
-  --radius-sm: 6px;
-  --radius-md: 8px;
-  --radius-lg: 10px;
-  --radius-xl: 12px;
-  --radius-2xl: 16px;
+  /* v5 shape rule: everything is square. 2 px takes the pixel edge off, nothing more. */
+  --radius-xs: 2px;
+  --radius-sm: 2px;
+  --radius-md: 2px;
+  --radius-lg: 2px;
+  --radius-xl: 2px;
+  --radius-2xl: 2px;
 
   --ease-mech: cubic-bezier(0.2, 0.7, 0.2, 1);
   --breakpoint-xs: 26rem;
@@ -144,8 +135,10 @@
     background: var(--bg);
     color: var(--ink);
     font-family: var(--font-sans);
+    font-weight: 400;
     font-size: 1rem;
-    line-height: 1.5;
+    line-height: 1.55;
+    letter-spacing: 0;
     min-height: 100dvh;
     -webkit-tap-highlight-color: transparent;
   }
@@ -155,6 +148,13 @@
   h4 {
     font-weight: 600;
     text-wrap: balance;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+  h3,
+  h4 {
+    letter-spacing: -0.015em;
+    line-height: 1.2;
   }
   p {
     text-wrap: pretty;
@@ -236,54 +236,239 @@ body::after {
 
 /* ───────────── v2 stickers: 2 px stroke, solid offset "slab shadow" ───────────── */
 
-/* v3 calm: flat surfaces, hairline strokes, no offset shadows. The orange line is the only emphasis. */
-@utility sticker {
-  background-color: var(--surface);
-  border: 1px solid var(--stroke);
-  border-radius: 12px;
+/* Plates: a whisper of light on the top edge, one hairline, 20 px radius. `sticker` is an alias so older components keep working. */
+@utility plate {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 2px;
 }
-
+@utility sticker {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+}
+@utility plate-glow {
+  border-color: var(--line-2);
+}
 @utility sticker-flat {
-  background-color: var(--bg-3);
-  border: 1px solid var(--stroke);
-  border-radius: 12px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+}
+@utility well {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 2px;
 }
 
 /* Hover lifts 2 px (shadow 6 px), press pushes down 2 px (shadow 2 px). */
 @utility lift {
-  transition-property: border-color, background-color, transform;
-  transition-duration: 160ms;
-  transition-timing-function: var(--ease-out);
+  transition: border-color 150ms ease;
   @media (hover: hover) and (pointer: fine) {
     &:hover {
-      border-color: var(--stroke-strong);
-      background-color: color-mix(in oklab, var(--surface) 92%, var(--ink) 8%);
+      border-color: var(--line-2);
     }
-  }
-  &:active {
-    transform: scale(0.995);
-    transition-duration: 100ms;
   }
 }
 
+/* Pills: 14 px radius, inner highlight on the primary, scale on press. */
 @utility btn-slab {
-  box-shadow: 0 2px 0 0 var(--btn-shadow, var(--shadow));
-  transition-property: transform, box-shadow, background-color, border-color, color, filter;
-  transition-duration: 160ms;
-  transition-timing-function: var(--ease-out);
-  @media (hover: hover) and (pointer: fine) {
-    &:hover:not(:disabled) {
-      filter: brightness(1.06);
-    }
-  }
+  transition:
+    transform 120ms var(--ease-out),
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
   &:active:not(:disabled) {
-    transform: translateY(1px) scale(0.99);
-    box-shadow: 0 1px 0 0 var(--btn-shadow, var(--shadow));
-    transition-duration: 100ms;
+    transform: scale(0.985);
   }
   &:disabled {
-    box-shadow: none;
-    opacity: 0.6;
+    opacity: 0.45;
+  }
+}
+@utility pill-primary {
+  background: var(--floor);
+  color: var(--floor-ink);
+  border: 1px solid var(--floor);
+  border-radius: 2px;
+  @media (hover: hover) and (pointer: fine) {
+    &:hover:not(:disabled) {
+      background: var(--floor-hot);
+      border-color: var(--floor-hot);
+    }
+  }
+}
+@utility pill-paper {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line-2);
+  border-radius: 2px;
+  @media (hover: hover) and (pointer: fine) {
+    &:hover:not(:disabled) {
+      background: var(--card-2);
+      border-color: var(--ink-3);
+    }
+  }
+}
+@utility pill-ink {
+  background: var(--ink);
+  color: var(--bg);
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  @media (hover: hover) and (pointer: fine) {
+    &:hover:not(:disabled) {
+      background: #ffffff;
+    }
+  }
+}
+
+/* Mono kicker above a title or a card (house style). */
+@utility kicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+/* Floating capsule header. */
+@utility capsule {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: var(--header-h);
+  background: color-mix(in oklab, var(--bg) 88%, transparent);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+@utility capsule-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  & a {
+    display: inline-flex;
+    align-items: center;
+    height: 32px;
+    padding: 0 10px;
+    border-radius: 2px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink-2);
+    transition:
+      color 150ms ease,
+      background-color 150ms ease;
+  }
+  & a:hover {
+    color: var(--ink);
+  }
+  & a[aria-current="page"] {
+    color: var(--ink);
+    background: var(--card-2);
+  }
+}
+
+/* Ambience: glow pools, halos, the glowing floor line, the ground, the drafting grid. */
+@utility glow-bottom {
+  background: var(--bg-2);
+}
+@utility glow-top {
+  background: var(--bg-2);
+}
+@utility halo {
+  border: 1px solid var(--line-2);
+}
+@utility floor-line {
+  position: relative;
+  height: 2px;
+  background: var(--floor);
+}
+@utility ground {
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--line);
+}
+@utility drafting {
+  background: none;
+}
+@utility rule {
+  height: 1px;
+  background: var(--line-2);
+}
+@utility field {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--line-2);
+  border-radius: 2px;
+  color: var(--ink);
+  font-weight: 400;
+  padding: 0 12px;
+  height: 44px;
+  transition: border-color 150ms ease;
+  &::placeholder {
+    color: var(--ink-3);
+  }
+  &:focus {
+    outline: none;
+    border-color: var(--ink-2);
+  }
+}
+
+/* Floating hero objects and the scroll reveal. */
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -12px, 0);
+  }
+}
+@utility float {
+  animation: none;
+}
+@utility float-2 {
+  animation: none;
+}
+@utility float-3 {
+  animation: none;
+}
+@utility reveal {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 500ms var(--ease-out),
+    transform 500ms var(--ease-out);
+  &[data-wait] {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+  }
+}
+@utility rise {
+  animation: rise-in 700ms var(--ease-out) both;
+  animation-delay: var(--rise-delay, 0ms);
+}
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .float,
+  .float-2,
+  .float-3 {
+    animation: none;
+  }
+  .reveal[data-wait] {
+    transform: none;
+  }
+  .rise {
+    animation: none;
   }
 }
 
@@ -379,8 +564,11 @@ body::after {
 
 .fl-dialog {
   max-height: 100dvh;
-  border: 2px solid var(--stroke);
-  box-shadow: 0 6px 0 0 var(--shadow);
+  border: 1px solid var(--line-2);
+  background: var(--card);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 30px 80px -30px rgba(0, 0, 0, 0.9);
 }
 .fl-dialog[open] {
   animation: dialog-in 200ms var(--ease-out-strong);
@@ -667,4 +855,21 @@ svg [opacity="0.2"] {
     animation: none;
     opacity: 0;
   }
+}
+
+/* FAQ rows: the plus turns into a cross when open. */
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+.faq .faq-icon {
+  transition: transform 200ms var(--ease-out);
+}
+.faq[open] .faq-icon {
+  transform: rotate(45deg);
+}
+
+/* Full-bleed scenes use w-screen, which counts the scrollbar; clip the overflow at the root. */
+html,
+body {
+  overflow-x: clip;
 }

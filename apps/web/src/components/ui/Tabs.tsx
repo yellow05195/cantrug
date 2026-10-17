@@ -11,8 +11,9 @@ export interface TabItem<K extends string> {
 }
 
 /**
- * Chunky pill tabs (v2). The active pill is a small sticker; the Redeem pill
- * turns orange. Arrow keys move between tabs (no animation on keyboard moves).
+ * Pill segmented control (house style): a card-2 track, the active pill in ink
+ * on the night background; the Redeem pill turns orange. Arrow keys move
+ * between tabs (no animation on keyboard moves).
  */
 export function Tabs<K extends string>({
   items,
@@ -49,7 +50,7 @@ export function Tabs<K extends string>({
     }
   };
   return (
-    <div role="tablist" className={cn("inline-flex max-w-full gap-1 rounded-full p-1", flat ? "bg-bg-3" : "border border-stroke bg-bg-2", fill && "flex w-full", className)}>
+    <div role="tablist" className={cn("inline-flex max-w-full gap-px border border-line bg-line", !flat && "border border-line", fill && "flex w-full", className)}>
       {items.map((it, i) => {
         const active = it.key === value;
         return (
@@ -68,14 +69,14 @@ export function Tabs<K extends string>({
             onClick={() => onChange(it.key)}
             onKeyDown={(e) => onKey(e, i)}
             className={cn(
-              "relative whitespace-nowrap rounded-full border font-semibold transition-[background-color,border-color,color,box-shadow] duration-150 ease-[var(--ease-out)] disabled:cursor-not-allowed disabled:opacity-40",
+              "relative whitespace-nowrap bg-bg font-medium transition-[background-color,color] duration-150 ease-[var(--ease-out)] disabled:cursor-not-allowed disabled:opacity-40",
               size === "sm" ? "h-7 px-3 text-xs" : size === "lg" ? "h-11 px-4 text-md sm:text-base" : "h-9 px-4 text-sm",
               fill && "min-w-0 flex-auto truncate px-2.5",
               active
                 ? it.floor
-                  ? "border-floor-deep bg-floor text-floor-ink shadow-[0_2px_0_0_var(--floor-deep)]"
-                  : "border-stroke-strong bg-surface text-ink shadow-[0_2px_0_0_var(--shadow)]"
-                : cn("border-transparent hover:text-ink", it.floor ? "text-floor" : "text-ink-2"),
+                  ? "bg-floor text-floor-ink"
+                  : "bg-ink text-bg"
+                : cn("hover:text-ink", it.floor ? "text-floor" : "text-ink-2"),
             )}
           >
             {it.label}

@@ -67,7 +67,7 @@ function ToastItem({ t, closeLabel }: { t: Toast; closeLabel: string }) {
 
   const Icon = t.kind === "error" ? WarningDiamond : CheckSquare;
   return (
-    <li className="fl-toast sticker pointer-events-auto flex w-full items-start gap-3 p-3 sm:w-[360px]" role={t.kind === "error" ? "alert" : "status"}>
+    <li className="fl-toast plate pointer-events-auto flex w-full items-start gap-3 p-3 sm:w-[360px]" role={t.kind === "error" ? "alert" : "status"}>
       <Icon size={20} className={cn("mt-px shrink-0", t.kind === "error" ? "text-down" : t.floor ? "text-floor" : "text-ink-2")} />
       <div className="min-w-0 flex-1">
         <p className={cn("text-md font-medium", t.floor && "text-floor")}>{t.title}</p>
@@ -79,7 +79,7 @@ function ToastItem({ t, closeLabel }: { t: Toast; closeLabel: string }) {
           </a>
         ) : null}
       </div>
-      <button type="button" onClick={() => dismissToast(t.id)} className="press -m-1 grid size-7 shrink-0 place-items-center rounded-sm text-ink-3 hover:text-ink" aria-label={closeLabel}>
+      <button type="button" onClick={() => dismissToast(t.id)} className="press -m-1 grid size-7 shrink-0 place-items-center rounded-xs text-ink-3 hover:text-ink" aria-label={closeLabel}>
         <X size={14} />
       </button>
     </li>

@@ -53,7 +53,7 @@ function Field({ id, label, hint, error, children }: { id: string; label: string
   );
 }
 
-const inputCls = "h-12 w-full rounded-lg border border-stroke bg-bg-3 px-3.5 text-md outline-none placeholder:text-ink-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-floor aria-[invalid=true]:border-down";
+const inputCls = "field h-12 aria-[invalid=true]:border-down";
 
 export function CreateForm() {
   const t = useTranslations("create");
@@ -227,8 +227,8 @@ export function CreateForm() {
           </Field>
           <Field id={`${uid}sym`} label={t("symbol")} error={err("symbol")} hint={t("symbolHint", { max: MAX_SYMBOL })}>
             <div className="relative">
-              <span className="num pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-3">$</span>
-              <input id={`${uid}sym`} className={cn(inputCls, "num pl-6 uppercase")} value={f.symbol} onChange={set("symbol")} maxLength={10} autoComplete="off" aria-invalid={Boolean(err("symbol"))} />
+              <span className="num pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-ink-3">$</span>
+              <input id={`${uid}sym`} className={cn(inputCls, "num pl-8 uppercase")} value={f.symbol} onChange={set("symbol")} maxLength={10} autoComplete="off" aria-invalid={Boolean(err("symbol"))} />
             </div>
           </Field>
         </div>
@@ -249,9 +249,9 @@ export function CreateForm() {
               const fl = e.dataTransfer.files?.[0];
               if (fl && fl.type.startsWith("image/")) choose(fl);
             }}
-            className={cn("flex items-center gap-4 rounded-xl border border-dashed p-4 transition-colors duration-150", drag ? "border-floor bg-floor-dim" : err("image") ? "border-down" : "border-stroke")}
+            className={cn("flex items-center gap-4 rounded-xs border border-dashed p-4 transition-colors duration-150", drag ? "border-floor bg-floor-dim" : err("image") ? "border-down" : "border-line")}
           >
-            <div className="grid size-24 shrink-0 place-items-center overflow-hidden rounded-xl border border-stroke bg-bg-3">
+            <div className="grid size-24 shrink-0 place-items-center overflow-hidden rounded-xs border border-line bg-card-2">
               {preview ? (
                 // Local object URL preview of the chosen file, square-cropped.
                 // eslint-disable-next-line @next/next/no-img-element
@@ -297,11 +297,11 @@ export function CreateForm() {
           </Field>
         </div>
 
-        <div className="border-t border-stroke pt-5">
+        <div className="border-t border-line pt-5">
           <Field id={`${uid}buy`} label={t("firstBuy")} error={err("firstBuy")}>
-            <div className="flex items-center rounded-lg border border-stroke bg-bg-3 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-floor">
-              <input id={`${uid}buy`} className="num h-12 min-w-0 flex-1 bg-transparent px-3 text-xl outline-none placeholder:text-ink-3" inputMode="decimal" placeholder="0.00" value={f.firstBuy} onChange={set("firstBuy")} />
-              <span className="num pr-3 text-ink-3">SOL</span>
+            <div className="relative">
+              <input id={`${uid}buy`} className="field num h-14 pr-16 text-xl" inputMode="decimal" placeholder="0.00" value={f.firstBuy} onChange={set("firstBuy")} />
+              <span className="num pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-ink-3">SOL</span>
             </div>
           </Field>
           <p className="mt-2 text-sm text-ink-2" aria-live="polite">
@@ -327,12 +327,12 @@ export function CreateForm() {
         <div className="space-y-4 lg:sticky lg:top-[88px]">
           <p className="text-sm font-semibold text-ink-2">{t("previewLabel")}</p>
           {/* The building re-forms as the ticker changes, until an image is chosen. */}
-          <div className="sticker flex items-center gap-5 p-5">
+          <div className="plate flex items-center gap-5 p-5">
             <span key={preview ? "img" : f.symbol || "seed"} className="avatar-morph">
               <CoinAvatar src={preview} symbol={f.symbol || "T"} seed={f.symbol || "TICKER"} size={112} />
             </span>
             <div className="min-w-0">
-              <p className="title-tight truncate text-xl font-extrabold sm:text-2xl">{f.name || t("previewName")}</p>
+              <p className="title-tight truncate text-xl font-semibold sm:text-2xl">{f.name || t("previewName")}</p>
               <p className="num text-md text-ink-2">${f.symbol || "TICKER"}</p>
               <p className="mt-2 text-xs text-ink-3">{preview ? t("avatarImage") : t("avatarHint")}</p>
             </div>
@@ -377,18 +377,12 @@ export function CreateForm() {
 function FloorFrame({ startPrice }: { startPrice: number }) {
   const t = useTranslations("create");
   return (
-    <figure className="sticker p-4">
+    <figure className="plate p-4">
       <svg viewBox="0 0 320 140" className="h-auto w-full" role="img" aria-label={t("frameAria")}>
-        <defs>
-          <pattern id="grid" width="32" height="28" patternUnits="userSpaceOnUse">
-            <path d="M32 0H0V28" fill="none" stroke="var(--line)" strokeWidth="1" opacity="0.6" />
-          </pattern>
-        </defs>
-        <rect width="320" height="140" fill="url(#grid)" />
         <path d="M8 104 L60 98 L96 90 L140 80 L170 70 L210 58 L250 40 L300 28" fill="none" stroke="var(--ink-3)" strokeWidth="2" />
         <line x1="8" y1="96" x2="312" y2="96" stroke="var(--floor)" strokeWidth="2" strokeDasharray="6 5" />
         <text x="10" y="114" fill="var(--floor)" fontFamily="var(--font-jetbrains)" fontSize="10">
-          ±0.00
+          floor
         </text>
         <line x1="300" y1="20" x2="300" y2="132" stroke="var(--line-2)" strokeDasharray="2 3" />
         <text x="296" y="130" textAnchor="end" fill="var(--ink-3)" fontFamily="var(--font-jetbrains)" fontSize="10">

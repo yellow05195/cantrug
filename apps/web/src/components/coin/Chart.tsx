@@ -54,7 +54,7 @@ interface Palette {
 }
 
 function palette(): Palette {
-  return { bg2: css("--surface"), line: css("--stroke"), ink: css("--ink"), ink3: css("--ink-3"), floor: css("--floor"), up: css("--up"), down: css("--down"), bg3: css("--bg-3") };
+  return { bg2: css("--card"), line: css("--line-2"), ink: css("--ink"), ink3: css("--ink-3"), floor: css("--floor"), up: css("--up"), down: css("--down"), bg3: css("--bg-3") };
 }
 
 /**
@@ -165,7 +165,7 @@ export function Chart({
       priceLineVisible: false,
       lastValueVisible: true,
       crosshairMarkerVisible: false,
-      title: "±0.00",
+      title: "floor",
       priceFormat,
     });
     const preview = c.addSeries(LineSeries, {
@@ -192,24 +192,8 @@ export function Chart({
     chart.current = c;
     s.current = { candles: candlesSeries, floor, fill, preview };
 
-    // Follow the theme toggle.
-    const mo = new MutationObserver(() => {
-      const p = palette();
-      c.applyOptions({
-        layout: { background: { type: ColorType.Solid, color: p.bg2 }, textColor: p.ink3 },
-        grid: { vertLines: { color: withAlpha(p.line, 0.5) }, horzLines: { color: withAlpha(p.line, 0.5) } },
-        rightPriceScale: { borderColor: p.line },
-        timeScale: { borderColor: p.line },
-      });
-      candlesSeries.applyOptions({ upColor: p.up, downColor: p.down, wickUpColor: p.up, wickDownColor: p.down, priceLineColor: p.ink });
-      floor.applyOptions({ color: p.floor });
-      preview.applyOptions({ color: p.floor });
-      if (poured.current) fill.applyOptions({ topColor: withAlpha(p.floor, 0.22), bottomColor: withAlpha(p.floor, 0.05) });
-    });
-    mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 
     return () => {
-      mo.disconnect();
       tween.current?.kill();
       c.remove();
       chart.current = null;
@@ -264,9 +248,9 @@ export function Chart({
   const empty = !loading && candles.length === 0;
 
   return (
-    <div className="sticker overflow-hidden">
+    <div className="plate overflow-hidden">
       
-      <div className="flex items-center justify-between gap-3 border-b border-stroke py-2 pl-4 pr-2">
+      <div className="flex items-center justify-between gap-3 border-b border-line py-2 pl-4 pr-2">
         <div className="flex items-center gap-3 py-2 text-xs text-ink-2">
           <span className="flex items-center gap-1.5">
             <span aria-hidden className="block h-[3px] w-4 bg-floor" />
@@ -277,13 +261,13 @@ export function Chart({
             {t("priceLegend")}
           </span>
         </div>
-        <Tabs idPrefix="chart" flat size="sm" items={INTERVALS.map((i) => ({ key: i, label: <span className="num">{i}</span> }))} value={interval} onChange={onInterval} className="border-stroke" />
+        <Tabs idPrefix="chart" flat size="sm" items={INTERVALS.map((i) => ({ key: i, label: <span className="num">{i}</span> }))} value={interval} onChange={onInterval} className="border-line" />
       </div>
       <div className="relative">
         <div ref={box} className={cn("w-full", "h-[var(--h-m)] lg:h-[var(--h-d)]")} style={{ ["--h-m" as string]: `${height.mobile}px`, ["--h-d" as string]: `${height.desktop}px` }} role="img" aria-label={t("aria")} />
         {empty ? (
           <div className="pointer-events-none absolute inset-x-0 top-6 z-10 flex justify-center px-6">
-            <p className="max-w-sm rounded-lg border border-dashed border-stroke bg-bg-2/95 px-3 py-2 text-center text-xs text-ink-2">{emptyNote ?? t("empty")}</p>
+            <p className="max-w-sm rounded-xs border border-dashed border-line bg-bg-2/95 px-3 py-2 text-center text-xs text-ink-2">{emptyNote ?? t("empty")}</p>
           </div>
         ) : null}
       </div>

@@ -94,7 +94,7 @@ export function LiveTicker() {
       prefetch={false}
       tabIndex={dup ? -1 : undefined}
       aria-hidden={dup || undefined}
-      className={cn("flex shrink-0 items-center gap-2 rounded-full px-2 py-1 text-xs hover:bg-bg-3", !dup && x.fresh && "ticker-new")}
+      className={cn("flex shrink-0 items-center gap-2 px-2 py-1 text-xs hover:bg-white/[0.04]", !dup && x.fresh && "ticker-new")}
     >
       <BuildingAvatar seed={x.mint} size={22} className="rounded-md! border" />
       <span className="num font-medium text-ink">${label(x)}</span>
@@ -109,8 +109,8 @@ export function LiveTicker() {
 
   return (
     <>
-      <div className="ticker relative hidden h-9 overflow-hidden border-b border-stroke bg-bg-2 md:block" aria-label={t("label")} role="region">
-        <div className="absolute inset-y-0 left-0 z-10 flex items-center gap-1.5 border-r border-stroke bg-bg-2 pl-4 pr-3 text-xs font-semibold text-floor">
+      <div className="ticker relative hidden h-9 overflow-hidden border-b border-line bg-bg-2 md:block" aria-label={t("label")} role="region">
+        <div className="absolute inset-y-0 left-0 z-10 flex items-center gap-1.5 border-r border-line bg-bg-2 pl-4 pr-3 text-xs font-semibold text-floor">
           <span className="relative flex size-2">
             <span className="absolute inset-0 rounded-full bg-floor opacity-60 motion-safe:animate-ping" />
             <span className="relative size-2 rounded-full bg-floor" />
@@ -127,8 +127,8 @@ export function LiveTicker() {
         )}
       </div>
       {/* Below md the ticker collapses to a "live" chip showing the latest trade; it opens the feed. */}
-      <button type="button" onClick={() => setOpen(true)} className="flex h-9 w-full items-center gap-2 overflow-hidden border-b border-stroke bg-bg-2 px-4 text-left md:hidden" aria-label={t("open")}>
-        <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-floor/50 bg-floor-dim px-2 py-0.5 text-xs font-semibold text-floor">
+      <button type="button" onClick={() => setOpen(true)} className="flex h-9 w-full items-center gap-2 overflow-hidden border-b border-line bg-bg-2 px-4 text-left md:hidden" aria-label={t("open")}>
+        <span className="inline-flex shrink-0 items-center gap-1 border border-floor/50 px-2 py-0.5 text-xs font-semibold text-floor">
           <Broadcast size={14} weight="regular" /> {t("live")}
         </span>
         <span className="min-w-0 flex-1 truncate">{items[0] ? <span key={items[0].id} className="ticker-new inline-flex">{renderItem(items[0], true)}</span> : <span className="text-xs text-ink-3">{api.available ? t("waiting") : t("noIndexer")}</span>}</span>

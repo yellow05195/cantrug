@@ -4,25 +4,25 @@ import { cn } from "@/lib/cn";
 import { Dashes } from "./Dashes";
 
 /**
- * v2 buttons: 10 px radius, 2 px stroke, solid slab shadow that lifts on hover
- * and squashes on press. Orange is the primary CTA and Redeem; nothing else.
+ * Flat buttons: square, one hairline or a solid fill, a 1.5 % press. Orange is the
+ * primary action and Redeem; nothing else.
  */
 export type ButtonVariant = "floor" | "floorOutline" | "primary" | "secondary" | "ghost" | "brake";
 export type ButtonSize = "sm" | "md" | "lg";
 
 const VARIANTS: Record<ButtonVariant, string> = {
-  floor: "btn-slab border border-floor-deep bg-floor text-floor-ink [--btn-shadow:var(--floor-deep)] hover:bg-floor-hot disabled:opacity-45",
-  primary: "btn-slab border border-floor-deep bg-floor text-floor-ink [--btn-shadow:var(--floor-deep)] hover:bg-floor-hot disabled:opacity-45",
-  floorOutline: "btn-slab border border-floor/60 bg-floor-dim text-floor [--btn-shadow:var(--floor-deep)] hover:border-floor disabled:opacity-45",
-  secondary: "btn-slab border border-stroke bg-surface text-ink hover:border-stroke-strong disabled:text-ink-3",
-  brake: "btn-slab border border-brake-ink bg-brake-ink text-brake [--btn-shadow:#000]",
-  ghost: "press text-ink-2 hover:bg-bg-3 hover:text-ink disabled:text-ink-3",
+  floor: "btn-slab pill-primary",
+  primary: "btn-slab pill-primary",
+  floorOutline: "btn-slab border border-floor/60 text-floor hover:bg-floor-dim",
+  secondary: "btn-slab pill-paper",
+  brake: "btn-slab border border-transparent bg-brake-ink text-brake hover:bg-black",
+  ghost: "press text-ink-2 hover:bg-card-2 hover:text-ink disabled:text-ink-3 rounded-xs",
 };
 
 const SIZES: Record<ButtonSize, string> = {
-  sm: "h-9 px-3.5 text-sm gap-1.5",
-  md: "h-11 px-4 text-md gap-2",
-  lg: "h-13 px-6 text-base gap-2",
+  sm: "h-8 px-3 text-sm gap-1.5 rounded-xs",
+  md: "h-10 px-4 text-md gap-2 rounded-xs",
+  lg: "h-12 px-6 text-[15px] gap-2 rounded-xs",
 };
 
 interface Common {
@@ -36,7 +36,7 @@ interface Common {
 
 export function buttonClass({ variant = "primary", size = "md", block, className }: Omit<Common, "children" | "loading">) {
   return cn(
-    "inline-flex select-none items-center justify-center whitespace-nowrap rounded-lg font-semibold",
+    "inline-flex select-none items-center justify-center whitespace-nowrap font-medium leading-none",
     "disabled:cursor-not-allowed",
     VARIANTS[variant],
     SIZES[size],
@@ -47,13 +47,7 @@ export function buttonClass({ variant = "primary", size = "md", block, className
 
 export function Button({ variant, size, loading, block, children, className, disabled, ...rest }: Common & Omit<ComponentProps<"button">, "children">) {
   return (
-    <button
-      type="button"
-      {...rest}
-      disabled={disabled || loading}
-      aria-busy={loading || undefined}
-      className={buttonClass({ variant, size, block, className })}
-    >
+    <button type="button" {...rest} disabled={disabled || loading} aria-busy={loading || undefined} className={buttonClass({ variant, size, block, className })}>
       {loading ? <Dashes /> : children}
     </button>
   );

@@ -4,7 +4,6 @@ import { useState } from "react";
 import { cn } from "@/lib/cn";
 import { age } from "@/lib/format";
 import { useNow } from "@/lib/hooks/useNow";
-import { BuildingAvatar } from "@/components/coin/BuildingAvatar";
 
 export function CopyButton({ value, label, copiedLabel, className, children }: { value: string; label: string; copiedLabel: string; className?: string; children?: React.ReactNode }) {
   const [done, setDone] = useState(false);
@@ -20,7 +19,7 @@ export function CopyButton({ value, label, copiedLabel, className, children }: {
           /* clipboard blocked */
         }
       }}
-      className={cn("press inline-flex items-center gap-1.5 rounded-sm text-ink-2 hover:text-ink", className)}
+      className={cn("press inline-flex items-center gap-1.5 rounded-xs text-ink-2 hover:text-ink", className)}
       aria-label={done ? copiedLabel : label}
     >
       {children}
@@ -39,20 +38,30 @@ export function Age({ ts, className }: { ts: string | number | null | undefined;
   );
 }
 
-export function CoinAvatar({ src, symbol, seed, size = 56, className }: { src: string | null | undefined; symbol: string; seed?: string; size?: number; className?: string }) {
+/**
+ * Coin avatar (v5 flat): a square frame, one hairline, the coin image when it
+ * has one, else the ticker's first two letters in mono. `seed` is kept for
+ * call-site compatibility.
+ */
+export function CoinAvatar({ src, symbol, size = 36, className }: { src: string | null | undefined; symbol: string; seed?: string; size?: number; className?: string }) {
   const [broken, setBroken] = useState(false);
-  const radius = size >= 40 ? "rounded-xl" : "rounded-md";
-  if (!src || broken) return <BuildingAvatar seed={seed ?? symbol} size={size} className={cn(radius, className)} />;
+  const frame = cn("relative grid shrink-0 place-items-center overflow-hidden rounded-xs border border-line bg-bg-2", className);
+  if (!src || broken) {
+    return (
+      <span aria-hidden className={frame} style={{ width: size, height: size }}>
+        <span className={cn("num text-ink-2", size >= 56 ? "text-sm" : "text-xs")}>{(symbol || "?").slice(0, 2).toUpperCase()}</span>
+      </span>
+    );
+  }
   return (
-    <span className={cn("relative block shrink-0 overflow-hidden border border-stroke bg-bg-3", radius, className)} style={{ width: size, height: size }}>
+    <span className={frame} style={{ width: size, height: size }}>
       {/* User images come from arbitrary hosts (IPFS, Arweave, data URLs): plain <img>, fixed box, no layout shift. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={src} alt="" width={size} height={size} loading="lazy" decoding="async" onError={() => setBroken(true)} className="size-full object-cover" />
-      <span aria-hidden className="absolute inset-x-[8%] bottom-[5%] h-[6%] min-h-[2px] rounded-[1px] bg-floor" />
     </span>
   );
 }
 
 export function Skeleton({ className }: { className?: string }) {
-  return <span aria-hidden className={cn("block rounded-xl bg-bg-3", className)} />;
+  return <span aria-hidden className={cn("block rounded-xs bg-white/[0.04] ", className)} />;
 }

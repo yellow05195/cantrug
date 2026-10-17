@@ -181,11 +181,11 @@ export function PortfolioView() {
       </div>
 
       {/* Phones: one block per coin, value at floor first. */}
-      <ul className="divide-y divide-line rounded-xl border border-stroke md:hidden">
+      <ul className="divide-y divide-line rounded-xs border border-line md:hidden">
         {rows.map((r) => (
           <li key={r.mint}>
             <Link href={`/coin/${r.mint}`} className="flex gap-3 p-3">
-              <CoinAvatar src={r.image} symbol={r.symbol} size={40} />
+              <CoinAvatar src={r.image} symbol={r.symbol} size={36} />
               <div className="min-w-0 flex-1">
                 <div className="flex items-baseline justify-between gap-2">
                   <span className="truncate font-medium">{r.name}</span>
@@ -209,10 +209,10 @@ export function PortfolioView() {
         </li>
       </ul>
 
-      <div className="hidden overflow-x-auto rounded-xl border border-stroke md:block">
+      <div className="hidden overflow-x-auto rounded-xs border border-line md:block">
         <table className="w-full min-w-[760px] text-sm">
           <thead>
-            <tr className="h-9 border-b border-line text-left text-xs text-ink-3">
+            <tr className="h-9 border-b border-line bg-bg-2 text-left text-xs text-ink-3">
               <th className="pl-3 font-normal">{t("colCoin")}</th>
               <th className="text-right font-normal">{t("colBalance")}</th>
               <th className="text-right font-normal">{t("colPrice")}</th>
@@ -229,7 +229,7 @@ export function PortfolioView() {
               <tr key={r.mint} className="hover-row h-14 border-b border-line/60 last:border-0">
                 <td className="pl-3">
                   <Link href={`/coin/${r.mint}`} className="flex items-center gap-3">
-                    <CoinAvatar src={r.image} symbol={r.symbol} size={32} />
+                    <CoinAvatar src={r.image} symbol={r.symbol} size={36} />
                     <span>
                       <span className="block font-medium">{r.name}</span>
                       <span className="num block text-xs text-ink-2">${r.symbol}</span>

@@ -52,7 +52,7 @@ export function NumRoll({ value, className, label, rollFrom }: { value: string; 
   );
 
   return (
-    <span ref={root} className={cn("num inline-flex items-baseline leading-none", className)}>
+    <span ref={root} className={cn("num inline-flex items-baseline whitespace-nowrap leading-none", className)}>
       <span className="sr-only">{label ?? value}</span>
       {value.split("").map((ch, i) =>
         /\d/.test(ch) ? (

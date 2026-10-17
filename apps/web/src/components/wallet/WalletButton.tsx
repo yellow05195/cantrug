@@ -41,9 +41,9 @@ export function WalletModal({ open, onClose }: { open: boolean; onClose: () => v
                 setDemoConnected(true);
                 onClose();
               }}
-              className="press flex w-full items-center gap-3 rounded-sm px-2 py-2.5 text-left hover:bg-bg-3"
+              className="press flex w-full items-center gap-3 rounded-xs px-2 py-2.5 text-left hover:bg-white/[0.04]"
             >
-              <span className="grid size-8 place-items-center rounded-xl border border-stroke bg-bg text-floor">
+              <span className="grid size-8 place-items-center rounded-xs border border-line bg-bg text-floor">
                 <WalletIconGlyph size={18} />
               </span>
               <span className="flex-1">
@@ -66,11 +66,11 @@ export function WalletModal({ open, onClose }: { open: boolean; onClose: () => v
                   window.open(w.adapter.url, "_blank", "noopener,noreferrer");
                 }
               }}
-              className="press flex w-full items-center gap-3 rounded-sm px-2 py-2.5 text-left hover:bg-bg-3"
+              className="press flex w-full items-center gap-3 rounded-xs px-2 py-2.5 text-left hover:bg-white/[0.04]"
             >
               {/* Wallet icons are data URIs supplied by the adapters. */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={w.adapter.icon} alt="" width={32} height={32} className="size-8 rounded-sm" />
+              <img src={w.adapter.icon} alt="" width={32} height={32} className="size-8 rounded-xs" />
               <span className="flex-1 text-md font-medium">{w.adapter.name}</span>
               <span className="text-xs text-ink-3">{connecting && picked === w.adapter.name ? t("connecting") : installed(w.readyState) ? t("detected") : t("install")}</span>
             </button>
@@ -129,11 +129,11 @@ export function WalletButton({ className, compact, variant = "primary" }: { clas
         onClick={() => setMenu((v) => !v)}
         aria-expanded={menu}
         aria-haspopup="menu"
-        className="btn-slab flex h-9 items-center gap-2 whitespace-nowrap rounded-lg border border-stroke bg-surface px-3 text-sm font-semibold"
+        className="btn-slab flex h-9 items-center gap-2 whitespace-nowrap rounded-xs border border-line bg-card-2 px-3 text-sm font-semibold"
       >
         {account.walletIcon ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={account.walletIcon} alt="" width={16} height={16} className="size-4 rounded-[1px]" />
+          <img src={account.walletIcon} alt="" width={16} height={16} className="size-4 rounded-xs" />
         ) : (
           <WalletIconGlyph size={16} className="text-floor" />
         )}
@@ -141,9 +141,9 @@ export function WalletButton({ className, compact, variant = "primary" }: { clas
         <CaretDown size={12} className="hidden text-ink-3 sm:block" />
       </button>
       {menu ? (
-        <div role="menu" className="sticker absolute right-0 top-11 z-50 w-56 p-1.5">
+        <div role="menu" className="plate absolute right-0 top-11 z-50 w-56 p-1.5">
           <p className="px-2.5 py-2 text-xs text-ink-3">{account.isDemo ? t("demo") : account.walletName}</p>
-          <Link role="menuitem" href="/portfolio" onClick={() => setMenu(false)} className="flex h-9 items-center rounded-sm px-2.5 text-sm hover:bg-bg-3">
+          <Link role="menuitem" href="/portfolio" onClick={() => setMenu(false)} className="flex h-9 items-center rounded-xs px-2.5 text-sm hover:bg-white/[0.04]">
             {t("portfolio")}
           </Link>
           <button
@@ -153,7 +153,7 @@ export function WalletButton({ className, compact, variant = "primary" }: { clas
               void navigator.clipboard?.writeText(account.address!);
               setMenu(false);
             }}
-            className="flex h-9 w-full items-center gap-2 rounded-sm px-2.5 text-sm hover:bg-bg-3"
+            className="flex h-9 w-full items-center gap-2 rounded-xs px-2.5 text-sm hover:bg-white/[0.04]"
           >
             <Copy size={14} /> {t("copy")}
           </button>
@@ -164,7 +164,7 @@ export function WalletButton({ className, compact, variant = "primary" }: { clas
               account.disconnect();
               setMenu(false);
             }}
-            className="flex h-9 w-full items-center gap-2 rounded-sm px-2.5 text-sm text-ink-2 hover:bg-bg-3 hover:text-ink"
+            className="flex h-9 w-full items-center gap-2 rounded-xs px-2.5 text-sm text-ink-2 hover:bg-white/[0.04] hover:text-ink"
           >
             <SignOut size={14} /> {t("disconnect")}
           </button>

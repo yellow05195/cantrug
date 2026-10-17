@@ -20,8 +20,6 @@
     "how": "Comment ça marche",
     "stats": "Stats",
     "language": "Langue",
-    "themeLight": "Passer en béton clair",
-    "themeDark": "Passer en béton sombre",
     "menu": "Menu",
     "closeMenu": "Fermer le menu",
     "home": "Accueil FLOORED",
@@ -115,8 +113,8 @@
       "perWindow": "max par 60 s"
     },
     "board": {
-      "title": "Au tableau",
-      "sub": "Tous les coins FLOORED, en direct. Le prix, le plancher, et l'écart entre les deux.",
+      "title": "Au tableau.",
+      "sub": "Tous les coins FLOORED, avec leur prix, leur plancher, et l'écart entre les deux.",
       "tab": {
         "new": "Nouveaux",
         "graduating": "Bientôt gradués",
@@ -129,13 +127,235 @@
         "floor": "Plancher",
         "gap": "Prix au-dessus du plancher"
       },
-      "toGrad": "vers la graduation"
+      "toGrad": "vers la graduation",
+      "kicker": "En direct"
     },
     "datumLabel": "ligne de plancher, le niveau de référence de tous les graphiques du site",
     "band": {
       "title": "Lance un coin qui ne peut pas tomber à zéro.",
       "text": "Un nom, un ticker, une image. Le plancher est actif à la graduation, et personne, pas même nous, ne peut toucher au pool.",
-      "how": "Comment ça marche"
+      "how": "Comment ça marche",
+      "cta": "Lancer un coin"
+    },
+    "hero": {
+      "kicker": "Launchpad de memecoins sur Solana",
+      "a": "Pump brûle ton argent mort.",
+      "b": "Nous, on te le rend.",
+      "lede": "Chaque coin FLOORED garde son SOL dans un pool qui appartient aux porteurs. Rends tes tokens quand tu veux et prends ta part exacte. Aucune vente ne peut faire baisser le prix de plus de 20 % en une minute.",
+      "ctaLaunch": "Lancer un coin",
+      "ctaCoins": "Voir les coins",
+      "badgeFloor": "PLANCHER",
+      "badgeBrake": "FREIN",
+      "facts": {
+        "floor": {
+          "k": "Le plancher",
+          "v": "SOL du pool ÷ tokens en circulation"
+        },
+        "brake": {
+          "k": "Le frein",
+          "v": "−20 % max par fenêtre de 60 s"
+        },
+        "keys": {
+          "k": "Clés admin sur le pool",
+          "v": "aucune, par construction"
+        },
+        "oracle": {
+          "k": "Oracle de prix",
+          "v": "aucun, le pool est le prix"
+        }
+      },
+      "ctaHow": "Comment ça marche",
+      "captionLeft": "Le plancher : SOL du pool ÷ tokens en circulation",
+      "stats": {
+        "returned": "Rendu aux porteurs",
+        "launched": "Coins lancés",
+        "brakes": "Freins enclenchés",
+        "keys": "Clés admin sur le pool"
+      }
+    },
+    "receipt": {
+      "title": "Rendre, exemple chiffré",
+      "subtitle": "courbe par défaut",
+      "rows": {
+        "tokens": "Tokens brûlés",
+        "pool": "Pool",
+        "circulating": "En circulation",
+        "share": "Ta part",
+        "fee": "Frais 0,5 %, restent au pool",
+        "paid": "Versé",
+        "price": "Prix déplacé"
+      },
+      "totalLabel": "Rendu aux porteurs à ce jour :",
+      "stamp": "PAYÉ"
+    },
+    "problem": {
+      "title": "Dans les tranchées, le pool n'est jamais à toi.",
+      "lede": "Pump compte lui-même plus de 100 M$ par an de SOL laissés dans des coins morts. Depuis juillet, il brûle cette liquidité. Ceux qui l'ont payée ne la revoient jamais.",
+      "dump": {
+        "title": "Le dev dump.",
+        "text": "Une bougie, −95 %. Le pool est vidé avant que tu aies cliqué."
+      },
+      "dead": {
+        "title": "Le coin meurt.",
+        "text": "Les derniers porteurs n'ont plus rien. Le SOL reste coincé dans le pool, puis il est brûlé."
+      },
+      "punch": {
+        "a": "FLOORED donne le pool aux porteurs,",
+        "b": "et",
+        "c": "transforme chaque chute en escalier."
+      }
+    },
+    "guarantees": {
+      "title": "Trois garanties, zéro oracle.",
+      "lede": "Tout ce qui suit est imposé par le programme, pas par la bonne volonté de quelqu'un. Aucune instruction ne peut le casser.",
+      "floor": {
+        "title": "Le plancher",
+        "text": "Après la graduation, le SOL du pool appartient aux porteurs. Brûle tes tokens et le programme te paie ta part exacte, dans la même transaction. Le plancher des autres ne bouge pas, le prix non plus.",
+        "formula": "redeem(x) = S · x / C"
+      },
+      "brake": {
+        "title": "Le frein",
+        "text": "Aucune vente, ni groupe de ventes, ne peut pousser le prix plus de 20 % sous le plus haut de la fenêtre en une minute. Ce qui ne passe pas attend en file et est servi au prorata, au même prix, fenêtre après fenêtre. Rendre au plancher n'est jamais freiné.",
+        "formula": "prix ≥ 0,8 × plus haut de la fenêtre"
+      },
+      "keys": {
+        "title": "Rien d'autre",
+        "text": "Pas de token LP, pas de retrait admin, pas de pause, plus d'autorité de mint ni de gel après la création. Les paramètres sont figés par coin. L'autorité de config ne change que les défauts des futurs coins.",
+        "formula": "grep move_lamports : 11 chemins, tous vers les porteurs"
+      }
+    },
+    "math": {
+      "title": "Pourquoi rendre ne bouge rien.",
+      "lede": {
+        "a": "Le plancher, c'est",
+        "b": "le SOL du pool ÷ les tokens en circulation.",
+        "c": "Quand tu rends x tokens, tu retires exactement S·x/C du pool, et le pool brûle T·x/C de ses propres tokens. Les deux côtés rétrécissent dans la même proportion : le plancher des autres et le prix du pool restent où ils étaient. Les 0,5 % qui restent les remontent un peu."
+      },
+      "more": "Une vente au marché au-dessus du plancher l'abaisse pour les autres, parce que le vendeur prend plus que sa part. C'est la seule façon de descendre, et le frein la ralentit à 20 % par minute. Si le prix passe sous le plancher, acheter puis rendre est un gain gratuit, donc des bots le remontent.",
+      "cols": {
+        "step": "Exemple",
+        "pool": "Pool (SOL)",
+        "poolTok": "Tokens du pool",
+        "circ": "En circulation",
+        "floor": "Plancher (SOL)"
+      },
+      "rows": {
+        "before": "À la graduation",
+        "redeem": "Rendre 50 M",
+        "dump": "Le dev vend 100 M",
+        "arb": "Prix sous le plancher : arbitrage"
+      },
+      "note": "Chiffres de la courbe par défaut : 85 SOL levés, 793,1 M de tokens vendus. Calculé avec floored-core, le crate que le programme embarque."
+    },
+    "faq": {
+      "title": "Les questions qu'on nous pose.",
+      "what": {
+        "q": "C'est quoi le plancher, exactement ?",
+        "a": "Le SOL du pool d'un coin divisé par les tokens en circulation. C'est un solde lisible on-chain, pas une promesse : trois comptes et une division. N'importe quel porteur peut prendre sa part à tout moment, avec une instruction que personne ne peut bloquer."
+      },
+      "zero": {
+        "q": "Un coin FLOORED peut-il tomber à zéro ?",
+        "a": "Pas tant que le pool contient du SOL et que quelqu'un a des tokens. Le dernier porteur prend le dernier lamport. Le plancher peut baisser quand on vend au-dessus, mais personne ne peut le retirer."
+      },
+      "sell": {
+        "q": "Rendre ou vendre, lequel paie le plus ?",
+        "a": "Au-dessus du plancher, vendre paie plus et abaisse un peu le plancher des autres. Au plancher ou en dessous, rendre paie plus et ne bouge rien. La page du coin montre les deux chiffres côte à côte avant de signer."
+      },
+      "brake": {
+        "q": "Que se passe-t-il quand le frein s'enclenche ?",
+        "a": "La partie de ta vente qui tient sous la limite de 20 % s'exécute tout de suite. Le reste part en file, servie au prorata de la taille au début de chaque fenêtre, même pourcentage et même prix pour tout le monde. Tu peux annuler, réclamer ce qui est acquis, ou basculer le reste au plancher instantanément."
+      },
+      "fees": {
+        "q": "Quels sont les frais ?",
+        "a": "Courbe : 1 %, dont 0,3 % versés au plancher à la graduation. Pool : 0,5 %, dont 0,2 % restent dans le pool. Rendre : 0,5 %, restent dans le pool. Les créateurs touchent 0,4 % sur la courbe et 0,2 % ensuite."
+      },
+      "verify": {
+        "q": "Comment je vérifie moi-même ?",
+        "a": "Lis pool_sol_vault (moins le loyer), pool_token_vault, queue_escrow et la supply du mint. plancher = S / (supply − T − Q). La page Comment ça marche le fait dans ton navigateur pour n'importe quel coin."
+      }
+    },
+    "steps": {
+      "title": "La vie d'un coin FLOORED.",
+      "lede": "Trois phases, chacune imposée par le programme. Personne ne peut en sauter une.",
+      "curve": {
+        "title": "La courbe",
+        "text": "L'achat commence sur une bonding curve. Le prix monte à chaque achat. 1 % de frais, dont 0,3 % mis de côté pour le plancher.",
+        "formula": "prix = SOL virtuel ÷ tokens virtuels"
+      },
+      "floor": {
+        "title": "La graduation, le plancher s'active",
+        "text": "À 85 SOL, le pool s'ouvre. Son SOL appartient aux porteurs. Brûle x tokens et le programme paie S·x/C, dans la même transaction, à n'importe qui, à tout moment.",
+        "formula": "redeem(x) = S · x / C"
+      },
+      "brake": {
+        "title": "Le frein",
+        "text": "Aucune vente, ni groupe de ventes, ne peut pousser le prix plus de 20 % sous le plus haut de la fenêtre par minute. Le reste attend en file, servi au prorata à un seul prix. Rendre au plancher n'est jamais freiné.",
+        "formula": "prix ≥ 0,8 × plus haut de la fenêtre"
+      }
+    },
+    "compare": {
+      "title": "Face à ce que tu connais déjà.",
+      "lede": "Mêmes memecoins, mêmes wallets, même vitesse. Des règles différentes à la descente.",
+      "col": {
+        "what": "",
+        "dex": "Pool DEX classique"
+      },
+      "row": {
+        "pool": "Le pool appartient à",
+        "min": "Prix minimum",
+        "drop": "Baisse max, une minute",
+        "lp": "Tokens LP",
+        "admin": "Retrait admin possible",
+        "dead": "Quand le coin meurt",
+        "creator": "Frais créateur"
+      },
+      "v": {
+        "holders": "les porteurs",
+        "burned": "personne, LP brûlé",
+        "lps": "les LPs",
+        "floor": "le plancher, S ÷ C",
+        "zero": "zéro",
+        "none": "aucune",
+        "depends": "ça dépend",
+        "redeem": "les porteurs récupèrent le SOL",
+        "burnedSol": "SOL brûlé",
+        "stuck": "SOL coincé",
+        "varies": "variable"
+      },
+      "yes": "oui",
+      "no": "non",
+      "note": "Chiffres Pump.fun tels que publiés dans leur documentation en 2026. Frais de pool sur FLOORED : 0,5 %, dont 0,2 % restent dans le pool et remontent le plancher."
+    },
+    "trust": {
+      "title": "Fait pour être vérifié.",
+      "lede": "Rien ici ne demande de confiance. Chaque affirmation est un chiffre lisible on-chain ou un test que tu peux lancer.",
+      "caption": "Pas de porte, pas de clé, pas de pause.",
+      "source": {
+        "k": "Open source",
+        "v": "Programme, SDK, indexeur et ce site, sous une seule licence."
+      },
+      "fuzz": {
+        "k": "917 188 transactions",
+        "v": "Fuzzing de trades aléatoires contre un modèle miroir, 2 059 graines, zéro invariant cassé."
+      },
+      "tests": {
+        "k": "192 tests",
+        "v": "Maths du cœur avec tests de propriétés, 16 scénarios on-chain, vecteurs de parité du SDK, indexeur."
+      },
+      "paths": {
+        "k": "11 chemins SOL",
+        "v": "Chaque lamport qui sort d'un pool va à un porteur, un créateur ou aux frais du protocole. Aucune instruction de retrait n'existe."
+      },
+      "mint": {
+        "k": "Autorités révoquées",
+        "v": "Les autorités de mint et de gel sont abandonnées à la création. Personne ne peut imprimer ni geler."
+      },
+      "frozen": {
+        "k": "Figé par coin",
+        "v": "Frais, frein et paramètres de courbe sont copiés dans chaque coin à la création et ne changent jamais."
+      },
+      "verify": "Lire l'état on-chain",
+      "challenge": "Essaie de rug le coin démo"
     }
   },
   "floor": {
@@ -179,7 +399,9 @@
       "claim": "Récupérer les SOL gagnés",
       "cancel": "Quitter la file",
       "queueToRedeem": "Sortir au plancher maintenant",
-      "create": "Lancer {symbol}"
+      "create": "Lancer {symbol}",
+      "crank": "Servir la file du frein",
+      "graduate": "Ouvrir le pool {symbol}"
     },
     "preparing": "Simulation de la transaction",
     "confirmIn": "Confirme dans {wallet}.",
@@ -199,7 +421,9 @@
       "claim": "Récupéré {sol} SOL",
       "cancel": "File quittée : {sol} SOL et {tokens} {symbol} rendus",
       "queueToRedeem": "Rendu au plancher depuis la file : {sol} SOL",
-      "create": "{symbol} lancé"
+      "create": "{symbol} lancé",
+      "crank": "File servie : {sol} SOL de récompense",
+      "graduate": "{symbol} a gradué : le pool est ouvert"
     },
     "payReceive": "Tu paies <b>{sol} SOL</b> et reçois <b>{tokens} {symbol}</b>.",
     "createOnly": "Crée {symbol} sans premier achat.",
@@ -429,7 +653,8 @@
     "close": "Fermer",
     "avatarHint": "Pas encore d'image : ce bâtiment est généré depuis ton ticker. On-chain, depuis ton mint.",
     "avatarImage": "Ton image, encadrée en sticker sur sa dalle.",
-    "slabLabel": "La courbe démarre à, SOL par token"
+    "slabLabel": "La courbe démarre à, SOL par token",
+    "kicker": "Lancement"
   },
   "portfolio": {
     "title": "Portefeuille",
@@ -458,7 +683,8 @@
     "progress": "{done} sur {total} rendus",
     "redeemedAll": "Rendu au plancher : {sol} SOL sur {n} coins",
     "explorer": "Voir la dernière transaction",
-    "close": "Fermer"
+    "close": "Fermer",
+    "kicker": "Tes sacs"
   },
   "how": {
     "metaTitle": "Comment ça marche",
@@ -577,7 +803,8 @@
       }
     },
     "end": "Fin du document",
-    "toChallenge": "Voir le défi anti-rug"
+    "toChallenge": "Voir le défi anti-rug",
+    "kicker": "Le mécanisme"
   },
   "stats": {
     "title": "Stats",
@@ -602,7 +829,8 @@
     "no": "non",
     "emptyTable": "Rien à afficher pour l'instant.",
     "notServed": "L'indexeur ne fournit pas encore cette liste.",
-    "noIndexer": "Les stats viennent de l'indexeur. Aucun n'est connecté, donc rien à afficher ici. Les pages de coin lisent quand même la chaîne directement."
+    "noIndexer": "Les stats viennent de l'indexeur. Aucun n'est connecté, donc rien à afficher ici. Les pages de coin lisent quand même la chaîne directement.",
+    "kicker": "On-chain"
   },
   "challenge": {
     "title": "Défi anti-rug",
@@ -636,7 +864,8 @@
     "cfRedeem": "Rendre le sac au plancher à T0 aurait rapporté",
     "cfNote": "Rendre au plancher prend le plancher tout de suite et ne touche pas au prix. Vendre via la file peut rapporter plus quand le prix est au-dessus du plancher, mais ça prend du temps.",
     "dumpTx": "Transaction du dump :",
-    "openCoin": "Ouvrir la page du coin"
+    "openCoin": "Ouvrir la page du coin",
+    "kicker": "Replay devnet"
   },
   "ticker": {
     "label": "Trades en direct sur tous les coins",

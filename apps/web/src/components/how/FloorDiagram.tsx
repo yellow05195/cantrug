@@ -74,7 +74,7 @@ export function FloorDiagram() {
   const blocks = Array.from({ length: 10 }, (_, i) => i);
   return (
     <figure className="my-10">
-      <div className="sticker p-3 sm:p-5">
+      <div className="plate p-3 sm:p-5">
         <svg ref={root} viewBox="0 0 640 304" className="h-auto w-full" role="img" aria-label={t("aria")}>
           {/* pool vault */}
           <text x="40" y="30" fill="var(--ink-2)" fontSize="19">
@@ -114,10 +114,10 @@ export function FloorDiagram() {
           {/* the slab */}
           <rect x="24" y="250" width="592" height="10" fill="var(--floor)" />
           <text x="24" y="290" fill="var(--floor)" fontFamily="var(--font-jetbrains)" fontSize="19" className="d-before">
-            ±0.00 floor = S / C = {before.toFixed(5)}
+            floor = S / C = {before.toFixed(5)}
           </text>
           <text x="24" y="290" fill="var(--floor)" fontFamily="var(--font-jetbrains)" fontSize="19" className="d-after" opacity="0">
-            ±0.00 floor = S / C = {after.toFixed(5)}
+            floor = S / C = {after.toFixed(5)}
           </text>
           {/* dimension line: the level does not move */}
           <g stroke="var(--ink-3)">
@@ -129,7 +129,7 @@ export function FloorDiagram() {
       </div>
       <figcaption className="mt-3 flex items-start justify-between gap-4 text-sm text-ink-2">
         <span>{t("caption", { x: Number(X / TOKEN_UNIT), sol: fmt(q.solOut), fee: fmt(q.feeKept) })}</span>
-        <button type="button" onClick={() => setRun((r) => r + 1)} className="press inline-flex shrink-0 items-center gap-1 rounded-sm px-2 py-1 text-ink-2 hover:bg-bg-3 hover:text-ink">
+        <button type="button" onClick={() => setRun((r) => r + 1)} className="press inline-flex shrink-0 items-center gap-1 rounded-xs px-2 py-1 text-ink-2 hover:bg-white/[0.04] hover:text-ink">
           <ArrowCounterClockwise size={14} /> {t("replay")}
         </button>
       </figcaption>

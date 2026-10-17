@@ -5,6 +5,9 @@ import { BrakeDiagram, CompareDiagram, VerifyDiagram } from "@/components/how/Di
 import { FloorDiagram } from "@/components/how/FloorDiagram";
 import { ReadOnChain } from "@/components/how/ReadOnChain";
 import { LevelRule } from "@/components/ui/Floor";
+import { PageHeader } from "@/components/ui/PageHeader";
+import { Photo } from "@/components/ui/Photo";
+import type { ImageKey } from "@/lib/images";
 import { ENV, explorerAddress } from "@/lib/env";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -16,18 +19,21 @@ const FORMULAS = ["floor = S / C", "C = supply − T − Q", "redeem(x) = S·x /
 
 function H2({ id, children }: { id: string; children: React.ReactNode }) {
   return (
-    <h2 id={id} className="title-tight mt-20 scroll-mt-24 text-2xl font-extrabold sm:text-[1.75rem]">
+    <h2 id={id} className="mt-24 scroll-mt-28 text-[clamp(26px,3.4vw,36px)] leading-[1.1]">
       {children}
     </h2>
   );
 }
 
 /** A drawn diagram on the drafting grid, with a short caption under it. */
-function Drawing({ children, caption, label }: { children: React.ReactNode; caption: React.ReactNode; label: string }) {
+function Drawing({ children, caption, label, photo }: { children: React.ReactNode; caption: React.ReactNode; label: string; photo?: ImageKey }) {
   return (
     <figure className="my-10">
-      <div role="img" aria-label={label} className="relative overflow-hidden rounded-xl border border-stroke bg-bg-2 px-4 pb-0 pt-5 sm:px-8 sm:pt-7">
-        <div className="relative">{children}</div>
+      <div className={photo ? "grid gap-px border border-line bg-line sm:grid-cols-2" : "border border-line"}>
+        <div role="img" aria-label={label} className="flex items-end bg-bg-2 px-4 pt-6 sm:px-6 sm:pt-8">
+          <div className="w-full">{children}</div>
+        </div>
+        {photo ? <Photo id={photo} ratio="4/3" sizes="(min-width: 640px) 360px, 100vw" /> : null}
       </div>
       <figcaption className="mt-3 text-sm text-ink-2">{caption}</figcaption>
     </figure>
@@ -42,12 +48,11 @@ export default async function HowItWorks() {
   const t = await getTranslations("how");
   const faq = ["zero", "promise", "rug", "queue", "creator", "audit"] as const;
   return (
-    <article className="gutter mx-auto max-w-[70ch] pt-12 lg:pt-20">
-      <h1 className="display-tight text-4xl font-extrabold leading-[1.05] sm:text-5xl">{t("title")}</h1>
-      <p className="mt-6 text-lg text-ink-2">{t("lede")}</p>
-      <nav aria-label={t("tocLabel")} className="mt-8 flex flex-wrap gap-x-5 gap-y-2 border-y border-line py-3 text-sm">
+    <article className="mx-auto w-full max-w-[720px] px-4 sm:px-6">
+      <PageHeader kicker={t("kicker")} title={t("title")} lede={t("lede")} />
+      <nav aria-label={t("tocLabel")} className="mt-10 flex flex-wrap gap-2">
         {(["problem", "floor", "brake", "compare", "verify", "fees", "faq"] as const).map((k) => (
-          <a key={k} href={`#${k}`} className="text-ink-2 hover:text-ink">
+          <a key={k} href={`#${k}`} className="rounded-xs border border-line px-3.5 py-1.5 text-sm font-semibold text-ink-2 transition-colors duration-150 hover:border-line-2 hover:text-ink">
             {t(`toc.${k}`)}
           </a>
         ))}
@@ -60,12 +65,17 @@ export default async function HowItWorks() {
       <H2 id="floor">{t("floor.title")}</H2>
       <P>{t("floor.p1")}</P>
       <FloorDiagram />
-      <P>{t("floor.p2")}</P>
-      <P>{t("floor.p3")}</P>
+      <div className="mt-2 grid items-start gap-6 sm:grid-cols-2">
+        <div>
+          <P>{t("floor.p2")}</P>
+          <P>{t("floor.p3")}</P>
+        </div>
+        <Photo id="floor" ratio="4/3" sizes="(min-width: 640px) 360px, 100vw" className="mt-4" />
+      </div>
 
       <H2 id="brake">{t("brake.title")}</H2>
       <P>{t("brake.p1")}</P>
-      <Drawing caption={t("brake.caption")} label={t("brake.alt")}>
+      <Drawing caption={t("brake.caption")} label={t("brake.alt")} photo="brake">
         <BrakeDiagram className="h-auto w-full" />
       </Drawing>
       <P>{t("brake.p2")}</P>
@@ -88,7 +98,7 @@ export default async function HowItWorks() {
 
       <H2 id="verify">{t("verify.title")}</H2>
       <P>{t("verify.p1")}</P>
-      <div className="my-8 sticker p-4">
+      <div className="my-8 plate p-4">
         <ul className="num space-y-2 text-[0.9375rem]">
           {FORMULAS.map((f, i) => (
             <li key={f} className={i === 0 ? "text-floor" : "text-ink"}>
@@ -98,7 +108,7 @@ export default async function HowItWorks() {
         </ul>
         <p className="mt-4 border-t border-line pt-3 text-sm text-ink-3">{t("verify.legend")}</p>
       </div>
-      <Drawing caption={t("verify.diagramCaption")} label={t("verify.diagramCaption")}>
+      <Drawing caption={t("verify.diagramCaption")} label={t("verify.diagramCaption")} photo="vault">
         <VerifyDiagram className="h-auto w-full" />
       </Drawing>
       <P>{t("verify.p2")}</P>

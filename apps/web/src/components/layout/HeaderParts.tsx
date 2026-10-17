@@ -1,12 +1,12 @@
 "use client";
-import { List, Moon, Sun, X } from "@phosphor-icons/react/dist/ssr";
+import { List, X } from "@phosphor-icons/react/dist/ssr";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import { NumRoll } from "@/components/ui/NumRoll";
 import { WalletButton } from "@/components/wallet/WalletButton";
-import { LOCALE_COOKIE, THEME_COOKIE } from "@/i18n/config";
+import { LOCALE_COOKIE } from "@/i18n/config";
 import { cn } from "@/lib/cn";
 import { solFixed } from "@/lib/format";
 import { useLiveStats } from "@/lib/live/solReturned";
@@ -32,10 +32,7 @@ export function NavLinks({ className, onNavigate }: { className?: string; onNavi
             href={n.href}
             onClick={onNavigate}
             aria-current={active ? "page" : undefined}
-            className={cn(
-              "rounded-full border px-3 py-1 text-md font-semibold transition-[background-color,border-color,color] duration-150",
-              active ? "border-stroke bg-surface text-ink shadow-[0_2px_0_0_var(--shadow)]" : "border-transparent text-ink-2 hover:text-ink",
-            )}
+            className={cn(onNavigate && "block px-3 py-3 text-lg font-medium text-ink-2 hover:text-ink aria-[current=page]:text-ink")}
           >
             {t(n.key)}
           </Link>
@@ -79,42 +76,19 @@ export function LangToggle({ className }: { className?: string }) {
   );
 }
 
-export function ThemeToggle({ initial, className }: { initial: "dark" | "light"; className?: string }) {
-  const t = useTranslations("nav");
-  const [theme, setTheme] = useState(initial);
-  const flip = () => {
-    const current = document.documentElement.getAttribute("data-theme") === "light" ? "light" : theme === "light" ? "light" : "dark";
-    const next = current === "dark" ? "light" : "dark";
-    setTheme(next);
-    setCookie(THEME_COOKIE, next);
-    document.documentElement.setAttribute("data-theme", next);
-  };
-  return (
-    <button
-      type="button"
-      onClick={flip}
-      className={cn("press grid size-8 place-items-center rounded-sm text-ink-2 hover:bg-bg-3 hover:text-ink", className)}
-      aria-label={theme === "dark" ? t("themeLight") : t("themeDark")}
-      title={theme === "dark" ? t("themeLight") : t("themeDark")}
-    >
-      {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
-    </button>
-  );
-}
-
 export function MiniCounter({ seed }: { seed: { lamports: string; launched: number; brakes: number } | null }) {
   const t = useTranslations("home");
   const s = useLiveStats(seed ? { lamports: BigInt(seed.lamports), launched: seed.launched, brakes: seed.brakes } : null);
   if (s.total === null) return null;
   return (
-    <Link href="/stats" className="group hidden items-baseline gap-2 whitespace-nowrap rounded-full border border-floor/40 bg-floor-dim px-3 py-1 hover:border-floor xl:flex" title={t("counterLabel")}>
-      <NumRoll value={solFixed(s.total, 2)} className="text-md text-floor" label={`${solFixed(s.total, 2)} SOL`} />
-      <span className="text-xs text-ink-2">{t("counterShort")}</span>
+    <Link href="/stats" className="hidden h-10 items-baseline gap-2 whitespace-nowrap border border-line px-3 leading-[38px] hover:border-line-2 xl:flex" title={t("counterLabel")}>
+      <NumRoll value={solFixed(s.total, 2)} className="text-sm text-floor" label={`${solFixed(s.total, 2)} SOL`} />
+      <span className="text-xs text-ink-3">{t("counterShort")}</span>
     </Link>
   );
 }
 
-export function MobileMenu({ theme }: { theme: "dark" | "light" }) {
+export function MobileMenu() {
   const t = useTranslations("nav");
   const [open, setOpen] = useState(false);
   const path = usePathname();
@@ -131,13 +105,13 @@ export function MobileMenu({ theme }: { theme: "dark" | "light" }) {
   }, [open]);
   return (
     <div className="lg:hidden">
-      <button type="button" onClick={() => setOpen(true)} className="press -mr-2 grid size-11 place-items-center rounded-sm text-ink hover:bg-bg-3" aria-label={t("menu")} aria-expanded={open}>
+      <button type="button" onClick={() => setOpen(true)} className="press -mr-1 grid size-10 place-items-center text-ink hover:bg-card-2" aria-label={t("menu")} aria-expanded={open}>
         <List size={20} />
       </button>
       {open ? (
         <div className="fixed inset-0 z-[80]" role="dialog" aria-modal="true" aria-label={t("menu")}>
           <button type="button" aria-label={t("closeMenu")} className="absolute inset-0 bg-black/55 motion-safe:animate-[backdrop-in_200ms_ease-out]" onClick={() => setOpen(false)} />
-          <div className="absolute inset-x-0 bottom-0 rounded-t-2xl border-t border-stroke bg-bg-2 pb-[max(16px,env(safe-area-inset-bottom))] motion-safe:animate-[sheet-in_280ms_cubic-bezier(0.32,0.72,0,1)]">
+          <div className="absolute inset-x-0 bottom-0 border-t border-line-2 bg-card pb-[max(16px,env(safe-area-inset-bottom))] motion-safe:animate-[sheet-in_280ms_cubic-bezier(0.32,0.72,0,1)]">
             <div className="flex items-center justify-between border-b border-line px-4 py-3">
               <span className="text-sm text-ink-2">{t("menu")}</span>
               <button type="button" onClick={() => setOpen(false)} className="press grid size-11 place-items-center rounded-sm text-ink-2 hover:text-ink" aria-label={t("closeMenu")}>
@@ -147,7 +121,6 @@ export function MobileMenu({ theme }: { theme: "dark" | "light" }) {
             <NavLinks className="flex flex-col px-2 py-2 [&>a]:py-3 [&>a]:text-lg" onNavigate={() => setOpen(false)} />
             <div className="mx-4 flex items-center justify-between border-t border-line pt-3">
               <LangToggle />
-              <ThemeToggle initial={theme} />
             </div>
           </div>
         </div>

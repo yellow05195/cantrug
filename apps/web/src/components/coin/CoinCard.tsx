@@ -27,7 +27,7 @@ function MaybeVT({ name, children }: { name: string | null; children: React.Reac
   );
 }
 
-/** One coin as a sticker card: the whole card is the link. */
+/** One coin as a plate card: the whole card is the link. */
 export const CoinCard = memo(function CoinCard({ coin, className, preview, vt, style }: { coin: CoinJson; className?: string; preview?: boolean; vt?: boolean; style?: React.CSSProperties }) {
   const t = useTranslations("coin");
   const tf = useTranslations("floor");
@@ -36,7 +36,7 @@ export const CoinCard = memo(function CoinCard({ coin, className, preview, vt, s
   const body = (
     <>
       <MaybeVT name={vt ? vtName(coin.mint, "av") : null}>
-        <CoinAvatar src={coin.image_url} symbol={coin.symbol} seed={coin.mint === "preview" ? coin.symbol : coin.mint} size={60} />
+        <CoinAvatar src={coin.image_url} symbol={coin.symbol} seed={coin.mint === "preview" ? coin.symbol : coin.mint} size={36} />
       </MaybeVT>
       <div className="min-w-0 flex-1 space-y-2.5">
         <div className="flex items-start justify-between gap-2">
@@ -81,7 +81,7 @@ export const CoinCard = memo(function CoinCard({ coin, className, preview, vt, s
       </div>
     </>
   );
-  const cls = cn("sticker flex gap-3 p-3", !preview && "lift", className);
+  const cls = cn("plate flex gap-3 p-3", !preview && "lift", className);
   if (preview) return <div className={cls}>{body}</div>;
   return (
     <Link href={`/coin/${coin.mint}`} className={cls} prefetch={false} style={style}>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { BigNumbers, ReturnedChart } from "@/components/stats/StatsParts";
 import { CoinAvatar } from "@/components/ui/Bits";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { PAGE, PageHeader } from "@/components/ui/PageHeader";
 import { Price } from "@/components/ui/Num";
 import { api, safely } from "@/lib/api/client";
 import type { CoinJson } from "@/lib/api/types";
@@ -30,13 +31,13 @@ function CoinCell({ c }: { c: { mint: string; name: string; symbol: string; imag
 function Table({ title, head, rows, empty }: { title: string; head: string[]; rows: React.ReactNode[][]; empty: string }) {
   return (
     <section className="min-w-0">
-      <h2 className="title-tight border-b border-line pb-2 text-lg font-extrabold">{title}</h2>
+      <h2 className="title-tight border-b border-line pb-2 text-lg font-semibold">{title}</h2>
       {rows.length ? (
         <table className="mt-1 w-full text-sm">
           <thead>
-            <tr className="h-8 text-left text-xs text-ink-3">
+            <tr className="h-9 border-b border-line bg-bg-2 text-left text-xs text-ink-3">
               {head.map((h, i) => (
-                <th key={h} className={i ? "text-right font-normal" : "font-normal"}>
+                <th key={h} className={i ? "px-2 text-right font-normal" : "px-2 font-normal"}>
                   {h}
                 </th>
               ))}
@@ -46,7 +47,7 @@ function Table({ title, head, rows, empty }: { title: string; head: string[]; ro
             {rows.map((r, i) => (
               <tr key={i} className="h-10 border-t border-line/60">
                 {r.map((cell, j) => (
-                  <td key={j} className={j ? "num text-right" : "max-w-0 truncate pr-2"}>
+                  <td key={j} className={j ? "num whitespace-nowrap px-2 text-right" : "max-w-0 truncate px-2"}>
                     {cell}
                   </td>
                 ))}
@@ -66,9 +67,9 @@ export default async function StatsPage() {
   const [stats, coins] = await Promise.all([safely(api.stats(), null), safely(api.coins({ sort: "volume", limit: 100 }), { items: [] as CoinJson[], next_cursor: null })]);
   if (!stats) {
     return (
-      <div className="gutter mx-auto max-w-[1280px] pt-14">
-        <h1 className="display-tight text-4xl font-extrabold">{t("title")}</h1>
-        <EmptyState className="mt-8 max-w-2xl text-md">{t("noIndexer")}</EmptyState>
+      <div className={PAGE}>
+        <PageHeader kicker={t("kicker")} title={t("title")} />
+        <EmptyState className="mt-10 max-w-2xl text-md">{t("noIndexer")}</EmptyState>
       </div>
     );
   }
@@ -78,10 +79,9 @@ export default async function StatsPage() {
   const bySymbol = new Map(coins.items.map((c) => [c.mint, c]));
 
   return (
-    <div className="gutter mx-auto max-w-[1280px] pt-10 lg:pt-14">
-      <h1 className="display-tight text-4xl font-extrabold sm:text-5xl">{t("title")}</h1>
-      <p className="mt-4 max-w-[60ch] text-md text-ink-2">{t("lede")}</p>
-      <div className="mt-10">
+    <div className={PAGE}>
+      <PageHeader kicker={t("kicker")} title={t("title")} lede={t("lede")} />
+      <div className="mt-12">
         <BigNumbers stats={stats} />
       </div>
       <div className="mt-8">

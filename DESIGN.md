@@ -208,3 +208,84 @@ Homepage, as built: a compact hero (kicker, headline, lede, two buttons) with th
 ## v3 calm pass (same day)
 
 The user found the result "messy and AI-looking". Corrections, now the rule: surfaces are flat with 1 px hairline strokes, no offset shadows except a 2 px underline on buttons; no dot grid, no ruler ticks, no formwork joints, no ±0.00 captions, no kicker label, no 01/02/03 numbering, no breathing rings, no duotone icons (regular weight only), no chips used as decoration. The orange floor line (2 px, full width) is the single graphic emphasis of a page; the CrashScene keeps only the line, the yellow ledges, the slab and the live marker. Headlines are bold, not extrabold, one size down from v2. If a decoration cannot be explained in one sentence as information, it goes.
+
+## v4 night (house style)
+
+The user's verdict on v1 to v3 was that they were ugly whatever the pass, and
+that the projects they had shown earlier (PAWNED, Quantum Heist) looked right
+precisely because they were sober. v4 adopts that house style wholesale and
+keeps only FLOORED's vocabulary (the floor, the brake, the receipt).
+
+**Surface.** One dark theme, no toggle. Background `#05070f` with two radial
+glow pools (orange top-left, blue bottom-right) and a fixed canvas of twinkling
+stars with a few drifting construction objects kept in the gutters (`Deco`).
+Content sits on nothing; plates (`plate`) appear only where there is product UI
+to hold: the receipt, the board, tables, forms. A plate is a 1 px hairline
+(`rgba(255,255,255,.07)`), a top-to-transparent 4 % white wash, an inset top
+highlight and a 20 to 24 px radius. No offset shadows, no stickers, no rulers,
+no grids except the faint drafting grid behind the hero.
+
+**Type.** Plus Jakarta Sans 800 for display, letter-spacing −0.04 em, line
+height 1.0 to 1.05; Jakarta 500 to 600 for text; Geist Mono for every number
+and for the one label the house style allows, the mono uppercase `kicker`.
+h1 clamps 42 to 80 px, h2 30 to 46 px.
+
+**Colour.** Orange `#ff5f1f` is the floor and the primary action, nothing
+else. `--up` green and `--down` red only on deltas. Ink `#f4f6ff`, muted ink
+`#a2aac6`, faint ink `#737c9b`.
+
+**Chrome.** Floating capsule header (blurred pill, hairline, pointer-events
+only on the pill), pill nav with an ink-on-paper active state, pill buttons
+with a 14 px radius and an inner highlight on the primary. Footer stands on a
+bottom glow.
+
+**Home.** Hero split 1.05/0.95: kicker, two-line headline (second line orange
+with a soft glow), lede, two pills; on the right the redeem receipt plate,
+tilting under the pointer, with three floating badges. Under it the floor
+itself: a glowing 2 px line and a dark ground carrying four facts. Then the
+board (kicker + live ticker + Board), and four editorial sections in a 5/7
+grid with the sticky title on the left: the problem (two hairline rows and a
+punchline), three guarantees (01/02/03 rows with a drawn mark each),
+the math (prose and one table plate), FAQ (`details` rows), launch.
+
+**Motion.** Hero lines rise once with a 60 ms stagger; sections reveal once on
+scroll (`Reveal`, 600 ms, strong ease-out); badges float slowly; buttons press
+to 0.97. Everything is off under `prefers-reduced-motion`.
+
+## v5 flat (sober, square, photographs)
+
+The user's verdict on v4: still too "AI". The glow pools, the starfield, the
+pills, the floating badges and the tilting receipt all read as generated.
+v5 removes every one of them and keeps the bones.
+
+**Surface.** Graphite, not navy: `#0b0c0e` ground, `#141619` cards,
+solid hairlines `#24282e` and `#363c44`. No gradient, no glow, no shadow,
+no blur except under the sticky header. Every radius is 2 px. Grids are
+drawn with 1 px gaps on a hairline background; product UI sits in a plain
+bordered box; everything else is rows.
+
+**Type.** Geist 400 for text, 600 for headings at −0.03 em, Geist Mono
+for numbers and the one mono kicker. h1 clamps 38 to 68 px.
+
+**Colour.** Orange only for the floor line, the floor numbers and the
+primary button. Up and down greens and reds only on deltas.
+
+**Photographs.** Real concrete architecture (Unsplash, free licence,
+served from their CDN) in square frames with one hairline, shown in
+grayscale with a touch more contrast so the only colour on a page stays
+orange. Slots live in `src/lib/images.ts`: hero (cantilevered slab),
+curve (ramp), floor (block on the ground), brake (wide staircase), vault
+(sealed monolith), horizon (closing band), dark (challenge). The studio
+renders described in `assets/README.md` replace them slot by slot once
+generated; the component does not change.
+
+**Home.** Hero split: words left with four live numbers in a 1 px grid
+under them, one 4:5 photograph right with a caption bar. Then: how a coin
+lives (three steps, three photographs, a formula each), the comparison
+table against Pump.fun and a classic DEX pool, the math (prose, the
+receipt as a list, the before/after table), the board, built to be
+checked (photograph + six verifiable facts + program id), FAQ, and the
+closing band (photograph + one sentence).
+
+**Motion.** Sections reveal once on scroll with an 8 px rise; buttons
+press to 0.985. Nothing else moves.

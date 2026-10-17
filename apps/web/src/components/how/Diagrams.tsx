@@ -89,13 +89,13 @@ export function CompareDiagram({ className = "h-24 w-full" }: { className?: stri
       <text x="6" y="90" fontFamily="var(--font-mono)" fontSize="8" fill="var(--ink-3)">
         pump: 0
       </text>
-      <line x1="80" y1="8" x2="80" y2="92" stroke="var(--stroke)" strokeWidth="1" />
+      <line x1="80" y1="8" x2="80" y2="92" stroke="var(--line-2)" strokeWidth="1" />
       {/* right: the slab holds */}
       <rect x="84" y="70" width="76" height="26" fill="var(--bg-3)" />
       <rect x="84" y="68" width="76" height="3" fill="var(--floor)" />
       <path d="M 88 16 L 104 16 L 104 30 L 118 30 L 118 44 L 132 44 L 132 58 L 156 58" fill="none" stroke="var(--ink-2)" strokeWidth="2" strokeLinejoin="round" />
       <text x="88" y="90" fontFamily="var(--font-mono)" fontSize="8" fill="var(--floor)">
-        floored: ±0.00
+        floored: floor
       </text>
     </svg>
   );

@@ -22,17 +22,17 @@ export function CoinHeader({ coin, m }: { coin: CoinJson; m: CoinMetrics }) {
   const tk = useTranslations("keys");
   const s = coin.socials ?? {};
   const graduated = m.phase === "graduated";
-  const social = "press grid size-9 place-items-center rounded-full border border-stroke bg-bg-3 text-ink-2 hover:border-stroke-strong hover:text-ink";
+  const social = "press grid size-9 place-items-center rounded-xs border border-line bg-card-2 text-ink-2 hover:border-line-2 hover:text-ink";
   return (
-    <div className="sticker overflow-hidden">
-      <div className="flex flex-wrap items-center gap-x-5 gap-y-4 p-4 sm:p-5">
+    <div className="plate overflow-hidden">
+      <div className="flex flex-wrap items-center gap-x-5 gap-y-4 p-5 sm:p-6">
       <ViewTransition name={vtName(coin.mint, "av")} share="auto" default="none">
-        <CoinAvatar src={coin.image_url} symbol={coin.symbol} seed={coin.mint} size={76} />
+        <CoinAvatar src={coin.image_url} symbol={coin.symbol} seed={coin.mint} size={56} />
       </ViewTransition>
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
           <ViewTransition name={vtName(coin.mint, "nm")} share="auto" default="none">
-            <h1 className="title-tight text-2xl font-extrabold leading-tight sm:text-3xl">{coin.name}</h1>
+            <h1 className="title-tight text-2xl font-semibold leading-tight sm:text-3xl">{coin.name}</h1>
           </ViewTransition>
           <span className="num text-lg text-ink-2">${coin.symbol}</span>
         </div>
@@ -84,7 +84,7 @@ export function CoinHeader({ coin, m }: { coin: CoinJson; m: CoinMetrics }) {
         </div>
       </div>
       {/* Live numbers roll here (and in the hero) only. */}
-      <dl className="flex w-full items-baseline justify-between gap-3 border-t border-stroke pt-3 sm:block sm:w-auto sm:border-0 sm:pt-0 sm:text-right">
+      <dl className="flex w-full items-baseline justify-between gap-3 border-t border-line pt-3 sm:block sm:w-auto sm:border-0 sm:pt-0 sm:text-right">
         <dt className="text-xs font-semibold text-ink-3">{tk("price")}</dt>
         <dd className="mt-0.5 text-2xl">
           <Flash value={m.priceSol}>
@@ -93,16 +93,15 @@ export function CoinHeader({ coin, m }: { coin: CoinJson; m: CoinMetrics }) {
         </dd>
       </dl>
       </div>
-      {/* The datum: the floor value stands on the orange line, with its ruler and level mark. */}
+      {/* The floor value stands on the glowing floor line. */}
       <div aria-label={graduated ? tk("floor") : tk("floorStart")}>
-        <div className="flex items-end justify-between gap-3 px-4 pb-1.5 sm:px-5">
-          <span className="num text-xs text-ink-3">±0.00 {graduated ? tk("floor") : tk("floorStart")}</span>
+        <div className="flex items-end justify-between gap-3 px-5 pb-3 sm:px-6">
+          <span className="kicker">{graduated ? tk("floor") : tk("floorStart")}</span>
           <span className={graduated ? "text-2xl text-floor" : "text-xl text-ink-2"}>
             {graduated ? <NumRoll value={tiny(m.floorSol, 4)} label={`${m.floorSol.toPrecision(4)} SOL`} /> : <Price value={m.floorPreviewSol} />}
           </span>
         </div>
-        
-        <div aria-hidden className={graduated ? "h-1.5 w-full bg-floor" : "h-0 w-full border-t-[3px] border-dashed border-floor/70"} />
+        <div aria-hidden className={graduated ? "floor-line" : "h-px w-full border-t border-dashed border-floor/60"} />
       </div>
     </div>
   );
@@ -126,7 +125,7 @@ export function BagFloorBox({ chain, user, symbol, connected }: { chain: CoinCha
   }
   const queued = user?.queue?.remaining ?? 0n;
   return (
-    <div className="sticker p-4">
+    <div className="plate p-4">
       {!user ? (
         <p className="text-sm text-ink-3">{t("reading")}</p>
       ) : bal === 0n && queued === 0n ? (
@@ -195,9 +194,9 @@ export function KeyNumbers({ coin, m, className }: { coin: CoinJson; m: CoinMetr
     { k: t("returned"), v: <Num unit="SOL" className="text-floor">{sol(BigInt(coin.total_redeemed_sol || "0"), 2)}</Num>, floor: true },
   ];
   return (
-    <dl className={cn("sticker no-scrollbar flex gap-0.5 overflow-x-auto bg-stroke p-0 lg:grid lg:grid-cols-2 lg:overflow-hidden", className)}>
+    <dl className={cn("plate no-scrollbar flex gap-0.5 overflow-x-auto bg-line p-0 lg:grid lg:grid-cols-2 lg:overflow-hidden", className)}>
       {items.map((it) => (
-        <div key={it.k} className="min-w-[44%] shrink-0 bg-surface px-3.5 py-3 xs:min-w-[36%] lg:min-w-0">
+        <div key={it.k} className="min-w-[44%] shrink-0 bg-card px-4 py-3.5 xs:min-w-[36%] lg:min-w-0">
           <dt className="text-xs text-ink-3">{it.k}</dt>
           <dd className={cn("mt-1 text-md", it.floor && "text-floor")}>{it.v}</dd>
         </div>
@@ -227,7 +226,7 @@ export function AboutCoin({ coin, chain }: { coin: CoinJson; chain: CoinChain | 
       <div>
         <p className="max-w-[60ch] text-md text-ink-2">{coin.description || t("noDescription")}</p>
       </div>
-      <dl className="divide-y divide-line rounded-xl border border-stroke text-sm">
+      <dl className="divide-y divide-line rounded-xs border border-line text-sm">
         {rows.map(([k, v]) => (
           <div key={k} className="flex items-center justify-between gap-4 px-3 py-2">
             <dt className="text-ink-3">{k}</dt>

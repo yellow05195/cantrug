@@ -19,11 +19,11 @@ export function BigNumbers({ stats }: { stats: StatsJson }) {
     { k: t("rugs"), v: <span className="num">{stats.rugs_avoided}</span>, hint: t("rugsHint") },
   ];
   return (
-    <dl className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+    <dl className="grid grid-cols-2 gap-x-8 border-b border-line lg:grid-cols-4">
       {items.map((it) => (
-        <div key={it.k} className={cn("sticker p-4 sm:p-5", it.wide && "col-span-2 lg:col-span-1")}>
+        <div key={it.k} className={cn("min-w-0 border-t border-line py-6", it.wide && "col-span-2 lg:col-span-1")}>
           <dt className="text-sm text-ink-2">{it.k}</dt>
-          <dd className="mt-3 flex items-baseline gap-2 text-3xl sm:text-4xl">
+          <dd className="mt-3 flex items-baseline gap-2 whitespace-nowrap text-3xl sm:text-4xl">
             {it.v}
             {it.unit ? <span className="num text-md text-ink-3">{it.unit}</span> : null}
           </dd>
@@ -44,7 +44,7 @@ export function ReturnedChart({ series }: { series: StatsJson["sol_redeemed_by_d
     const css = (n: string) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
     const chart = createChart(el, {
       autoSize: true,
-      layout: { background: { type: ColorType.Solid, color: css("--bg-2") }, textColor: css("--ink-3"), fontFamily: "var(--font-jetbrains), monospace", fontSize: 11 },
+      layout: { background: { type: ColorType.Solid, color: css("--card") }, textColor: css("--ink-3"), fontFamily: "var(--font-jetbrains), monospace", fontSize: 11 },
       grid: { vertLines: { visible: false }, horzLines: { color: css("--line"), style: LineStyle.Solid } },
       rightPriceScale: { borderColor: css("--line") },
       timeScale: { borderColor: css("--line") },
@@ -73,20 +73,14 @@ export function ReturnedChart({ series }: { series: StatsJson["sol_redeemed_by_d
         onComplete: () => chart.timeScale().fitContent(),
       });
     }
-    const mo = new MutationObserver(() => {
-      chart.applyOptions({ layout: { background: { type: ColorType.Solid, color: css("--bg-2") }, textColor: css("--ink-3") }, grid: { horzLines: { color: css("--line") } } });
-      line.applyOptions({ color: css("--floor") });
-    });
-    mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
     return () => {
       tween?.kill();
-      mo.disconnect();
       chart.remove();
     };
   }, [series]);
   return (
-    <figure className="sticker overflow-hidden">
-      <figcaption className="border-b border-stroke text-sm font-semibold">
+    <figure className="plate overflow-hidden">
+      <figcaption className="border-b border-line text-sm font-semibold">
         <span className="flex items-baseline justify-between px-4 py-2.5">
           <span>{t("chartTitle")}</span>
           <span className="text-xs text-ink-3">{t("chartUnit")}</span>

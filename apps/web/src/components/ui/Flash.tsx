@@ -12,7 +12,7 @@ export function Flash({ value, children, className }: { value: number; children:
     setState({ prev: value, dir: value > state.prev ? 1 : -1, n: state.n + 1 });
   }
   return (
-    <span key={state.n} className={cn(state.n > 0 && (state.dir > 0 ? "flash-up" : "flash-down"), className)}>
+    <span key={state.n} className={cn("whitespace-nowrap", state.n > 0 && (state.dir > 0 ? "flash-up" : "flash-down"), className)}>
       {children}
     </span>
   );

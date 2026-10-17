@@ -29,3 +29,26 @@ Prompt:
 > Cinematic macro of a stock chart line drawn in pale light on black, rising, then snapping into a vertical red free fall; the line crashes onto a series of small concrete ledges striped yellow and black, breaking its fall into equal steps; it finally lands on a massive raw board-formed concrete slab whose top edge ignites as a thin safety-orange laser line sweeping left to right, dust suspended in hard directional light, the line lies flat and still on the orange edge. Dark charcoal palette, matte surfaces, architectural precision, slow camera tilt down then static, no people, no text.
 
 **Avatar/banner**: `magick assets/logo/floored-mark-dark-bg.svg -resize 400x400 avatar.png` and compose the wordmark over `kit-bg` at 1500×500 with the tagline "The memecoin that can't go to zero." right-aligned in JetBrains Mono.
+
+## v5 photograph slots (studio renders to generate)
+
+The site currently shows Unsplash concrete photographs in grayscale (slots in
+`apps/web/src/lib/images.ts`). Generate these six renders when the Higgsfield
+daily limit resets (model `gpt_image_2_5` worked for the prompts below) and
+swap the `src` of each slot; the frame, caption and grayscale treatment are
+applied by the `Photo` component, so no other change is needed.
+
+Shared style, prepend to every prompt: "Minimal architectural 3D render,
+photoreal, matte dark charcoal concrete, deep near-black background, soft
+studio key light from the upper left, subtle reflection on a dark polished
+floor, sharp square geometry, one crisp thin safety-orange light line as the
+only colour. No text, no logos, no people."
+
+| Slot | Ratio | Subject |
+| --- | --- | --- |
+| `hero` | 3:2 or 4:5 | A single monolithic rectangular slab hovering a few centimetres over the floor, its front top edge glowing orange, a small neat stack of dark matte coins on its right part, empty space on the left third. |
+| `curve` | 1:1 | A smooth ramp rising from the lower left to a flat plateau on the right, seen from the side, the plateau edge glowing orange. |
+| `floor` | 1:1 | A thick horizontal slab seen at eye level, its top edge glowing orange, a tall column of dark matte coins standing on it. |
+| `brake` | 1:1 | Three thick steps descending from left to right, seen from the side, the front top edge of each step marked by the orange line. |
+| `vault` | 1:1 | A perfectly sealed solid cube with no door, no seam, no keyhole, resting on the floor, seen from a three-quarter angle, the orange line along its base. |
+| `horizon` | 16:9 | An endless dark polished floor at night, low angle, one thin horizontal orange line of light at the far horizon, nothing else. |

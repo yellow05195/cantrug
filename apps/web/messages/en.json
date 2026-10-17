@@ -20,8 +20,6 @@
     "how": "How it works",
     "stats": "Stats",
     "language": "Language",
-    "themeLight": "Switch to béton clair",
-    "themeDark": "Switch to dark concrete",
     "menu": "Menu",
     "closeMenu": "Close menu",
     "home": "FLOORED home",
@@ -115,8 +113,8 @@
       "perWindow": "max per 60 s"
     },
     "board": {
-      "title": "On the board",
-      "sub": "Every FLOORED coin, live. Price, floor, and how far one is above the other.",
+      "title": "On the board.",
+      "sub": "Every FLOORED coin, with its price, its floor, and how far one is above the other.",
       "tab": {
         "new": "New",
         "graduating": "Graduating",
@@ -129,13 +127,235 @@
         "floor": "Floor",
         "gap": "Price above floor"
       },
-      "toGrad": "to graduation"
+      "toGrad": "to graduation",
+      "kicker": "Live"
     },
     "datumLabel": "floor line, the datum of every chart on this site",
     "band": {
       "title": "Launch a coin that cannot go to zero.",
       "text": "One name, one ticker, one image. The floor is active at graduation, and nobody, not even us, can touch the pool.",
-      "how": "How it works"
+      "how": "How it works",
+      "cta": "Launch a coin"
+    },
+    "hero": {
+      "kicker": "Memecoin launchpad on Solana",
+      "a": "Pump burns your dead money.",
+      "b": "We give it back.",
+      "lede": "Every FLOORED coin keeps its SOL in a pool that belongs to the holders. Hand your tokens back at any time and take your exact share. No sale can push the price down more than 20 % in a minute.",
+      "ctaLaunch": "Launch a coin",
+      "ctaCoins": "See the coins",
+      "badgeFloor": "FLOOR",
+      "badgeBrake": "BRAKE",
+      "facts": {
+        "floor": {
+          "k": "The floor",
+          "v": "pool SOL ÷ circulating supply"
+        },
+        "brake": {
+          "k": "The brake",
+          "v": "−20 % max per 60 s window"
+        },
+        "keys": {
+          "k": "Admin keys over the pool",
+          "v": "none, by construction"
+        },
+        "oracle": {
+          "k": "Price feed",
+          "v": "none, the pool is the price"
+        }
+      },
+      "ctaHow": "How it works",
+      "captionLeft": "The floor: pool SOL ÷ circulating supply",
+      "stats": {
+        "returned": "Returned to holders",
+        "launched": "Coins launched",
+        "brakes": "Brakes engaged",
+        "keys": "Admin keys on the pool"
+      }
+    },
+    "receipt": {
+      "title": "Redeem, worked example",
+      "subtitle": "default curve",
+      "rows": {
+        "tokens": "Tokens burned",
+        "pool": "Pool",
+        "circulating": "Circulating",
+        "share": "Your share",
+        "fee": "Fee 0.5 %, stays in pool",
+        "paid": "Paid out",
+        "price": "Price moved"
+      },
+      "totalLabel": "Returned to holders so far:",
+      "stamp": "PAID"
+    },
+    "problem": {
+      "title": "In the trenches, the pool is never yours.",
+      "lede": "Pump itself counts more than $100M a year of SOL left in dead coins. Since July it burns that liquidity. The people who paid it in never see it again.",
+      "dump": {
+        "title": "The dev dumps.",
+        "text": "One candle, −95 %. The pool is drained before you can click."
+      },
+      "dead": {
+        "title": "The coin dies.",
+        "text": "The last holders own nothing. The SOL stays stuck in the pool, then gets burned."
+      },
+      "punch": {
+        "a": "FLOORED gives the pool to the holders,",
+        "b": "and",
+        "c": "slows every crash to a staircase."
+      }
+    },
+    "guarantees": {
+      "title": "Three guarantees, zero oracle.",
+      "lede": "Everything below is enforced by the program, not by anyone's good behaviour. There is no instruction that could break it.",
+      "floor": {
+        "title": "The floor",
+        "text": "After graduation the pool's SOL belongs to the holders. Burn your tokens and the program pays your exact share, in the same transaction. Nobody else's floor moves, the price does not move.",
+        "formula": "redeem(x) = S · x / C"
+      },
+      "brake": {
+        "title": "The brake",
+        "text": "No sale, or group of sales, can push the price more than 20 % under the window's high in a minute. What does not fit waits in a queue and is served pro rata, at one price, window after window. Redeeming is never braked.",
+        "formula": "price ≥ 0.8 × window high"
+      },
+      "keys": {
+        "title": "Nothing else",
+        "text": "No LP token, no admin withdrawal, no pause, no mint or freeze authority after creation. Parameters are frozen per coin. The config authority can only change defaults for future coins.",
+        "formula": "grep move_lamports: 11 paths, all to holders"
+      }
+    },
+    "math": {
+      "title": "Why redeeming moves nothing.",
+      "lede": {
+        "a": "The floor is",
+        "b": "pool SOL ÷ circulating supply.",
+        "c": "When you redeem x tokens you take exactly S·x/C out of the pool, and the pool burns T·x/C of its own tokens. Both sides shrink in the same proportion, so the floor of the others and the pool price stay where they were. The 0.5 % that stays behind lifts them a little."
+      },
+      "more": "A market sell above the floor does lower it for the others, because the seller takes more than their floor share. That is the only way down, and the brake slows it to 20 % a minute. If the price ever trades under the floor, buying and redeeming is free money, so bots lift it back.",
+      "cols": {
+        "step": "Example",
+        "pool": "Pool (SOL)",
+        "poolTok": "Pool tokens",
+        "circ": "Circulating",
+        "floor": "Floor (SOL)"
+      },
+      "rows": {
+        "before": "At graduation",
+        "redeem": "Redeem 50M",
+        "dump": "Dev dumps 100M",
+        "arb": "Price under floor: arb"
+      },
+      "note": "Default curve numbers: 85 SOL raised, 793.1M tokens sold. Computed with floored-core, the crate the program links."
+    },
+    "faq": {
+      "title": "Questions people ask.",
+      "what": {
+        "q": "What is the floor, exactly?",
+        "a": "The SOL in a coin's pool divided by the tokens in circulation. It is a balance you can read on chain, not a promise: three accounts and one division. Any holder can take their share at any time with one instruction nobody can block."
+      },
+      "zero": {
+        "q": "Can a FLOORED coin go to zero?",
+        "a": "Not while the pool holds SOL and someone holds tokens. The last holder takes the last lamport. The floor can fall when people sell above it, but it can never be withdrawn by anyone."
+      },
+      "sell": {
+        "q": "Redeem or sell, which pays more?",
+        "a": "Above the floor, selling pays more and lowers the floor a little for the others. At or under the floor, redeeming pays more and moves nothing. The coin page shows both numbers side by side before you sign."
+      },
+      "brake": {
+        "q": "What happens when the brake engages?",
+        "a": "The part of your sale that fits under the 20 % limit executes now. The rest goes into a queue, served pro rata of size at the start of every window, same percentage and same price for everyone. You can cancel, claim what you have earned, or switch the rest to the floor instantly."
+      },
+      "fees": {
+        "q": "What are the fees?",
+        "a": "Curve: 1 %, of which 0.3 % is poured into the floor at graduation. Pool: 0.5 %, of which 0.2 % stays in the pool. Redeem: 0.5 %, stays in the pool. Creators get 0.4 % on the curve and 0.2 % after."
+      },
+      "verify": {
+        "q": "How do I check it myself?",
+        "a": "Read pool_sol_vault (minus rent), pool_token_vault, queue_escrow and the mint supply. floor = S / (supply − T − Q). The How it works page does it in your browser for any coin."
+      }
+    },
+    "steps": {
+      "title": "How a FLOORED coin lives.",
+      "lede": "Three phases, each enforced by the program. Nobody can skip one.",
+      "curve": {
+        "title": "The curve",
+        "text": "Buying starts on a bonding curve. The price rises with every buy. 1 % fee, of which 0.3 % is set aside for the floor.",
+        "formula": "price = virtual SOL ÷ virtual tokens"
+      },
+      "floor": {
+        "title": "Graduation, the floor turns on",
+        "text": "At 85 SOL the pool opens. Its SOL belongs to the holders. Burn x tokens and the program pays S·x/C, in the same transaction, to anyone, at any time.",
+        "formula": "redeem(x) = S · x / C"
+      },
+      "brake": {
+        "title": "The brake",
+        "text": "No sale, or group of sales, can push the price more than 20 % under the window high per minute. The rest waits in a queue, served pro rata at one price. Redeeming is never braked.",
+        "formula": "price ≥ 0.8 × window high"
+      }
+    },
+    "compare": {
+      "title": "Against what you already know.",
+      "lede": "Same memecoins, same wallets, same speed. Different rules on the way down.",
+      "col": {
+        "what": "",
+        "dex": "Classic DEX pool"
+      },
+      "row": {
+        "pool": "The pool belongs to",
+        "min": "Minimum price",
+        "drop": "Max drop, one minute",
+        "lp": "LP tokens",
+        "admin": "Admin can withdraw",
+        "dead": "When the coin dies",
+        "creator": "Creator fee"
+      },
+      "v": {
+        "holders": "the holders",
+        "burned": "nobody, LP burned",
+        "lps": "the LPs",
+        "floor": "the floor, S ÷ C",
+        "zero": "zero",
+        "none": "none",
+        "depends": "depends",
+        "redeem": "holders redeem the SOL",
+        "burnedSol": "SOL burned",
+        "stuck": "SOL stuck",
+        "varies": "varies"
+      },
+      "yes": "yes",
+      "no": "no",
+      "note": "Pump.fun figures as published on their docs in 2026. Pool fee on FLOORED: 0.5 %, of which 0.2 % stays in the pool and lifts the floor."
+    },
+    "trust": {
+      "title": "Built to be checked.",
+      "lede": "Nothing here asks for trust. Every claim is a number you can read on chain or a test you can run.",
+      "caption": "No door, no key, no pause.",
+      "source": {
+        "k": "Open source",
+        "v": "Program, SDK, indexer and this site, under one licence."
+      },
+      "fuzz": {
+        "k": "917 188 transactions",
+        "v": "Random-trade fuzzing against a shadow model, 2 059 seeds, zero invariant broken."
+      },
+      "tests": {
+        "k": "192 tests",
+        "v": "Core math with property tests, 16 on-chain scenarios, SDK parity vectors, indexer."
+      },
+      "paths": {
+        "k": "11 SOL paths",
+        "v": "Every lamport leaving a pool goes to a holder, a creator or the protocol fee. No withdraw instruction exists."
+      },
+      "mint": {
+        "k": "Authorities revoked",
+        "v": "Mint and freeze authority are dropped at creation. Nobody can print or freeze."
+      },
+      "frozen": {
+        "k": "Frozen per coin",
+        "v": "Fees, brake and curve parameters are copied into each coin at creation and never change."
+      },
+      "verify": "Read the on-chain state",
+      "challenge": "Try to rug the demo coin"
     }
   },
   "floor": {
@@ -179,7 +399,9 @@
       "claim": "Claim earned SOL",
       "cancel": "Cancel queue",
       "queueToRedeem": "Exit now at floor",
-      "create": "Launch {symbol}"
+      "create": "Launch {symbol}",
+      "crank": "Serve the brake queue",
+      "graduate": "Open the {symbol} pool"
     },
     "preparing": "Simulating the transaction",
     "confirmIn": "Confirm in {wallet}.",
@@ -199,7 +421,9 @@
       "claim": "Claimed {sol} SOL",
       "cancel": "Queue cancelled: {sol} SOL and {tokens} {symbol} back",
       "queueToRedeem": "Redeemed {sol} SOL from the queue",
-      "create": "Launched {symbol}"
+      "create": "Launched {symbol}",
+      "crank": "Queue served: {sol} SOL crank reward",
+      "graduate": "{symbol} graduated: the pool is open"
     },
     "payReceive": "You pay <b>{sol} SOL</b> and receive <b>{tokens} {symbol}</b>.",
     "createOnly": "Creates {symbol} with no first buy.",
@@ -429,7 +653,8 @@
     "close": "Close",
     "avatarHint": "No image yet: this building is generated from your ticker. On chain, from your mint.",
     "avatarImage": "Your image, framed as a sticker on its slab.",
-    "slabLabel": "The curve starts at, SOL per token"
+    "slabLabel": "The curve starts at, SOL per token",
+    "kicker": "Launch"
   },
   "portfolio": {
     "title": "Portfolio",
@@ -458,7 +683,8 @@
     "progress": "{done} of {total} redeemed",
     "redeemedAll": "Redeemed {sol} SOL from {n} coins",
     "explorer": "View last transaction",
-    "close": "Close"
+    "close": "Close",
+    "kicker": "Your bags"
   },
   "how": {
     "metaTitle": "How it works",
@@ -577,7 +803,8 @@
       }
     },
     "end": "End of the document",
-    "toChallenge": "Watch the rug-proof challenge"
+    "toChallenge": "Watch the rug-proof challenge",
+    "kicker": "The mechanism"
   },
   "stats": {
     "title": "Stats",
@@ -602,7 +829,8 @@
     "no": "no",
     "emptyTable": "Nothing to show yet.",
     "notServed": "The indexer does not serve this list yet.",
-    "noIndexer": "Stats come from the indexer. None is connected, so there is nothing to show here. Coin pages still read the chain directly."
+    "noIndexer": "Stats come from the indexer. None is connected, so there is nothing to show here. Coin pages still read the chain directly.",
+    "kicker": "On chain"
   },
   "challenge": {
     "title": "Rug-proof challenge",
@@ -636,7 +864,8 @@
     "cfRedeem": "Redeeming the bag at T0 would have paid",
     "cfNote": "Redeeming takes the floor instantly and leaves the price alone. Selling through the queue can pay more when the price is above the floor, but it takes time.",
     "dumpTx": "Dump transaction:",
-    "openCoin": "Open the coin page"
+    "openCoin": "Open the coin page",
+    "kicker": "Devnet replay"
   },
   "ticker": {
     "label": "Live trades across every coin",
