@@ -351,3 +351,15 @@ with the orange floor line across its lower third and a stack of three
 coins in the page colour standing on it; the wordmark is "floored." in the
 display face, lowercase, the full stop in orange. Tile and coins follow the
 theme, the floor stays orange.
+
+**Scenes, second take (2026-10-18).** The city of slabs was a metaphor the
+user did not read. The scenes now draw the mechanism itself: a pixel price
+chart whose candles can fall but never through the 3 px orange floor line,
+and under the floor the pool, still water with a few piles of SOL coins.
+Four subjects: `chart` (a dump that lands on the floor and bounces, the
+hero and the coin cards), `floor` (a quiet market on the floor, a tall
+pile standing on it), `brake` (the crash comes down as a staircase, an
+orange tick per window), `vault` (a padlock standing on the line). Few,
+large elements on plain paper with three faint guides, no grid. The mark
+follows: a coin resting on the floor line with a green candle that stopped
+at the floor.

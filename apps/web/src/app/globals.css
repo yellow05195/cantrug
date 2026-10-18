@@ -1027,3 +1027,14 @@ html.theme-fade *::after {
     stroke 400ms ease,
     box-shadow 400ms ease !important;
 }
+
+/* The mark keeps two palettes; the theme picks one. */
+.logo-night {
+  display: none;
+}
+:root[data-theme="dark"] .logo-day {
+  display: none;
+}
+:root[data-theme="dark"] .logo-night {
+  display: block;
+}

@@ -54,7 +54,7 @@ export function Hero({ stats }: { stats: { lamports: string; launched: number; b
         {/* the site, standing on the right */}
         <div {...rise(2)} className="rise relative">
           <div className="relative overflow-hidden rounded-3xl border border-seam shadow-[0_24px_70px_-20px_var(--shadow)]">
-            <Scene seed="hero" variant="site" w={150} h={120} density="busy" className="h-[360px] sm:h-[440px] lg:h-[520px]" />
+            <Scene seed="hero" variant="chart" w={150} h={120} density="busy" className="h-[360px] sm:h-[440px] lg:h-[520px]" />
             <div className="absolute inset-x-4 bottom-4 sm:inset-x-auto sm:right-6 sm:w-[270px]">
               <Receipt />
             </div>

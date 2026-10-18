@@ -1,39 +1,32 @@
 import { cn } from "@/lib/cn";
 
 /*
- * The mark, drawn like the scenes: a pixel building of three floors standing
- * on its orange slab, a coin on the roof, on a 16 × 16 grid. It sits in a
- * soft disc of the card colour so it reads on both themes.
+ * The mark, drawn like the scenes: a coin resting on the orange floor line,
+ * a green candle beside it that stopped at the floor, on a 16 × 16 grid. It
+ * sits in a soft disc of the card colour so it reads on both themes.
  */
-const WALL = "#a3a7ae";
-const WALL_DARK = "#6d7178";
-const LIT = "#fbfbf8";
-const DIM = "#7b7f87";
-const FLOOR = "#ee5a1c";
-const COIN_HI = "#ffb48a";
-
-/* rows of the grid; "." is empty, letters index the palette below */
 const GRID = [
   "................",
-  "......oooo......",
-  "......hooo......",
-  "....wwwwwwww....",
-  "....wLLwwLLw....",
-  "....wLLwwLLw....",
-  "....dddddddd....",
-  "....wDDwwLLw....",
-  "....wDDwwLLw....",
-  "....dddddddd....",
-  "....wLLwwDDw....",
-  "....wLLwwDDw....",
-  "....wwwwwwww....",
+  "..........g.....",
+  ".........ggg....",
+  ".........ggg....",
+  ".........ggg....",
+  ".....ccc.ggg....",
+  "....chccc.g.....",
+  "...cccccccg.....",
+  "...ccccccc......",
+  "...ccccccc......",
+  "....ccccc.......",
+  ".....ccc........",
   ".ffffffffffffff.",
-  ".gggggggggggggg.",
-  "................",
+  ".ffffffffffffff.",
+  ".pppppppppppppp.",
+  ".pppppppppppppp.",
 ];
-const PALETTE: Record<string, string> = { w: WALL, d: WALL_DARK, L: LIT, D: DIM, f: FLOOR, g: WALL_DARK, o: FLOOR, h: COIN_HI };
+const PALETTE: Record<string, string> = { c: "#ee5a1c", h: "#ffb48a", g: "#3d9a5c", f: "#ee5a1c", p: "#cfd5dc" };
+const PALETTE_NIGHT: Record<string, string> = { ...PALETTE, g: "#33d17a", p: "#141b33" };
 
-function pixels() {
+function pixels(pal: Record<string, string>) {
   const out: { x: number; y: number; w: number; c: string }[] = [];
   GRID.forEach((row, y) => {
     let x = 0;
@@ -45,21 +38,29 @@ function pixels() {
       }
       let run = 1;
       while (x + run < row.length && row[x + run] === ch) run++;
-      out.push({ x, y, w: run, c: PALETTE[ch]! });
+      out.push({ x, y, w: run, c: pal[ch]! });
       x += run;
     }
   });
   return out;
 }
-const PIXELS = pixels();
+const DAY = pixels(PALETTE);
+const NIGHT = pixels(PALETTE_NIGHT);
 
 export function LogoMark({ size = 24, className, title, plain }: { size?: number; className?: string; title?: string; plain?: boolean }) {
   return (
     <svg viewBox="0 0 16 16" width={size} height={size} className={cn("shrink-0", className)} role={title ? "img" : undefined} aria-hidden={title ? undefined : true} aria-label={title} shapeRendering="crispEdges">
       {plain ? null : <circle cx="8" cy="8" r="8" fill="var(--card-2)" shapeRendering="auto" />}
-      {PIXELS.map((p, i) => (
-        <rect key={i} x={p.x} y={p.y} width={p.w} height={1} fill={p.c} />
-      ))}
+      <g className="logo-day">
+        {DAY.map((p, i) => (
+          <rect key={i} x={p.x} y={p.y} width={p.w} height={1} fill={p.c} />
+        ))}
+      </g>
+      <g className="logo-night">
+        {NIGHT.map((p, i) => (
+          <rect key={i} x={p.x} y={p.y} width={p.w} height={1} fill={p.c} />
+        ))}
+      </g>
     </svg>
   );
 }

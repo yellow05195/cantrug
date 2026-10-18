@@ -349,7 +349,7 @@ export function FinalCta() {
     <section className="mx-auto max-w-6xl px-3 pb-6 pt-4 md:px-6">
       <Reveal>
       <div className="relative overflow-hidden rounded-3xl border border-seam shadow-[0_24px_70px_-20px_var(--shadow)]">
-        <Scene seed="final" variant="city" w={200} h={70} className="h-[340px]" />
+        <Scene seed="final" variant="chart" w={200} h={70} className="h-[340px]" />
         <div className="absolute inset-0 flex items-center justify-center p-4">
           <div className="glass-card w-full max-w-md p-7 text-center md:p-9">
             <h2 className="text-[clamp(26px,3.4vw,36px)]">{t("title")}</h2>

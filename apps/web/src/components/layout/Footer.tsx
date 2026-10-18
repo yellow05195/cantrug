@@ -42,7 +42,7 @@ export function Footer() {
           <Logo size={34} className="text-lg" />
           <p className="max-w-[260px] text-sm leading-relaxed text-ink-2">{t("tagline")}</p>
           <div className="mt-1 h-24 w-48 overflow-hidden rounded-xl border border-seam">
-            <Scene seed="footer" variant="city" w={96} h={40} className="h-full" />
+            <Scene seed="footer" variant="chart" w={96} h={40} className="h-full" />
           </div>
         </div>
         {cols.map((col) => (

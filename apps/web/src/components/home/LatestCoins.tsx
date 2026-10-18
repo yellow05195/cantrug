@@ -53,7 +53,7 @@ export function LatestCoins({ coins }: { coins: CoinJson[] }) {
               <li key={c.mint} className="w-[240px] flex-none snap-start">
                 <Link href={`/coin/${c.mint}`} prefetch={false} className="lift block overflow-hidden rounded-3xl border border-seam bg-card shadow-[0_10px_40px_-12px_var(--shadow)]">
                   <div className="relative">
-                    <Scene seed={c.mint} variant={graduated ? "floor" : "site"} w={96} h={44} className="h-24" />
+                    <Scene seed={c.mint} variant={graduated ? "floor" : "chart"} w={96} h={44} className="h-24" />
                     <div className="absolute -bottom-5 left-4 rounded-full border-4 border-card">
                       <CoinAvatar src={c.image_url} symbol={c.symbol} seed={c.mint} size={44} />
                     </div>

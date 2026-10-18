@@ -10,8 +10,7 @@ function guess(seed: string): SceneVariant {
   if (s.includes("brake") || s.includes("challenge")) return "brake";
   if (s.includes("floor") || s.includes("how")) return "floor";
   if (s.includes("vault") || s.includes("keys") || s.includes("verify")) return "vault";
-  if (s.includes("site") || s.includes("create") || s.includes("hero")) return "site";
-  return "city";
+  return "chart";
 }
 
 /** A drawn pixel scene about the product that follows the day/night theme. */
