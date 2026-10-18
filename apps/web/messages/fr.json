@@ -27,7 +27,8 @@
     "mock": "Données fictives",
     "mockHint": "Aucun indexeur configuré : cette page tourne sur un jeu de données généré, les transactions sont simulées.",
     "themeLight": "Passer en mode jour",
-    "themeDark": "Passer en mode nuit"
+    "themeDark": "Passer en mode nuit",
+    "launch": "Lancer un coin"
   },
   "footer": {
     "tagline": "Le memecoin qui ne peut pas tomber à zéro.",
@@ -128,7 +129,7 @@
       "perWindow": "max par 60 s"
     },
     "board": {
-      "title": "Au tableau.",
+      "title": "Tous les coins.",
       "sub": "Tous les coins FLOORED, avec leur prix, leur plancher, et l'écart entre les deux.",
       "tab": {
         "new": "Nouveaux",
@@ -480,7 +481,9 @@
       "all": "Voir tout le tableau",
       "toGrad": "sur la courbe",
       "mintYours": "Lance le tien",
-      "mintNote": "Un nom, un ticker, une image."
+      "mintNote": "Un nom, un ticker, une image.",
+      "prev": "Coins précédents",
+      "next": "Coins suivants"
     }
   },
   "floor": {

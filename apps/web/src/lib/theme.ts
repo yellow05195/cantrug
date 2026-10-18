@@ -17,6 +17,9 @@ export function useIsDark(): boolean {
 }
 
 export function setTheme(dark: boolean) {
+  const root = document.documentElement;
+  root.classList.add("theme-fade");
+  window.setTimeout(() => root.classList.remove("theme-fade"), 420);
   if (dark) document.documentElement.setAttribute("data-theme", "dark");
   else document.documentElement.removeAttribute("data-theme");
   try {

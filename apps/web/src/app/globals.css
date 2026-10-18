@@ -1013,3 +1013,17 @@ body {
   }
 }
 
+
+/* Switching the lights: colours cross-fade for 400 ms, then transitions go back to normal. */
+html.theme-fade,
+html.theme-fade *,
+html.theme-fade *::before,
+html.theme-fade *::after {
+  transition:
+    background-color 400ms ease,
+    color 400ms ease,
+    border-color 400ms ease,
+    fill 400ms ease,
+    stroke 400ms ease,
+    box-shadow 400ms ease !important;
+}

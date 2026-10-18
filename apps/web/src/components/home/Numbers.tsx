@@ -1,5 +1,6 @@
 "use client";
 import { useTranslations } from "next-intl";
+import { Reveal } from "@/components/layout/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
 import { NumRoll } from "@/components/ui/NumRoll";
 import { solFixed } from "@/lib/format";
@@ -18,11 +19,11 @@ export function Numbers({ stats }: { stats: { lamports: string; launched: number
   ];
   return (
     <section id="numbers" className="mx-auto max-w-6xl scroll-mt-24 px-3 py-20 md:px-6">
+      <Reveal>
       <div className="patch-card p-6 md:p-10">
         <div className="grid gap-8 md:grid-cols-[1fr_auto] md:items-center">
           <div>
-            <p className="kicker">{t("kicker")}</p>
-            <h2 className="mt-3 text-[clamp(26px,3.4vw,38px)]">{t("title")}</h2>
+            <h2 className="text-[clamp(26px,3.4vw,38px)]">{t("title")}</h2>
             <p className="mt-3 max-w-[52ch] text-ink-2">{t("lede")}</p>
           </div>
           <ButtonLink href="/stats" variant="secondary" size="md">
@@ -41,6 +42,7 @@ export function Numbers({ stats }: { stats: { lamports: string; launched: number
           ))}
         </dl>
       </div>
+      </Reveal>
     </section>
   );
 }

@@ -2,10 +2,11 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
 import { ENV } from "@/lib/env";
-import { HeaderWallet, MiniCounter, MobileMenu, NavLinks, ThemeToggle } from "./HeaderParts";
+import { ButtonLink } from "@/components/ui/Button";
+import { HeaderWallet, MobileMenu, NavLinks, ThemeToggle } from "./HeaderParts";
 
 /** Pill header (Plush Pons): logo left, nav centred, lights, wallet and menu right. */
-export function Header({ stats }: { stats: { lamports: string; launched: number; brakes: number } | null }) {
+export function Header({ stats: _stats }: { stats: { lamports: string; launched: number; brakes: number } | null }) {
   const t = useTranslations("nav");
   return (
     <header className="pointer-events-none sticky top-3 z-40 mt-3 px-3 sm:px-4">
@@ -20,7 +21,11 @@ export function Header({ stats }: { stats: { lamports: string; launched: number;
         </Link>
         <NavLinks className="capsule-nav absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 lg:flex" />
         <div className="ml-auto flex flex-none items-center gap-1.5">
-          <MiniCounter seed={stats} />
+          <span className="hidden lg:inline-flex">
+            <ButtonLink href="/create" variant="primary" size="sm">
+              {t("launch")}
+            </ButtonLink>
+          </span>
           <ThemeToggle />
           <HeaderWallet />
           <MobileMenu />

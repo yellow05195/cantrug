@@ -3,6 +3,7 @@ import { Check, X } from "@phosphor-icons/react/dist/ssr";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { type ReactNode, useEffect, useRef, useState } from "react";
+import { Reveal } from "@/components/layout/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
 import { Scene } from "@/components/ui/Scene";
 import { ENV, explorerAddress } from "@/lib/env";
@@ -30,10 +31,13 @@ export function FeatureCards() {
   ] as const;
   return (
     <section id="guarantees" className="mx-auto max-w-6xl scroll-mt-24 px-3 py-20 md:px-6">
-      <SectionHead kicker={t("kicker")} title={tg("title")} lede={tg("lede")} />
+      <Reveal>
+        <SectionHead title={tg("title")} lede={tg("lede")} />
+      </Reveal>
       <div className="grid gap-5 md:grid-cols-3">
-        {items.map(({ k, href }) => (
-          <article key={k} className="lift flex flex-col overflow-hidden rounded-3xl border border-seam bg-card shadow-[0_10px_40px_-12px_var(--shadow)]">
+        {items.map(({ k, href }, i) => (
+          <Reveal key={k} delay={80 * i} className="flex">
+          <article className="lift flex flex-1 flex-col overflow-hidden rounded-3xl border border-seam bg-card shadow-[0_10px_40px_-12px_var(--shadow)]">
             <Scene seed={`feature-${k}`} variant={k === "floor" ? "floor" : k === "brake" ? "brake" : "vault"} w={120} h={52} className="h-40" />
             <div className="flex flex-1 flex-col p-6">
               <h3 className="text-xl">{t(`${k}.title`)}</h3>
@@ -46,6 +50,7 @@ export function FeatureCards() {
               </div>
             </div>
           </article>
+          </Reveal>
         ))}
       </div>
     </section>
@@ -71,7 +76,10 @@ export function Specimen() {
   ];
   return (
     <section id="specimen" className="mx-auto max-w-6xl scroll-mt-24 px-3 py-20 md:px-6">
-      <SectionHead kicker={t("kicker")} title={t("title")} lede={t("lede")} />
+      <Reveal>
+        <SectionHead title={t("title")} lede={t("lede")} />
+      </Reveal>
+      <Reveal delay={80}>
       <div className="patch-card mx-auto grid max-w-5xl gap-8 p-6 md:grid-cols-[1fr_320px] md:p-10">
         <div className="flex flex-col gap-6">
           {rows.map(([label, unit, min, max, v, set, show]) => (
@@ -100,6 +108,7 @@ export function Specimen() {
           <p className="mt-3 text-[11px] uppercase tracking-wider text-ink-3">{t("moved")}</p>
         </div>
       </div>
+      </Reveal>
     </section>
   );
 }
@@ -338,6 +347,7 @@ export function FinalCta() {
   const t = useTranslations("home.band");
   return (
     <section className="mx-auto max-w-6xl px-3 pb-6 pt-4 md:px-6">
+      <Reveal>
       <div className="relative overflow-hidden rounded-3xl border border-seam shadow-[0_24px_70px_-20px_var(--shadow)]">
         <Scene seed="final" variant="city" w={200} h={70} className="h-[340px]" />
         <div className="absolute inset-0 flex items-center justify-center p-4">
@@ -355,6 +365,7 @@ export function FinalCta() {
           </div>
         </div>
       </div>
+      </Reveal>
     </section>
   );
 }

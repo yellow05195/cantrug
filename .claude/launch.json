@@ -8,17 +8,6 @@
         "--config.verify-deps-before-run=false",
         "--filter",
         "@floored/web",
-        "dev"
-      ],
-      "port": 3000
-    },
-    {
-      "name": "web-3100",
-      "runtimeExecutable": "pnpm",
-      "runtimeArgs": [
-        "--config.verify-deps-before-run=false",
-        "--filter",
-        "@floored/web",
         "exec",
         "next",
         "dev",

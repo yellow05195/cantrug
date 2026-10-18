@@ -27,7 +27,8 @@
     "mock": "Mock data",
     "mockHint": "No indexer configured: this page runs on a generated dataset, transactions are simulated.",
     "themeLight": "Switch to daylight",
-    "themeDark": "Switch to night"
+    "themeDark": "Switch to night",
+    "launch": "Launch a coin"
   },
   "footer": {
     "tagline": "The memecoin that cannot go to zero.",
@@ -128,7 +129,7 @@
       "perWindow": "max per 60 s"
     },
     "board": {
-      "title": "On the board.",
+      "title": "All coins.",
       "sub": "Every FLOORED coin, with its price, its floor, and how far one is above the other.",
       "tab": {
         "new": "New",
@@ -480,7 +481,9 @@
       "all": "See the whole board",
       "toGrad": "on the curve",
       "mintYours": "Launch yours",
-      "mintNote": "One name, one ticker, one image."
+      "mintNote": "One name, one ticker, one image.",
+      "prev": "Previous coins",
+      "next": "Next coins"
     }
   },
   "floor": {

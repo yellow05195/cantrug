@@ -3,14 +3,12 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { ButtonLink } from "@/components/ui/Button";
 import { Scene } from "@/components/ui/Scene";
-import { ENV } from "@/lib/env";
 import { solFixed } from "@/lib/format";
 import { useLiveStats } from "@/lib/live/solReturned";
-import { BrakeMark, FloorMark, SolanaMark, TokenBadge } from "./Marks";
 
 /*
  * Hero: the words on the left, the construction site on the right with the
- * redeem receipt standing on its floor and two tokens floating around it.
+ * redeem receipt standing on its floor.
  * Orange is the action. Lines rise once on load.
  */
 export function Hero({ stats }: { stats: { lamports: string; launched: number; brakes: number } | null }) {
@@ -23,10 +21,7 @@ export function Hero({ stats }: { stats: { lamports: string; launched: number; b
     <section className="mx-auto max-w-6xl px-3 pt-10 md:px-6 md:pt-16">
       <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
         <div>
-          <p {...rise(0)} className="rise kicker">
-            {t("kicker")}
-          </p>
-          <h1 className="mt-5 text-[clamp(40px,5.6vw,68px)] leading-[1.02]">
+          <h1 className="text-[clamp(40px,5.6vw,68px)] leading-[1.02]">
             <span {...rise(1)} className="rise block">
               {t("a")}
             </span>
@@ -53,12 +48,6 @@ export function Hero({ stats }: { stats: { lamports: string; launched: number; b
             <span className="chip-mono">
               {s.launched.toLocaleString("en-US")} {t("status.coins")}
             </span>
-            <span className="chip-mono">
-              {s.brakes.toLocaleString("en-US")} {t("status.brakes")}
-            </span>
-            <a className="chip-mono text-ink" href={ENV.githubUrl} target="_blank" rel="noreferrer">
-              {t("chips.source")} <span aria-hidden>↗</span>
-            </a>
           </div>
         </div>
 
@@ -68,21 +57,6 @@ export function Hero({ stats }: { stats: { lamports: string; launched: number; b
             <Scene seed="hero" variant="site" w={150} h={120} density="busy" className="h-[360px] sm:h-[440px] lg:h-[520px]" />
             <div className="absolute inset-x-4 bottom-4 sm:inset-x-auto sm:right-6 sm:w-[270px]">
               <Receipt />
-            </div>
-          </div>
-          <div className="absolute -left-6 top-10 hidden lg:block" aria-hidden="true">
-            <div className="float">
-              <TokenBadge mark={<SolanaMark className="h-7 w-8 text-floor" />} label="SOL" />
-            </div>
-          </div>
-          <div className="absolute -right-5 top-1/3 hidden xl:block" aria-hidden="true">
-            <div className="float-2">
-              <TokenBadge mark={<FloorMark className="h-11 w-11" />} label={t("badgeFloor")} />
-            </div>
-          </div>
-          <div className="absolute -left-4 bottom-24 hidden xl:block" aria-hidden="true">
-            <div className="float-3">
-              <TokenBadge mark={<BrakeMark className="h-11 w-11" />} label={t("badgeBrake")} />
             </div>
           </div>
         </div>
