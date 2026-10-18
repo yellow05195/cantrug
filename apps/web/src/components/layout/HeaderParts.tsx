@@ -1,12 +1,11 @@
 "use client";
 import { List, Moon, Sun, X } from "@phosphor-icons/react/dist/ssr";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState, useTransition } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { NumRoll } from "@/components/ui/NumRoll";
 import { WalletButton } from "@/components/wallet/WalletButton";
-import { LOCALE_COOKIE } from "@/i18n/config";
 import { cn } from "@/lib/cn";
 import { solFixed } from "@/lib/format";
 import { useLiveStats } from "@/lib/live/solReturned";
@@ -43,39 +42,6 @@ export function NavLinks({ className, onNavigate }: { className?: string; onNavi
   );
 }
 
-function setCookie(name: string, value: string) {
-  document.cookie = `${name}=${value}; path=/; max-age=31536000; samesite=lax`;
-}
-
-export function LangToggle({ className }: { className?: string }) {
-  const locale = useLocale();
-  const router = useRouter();
-  const t = useTranslations("nav");
-  const [pending, start] = useTransition();
-  const choose = (l: "en" | "fr") => {
-    if (l === locale) return;
-    setCookie(LOCALE_COOKIE, l);
-    document.documentElement.setAttribute("lang", l);
-    start(() => router.refresh());
-  };
-  return (
-    <div className={cn("flex items-center text-sm", pending && "opacity-60", className)} role="group" aria-label={t("language")}>
-      {(["en", "fr"] as const).map((l, i) => (
-        <span key={l} className="flex items-center">
-          {i > 0 ? <span className="px-0.5 text-ink-3">/</span> : null}
-          <button
-            type="button"
-            onClick={() => choose(l)}
-            aria-pressed={locale === l}
-            className={cn("press min-h-8 rounded-sm px-1.5 py-1 uppercase", locale === l ? "text-ink" : "text-ink-3 hover:text-ink-2")}
-          >
-            {l}
-          </button>
-        </span>
-      ))}
-    </div>
-  );
-}
 
 export function MiniCounter({ seed }: { seed: { lamports: string; launched: number; brakes: number } | null }) {
   const t = useTranslations("home");
@@ -137,9 +103,6 @@ export function MobileMenu() {
               </button>
             </div>
             <NavLinks className="flex flex-col px-2 py-2 [&>a]:py-3 [&>a]:text-lg" onNavigate={() => setOpen(false)} />
-            <div className="mx-4 flex items-center justify-between border-t border-line pt-3">
-              <LangToggle />
-            </div>
           </div>
         </div>
       ) : null}

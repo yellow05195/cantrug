@@ -21,7 +21,7 @@ Program id (devnet): `E7ZbamLD8wenjjHitR8bUHwuNKA4Em39sqybnhk3nc87`
 | `packages/demo/` | devnet scripts: initialize, launch to graduation, the 30 % dump through the brake, redemptions, "verify the floor from three reads". | see below |
 | `packages/jupiter-amm/` | `jupiter-amm-interface` implementation (quotes from the core, brake-aware) with a quote-versus-execution parity test on the built program. Jupiter routes native-SOL venues through its wrapped variants, no on-chain adapter needed; see `docs/jupiter-listing.md`. | passing |
 | `apps/indexer/` | Helius webhook → Postgres (Drizzle), candles with the floor series, minute snapshots, holders, global stats, REST + websocket API, backfill. | see its README |
-| `apps/web/` | Next.js 16 site: home, coin page with the orange floor line under the candles, create, portfolio, how it works, stats, rug-proof challenge, dynamic OG images, EN/FR, wallet adapter. | see its README |
+| `apps/web/` | Next.js 16 site: home, coin page with the orange floor line under the candles, create, portfolio, how it works, stats, rug-proof challenge, dynamic OG images, English only, wallet adapter. | see its README |
 | `assets/` | generated artwork, logo SVGs, prompts for what is left to generate. | see `assets/README.md` |
 | `docs/` | launch thread, before-mainnet checklist, Jupiter listing notes. | |
 | `DESIGN.md` | the design system (tokens, type, motion, every page). | |

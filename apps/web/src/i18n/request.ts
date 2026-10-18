@@ -1,14 +1,9 @@
 import { getRequestConfig } from "next-intl/server";
-import { cookies } from "next/headers";
-import { LOCALE_COOKIE, defaultLocale, isLocale } from "./config";
+import { defaultLocale } from "./config";
 
-export default getRequestConfig(async () => {
-  const store = await cookies();
-  const v = store.get(LOCALE_COOKIE)?.value;
-  const locale = isLocale(v) ? v : defaultLocale;
-  return {
-    locale,
-    messages: (await import(`../../messages/${locale}.json`)).default,
-    timeZone: "UTC",
-  };
-});
+/* One language. The messages file stays the single source of every string. */
+export default getRequestConfig(async () => ({
+  locale: defaultLocale,
+  messages: (await import("../../messages/en.json")).default,
+  timeZone: "UTC",
+}));

@@ -344,3 +344,10 @@ long explanation in reading order: the problem, the seven-step mechanism,
 the floor with the redeem calculator, the brake, the comparison, verify,
 fees, FAQ. Stats carries the numbers, Challenge the proof, Create and
 Portfolio the actions.
+
+**English only (2026-10-18).** The French side is gone: one messages file,
+no language toggle, no locale cookie. **Logo, third take:** an ink tile
+with the orange floor line across its lower third and a stack of three
+coins in the page colour standing on it; the wordmark is "floored." in the
+display face, lowercase, the full stop in orange. Tile and coins follow the
+theme, the floor stays orange.

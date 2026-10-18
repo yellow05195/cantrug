@@ -4,7 +4,6 @@ import { Logo } from "@/components/brand/Logo";
 import { CopyButton } from "@/components/ui/Bits";
 import { Scene } from "@/components/ui/Scene";
 import { ENV, explorerAddress } from "@/lib/env";
-import { LangToggle } from "./HeaderParts";
 
 export function Footer() {
   const t = useTranslations("footer");
@@ -45,7 +44,6 @@ export function Footer() {
           <div className="mt-1 h-24 w-48 overflow-hidden rounded-xl border border-seam">
             <Scene seed="footer" variant="city" w={96} h={40} className="h-full" />
           </div>
-          <LangToggle />
         </div>
         {cols.map((col) => (
           <nav key={col.title} aria-label={col.title}>
