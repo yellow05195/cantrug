@@ -457,3 +457,8 @@ The user wanted the colour play to show more, everywhere.
 - **A face per page** (`lib/faces.ts`): Coins green, Create orange, Portfolio blue, How it works yellow, Stats and the challenge red. Each nav item carries its sticker; the active one becomes a pill of that colour. `PageHeader face=…` is a full-width band in the page's colour with a small turning cube showing that face in front.
 - **Home**: the page turns with the cube. The next face's colour slides in, synced with the scroll, from the side the face comes from (right for the four side turns, top for the last two), with a strip of black plastic on its leading edge. The words change once the colour has passed them. Reduced motion swaps colours without the slide. After the cube, the live part (nine coins, ticker, every coin) sits on the Coins green.
 - The footer shows the six stickers under the wordmark; column headings carry their colour.
+
+## v14 "light bar", and the brand becomes Cubelet
+
+- The header is now a light bar on the page ground with a hairline under it. Links in ink, no stickers; the active page is underlined in its face colour (green Coins, orange Create, blue Portfolio, yellow How it works, red Stats). The underline sits under the text, not on the hairline, so it never melts into a face band of the same colour.
+- The brand is **Cubelet**, the real name of one small piece of a Rubik's cube. cubie.xyz was taken; cubelet.xyz and cubelet.fun were both free on Vercel on 2026-10-20 (1.99 $ first year, then 13 $/yr .xyz, 27 $/yr .fun). Not bought. Placeholder links: github.com/cubelet-fun/cubelet, x.com/cubeletfun.

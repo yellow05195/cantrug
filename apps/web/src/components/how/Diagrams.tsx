@@ -79,7 +79,7 @@ export function VerifyDiagram({ className = "h-24 w-full" }: { className?: strin
 }
 
 
-/** Cubie vs Pump: the same dump, two endings. Left, the liquidity is gone and the line ends at zero; right, it stops on the slab. */
+/** Cubelet vs Pump: the same dump, two endings. Left, the liquidity is gone and the line ends at zero; right, it stops on the slab. */
 export function CompareDiagram({ className = "h-24 w-full" }: { className?: string }) {
   return (
     <svg viewBox="0 0 160 96" className={className} aria-hidden>

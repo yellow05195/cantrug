@@ -5,21 +5,21 @@ import { ButtonLink } from "@/components/ui/Button";
 import { ENV } from "@/lib/env";
 import { HeaderWallet, MobileMenu, NavLinks } from "./HeaderParts";
 
-/** Full-width bar in the cube's black: logo, the nav (each page a coloured sticker), the action and the wallet. */
+/** Light bar on the page ground with a hairline under it: logo, the nav (the active page underlined in its face colour), the action and the wallet. */
 export function Header({ stats: _stats }: { stats: { lamports: string; launched: number; brakes: number } | null }) {
   const t = useTranslations("nav");
   return (
-    <header className="sticky top-0 z-40 bg-cube-body text-white">
+    <header className="sticky top-0 z-40 border-b border-line bg-bg text-ink">
       <div className="capsule mx-auto w-full max-w-6xl px-4 sm:px-6">
         <Link href="/" className="flex flex-none items-center gap-2 text-[17px]" aria-label={t("home")}>
-          <Logo size={28} className="text-white" />
+          <Logo size={28} className="text-ink" />
           {ENV.isDevnet ? (
-            <span className="ml-1 hidden rounded-[6px] border border-white/20 px-2 py-0.5 text-[11px] font-medium text-white/60 sm:inline" title={t("devnetHint")}>
+            <span className="ml-1 hidden rounded-[6px] border border-line-2 px-2 py-0.5 text-[11px] font-medium text-ink-3 sm:inline" title={t("devnetHint")}>
               devnet
             </span>
           ) : null}
         </Link>
-        <NavLinks className="capsule-nav hidden lg:flex" />
+        <NavLinks className="capsule-nav hidden self-stretch lg:flex" />
         <div className="ml-auto flex flex-none items-center gap-2">
           <span className="hidden lg:inline-flex">
             <ButtonLink href="/create" variant="primary" size="sm">

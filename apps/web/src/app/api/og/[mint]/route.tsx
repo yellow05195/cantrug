@@ -66,7 +66,7 @@ export async function GET(_req: Request, ctx: { params: Promise<{ mint: string }
             <rect x="4" y="52" width="56" height="8" fill={C.floor} />
             <path fill={C.ink} d="M14 6h36v10H26v10h20v10H26v16H14z" />
           </svg>
-          <span style={{ fontSize: 24, fontWeight: 700, letterSpacing: 2 }}>Cubie</span>
+          <span style={{ fontSize: 24, fontWeight: 700, letterSpacing: 2 }}>Cubelet</span>
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 36, padding: "56px 64px 0" }}>

@@ -17,9 +17,9 @@ export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("meta");
   return {
     metadataBase: new URL(ENV.siteUrl),
-    title: { default: t("title"), template: "%s | Cubie" },
+    title: { default: t("title"), template: "%s | Cubelet" },
     description: t("description"),
-    openGraph: { title: t("title"), description: t("description"), siteName: "Cubie" },
+    openGraph: { title: t("title"), description: t("description"), siteName: "Cubelet" },
     twitter: { card: "summary_large_image" },
   };
 }

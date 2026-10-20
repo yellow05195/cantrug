@@ -94,8 +94,8 @@ export const ENV = {
   challengeDev: process.env.NEXT_PUBLIC_CHALLENGE_DEV || DEVNET_DEMO_DEV,
   siteUrl: (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/+$/, ""),
   programId: "E7ZbamLD8wenjjHitR8bUHwuNKA4Em39sqybnhk3nc87",
-  githubUrl: process.env.NEXT_PUBLIC_GITHUB_URL || "https://github.com/cubie-fun/cubie",
-  xUrl: process.env.NEXT_PUBLIC_X_URL || "https://x.com/cubiefun",
+  githubUrl: process.env.NEXT_PUBLIC_GITHUB_URL || "https://github.com/cubelet-fun/cubelet",
+  xUrl: process.env.NEXT_PUBLIC_X_URL || "https://x.com/cubeletfun",
   docsUrl: "/how-it-works",
 } as const;
 

@@ -6,10 +6,10 @@
     "copied": "Copied"
   },
   "meta": {
-    "title": "Cubie, the memecoin that cannot go to zero",
-    "description": "Pump burns your dead money. We give it back. Every Cubie coin has a floor: the pool's SOL belongs to holders, redeemable any time.",
+    "title": "Cubelet, the memecoin that cannot go to zero",
+    "description": "Pump burns your dead money. We give it back. Every Cubelet coin has a floor: the pool's SOL belongs to holders, redeemable any time.",
     "coinMissing": "Coin not found",
-    "coinFloor": "Floor {floor} SOL per token, {gap} % above the floor. Redeem at floor any time on Cubie.",
+    "coinFloor": "Floor {floor} SOL per token, {gap} % above the floor. Redeem at floor any time on Cubelet.",
     "coinCurve": "{pct} % to graduation. The floor activates at graduation and starts at the average price paid."
   },
   "nav": {
@@ -21,7 +21,7 @@
     "stats": "Stats",
     "menu": "Menu",
     "closeMenu": "Close menu",
-    "home": "Cubie home",
+    "home": "Cubelet home",
     "devnetHint": "Connected to Solana devnet. Coins and SOL here have no value.",
     "mock": "Mock data",
     "mockHint": "No indexer configured: this page runs on a generated dataset, transactions are simulated.",
@@ -55,7 +55,7 @@
   },
   "home": {
     "headline": "Pump burns your dead money. We give it back.",
-    "lede": "Every Cubie coin has a floor: the pool's SOL belongs to holders, redeemable any time. And no sale can crash it.",
+    "lede": "Every Cubelet coin has a floor: the pool's SOL belongs to holders, redeemable any time. And no sale can crash it.",
     "ctaLaunch": "Launch a coin",
     "ctaCoins": "See the coins",
     "counterLabel": "SOL returned to holders",
@@ -101,7 +101,7 @@
     "headlineB": "We give it back.",
     "hotTitle": "Hot right now",
     "columnsLabel": "Live coins",
-    "numbersLabel": "Cubie in numbers",
+    "numbersLabel": "Cubelet in numbers",
     "rugs": "Rugs avoided",
     "trio": {
       "floor": {
@@ -197,7 +197,7 @@
         "value": "$0"
       },
       "punch": {
-        "a": "Cubie gives the pool to the holders,",
+        "a": "Cubelet gives the pool to the holders,",
         "b": "and",
         "c": "slows every crash to a staircase."
       },
@@ -253,7 +253,7 @@
         "a": "The SOL in a coin's pool divided by the tokens in circulation. It is a balance you can read on chain, not a promise: three accounts and one division. Any holder can take their share at any time with one instruction nobody can block."
       },
       "zero": {
-        "q": "Can a Cubie coin go to zero?",
+        "q": "Can a Cubelet coin go to zero?",
         "a": "Not while the pool holds SOL and someone holds tokens. The last holder takes the last lamport. The floor can fall when people sell above it, but it can never be withdrawn by anyone."
       },
       "sell": {
@@ -296,7 +296,7 @@
       "more": "Read the full mechanism"
     },
     "compare": {
-      "title": "Cubie, Pump.fun and a DEX pool",
+      "title": "Cubelet, Pump.fun and a DEX pool",
       "lede": "Same memecoins, same wallets, same speed. Different rules on the way down.",
       "col": {
         "what": "",
@@ -326,7 +326,7 @@
       },
       "yes": "yes",
       "no": "no",
-      "note": "Pump.fun figures as published on their docs in 2026. Pool fee on Cubie: 0.5 %, of which 0.2 % stays in the pool and lifts the floor.",
+      "note": "Pump.fun figures as published on their docs in 2026. Pool fee on Cubelet: 0.5 %, of which 0.2 % stays in the pool and lifts the floor.",
       "kicker": "Side by side"
     },
     "trust": {
@@ -487,7 +487,7 @@
       "brake": "brake engaged"
     },
     "turn": {
-      "label": "Cubie, in six faces",
+      "label": "Cubelet, in six faces",
       "chapters": "Chapters",
       "scroll": "Scroll to turn the cube",
       "intro": {
@@ -495,7 +495,7 @@
         "demo": "Demo data",
         "a": "Pump burns your dead money.",
         "b": "We give it back.",
-        "text": "Cubie is a memecoin launchpad where the pool belongs to the holders. Every coin has a floor you can always sell into, and no crash can go faster than a staircase.",
+        "text": "Cubelet is a memecoin launchpad where the pool belongs to the holders. Every coin has a floor you can always sell into, and no crash can go faster than a staircase.",
         "launch": "Launch a coin",
         "coins": "See live coins"
       },
@@ -775,7 +775,7 @@
   },
   "coinPage": {
     "notFound": "Coin not found",
-    "notFoundHint": "No Cubie coin uses this mint on {cluster}.",
+    "notFoundHint": "No Cubelet coin uses this mint on {cluster}.",
     "rpcError": "The RPC at {rpc} did not answer. Try again in a moment.",
     "back": "Back to coins",
     "noHistory": "No indexer connected: candle history is not available. The floor line is read live from the chain.",
@@ -846,9 +846,9 @@
   },
   "portfolio": {
     "title": "Portfolio",
-    "lede": "Every Cubie coin in your wallet, with what the pool guarantees you right now.",
-    "connect": "Connect a wallet to see your Cubie coins.",
-    "empty": "No Cubie coins in this wallet yet. Buy one, or launch yours.",
+    "lede": "Every Cubelet coin in your wallet, with what the pool guarantees you right now.",
+    "connect": "Connect a wallet to see your Cubelet coins.",
+    "empty": "No Cubelet coins in this wallet yet. Buy one, or launch yours.",
     "buyOne": "See the coins",
     "launch": "Launch a coin",
     "totalFloor": "Guaranteed by the pools, right now",
@@ -883,7 +883,7 @@
       "problem": "The problem",
       "floor": "The floor",
       "brake": "The brake",
-      "compare": "Cubie vs Pump",
+      "compare": "Cubelet vs Pump",
       "verify": "Verify it yourself",
       "fees": "Fees",
       "faq": "FAQ"
@@ -891,7 +891,7 @@
     "problem": {
       "title": "The problem",
       "p1": "On a classic launchpad, the last holders of a dead coin hold nothing. The liquidity is there, sitting in a pool, but no one can reach it without selling into a price that is already at zero.",
-      "p2": "Pump burns that liquidity. Its holders paid for it. Cubie gives it back to them."
+      "p2": "Pump burns that liquidity. Its holders paid for it. Cubelet gives it back to them."
     },
     "floor": {
       "title": "The floor",
@@ -915,11 +915,11 @@
       "p3": "Queued sellers can claim what they have earned, cancel and take their tokens back, or switch to the floor and redeem the rest instantly."
     },
     "compare": {
-      "title": "Cubie vs Pump",
+      "title": "Cubelet vs Pump",
       "p1": "Same curve, same graduation, different ending. What happens to the last 20 % of holders decides everything.",
       "alt": "Left: a price line falls through broken ground to zero. Right: the same fall stops in steps on the orange floor line.",
       "left": "Pump: the liquidity is burned. The last holders are left with nothing to sell into.",
-      "right": "Cubie: the liquidity stays under the holders. The last one out still gets their share.",
+      "right": "Cubelet: the liquidity stays under the holders. The last one out still gets their share.",
       "p2": "There is no team wallet that can pull the pool. The pool is a program account; only redeem and the swap can move its SOL."
     },
     "verify": {
@@ -933,10 +933,10 @@
       "mint": "The mint",
       "a3": "its supply, after every burn.",
       "program": "Program:",
-      "label": "Any Cubie mint",
+      "label": "Any Cubelet mint",
       "read": "Read on chain now",
       "badMint": "That does not look like a Solana address.",
-      "notFound": "No Cubie coin with this mint on {cluster}.",
+      "notFound": "No Cubelet coin with this mint on {cluster}.",
       "curve": "not active (curve)",
       "sourceRpc": "Read just now from {rpc} and recomputed in your browser.",
       "sourceMock": "Not found on chain; showing the mock dataset's state for this mint.",
@@ -966,7 +966,7 @@
     "faq": {
       "title": "FAQ",
       "zero": {
-        "q": "Can a Cubie coin go to zero?",
+        "q": "Can a Cubelet coin go to zero?",
         "a": "Not after graduation, as long as the pool holds SOL: every circulating token can always be redeemed for its share. Before graduation the coin is on a bonding curve and the floor is only a preview."
       },
       "promise": {
