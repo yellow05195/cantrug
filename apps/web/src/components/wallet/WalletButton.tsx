@@ -129,7 +129,7 @@ export function WalletButton({ className, compact, variant = "primary" }: { clas
         onClick={() => setMenu((v) => !v)}
         aria-expanded={menu}
         aria-haspopup="menu"
-        className="btn-slab pill-paper flex h-9 items-center gap-2 whitespace-nowrap rounded-[6px] px-3.5 font-mono text-[12px] font-bold uppercase tracking-[0.08em]"
+        className="btn-slab pill-paper flex h-9 items-center gap-2 whitespace-nowrap rounded-[10px] px-3.5 text-sm font-semibold"
       >
         {account.walletIcon ? (
           // eslint-disable-next-line @next/next/no-img-element

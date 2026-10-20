@@ -181,7 +181,7 @@
       "ctaCoins": "View coins",
       "builtOn": "Built on",
       "openSource": "open source",
-      "kicker": "Live on the floor"
+      "kicker": "Live on Solana devnet"
     },
     "problem": {
       "title": "In the trenches, the pool is never yours.",
@@ -451,7 +451,8 @@
         "value": "0",
         "title": "Admin keys",
         "text": "on any pool. No withdrawal, no pause, no mint. The program is the only one holding the SOL."
-      }
+      },
+      "title": "Three rules no one can change."
     },
     "band": {
       "title": {
@@ -462,22 +463,20 @@
       "cta": "Launch a coin",
       "how": "See how it works"
     },
-    "board2": {
-      "title": "On the floor · live",
-      "all": "All coins",
-      "col": {
-        "coin": "Coin",
-        "mcap": "Mcap SOL",
-        "floor": "Above floor",
-        "status": "Status"
+    "face": {
+      "kicker": "Today's face",
+      "title": "Nine coins, nine stickers.",
+      "lede": "Each sticker is a live coin and its colour is its state. Tap one to open it.",
+      "legend": {
+        "green": "More than double its floor",
+        "orange": "Graduated, standing on its floor",
+        "white": "On the bonding curve",
+        "blue": "Launched in the last hour",
+        "yellow": "Brake engaged"
       },
-      "status": {
-        "curve": "Curve",
-        "floored": "Floored",
-        "brake": "Brake"
-      },
-      "legend": "Every row stands on its floor. Prices can fall to it, never through it.",
-      "floorLabel": "The floor"
+      "aboveFloor": "above floor",
+      "curve": "to graduation",
+      "brake": "brake engaged"
     }
   },
   "floor": {

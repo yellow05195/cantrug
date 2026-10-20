@@ -5,37 +5,44 @@
 :root {
   color-scheme: dark;
   /*
-    v9 "the board": FLOORED is a trading floor. Warm black housing, split-flap
-    tiles, white flap ink, one amber accent for the floor and the action,
-    green for up and red for down, nothing else. Small radii, flat panels.
+    v10 "the cube": black plastic body, six sticker colours, each with a job.
+    Orange is the floor and the action, green is up, red is down, yellow is
+    the brake, blue is new, white is the curve. Stickers are rounded squares
+    with a black gap between them, like a face of the cube.
   */
-  --bg: #0b0b0a;
-  --bg-2: #10100e;
-  --bg-3: #151513;
-  --surface: #151513;
-  --card: #141412;
-  --card-2: #1c1c19;
-  --card-3: #262622;
-  --stroke: #282724;
-  --stroke-strong: #393733;
-  --line: #282724;
-  --line-2: #393733;
-  --seam: #393733;
+  --bg: #09090a;
+  --bg-2: #0e0e10;
+  --bg-3: #131316;
+  --surface: #131316;
+  --card: #121214;
+  --card-2: #19191c;
+  --card-3: #222226;
+  --stroke: #232327;
+  --stroke-strong: #323238;
+  --line: #232327;
+  --line-2: #323238;
+  --seam: #323238;
   --shadow: rgba(0, 0, 0, 0.6);
-  --ink: #f3efe4;
-  --ink-2: #aaa69b;
-  --ink-3: #77746b;
-  --floor: #ffad1f;
-  --floor-hot: #ffc04d;
-  --floor-deep: #d98a00;
-  --floor-ink: #141410;
-  --floor-dim: rgba(255, 173, 31, 0.12);
-  --brake: #ff6b2c;
-  --brake-ink: #141410;
-  --up: #2fe27f;
-  --up-soft: rgba(47, 226, 127, 0.12);
-  --down: #ff5160;
-  --down-soft: rgba(255, 81, 96, 0.12);
+  --ink: #f4f4f1;
+  --ink-2: #aeaeb4;
+  --ink-3: #78787f;
+  --floor: #ff6a13;
+  --floor-hot: #ff8538;
+  --floor-deep: #d9520a;
+  --floor-ink: #ffffff;
+  --floor-dim: rgba(255, 106, 19, 0.14);
+  --brake: #ffd23f;
+  --brake-ink: #1a1500;
+  --up: #12b05a;
+  --up-soft: rgba(18, 176, 90, 0.14);
+  --down: #e5322b;
+  --down-soft: rgba(229, 50, 43, 0.14);
+  --cube-red: #e5322b;
+  --cube-orange: #ff6a13;
+  --cube-yellow: #ffd23f;
+  --cube-green: #12b05a;
+  --cube-blue: #1f5fd6;
+  --cube-white: #f4f4f1;
   --grain-opacity: 0;
   --float-shadow: none;
   --ease-mech: cubic-bezier(0.23, 1, 0.32, 1);
@@ -44,44 +51,51 @@
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
   --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --header-h: 60px;
+  --header-h: 64px;
 }
 
 /* One theme. The attribute is kept so older selectors still match. */
 :root[data-theme="dark"] {
   color-scheme: dark;
   /*
-    v9 "the board": FLOORED is a trading floor. Warm black housing, split-flap
-    tiles, white flap ink, one amber accent for the floor and the action,
-    green for up and red for down, nothing else. Small radii, flat panels.
+    v10 "the cube": black plastic body, six sticker colours, each with a job.
+    Orange is the floor and the action, green is up, red is down, yellow is
+    the brake, blue is new, white is the curve. Stickers are rounded squares
+    with a black gap between them, like a face of the cube.
   */
-  --bg: #0b0b0a;
-  --bg-2: #10100e;
-  --bg-3: #151513;
-  --surface: #151513;
-  --card: #141412;
-  --card-2: #1c1c19;
-  --card-3: #262622;
-  --stroke: #282724;
-  --stroke-strong: #393733;
-  --line: #282724;
-  --line-2: #393733;
-  --seam: #393733;
+  --bg: #09090a;
+  --bg-2: #0e0e10;
+  --bg-3: #131316;
+  --surface: #131316;
+  --card: #121214;
+  --card-2: #19191c;
+  --card-3: #222226;
+  --stroke: #232327;
+  --stroke-strong: #323238;
+  --line: #232327;
+  --line-2: #323238;
+  --seam: #323238;
   --shadow: rgba(0, 0, 0, 0.6);
-  --ink: #f3efe4;
-  --ink-2: #aaa69b;
-  --ink-3: #77746b;
-  --floor: #ffad1f;
-  --floor-hot: #ffc04d;
-  --floor-deep: #d98a00;
-  --floor-ink: #141410;
-  --floor-dim: rgba(255, 173, 31, 0.12);
-  --brake: #ff6b2c;
-  --brake-ink: #141410;
-  --up: #2fe27f;
-  --up-soft: rgba(47, 226, 127, 0.12);
-  --down: #ff5160;
-  --down-soft: rgba(255, 81, 96, 0.12);
+  --ink: #f4f4f1;
+  --ink-2: #aeaeb4;
+  --ink-3: #78787f;
+  --floor: #ff6a13;
+  --floor-hot: #ff8538;
+  --floor-deep: #d9520a;
+  --floor-ink: #ffffff;
+  --floor-dim: rgba(255, 106, 19, 0.14);
+  --brake: #ffd23f;
+  --brake-ink: #1a1500;
+  --up: #12b05a;
+  --up-soft: rgba(18, 176, 90, 0.14);
+  --down: #e5322b;
+  --down-soft: rgba(229, 50, 43, 0.14);
+  --cube-red: #e5322b;
+  --cube-orange: #ff6a13;
+  --cube-yellow: #ffd23f;
+  --cube-green: #12b05a;
+  --cube-blue: #1f5fd6;
+  --cube-white: #f4f4f1;
   --grain-opacity: 0;
   --float-shadow: none;
   --ease-mech: cubic-bezier(0.23, 1, 0.32, 1);
@@ -90,7 +104,7 @@
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
   --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --header-h: 60px;
+  --header-h: 64px;
 }
 
 @theme inline {
@@ -121,9 +135,15 @@
   --color-brake-ink: var(--brake-ink);
   --color-up: var(--up);
   --color-down: var(--down);
+  --color-cube-red: var(--cube-red);
+  --color-cube-orange: var(--cube-orange);
+  --color-cube-yellow: var(--cube-yellow);
+  --color-cube-green: var(--cube-green);
+  --color-cube-blue: var(--cube-blue);
+  --color-cube-white: var(--cube-white);
 
-  --font-sans: var(--font-inter-tight), "Segoe UI", ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-shoulders), var(--font-inter-tight), system-ui, sans-serif;
+  --font-sans: var(--font-rubik), "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-rubik), "Segoe UI", system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, "SFMono-Regular", monospace;
 
   /* Type scale (rem): .75 / .8125 / .875 / 1 / 1.125 / 1.375 / 1.75 / 2.25 / 3 / 4.5 / 6 */
@@ -152,13 +172,13 @@
   --text-6xl: 6rem;
   --text-6xl--line-height: 1;
 
-  /* v9 shape rule: panels 8, tiles 3, buttons and fields 6. A board is rectangular. */
-  --radius-xs: 3px;
-  --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-lg: 8px;
-  --radius-xl: 8px;
-  --radius-2xl: 10px;
+  /* v10 shape rule: stickers 10, cards 16, buttons 12, chips 8. The cube's rounded squares. */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
 
   --ease-mech: cubic-bezier(0.2, 0.7, 0.2, 1);
   --breakpoint-xs: 26rem;
@@ -194,22 +214,21 @@
     font-family: var(--font-display);
     font-weight: 800;
     text-wrap: balance;
-    line-height: 0.95;
-    letter-spacing: 0.005em;
-    text-transform: uppercase;
+    line-height: 1;
+    letter-spacing: -0.035em;
   }
   h3,
   h4 {
     font-weight: 700;
-    letter-spacing: 0.01em;
-    line-height: 1.05;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
   }
   p {
     text-wrap: pretty;
   }
   ::selection {
-    background: var(--floor);
-    color: var(--floor-ink);
+    background: var(--cube-blue);
+    color: #ffffff;
   }
   input,
   textarea {
@@ -218,7 +237,7 @@
   :focus-visible {
     outline: 2px solid var(--floor);
     outline-offset: 2px;
-    border-radius: 4px;
+    border-radius: 10px;
   }
   button,
   [role="button"],
@@ -288,15 +307,13 @@ body::after {
   position: relative;
   background: var(--card);
   border: 1px solid var(--line);
-  border-radius: 8px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
+  border-radius: 16px;
 }
 @utility sticker {
   position: relative;
   background: var(--card);
   border: 1px solid var(--line);
-  border-radius: 8px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
+  border-radius: 16px;
 }
 @utility plate-glow {
   border-color: var(--line-2);
@@ -304,23 +321,23 @@ body::after {
 @utility sticker-flat {
   background: var(--bg-2);
   border: 1px solid var(--line);
-  border-radius: 6px;
+  border-radius: 12px;
 }
 @utility well {
   background: var(--bg-2);
   border: 1px solid var(--line);
-  border-radius: 6px;
+  border-radius: 12px;
 }
 
 /* Hover lifts 2 px (shadow 6 px), press pushes down 2 px (shadow 2 px). */
 @utility lift {
   transition:
-    border-color 160ms ease,
-    background-color 160ms ease;
+    transform 220ms var(--ease-out),
+    border-color 160ms ease;
   @media (hover: hover) and (pointer: fine) {
     &:hover {
+      transform: translateY(-2px);
       border-color: var(--line-2);
-      background-color: var(--card-2);
     }
   }
 }
@@ -341,10 +358,12 @@ body::after {
   }
 }
 @utility pill-primary {
-  color: var(--floor-ink);
-  background: var(--floor);
+  color: #ffffff;
+  background: var(--cube-orange);
   border: 0;
-  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.18);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 -3px 0 rgba(0, 0, 0, 0.18);
   @media (hover: hover) and (pointer: fine) {
     &:hover:not(:disabled) {
       background: var(--floor-hot);
@@ -353,19 +372,19 @@ body::after {
 }
 @utility pill-paper {
   color: var(--ink);
-  background: transparent;
+  background: var(--card-2);
   border: 1px solid var(--line-2);
   @media (hover: hover) and (pointer: fine) {
     &:hover:not(:disabled) {
-      background: var(--card-2);
-      border-color: var(--ink-3);
+      background: var(--card-3);
     }
   }
 }
 @utility pill-ink {
-  color: var(--bg);
-  background: var(--ink);
+  color: #09090a;
+  background: var(--cube-white);
   border: 0;
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.12);
   @media (hover: hover) and (pointer: fine) {
     &:hover:not(:disabled) {
       background: #ffffff;
@@ -375,13 +394,13 @@ body::after {
 
 /* Mono kicker above a title or a card (house style). */
 @utility kicker {
-  font-family: var(--font-mono);
-  font-size: 11px;
+  font-family: var(--font-sans);
+  font-size: 13px;
   line-height: 1;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--floor);
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-2);
 }
 
 /* Floating capsule header. */
@@ -396,31 +415,22 @@ body::after {
   align-items: center;
   gap: 2px;
   & a {
-    position: relative;
-    padding: 6px 10px;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--ink-3);
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink-2);
     white-space: nowrap;
-    transition: color 150ms ease;
+    transition:
+      color 150ms ease,
+      background-color 150ms ease;
   }
   & a:hover {
     color: var(--ink);
   }
   & a[aria-current="page"] {
     color: var(--ink);
-  }
-  & a[aria-current="page"]::after {
-    content: "";
-    position: absolute;
-    left: 10px;
-    right: 10px;
-    bottom: -2px;
-    height: 2px;
-    background: var(--floor);
+    background: var(--card-2);
   }
 }
 
@@ -436,9 +446,9 @@ body::after {
 }
 @utility floor-line {
   position: relative;
-  height: 2px;
-  background: var(--floor);
-  box-shadow: 0 0 18px rgba(255, 173, 31, 0.35);
+  height: 3px;
+  border-radius: 3px;
+  background: var(--cube-orange);
 }
 @utility ground {
   background: var(--bg-2);
@@ -453,9 +463,9 @@ body::after {
 }
 @utility field {
   width: 100%;
-  min-height: 44px;
-  padding: 0 12px;
-  border-radius: 6px;
+  min-height: 46px;
+  padding: 0 14px;
+  border-radius: 12px;
   background: var(--bg-2);
   border: 1px solid var(--line-2);
   color: var(--ink);
@@ -468,8 +478,8 @@ body::after {
     color: var(--ink-3);
   }
   &:focus {
-    border-color: var(--floor);
-    box-shadow: 0 0 0 3px var(--floor-dim);
+    border-color: var(--cube-blue);
+    box-shadow: 0 0 0 3px rgba(31, 95, 214, 0.25);
   }
 }
 
@@ -941,8 +951,7 @@ body {
   position: relative;
   background: var(--card);
   border: 1px solid var(--line);
-  border-radius: 8px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
+  border-radius: 16px;
 }
 
 /* Frosted glass card, used over the drawn scenes. */
@@ -950,8 +959,7 @@ body {
   position: relative;
   background: var(--card);
   border: 1px solid var(--line);
-  border-radius: 8px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
+  border-radius: 16px;
 }
 :root[data-theme="dark"] .glass-card {
   border-color: rgba(255, 140, 90, 0.18);
@@ -962,16 +970,14 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  height: 1.75rem;
-  padding: 0 0.6rem;
-  border-radius: 4px;
+  height: 1.875rem;
+  padding: 0 0.7rem;
+  border-radius: 8px;
   border: 1px solid var(--line-2);
-  background: var(--bg-2);
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  background: var(--card);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
   color: var(--ink-2);
   white-space: nowrap;
 }
@@ -1033,116 +1039,67 @@ html.theme-fade *::after {
 }
 
 
-/* ───────────────────────── v9 the board: split-flap tiles ───────────────────────── */
 
-.flaps {
-  display: inline-flex;
-  gap: 2px;
-  font-family: var(--font-mono);
-  font-weight: 700;
-  line-height: 1;
+
+/* ───────────────────────── v10 the cube ───────────────────────── */
+
+/* A sticker: a rounded square of one cube colour with a soft top highlight. */
+.sticker-tile {
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.28),
+    inset 0 -3px 0 rgba(0, 0, 0, 0.16);
 }
-.flap {
+.cube-face {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  padding: 6px;
+  border-radius: 18px;
+  background: #050506;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 30px 60px -30px rgba(0, 0, 0, 0.9);
+}
+
+/* The 3D cube: 27 cubies, each a black block with stickers on its outer faces. */
+.cube-stage {
+  perspective: 1400px;
+  touch-action: none;
+}
+.cube {
   position: relative;
-  display: inline-grid;
-  width: 0.82em;
-  height: 1.32em;
-  perspective: 300px;
-  color: inherit;
+  transform-style: preserve-3d;
 }
-.flap > span {
+.cubie {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-style: preserve-3d;
+}
+.cubie > i {
   position: absolute;
   inset: 0;
-  display: grid;
-  place-items: center;
-  border-radius: 3px;
-  background: var(--card-2);
+  display: block;
+  border-radius: 14%;
+  background: #050506;
   backface-visibility: hidden;
 }
-.flap > .flap-top {
-  clip-path: inset(0 0 50% 0);
-  background: linear-gradient(180deg, #23231f, #1d1d1a);
-}
-.flap > .flap-bottom {
-  clip-path: inset(50% 0 0 0);
-  background: linear-gradient(180deg, #191916, #151513);
-}
-/* the hinge */
-.flap::after {
-  content: "";
+.cubie > i > b {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(50% - 0.5px);
-  height: 1px;
-  background: rgba(0, 0, 0, 0.55);
-  z-index: 3;
+  inset: 7%;
+  display: block;
+  border-radius: 16%;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -3px 0 rgba(0, 0, 0, 0.18);
 }
-.flap > .flap-fold-top {
-  clip-path: inset(0 0 50% 0);
-  background: linear-gradient(180deg, #23231f, #1d1d1a);
-  transform-origin: 50% 50%;
-  animation: flap-top 150ms ease-in forwards;
-  z-index: 2;
-}
-.flap > .flap-fold-bottom {
-  clip-path: inset(50% 0 0 0);
-  background: linear-gradient(180deg, #191916, #151513);
-  transform-origin: 50% 50%;
-  transform: rotateX(90deg);
-  animation: flap-bottom 150ms ease-out 150ms forwards;
-  z-index: 2;
-}
-@keyframes flap-top {
-  from {
-    transform: rotateX(0deg);
-  }
-  to {
-    transform: rotateX(-90deg);
-  }
-}
-@keyframes flap-bottom {
-  from {
-    transform: rotateX(90deg);
-  }
-  to {
-    transform: rotateX(0deg);
-  }
+.cube-layer {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
 }
 @media (prefers-reduced-motion: reduce) {
-  .flap > .flap-fold-top,
-  .flap > .flap-fold-bottom {
-    display: none;
+  .cube-layer {
+    transition: none !important;
   }
-}
-
-/* The board housing: a dark frame with rivets of light at the corners. */
-.board-housing {
-  position: relative;
-  background: linear-gradient(180deg, #121210, #0e0e0c);
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.03),
-    0 40px 80px -40px rgba(0, 0, 0, 0.9);
-}
-
-.flap[data-blank] > .flap-top,
-.flap[data-blank] > .flap-bottom {
-  opacity: 0.5;
-}
-
-/* A coin without an image is one board tile with its first letter. */
-.flap-avatar {
-  background: linear-gradient(180deg, #23231f 0 50%, #171714 50% 100%);
-  box-shadow: inset 0 0 0 1px var(--line-2);
-}
-.flap-avatar::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(50% - 0.5px);
-  height: 1px;
-  background: rgba(0, 0, 0, 0.6);
 }

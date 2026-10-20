@@ -300,19 +300,28 @@ export function Faq() {
 /** Three numbers that are rules, not statistics: true on every coin, in every mode. */
 export function Rules() {
   const t = useTranslations("home.rules");
-  const items = ["pool", "brake", "keys"] as const;
+  const items = [
+    { k: "pool", tone: "bg-cube-orange text-white" },
+    { k: "brake", tone: "bg-cube-yellow text-[#1a1500]" },
+    { k: "keys", tone: "bg-cube-white text-[#09090a]" },
+  ] as const;
   return (
-    <section className="mx-auto max-w-6xl px-4 pt-20 sm:px-6">
+    <section className="mx-auto max-w-6xl px-4 pt-24 sm:px-6">
       <Reveal>
         <p className="kicker">{t("kicker")}</p>
+        <h2 className="mt-3 max-w-[18ch] text-[clamp(32px,4.2vw,52px)]">{t("title")}</h2>
       </Reveal>
-      <div className="mt-5 grid gap-px overflow-hidden rounded-[8px] border border-line bg-line md:grid-cols-3">
-        {items.map((k, i) => (
+      <div className="mt-8 grid gap-4 md:grid-cols-3">
+        {items.map(({ k, tone }, i) => (
           <Reveal key={k} delay={60 * i} className="flex">
-            <div className="flex flex-1 flex-col bg-card px-6 py-7">
-              <p className="font-display text-[clamp(56px,6vw,84px)] font-extrabold leading-none text-floor">{t(`${k}.value`)}</p>
-              <h3 className="mt-3 text-xl text-ink">{t(`${k}.title`)}</h3>
-              <p className="mt-2 max-w-[36ch] text-sm leading-relaxed text-ink-2">{t(`${k}.text`)}</p>
+            <div className="flex flex-1 flex-col rounded-[18px] bg-[#050506] p-1.5">
+              <div className={`sticker-tile grid aspect-[3/1] place-items-center rounded-[13px] md:aspect-[2/1] ${tone}`}>
+                <span className="font-display text-[clamp(48px,5.4vw,72px)] font-extrabold leading-none tracking-[-0.04em]">{t(`${k}.value`)}</span>
+              </div>
+              <div className="px-4 pb-4 pt-5">
+                <h3 className="text-xl">{t(`${k}.title`)}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-ink-2">{t(`${k}.text`)}</p>
+              </div>
             </div>
           </Reveal>
         ))}
@@ -321,55 +330,60 @@ export function Rules() {
   );
 }
 
-/** From launch to the floor: three steps on one strip. */
+/** From launch to the floor: three steps, each numbered on a sticker. */
 export function Steps() {
   const t = useTranslations("home.steps");
-  const items = ["launch", "graduate", "redeem"] as const;
+  const items = [
+    { k: "launch", tone: "bg-cube-blue text-white" },
+    { k: "graduate", tone: "bg-cube-green text-white" },
+    { k: "redeem", tone: "bg-cube-orange text-white" },
+  ] as const;
   return (
-    <section id="how" className="mx-auto max-w-6xl scroll-mt-24 px-4 py-20 sm:px-6">
+    <section id="how" className="mx-auto max-w-6xl scroll-mt-24 px-4 py-24 sm:px-6">
       <Reveal>
         <p className="kicker">{t("kicker")}</p>
-        <h2 className="mt-4 text-[clamp(40px,5.4vw,72px)]">
-          {t("title.a")} <span className="text-floor">{t("title.b")}</span>
+        <h2 className="mt-3 text-[clamp(32px,4.2vw,52px)]">
+          {t("title.a")} <span className="text-cube-orange">{t("title.b")}</span>
         </h2>
       </Reveal>
-      <ol className="mt-10 grid gap-px overflow-hidden rounded-[8px] border border-line bg-line md:grid-cols-3">
-        {items.map((k, i) => (
+      <ol className="mt-8 grid gap-4 md:grid-cols-3">
+        {items.map(({ k, tone }, i) => (
           <Reveal key={k} delay={70 * i} className="flex">
-            <li className="flex-1 bg-card p-6">
-              <span className="font-mono text-[11px] font-bold tracking-[0.14em] text-floor">STEP {i + 1}</span>
-              <h3 className="mt-4 text-2xl">{t(`${k}.title`)}</h3>
+            <li className="flex-1 rounded-[16px] border border-line bg-card p-6">
+              <span className={`sticker-tile grid size-11 place-items-center rounded-[10px] text-lg font-extrabold ${tone}`}>{i + 1}</span>
+              <h3 className="mt-5 text-xl">{t(`${k}.title`)}</h3>
               <p className="mt-2 text-sm leading-relaxed text-ink-2">{t(`${k}.text`)}</p>
             </li>
           </Reveal>
         ))}
       </ol>
-      <Link href="/how-it-works" className="mt-6 inline-block font-mono text-[12px] font-bold uppercase tracking-[0.08em] text-ink-2 hover:text-ink">
-        {t("more")} →
+      <Link href="/how-it-works" className="mt-6 inline-block text-sm font-medium text-ink-2 underline decoration-line-2 underline-offset-4 hover:text-ink">
+        {t("more")}
       </Link>
     </section>
   );
 }
 
-/** Closing band: amber, black type, one action. */
+/** Closing band: an orange sticker the width of the page. */
 export function Cta() {
   const t = useTranslations("home.band");
   return (
     <section className="mx-auto max-w-6xl px-4 pb-6 sm:px-6">
       <Reveal>
-        <div className="relative overflow-hidden rounded-[10px] bg-floor px-6 py-12 text-floor-ink sm:px-10 sm:py-14">
-          <div className="grid items-end gap-8 md:grid-cols-[minmax(0,1fr)_auto]">
-            <h2 className="text-[clamp(40px,6vw,84px)] text-floor-ink">
-              {t("title.a")} {t("title.b")}
-            </h2>
-            <div className="flex flex-col items-start gap-4">
-              <p className="max-w-[36ch] text-sm font-medium leading-relaxed text-floor-ink/80">{t("text")}</p>
-              <Link href="/create" className="press inline-flex h-12 items-center rounded-[6px] bg-floor-ink px-6 font-mono text-[13px] font-bold uppercase tracking-[0.08em] text-floor hover:bg-black">
-                {t("cta")}
-              </Link>
+        <div className="rounded-[24px] bg-[#050506] p-2">
+          <div className="sticker-tile rounded-[18px] bg-cube-orange px-6 py-12 text-white sm:px-12 sm:py-16">
+            <div className="grid items-end gap-8 md:grid-cols-[minmax(0,1fr)_auto]">
+              <h2 className="max-w-[16ch] text-[clamp(36px,5vw,64px)] text-white">
+                {t("title.a")} {t("title.b")}
+              </h2>
+              <div className="flex flex-col items-start gap-4">
+                <p className="max-w-[36ch] text-[15px] leading-relaxed text-white/85">{t("text")}</p>
+                <Link href="/create" className="press inline-flex h-12 items-center rounded-[12px] bg-white px-6 text-[15px] font-semibold text-[#09090a] shadow-[inset_0_-3px_0_rgba(0,0,0,0.12)] hover:bg-[#f4f4f1]">
+                  {t("cta")}
+                </Link>
+              </div>
             </div>
           </div>
-          <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-2 bg-[repeating-linear-gradient(90deg,rgba(0,0,0,0.18)_0_18px,transparent_18px_24px)]" />
         </div>
       </Reveal>
     </section>

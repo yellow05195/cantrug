@@ -1,5 +1,6 @@
 import { Board, type BoardList } from "@/components/home/Board";
 import { Hero } from "@/components/home/Hero";
+import { LiveFace } from "@/components/home/LiveFace";
 import { Cta, Rules, Steps } from "@/components/home/HomeSections";
 import { LiveTicker } from "@/components/layout/LiveTicker";
 import { api, safely } from "@/lib/api/client";
@@ -11,9 +12,8 @@ export const dynamic = "force-dynamic";
 const SORTS: SortKey[] = ["new", "graduating", "floor", "volume"];
 
 /*
- * The homepage (after cardsvault.fun): the words and the floor monitor, the
- * three rules as numbers, the coins, three steps, one closing card. The
- * long explanation, the calculator and the comparison live on How it works.
+ * The homepage: the words and the cube, today's face of nine live coins,
+ * the three rules, every coin, three steps, one closing band.
  */
 export default async function Home({ searchParams }: { searchParams: Promise<{ sort?: string }> }) {
   const sp = await searchParams;
@@ -34,7 +34,8 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ s
 
   return (
     <>
-      <Hero coins={[...floor.items, ...graduating.items, ...all.items]} />
+      <Hero />
+      <LiveFace coins={[...all.items, ...floor.items, ...graduating.items, ...fresh.items]} />
       <Rules />
 
       <section id="board" className="mx-auto max-w-6xl scroll-mt-24 px-4 pt-20 sm:px-6">

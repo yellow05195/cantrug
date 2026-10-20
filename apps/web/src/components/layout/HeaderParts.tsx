@@ -89,7 +89,7 @@ export function MobileMenu() {
   }, [open]);
   return (
     <div className="lg:hidden">
-      <button type="button" onClick={() => setOpen(true)} className="press grid size-10 place-items-center rounded-[6px] border border-line-2 text-ink hover:border-ink-3" aria-label={t("menu")} aria-expanded={open}>
+      <button type="button" onClick={() => setOpen(true)} className="press grid size-10 place-items-center rounded-[10px] border border-line-2 text-ink hover:border-ink-3" aria-label={t("menu")} aria-expanded={open}>
         <List size={20} />
       </button>
       {open ? (

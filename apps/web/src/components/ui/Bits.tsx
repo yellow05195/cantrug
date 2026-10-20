@@ -38,20 +38,32 @@ export function Age({ ts, className }: { ts: string | number | null | undefined;
   );
 }
 
-/* Token-style colours: deep, saturated pairs that read on the near-black ground. */
-
-
 /**
- * Coin avatar: the coin image when it has one; otherwise one board tile with
- * the ticker's first letter on it.
+ * Coin avatar: the coin image when it has one; otherwise a sticker in one of
+ * the cube's six colours, picked from the mint, with the ticker's first letter.
  */
-export function CoinAvatar({ src, symbol, size = 36, className }: { src: string | null | undefined; symbol: string; seed?: string; size?: number; className?: string }) {
+const STICKERS: [string, string][] = [
+  ["#ff6a13", "#ffffff"],
+  ["#12b05a", "#ffffff"],
+  ["#1f5fd6", "#ffffff"],
+  ["#e5322b", "#ffffff"],
+  ["#ffd23f", "#1a1500"],
+  ["#f4f4f1", "#09090a"],
+];
+function stickerFor(key: string): [string, string] {
+  let h = 2166136261;
+  for (let i = 0; i < key.length; i++) h = Math.imul(h ^ key.charCodeAt(i), 16777619);
+  return STICKERS[(h >>> 0) % STICKERS.length]!;
+}
+
+export function CoinAvatar({ src, symbol, seed, size = 36, className }: { src: string | null | undefined; symbol: string; seed?: string; size?: number; className?: string }) {
   const [broken, setBroken] = useState(false);
-  const frame = cn("relative grid shrink-0 place-items-center overflow-hidden rounded-[6px]", className);
+  const frame = cn("relative grid shrink-0 place-items-center overflow-hidden rounded-[28%]", className);
   if (!src || broken) {
+    const [bg, fg] = stickerFor(seed ?? symbol);
     return (
-      <span aria-hidden className={cn(frame, "flap-avatar")} style={{ width: size, height: size }}>
-        <span className="font-mono font-bold text-ink" style={{ fontSize: Math.round(size * 0.46) }}>
+      <span aria-hidden className={cn(frame, "sticker-tile")} style={{ width: size, height: size, background: bg, color: fg }}>
+        <span className="font-display font-extrabold" style={{ fontSize: Math.round(size * 0.46) }}>
           {(symbol || "?").slice(0, 1).toUpperCase()}
         </span>
       </span>

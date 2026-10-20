@@ -408,3 +408,24 @@ amber floor under it.
 **Home.** Headline and actions, the live board, the rules as three big
 amber numbers, every coin in the full list, three steps, an amber closing
 band with black type.
+
+## v10 "the cube" (2026-10-20)
+
+The user picked the Rubik's cube among six puzzle directions. Black plastic
+body, six sticker colours and each one has a job: orange the floor and the
+action, green up, red down, yellow the brake, blue new, white the curve.
+Rubik is the one type family (800 for headlines, 400 to 600 for text),
+JetBrains Mono for numbers. Stickers are rounded squares with a black gap
+around them; buttons have a pressed bottom edge.
+
+- Hero: a 3×3×3 CSS cube (`components/home/Cube.tsx`). Each cubie keeps a
+  rotation matrix and a position; a quarter turn transitions one layer
+  then commits into the matrices. It scrambles four moves, rests, plays
+  them back and lands solved on its orange face, the floor. It leans
+  toward the pointer; reduced motion keeps it still and solved.
+- Today's face: nine live coins as stickers on one face, coloured by state,
+  with a legend.
+- Rules: three big stickers (100 %, −20 %, 0). Steps numbered on stickers.
+  Closing band: one orange sticker the width of the page.
+- Mark: one face of the cube, the bottom row orange. Coins without an
+  image get a sticker in one of the six colours with their first letter.

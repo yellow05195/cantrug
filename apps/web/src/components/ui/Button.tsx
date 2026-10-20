@@ -4,8 +4,8 @@ import { cn } from "@/lib/cn";
 import { Dashes } from "./Dashes";
 
 /**
- * Board buttons: rectangular, mono caps like the labels on a trading board.
- * "primary" and "floor" are amber, "secondary" an outlined key, "light" white.
+ * Cube buttons: rounded squares like stickers, a pressed bottom edge.
+ * "primary" and "floor" are cube orange, "secondary" black plastic, "light" white.
  */
 export type ButtonVariant = "floor" | "floorOutline" | "primary" | "secondary" | "light" | "ghost" | "brake";
 export type ButtonSize = "sm" | "md" | "lg";
@@ -23,7 +23,7 @@ const VARIANTS: Record<ButtonVariant, string> = {
 const SIZES: Record<ButtonSize, string> = {
   sm: "h-9 px-3.5 gap-1.5",
   md: "h-10 px-4 gap-2",
-  lg: "h-12 px-6 gap-2 !text-[13px]",
+  lg: "h-12 px-6 gap-2 !text-[15px]",
 };
 
 interface Common {
@@ -37,7 +37,7 @@ interface Common {
 
 export function buttonClass({ variant = "primary", size = "md", block, className }: Omit<Common, "children" | "loading">) {
   return cn(
-    "inline-flex select-none items-center justify-center whitespace-nowrap rounded-[6px] font-mono text-[12px] font-bold uppercase tracking-[0.08em] leading-none",
+    "inline-flex select-none items-center justify-center whitespace-nowrap rounded-[12px] font-sans text-[14px] font-semibold leading-none",
     "disabled:cursor-not-allowed",
     VARIANTS[variant],
     SIZES[size],

@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
-import { Big_Shoulders, Inter_Tight, JetBrains_Mono } from "next/font/google";
+import { JetBrains_Mono, Rubik } from "next/font/google";
 import type { ReactNode } from "react";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
@@ -10,8 +10,7 @@ import { api, safely } from "@/lib/api/client";
 import { ENV } from "@/lib/env";
 import "./globals.css";
 
-const shoulders = Big_Shoulders({ subsets: ["latin"], weight: ["700", "800", "900"], variable: "--font-shoulders", display: "swap" });
-const interTight = Inter_Tight({ subsets: ["latin", "latin-ext"], weight: ["400", "500", "600", "700"], variable: "--font-inter-tight", display: "swap" });
+const rubik = Rubik({ subsets: ["latin", "latin-ext"], weight: ["400", "500", "600", "700", "800", "900"], variable: "--font-rubik", display: "swap" });
 const jetbrains = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500", "700"], variable: "--font-jetbrains", display: "swap" });
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -26,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#0b0b0a",
+  themeColor: "#09090a",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -37,7 +36,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   const [locale, messages, stats, t] = await Promise.all([getLocale(), getMessages(), safely(api.stats(), null), getTranslations("common")]);
   const seed = stats ? { lamports: stats.sol_redeemed_total, launched: stats.coins_created, brakes: stats.brake_engagements_total } : null;
   return (
-    <html lang={locale} data-theme="dark" className={`${shoulders.variable} ${interTight.variable} ${jetbrains.variable} h-full antialiased`} suppressHydrationWarning>
+    <html lang={locale} data-theme="dark" className={`${rubik.variable} ${jetbrains.variable} h-full antialiased`} suppressHydrationWarning>
       <body className="flex min-h-full flex-col">
         <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-ink focus:px-3 focus:py-2 focus:text-bg">
           {t("skip")}
