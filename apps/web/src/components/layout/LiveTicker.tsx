@@ -3,7 +3,7 @@ import { Broadcast } from "@phosphor-icons/react/dist/ssr";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { BuildingAvatar } from "@/components/coin/BuildingAvatar";
+import { CoinAvatar } from "@/components/ui/Bits";
 import { Dialog } from "@/components/ui/Dialog";
 import { api } from "@/lib/api/client";
 import type { WsRedeemed, WsTrade } from "@/lib/api/types";
@@ -94,14 +94,14 @@ export function LiveTicker() {
       prefetch={false}
       tabIndex={dup ? -1 : undefined}
       aria-hidden={dup || undefined}
-      className={cn("flex shrink-0 items-center gap-2 rounded-[8px] px-2 py-1 text-xs hover:bg-card-2", !dup && x.fresh && "ticker-new")}
+      className={cn("flex shrink-0 items-center gap-2 rounded-[8px] px-2 py-1 text-xs hover:bg-white/10", !dup && x.fresh && "ticker-new")}
     >
-      <BuildingAvatar seed={x.mint} size={22} className="rounded-md! border" />
-      <span className="num font-medium text-ink">${label(x)}</span>
-      <span className={cn("num", x.kind === "buy" ? "text-up" : x.kind === "redeem" ? "text-floor" : x.kind === "fill" ? "text-ink-2" : "text-down")}>
+      <CoinAvatar src={null} symbol={label(x)} seed={x.mint} size={22} className="!rounded-[6px]" />
+      <span className="num font-medium text-white">${label(x)}</span>
+      <span className={cn("num", x.kind === "buy" ? "text-cube-green" : x.kind === "redeem" ? "text-cube-orange" : x.kind === "fill" ? "text-white/60" : "text-[#ff5a52]")}>
         {x.kind === "buy" ? "▲" : x.kind === "redeem" ? "◆" : x.kind === "fill" ? "●" : "▼"} {sol(x.lamports, 3)}
       </span>
-      <span className="num text-ink-3" suppressHydrationWarning>
+      <span className="num text-white/45" suppressHydrationWarning>
         {age(x.ms, now)}
       </span>
     </Link>
@@ -109,8 +109,8 @@ export function LiveTicker() {
 
   return (
     <>
-      <div className="ticker relative hidden h-9 overflow-hidden border-b border-line bg-bg-2 md:block" aria-label={t("label")} role="region">
-        <div className="absolute inset-y-0 left-0 z-10 flex items-center gap-1.5 border-r border-line bg-bg-2 pl-4 pr-3 text-xs font-semibold text-floor">
+      <div className="ticker relative hidden h-10 overflow-hidden rounded-[12px] bg-cube-body text-white md:block" aria-label={t("label")} role="region">
+        <div className="absolute inset-y-0 left-0 z-10 flex items-center gap-1.5 border-r border-white/10 bg-cube-body pl-4 pr-3 text-xs font-semibold text-cube-orange">
           <span className="relative flex size-2">
             <span className="absolute inset-0 rounded-full bg-floor opacity-60 motion-safe:animate-ping" />
             <span className="relative size-2 rounded-full bg-floor" />
@@ -123,19 +123,19 @@ export function LiveTicker() {
             {items.map((x) => renderItem(x, true))}
           </div>
         ) : (
-          <p className="flex h-full items-center pl-24 text-xs text-ink-3">{api.available ? t("waiting") : t("noIndexer")}</p>
+          <p className="flex h-full items-center pl-24 text-xs text-white/50">{api.available ? t("waiting") : t("noIndexer")}</p>
         )}
       </div>
       {/* Below md the ticker collapses to a "live" chip showing the latest trade; it opens the feed. */}
-      <button type="button" onClick={() => setOpen(true)} className="flex h-9 w-full items-center gap-2 overflow-hidden border-b border-line bg-bg-2 px-4 text-left md:hidden" aria-label={t("open")}>
+      <button type="button" onClick={() => setOpen(true)} className="flex h-10 w-full items-center gap-2 overflow-hidden rounded-[12px] bg-cube-body px-3 text-left text-white md:hidden" aria-label={t("open")}>
         <span className="inline-flex shrink-0 items-center gap-1 rounded-[6px] border border-floor/50 bg-floor-dim px-2 py-0.5 text-xs font-semibold text-floor">
           <Broadcast size={14} weight="regular" /> {t("live")}
         </span>
-        <span className="min-w-0 flex-1 truncate">{items[0] ? <span key={items[0].id} className="ticker-new inline-flex">{renderItem(items[0], true)}</span> : <span className="text-xs text-ink-3">{api.available ? t("waiting") : t("noIndexer")}</span>}</span>
+        <span className="min-w-0 flex-1 truncate">{items[0] ? <span key={items[0].id} className="ticker-new inline-flex">{renderItem(items[0], true)}</span> : <span className="text-xs text-white/50">{api.available ? t("waiting") : t("noIndexer")}</span>}</span>
       </button>
       <Dialog open={open} onClose={() => setOpen(false)} title={t("title")} closeLabel={t("close")}>
         {items.length ? (
-          <ul className="-mx-2 flex flex-col">
+          <ul className="flex flex-col rounded-[12px] bg-cube-body p-1.5">
             {items.slice(0, 16).map((x) => (
               <li key={x.id} onClick={() => setOpen(false)}>
                 {renderItem(x)}

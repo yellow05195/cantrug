@@ -36,12 +36,13 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ s
   return (
     <>
       <TurnTheCube />
-      <LiveFace coins={[...all.items, ...floor.items, ...graduating.items, ...fresh.items]} />
-
-      <section id="board" className="mx-auto max-w-6xl scroll-mt-24 px-4 pt-20 sm:px-6 md:pt-28">
-        <LiveTicker />
-        <div className="mt-8">
-          <Board lists={lists} available={api.available} demoMint={ENV.challengeMint ?? null} />
+      <section id="live" className="scroll-mt-16 bg-cube-green pb-20 text-ink md:pb-28">
+        <LiveFace coins={[...all.items, ...floor.items, ...graduating.items, ...fresh.items]} />
+        <div id="board" className="mx-auto max-w-6xl scroll-mt-24 px-4 pt-20 sm:px-6 md:pt-28">
+          <LiveTicker />
+          <div className="mt-8">
+            <Board lists={lists} available={api.available} demoMint={ENV.challengeMint ?? null} />
+          </div>
         </div>
       </section>
 

@@ -73,7 +73,7 @@ export default async function StatsPage() {
   if (!stats) {
     return (
       <div className={PAGE}>
-        <PageHeader kicker={t("kicker")} title={t("title")} />
+        <PageHeader face="red" kicker={t("kicker")} title={t("title")} />
         <EmptyState className="mx-auto mt-10 max-w-2xl text-center text-md">{t("noIndexer")}</EmptyState>
       </div>
     );
@@ -85,7 +85,7 @@ export default async function StatsPage() {
 
   return (
     <div className={PAGE}>
-      <PageHeader kicker={t("kicker")} title={t("title")} lede={t("lede")}>
+      <PageHeader face="red" kicker={t("kicker")} title={t("title")} lede={t("lede")}>
         {ENV.mock ? (
           <span className="chip-mono mt-5" title={tn("mockHint")}>
             <span className="size-1.5 rounded-full bg-brake" aria-hidden />

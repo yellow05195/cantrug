@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { NumRoll } from "@/components/ui/NumRoll";
 import { WalletButton } from "@/components/wallet/WalletButton";
 import { cn } from "@/lib/cn";
+import { FACE_BG, FACE_OF, FACE_ON_DARK } from "@/lib/faces";
 import { solFixed } from "@/lib/format";
 import { useLiveStats } from "@/lib/live/solReturned";
 import { setTheme, useIsDark } from "@/lib/theme";
@@ -32,8 +33,14 @@ export function NavLinks({ className, onNavigate }: { className?: string; onNavi
             href={n.href}
             onClick={onNavigate}
             aria-current={active ? "page" : undefined}
-            className={cn(onNavigate && "block px-3 py-3 text-lg font-medium text-ink-2 hover:text-ink aria-[current=page]:text-ink")}
+            className={cn(
+              "inline-flex items-center gap-2",
+              onNavigate ? "flex px-3 py-3 text-lg font-medium text-ink-2 hover:text-ink aria-[current=page]:text-ink" : active && cn(FACE_BG[FACE_OF[n.key]], "font-semibold"),
+            )}
+            // the nav's link colour is set by .capsule-nav; the active sticker needs its own
+            style={active && !onNavigate ? { color: FACE_ON_DARK[FACE_OF[n.key]] ? "#ffffff" : "var(--ink)" } : undefined}
           >
+            <span aria-hidden className={cn("sticker-tile size-2.5 rounded-[3px]", active && !onNavigate ? "bg-black/25" : FACE_BG[FACE_OF[n.key]], onNavigate && "size-3.5 rounded-[4px] border border-black/10")} />
             {t(n.key)}
           </Link>
         );
@@ -89,7 +96,7 @@ export function MobileMenu() {
   }, [open]);
   return (
     <div className="lg:hidden">
-      <button type="button" onClick={() => setOpen(true)} className="press grid size-10 place-items-center rounded-[10px] border border-line-2 text-ink hover:border-ink-3" aria-label={t("menu")} aria-expanded={open}>
+      <button type="button" onClick={() => setOpen(true)} className="press grid size-10 place-items-center rounded-[10px] border border-white/20 text-white hover:border-white/50" aria-label={t("menu")} aria-expanded={open}>
         <List size={20} />
       </button>
       {open ? (

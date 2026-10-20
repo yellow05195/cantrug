@@ -49,11 +49,11 @@ export function Board({ lists, available, demoMint }: { lists: BoardList[]; avai
     <section id="coins" aria-labelledby="board-title" className="scroll-mt-24">
       <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="kicker mb-3">{t("board.kicker")}</p>
+          <p className="mb-3 text-sm font-semibold text-ink/65">{t("board.kicker")}</p>
           <h2 id="board-title" className="text-[clamp(36px,4.6vw,56px)]">
             {t("board.title")}
           </h2>
-          <p className="mt-1 text-md text-ink-2">{t("board.sub")}</p>
+          <p className="mt-1 text-md font-medium text-ink/80">{t("board.sub")}</p>
         </div>
         <Tabs idPrefix="board" size="md" value={tab} onChange={setTab} items={lists.map((l) => ({ key: l.key, label: t(`board.tab.${l.key}`) }))} />
       </div>

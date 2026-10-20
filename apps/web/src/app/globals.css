@@ -371,18 +371,14 @@ body::after {
     border-radius: 10px;
     font-size: 14px;
     font-weight: 500;
-    color: var(--ink-2);
+    color: rgba(255, 255, 255, 0.72);
     white-space: nowrap;
     transition:
       color 150ms ease,
       background-color 150ms ease;
   }
   & a:hover {
-    color: var(--ink);
-  }
-  & a[aria-current="page"] {
-    color: var(--ink);
-    background: var(--card-2);
+    color: #ffffff;
   }
 }
 

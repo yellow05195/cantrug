@@ -45,11 +45,16 @@ const VIEW = "rotateX(-22deg) rotateY(-30deg)";
 
 const smooth = (t: number) => t * t * (3 - 2 * t);
 
-/** Scroll position → orientation. The cube rests on each face for a while, then turns. */
+/** How far the current quarter turn has gone, 0 to 1. The cube rests on each face for a while, then turns. */
+function turnAt(p: number): number {
+  const i = Math.min(LAST - 1, Math.floor(p));
+  return smooth(Math.max(0, Math.min(1, (p - i - 0.3) / 0.4)));
+}
+
+/** Scroll position → orientation. */
 function orientAt(p: number): { rx: number; ry: number } {
   const i = Math.min(LAST - 1, Math.floor(p));
-  const f = p - i;
-  const t = smooth(Math.max(0, Math.min(1, (f - 0.3) / 0.4)));
+  const t = turnAt(p);
   const a = CHAPTERS[i]!;
   const b = CHAPTERS[i + 1]!;
   return { rx: a.rx + (b.rx - a.rx) * t, ry: a.ry + (b.ry - a.ry) * t };
@@ -60,6 +65,8 @@ export function TurnTheCube() {
   const tn = useTranslations("nav");
   const track = useRef<HTMLDivElement>(null);
   const cube = useRef<HTMLDivElement | null>(null);
+  const base = useRef<HTMLDivElement>(null);
+  const sweep = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
 
   useEffect(() => {
@@ -72,10 +79,33 @@ export function TurnTheCube() {
       const r = el.getBoundingClientRect();
       const span = Math.max(1, r.height - window.innerHeight);
       const p = Math.max(0, Math.min(1, -r.top / span)) * LAST;
-      const near = Math.min(LAST, Math.floor(p + 0.5));
+      const i = Math.min(LAST - 1, Math.floor(p));
+      const t = turnAt(p);
+      // the words change once the new colour has swept past them
+      const near = reduce ? Math.min(LAST, Math.floor(p + 0.5)) : i + (t >= 0.7 ? 1 : 0);
       setActive(near);
       const o = reduce ? CHAPTERS[near]! : orientAt(p);
       if (cube.current) cube.current.style.transform = `${VIEW} rotateX(${o.rx}deg) rotateY(${o.ry}deg)`;
+      // the page turns with the cube: the next face's colour slides in from
+      // the side it comes from, a strip of black plastic on its leading edge
+      const b = base.current;
+      const s = sweep.current;
+      if (b && s) {
+        if (reduce) {
+          b.style.backgroundColor = CHAPTERS[near]!.bg;
+          s.style.visibility = "hidden";
+          return;
+        }
+        const from = CHAPTERS[i]!;
+        const to = CHAPTERS[i + 1]!;
+        const vertical = from.rx !== to.rx;
+        const rest = 1 - t;
+        b.style.backgroundColor = from.bg;
+        s.style.backgroundColor = to.bg;
+        s.style.visibility = t > 0 ? "visible" : "hidden";
+        s.style.boxShadow = vertical ? "0 10px 0 var(--cube-body)" : "-10px 0 0 var(--cube-body)";
+        s.style.transform = vertical ? `translate3d(0, calc(${-rest * 100}% - ${rest * 14}px), 0)` : `translate3d(calc(${rest * 100}% + ${rest * 14}px), 0, 0)`;
+      }
     };
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(frame);
@@ -105,11 +135,12 @@ export function TurnTheCube() {
   return (
     <div ref={track} className="relative -mt-[var(--header-h)]" style={{ height: `${CHAPTERS.length * 100}dvh` }}>
       <section
-        className={cn("sticky top-0 h-dvh overflow-hidden transition-colors duration-500 ease-out", ch.dark ? "text-white" : "text-ink")}
-        style={{ backgroundColor: ch.bg }}
+        className={cn("sticky top-0 h-dvh overflow-hidden transition-colors duration-300", ch.dark ? "text-white" : "text-ink")}
         aria-label={t("label")}
       >
-        <div className="mx-auto grid h-full max-w-6xl grid-rows-[minmax(0,0.9fr)_minmax(0,1.1fr)] px-4 [@media(max-height:760px)]:grid-rows-[minmax(0,0.6fr)_minmax(0,1.4fr)] pb-6 pt-[calc(var(--header-h)+8px)] sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:grid-rows-1 lg:gap-10 lg:pb-0">
+        <div ref={base} aria-hidden className="absolute inset-0" style={{ backgroundColor: CHAPTERS[0]!.bg }} />
+        <div ref={sweep} aria-hidden className="absolute inset-0 will-change-transform" style={{ visibility: "hidden" }} />
+        <div className="relative mx-auto grid h-full max-w-6xl grid-rows-[minmax(0,0.9fr)_minmax(0,1.1fr)] px-4 [@media(max-height:760px)]:grid-rows-[minmax(0,0.6fr)_minmax(0,1.4fr)] pb-6 pt-[calc(var(--header-h)+8px)] sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:grid-rows-1 lg:gap-10 lg:pb-0">
           {/* the cube */}
           <div className="relative flex items-center justify-center lg:order-2">
             <div aria-hidden className="absolute bottom-[10%] left-1/2 h-8 w-[52%] -translate-x-1/2 rounded-[50%] bg-[radial-gradient(closest-side,rgba(17,18,22,0.32),transparent)] blur-md" />
@@ -189,7 +220,7 @@ function ChapterBody({ k, dark, t, mockLabel, mockHint }: { k: Chapter["k"]; dar
           <ButtonLink href="/create" variant="primary" size="lg">
             {t("intro.launch")}
           </ButtonLink>
-          <ButtonLink href="#coins" variant="secondary" size="lg">
+          <ButtonLink href="#live" variant="secondary" size="lg">
             {t("intro.coins")}
           </ButtonLink>
         </div>

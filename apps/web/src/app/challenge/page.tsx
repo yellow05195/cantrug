@@ -19,8 +19,8 @@ export default async function ChallengePage() {
   const coin = await resolveCoin(mint);
   return (
     <div className={PAGE}>
-      <PageHeader kicker={t("kicker")} title={t("title")} lede={t("lede")}>
-        <p className="mt-3 text-sm text-ink-3">
+      <PageHeader face="red" kicker={t("kicker")} title={t("title")} lede={t("lede")}>
+        <p className="mt-3 text-sm opacity-75">
           {t("subject", { name: coin?.name ?? "Floored Demo", symbol: coin?.symbol ?? "FLRD", dev: shortAddress(ENV.challengeDev) })}
         </p>
       </PageHeader>

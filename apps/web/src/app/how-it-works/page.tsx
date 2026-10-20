@@ -45,7 +45,7 @@ export default async function HowItWorks() {
   const faq = ["zero", "promise", "rug", "queue", "creator", "audit"] as const;
   return (
     <article className="mx-auto w-full max-w-[760px] px-4 sm:px-6">
-      <PageHeader kicker={t("kicker")} title={t("title")} lede={t("lede")} />
+      <PageHeader face="yellow" kicker={t("kicker")} title={t("title")} lede={t("lede")} />
       <nav aria-label={t("tocLabel")} className="mt-10 flex flex-wrap justify-center gap-2">
         {(["problem", "floor", "brake", "compare", "verify", "fees", "faq"] as const).map((k) => (
           <a key={k} href={`#${k}`} className="chip-mono transition-colors duration-150 hover:text-ink">

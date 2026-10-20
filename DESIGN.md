@@ -448,3 +448,12 @@ The user found the banded homepage "seen before" and asked for a name that fits 
 - **Homepage** (`home/Turn.tsx`): one cube pinned to the screen for six screens of scroll. Scroll turns it a quarter at a time (it rests on each face, then turns, smoothstep), and each face is a chapter; the page background takes the colour of the face in front. White: the promise. Red: the problem. Green: 100 % of the pool. Yellow: −20 % a minute. Blue: 0 admin keys, launch in three steps. Orange, the bottom face: the floor, with the formula and the launch button. Six small stickers on the right show where you are and jump to a chapter. Below: nine live coins, every coin, questions.
 - `Cube` takes `colors`, `still` and `cubeRef`, so the page drives its orientation. Reduced motion snaps to each face instead of scrubbing.
 - Short screens (under 760 px tall) get a smaller cube and tighter type, so each chapter fits without scrolling inside it.
+
+## v13 "every page is a face"
+
+The user wanted the colour play to show more, everywhere.
+
+- **Black frame**: the header, the footer and the live ticker are the cube's black plastic (`--cube-body`). The colours sit inside it like stickers.
+- **A face per page** (`lib/faces.ts`): Coins green, Create orange, Portfolio blue, How it works yellow, Stats and the challenge red. Each nav item carries its sticker; the active one becomes a pill of that colour. `PageHeader face=…` is a full-width band in the page's colour with a small turning cube showing that face in front.
+- **Home**: the page turns with the cube. The next face's colour slides in, synced with the scroll, from the side the face comes from (right for the four side turns, top for the last two), with a strip of black plastic on its leading edge. The words change once the colour has passed them. Reduced motion swaps colours without the slide. After the cube, the live part (nine coins, ticker, every coin) sits on the Coins green.
+- The footer shows the six stickers under the wordmark; column headings carry their colour.

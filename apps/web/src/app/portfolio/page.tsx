@@ -12,7 +12,7 @@ export default async function PortfolioPage() {
   const t = await getTranslations("portfolio");
   return (
     <div className={PAGE}>
-      <PageHeader kicker={t("kicker")} title={t("title")} lede={t("lede")} />
+      <PageHeader face="blue" kicker={t("kicker")} title={t("title")} lede={t("lede")} />
       <div className="mt-12">
         <PortfolioView />
       </div>

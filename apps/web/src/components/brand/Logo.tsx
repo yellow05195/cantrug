@@ -20,7 +20,7 @@ export function LogoMark({ size = 24, className, title }: { size?: number; class
 /** Mark + wordmark in Rubik. */
 export function Logo({ className, size = 28 }: { className?: string; size?: number }) {
   return (
-    <span className={cn("inline-flex items-center gap-2.5 font-display text-[20px] font-extrabold leading-none tracking-[-0.03em] text-ink", className)}>
+    <span className={cn("inline-flex items-center gap-2.5 font-display text-[20px] font-extrabold leading-none tracking-[-0.03em]", className)}>
       <LogoMark size={size} />
       <span>Cubie</span>
     </span>

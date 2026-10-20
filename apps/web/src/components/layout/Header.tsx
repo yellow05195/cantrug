@@ -5,16 +5,16 @@ import { ButtonLink } from "@/components/ui/Button";
 import { ENV } from "@/lib/env";
 import { HeaderWallet, MobileMenu, NavLinks } from "./HeaderParts";
 
-/** Full-width bar: blurred near-black, one hairline under it, logo, nav, the action and the wallet. */
+/** Full-width bar in the cube's black: logo, the nav (each page a coloured sticker), the action and the wallet. */
 export function Header({ stats: _stats }: { stats: { lamports: string; launched: number; brakes: number } | null }) {
   const t = useTranslations("nav");
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-[color-mix(in_oklab,var(--bg)_82%,transparent)] backdrop-blur-md">
+    <header className="sticky top-0 z-40 bg-cube-body text-white">
       <div className="capsule mx-auto w-full max-w-6xl px-4 sm:px-6">
         <Link href="/" className="flex flex-none items-center gap-2 text-[17px]" aria-label={t("home")}>
-          <Logo size={28} />
+          <Logo size={28} className="text-white" />
           {ENV.isDevnet ? (
-            <span className="ml-1 hidden rounded-full border border-line-2 px-2 py-0.5 text-[11px] font-medium text-ink-3 sm:inline" title={t("devnetHint")}>
+            <span className="ml-1 hidden rounded-[6px] border border-white/20 px-2 py-0.5 text-[11px] font-medium text-white/60 sm:inline" title={t("devnetHint")}>
               devnet
             </span>
           ) : null}
