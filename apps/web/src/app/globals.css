@@ -1053,22 +1053,4 @@ html.theme-fade *::after {
 
 /* ───────────────────────── v11 the cube, in daylight ───────────────────────── */
 
-/* A sticker turning into place: it flips in on its row, left to right. */
-@keyframes story-flip {
-  from {
-    transform: perspective(400px) rotateX(-90deg);
-    filter: brightness(0.7);
-  }
-  to {
-    transform: perspective(400px) rotateX(0deg);
-    filter: none;
-  }
-}
-.story-flip {
-  animation: story-flip 460ms var(--ease-out) both;
-}
-@media (prefers-reduced-motion: reduce) {
-  .story-flip {
-    animation: fade-only 200ms ease-out both;
-  }
-}
+

@@ -15,14 +15,15 @@ type V3 = [number, number, number];
 type M3 = [V3, V3, V3];
 type Move = { axis: Axis; layer: -1 | 0 | 1; dir: 1 | -1 };
 
-const COLORS = {
+export type FaceColors = Record<"front" | "back" | "right" | "left" | "top" | "bottom", string>;
+const COLORS: FaceColors = {
   front: "var(--cube-green)",
   back: "var(--cube-blue)",
   right: "var(--cube-red)",
   left: "var(--cube-yellow)",
   top: "var(--cube-white)",
   bottom: "var(--cube-orange)",
-} as const;
+};
 
 const SCRAMBLE: Move[] = [
   { axis: "x", layer: 1, dir: 1 },
@@ -54,9 +55,14 @@ function matrix(r: M3, p: V3, c: number): string {
 }
 const AX = { x: 0, y: 1, z: 2 } as const;
 
-export function Cube({ size = 96 }: { size?: number }) {
+/**
+ * `still` turns off the scramble loop and the pointer lean: the parent drives
+ * the orientation through `cubeRef` (the home's scroll story does).
+ */
+export function Cube({ size = 96, colors = COLORS, still = false, cubeRef }: { size?: number; colors?: FaceColors; still?: boolean; cubeRef?: React.RefObject<HTMLDivElement | null> }) {
   const root = useRef<HTMLDivElement>(null);
-  const tilt = useRef<HTMLDivElement>(null);
+  const ownTilt = useRef<HTMLDivElement>(null);
+  const tilt = cubeRef ?? ownTilt;
 
   useEffect(() => {
     const host = root.current;
@@ -77,7 +83,7 @@ export function Cube({ size = 96 }: { size?: number }) {
     render();
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) return;
+    if (reduce || still) return;
 
     let alive = true;
     const wait = (ms: number) => new Promise<void>((res) => window.setTimeout(res, ms));
@@ -134,7 +140,7 @@ export function Cube({ size = 96 }: { size?: number }) {
       alive = false;
       window.removeEventListener("pointermove", onMove);
     };
-  }, [size]);
+  }, [size, still, tilt]);
 
   const cubies: V3[] = [];
   for (const x of [-1, 0, 1]) for (const y of [-1, 0, 1]) for (const z of [-1, 0, 1]) cubies.push([x, y, z]);
@@ -144,16 +150,16 @@ export function Cube({ size = 96 }: { size?: number }) {
       <div
         ref={tilt}
         className="cube"
-        style={{ width: 0, height: 0, transform: "rotateX(-24deg) rotateY(-38deg)", transition: "transform 900ms cubic-bezier(0.23, 1, 0.32, 1)" }}
+        style={{ width: 0, height: 0, transform: "rotateX(-24deg) rotateY(-38deg)", transition: still ? undefined : "transform 900ms cubic-bezier(0.23, 1, 0.32, 1)" }}
       >
         {cubies.map(([x, y, z]) => (
           <div key={`${x}${y}${z}`} className="cubie" data-p={`${x},${y},${z}`} style={{ width: size, height: size, marginLeft: -size / 2, marginTop: -size / 2 }}>
-            <Face t={`translateZ(${size / 2}px)`} color={z === 1 ? COLORS.front : null} />
-            <Face t={`rotateY(180deg) translateZ(${size / 2}px)`} color={z === -1 ? COLORS.back : null} />
-            <Face t={`rotateY(90deg) translateZ(${size / 2}px)`} color={x === 1 ? COLORS.right : null} />
-            <Face t={`rotateY(-90deg) translateZ(${size / 2}px)`} color={x === -1 ? COLORS.left : null} />
-            <Face t={`rotateX(90deg) translateZ(${size / 2}px)`} color={y === -1 ? COLORS.top : null} />
-            <Face t={`rotateX(-90deg) translateZ(${size / 2}px)`} color={y === 1 ? COLORS.bottom : null} />
+            <Face t={`translateZ(${size / 2}px)`} color={z === 1 ? colors.front : null} />
+            <Face t={`rotateY(180deg) translateZ(${size / 2}px)`} color={z === -1 ? colors.back : null} />
+            <Face t={`rotateY(90deg) translateZ(${size / 2}px)`} color={x === 1 ? colors.right : null} />
+            <Face t={`rotateY(-90deg) translateZ(${size / 2}px)`} color={x === -1 ? colors.left : null} />
+            <Face t={`rotateX(90deg) translateZ(${size / 2}px)`} color={y === -1 ? colors.top : null} />
+            <Face t={`rotateX(-90deg) translateZ(${size / 2}px)`} color={y === 1 ? colors.bottom : null} />
           </div>
         ))}
       </div>

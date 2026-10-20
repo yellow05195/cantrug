@@ -439,3 +439,12 @@ The user asked for a lighter, more colourful cube and a real homepage that tells
 - **Homepage story** (`page.tsx`, `home/Story.tsx`): hero with the turning cube → red band, the problem (−95 %, $0) → the three rules, with a sticky face that starts scrambled and puts one orange row in place per rule as you scroll (bottom row first, the floor), "Solved" at the end, and it scrambles again if you scroll back → blue band, three steps → green band, nine live coins → every coin → questions → launch.
 - **Motion**: the stickers flip in on their row (`.story-flip`, 460 ms, 70 ms stagger by column). Reduced motion keeps a fade.
 - **Text-safe accents**: `--floor #f25c05`, `--up #0a9548`, `--down #d42a22` for text on white. The full-strength sticker colours (`--cube-*`) are for fills.
+
+## v12 "turn the cube", and the name Cubie
+
+The user found the banded homepage "seen before" and asked for a name that fits the project, with a capital.
+
+- **Name**: Cubie (a cubie is one small block of the cube; the mark is a face of them). Domain cubie.fun was free on Vercel (1.99 $ then 27 $/yr), not bought. Visible copy, metadata, OG images and the wallet app name say Cubie; code identifiers (`FlooredEvent`, `@floored/web`, `floored-core`) and the on-chain demo coin "Floored Demo" keep their names.
+- **Homepage** (`home/Turn.tsx`): one cube pinned to the screen for six screens of scroll. Scroll turns it a quarter at a time (it rests on each face, then turns, smoothstep), and each face is a chapter; the page background takes the colour of the face in front. White: the promise. Red: the problem. Green: 100 % of the pool. Yellow: −20 % a minute. Blue: 0 admin keys, launch in three steps. Orange, the bottom face: the floor, with the formula and the launch button. Six small stickers on the right show where you are and jump to a chapter. Below: nine live coins, every coin, questions.
+- `Cube` takes `colors`, `still` and `cubeRef`, so the page drives its orientation. Reduced motion snaps to each face instead of scrubbing.
+- Short screens (under 760 px tall) get a smaller cube and tighter type, so each chapter fits without scrolling inside it.

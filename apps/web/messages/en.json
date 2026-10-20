@@ -6,10 +6,10 @@
     "copied": "Copied"
   },
   "meta": {
-    "title": "FLOORED, the memecoin that cannot go to zero",
-    "description": "Pump burns your dead money. We give it back. Every FLOORED coin has a floor: the pool's SOL belongs to holders, redeemable any time.",
+    "title": "Cubie, the memecoin that cannot go to zero",
+    "description": "Pump burns your dead money. We give it back. Every Cubie coin has a floor: the pool's SOL belongs to holders, redeemable any time.",
     "coinMissing": "Coin not found",
-    "coinFloor": "Floor {floor} SOL per token, {gap} % above the floor. Redeem at floor any time on FLOORED.",
+    "coinFloor": "Floor {floor} SOL per token, {gap} % above the floor. Redeem at floor any time on Cubie.",
     "coinCurve": "{pct} % to graduation. The floor activates at graduation and starts at the average price paid."
   },
   "nav": {
@@ -21,7 +21,7 @@
     "stats": "Stats",
     "menu": "Menu",
     "closeMenu": "Close menu",
-    "home": "FLOORED home",
+    "home": "Cubie home",
     "devnetHint": "Connected to Solana devnet. Coins and SOL here have no value.",
     "mock": "Mock data",
     "mockHint": "No indexer configured: this page runs on a generated dataset, transactions are simulated.",
@@ -55,7 +55,7 @@
   },
   "home": {
     "headline": "Pump burns your dead money. We give it back.",
-    "lede": "Every FLOORED coin has a floor: the pool's SOL belongs to holders, redeemable any time. And no sale can crash it.",
+    "lede": "Every Cubie coin has a floor: the pool's SOL belongs to holders, redeemable any time. And no sale can crash it.",
     "ctaLaunch": "Launch a coin",
     "ctaCoins": "See the coins",
     "counterLabel": "SOL returned to holders",
@@ -101,7 +101,7 @@
     "headlineB": "We give it back.",
     "hotTitle": "Hot right now",
     "columnsLabel": "Live coins",
-    "numbersLabel": "FLOORED in numbers",
+    "numbersLabel": "Cubie in numbers",
     "rugs": "Rugs avoided",
     "trio": {
       "floor": {
@@ -197,7 +197,7 @@
         "value": "$0"
       },
       "punch": {
-        "a": "FLOORED gives the pool to the holders,",
+        "a": "Cubie gives the pool to the holders,",
         "b": "and",
         "c": "slows every crash to a staircase."
       },
@@ -253,7 +253,7 @@
         "a": "The SOL in a coin's pool divided by the tokens in circulation. It is a balance you can read on chain, not a promise: three accounts and one division. Any holder can take their share at any time with one instruction nobody can block."
       },
       "zero": {
-        "q": "Can a FLOORED coin go to zero?",
+        "q": "Can a Cubie coin go to zero?",
         "a": "Not while the pool holds SOL and someone holds tokens. The last holder takes the last lamport. The floor can fall when people sell above it, but it can never be withdrawn by anyone."
       },
       "sell": {
@@ -296,7 +296,7 @@
       "more": "Read the full mechanism"
     },
     "compare": {
-      "title": "FLOORED, Pump.fun and a DEX pool",
+      "title": "Cubie, Pump.fun and a DEX pool",
       "lede": "Same memecoins, same wallets, same speed. Different rules on the way down.",
       "col": {
         "what": "",
@@ -326,7 +326,7 @@
       },
       "yes": "yes",
       "no": "no",
-      "note": "Pump.fun figures as published on their docs in 2026. Pool fee on FLOORED: 0.5 %, of which 0.2 % stays in the pool and lifts the floor.",
+      "note": "Pump.fun figures as published on their docs in 2026. Pool fee on Cubie: 0.5 %, of which 0.2 % stays in the pool and lifts the floor.",
       "kicker": "Side by side"
     },
     "trust": {
@@ -485,6 +485,63 @@
       "aboveFloor": "above floor",
       "curve": "to graduation",
       "brake": "brake engaged"
+    },
+    "turn": {
+      "label": "Cubie, in six faces",
+      "chapters": "Chapters",
+      "scroll": "Scroll to turn the cube",
+      "intro": {
+        "kicker": "Live on Solana devnet",
+        "demo": "Demo data",
+        "a": "Pump burns your dead money.",
+        "b": "We give it back.",
+        "text": "Cubie is a memecoin launchpad where the pool belongs to the holders. Every coin has a floor you can always sell into, and no crash can go faster than a staircase.",
+        "launch": "Launch a coin",
+        "coins": "See live coins"
+      },
+      "problem": {
+        "kicker": "The problem",
+        "title": "In the trenches, the pool is never yours.",
+        "text": "Pump counts more than $100M a year of SOL left in dead coins, and since July it burns that liquidity. The people who paid it in never see it again.",
+        "dump": {
+          "v": "−95%",
+          "k": "One candle. The dev dumps before you can click."
+        },
+        "dead": {
+          "v": "$0",
+          "k": "What the last holders get back when the coin dies."
+        }
+      },
+      "pool": {
+        "kicker": "Rule 1 of 3",
+        "value": "100%",
+        "title": "of the pool belongs to the holders.",
+        "text": "Once a coin graduates, its SOL sits in a pool only the holders can draw from. Hand tokens back at any time and you get your exact share."
+      },
+      "brake": {
+        "kicker": "Rule 2 of 3",
+        "value": "−20%",
+        "title": "a minute, at most.",
+        "text": "No window of 60 seconds can take the price down more than 20 %. The rest of a big sale waits in line and is served pro rata, so a dump becomes a staircase."
+      },
+      "keys": {
+        "kicker": "Rule 3 of 3",
+        "value": "0",
+        "title": "admin keys, on any pool.",
+        "text": "No withdrawal, no pause, no mint. The program is the only one holding the SOL, and a coin goes from launch to its floor on its own.",
+        "s1": "Launch in one signature",
+        "s2": "Graduates at 85 SOL",
+        "s3": "The floor turns on"
+      },
+      "floor": {
+        "kicker": "The floor",
+        "title": "Every coin lands on its floor.",
+        "text": "Burn tokens, take your share of the pool, in one transaction nobody can block. Every trade leaves a little in the pool, so the floor only climbs.",
+        "formulaK": "floor",
+        "formula": "= pool SOL ÷ tokens in circulation",
+        "launch": "Launch a coin",
+        "how": "How it works"
+      }
     }
   },
   "floor": {
@@ -718,7 +775,7 @@
   },
   "coinPage": {
     "notFound": "Coin not found",
-    "notFoundHint": "No FLOORED coin uses this mint on {cluster}.",
+    "notFoundHint": "No Cubie coin uses this mint on {cluster}.",
     "rpcError": "The RPC at {rpc} did not answer. Try again in a moment.",
     "back": "Back to coins",
     "noHistory": "No indexer connected: candle history is not available. The floor line is read live from the chain.",
@@ -789,9 +846,9 @@
   },
   "portfolio": {
     "title": "Portfolio",
-    "lede": "Every FLOORED coin in your wallet, with what the pool guarantees you right now.",
-    "connect": "Connect a wallet to see your FLOORED coins.",
-    "empty": "No FLOORED coins in this wallet yet. Buy one, or launch yours.",
+    "lede": "Every Cubie coin in your wallet, with what the pool guarantees you right now.",
+    "connect": "Connect a wallet to see your Cubie coins.",
+    "empty": "No Cubie coins in this wallet yet. Buy one, or launch yours.",
     "buyOne": "See the coins",
     "launch": "Launch a coin",
     "totalFloor": "Guaranteed by the pools, right now",
@@ -826,7 +883,7 @@
       "problem": "The problem",
       "floor": "The floor",
       "brake": "The brake",
-      "compare": "FLOORED vs Pump",
+      "compare": "Cubie vs Pump",
       "verify": "Verify it yourself",
       "fees": "Fees",
       "faq": "FAQ"
@@ -834,7 +891,7 @@
     "problem": {
       "title": "The problem",
       "p1": "On a classic launchpad, the last holders of a dead coin hold nothing. The liquidity is there, sitting in a pool, but no one can reach it without selling into a price that is already at zero.",
-      "p2": "Pump burns that liquidity. Its holders paid for it. FLOORED gives it back to them."
+      "p2": "Pump burns that liquidity. Its holders paid for it. Cubie gives it back to them."
     },
     "floor": {
       "title": "The floor",
@@ -858,11 +915,11 @@
       "p3": "Queued sellers can claim what they have earned, cancel and take their tokens back, or switch to the floor and redeem the rest instantly."
     },
     "compare": {
-      "title": "FLOORED vs Pump",
+      "title": "Cubie vs Pump",
       "p1": "Same curve, same graduation, different ending. What happens to the last 20 % of holders decides everything.",
       "alt": "Left: a price line falls through broken ground to zero. Right: the same fall stops in steps on the orange floor line.",
       "left": "Pump: the liquidity is burned. The last holders are left with nothing to sell into.",
-      "right": "FLOORED: the liquidity stays under the holders. The last one out still gets their share.",
+      "right": "Cubie: the liquidity stays under the holders. The last one out still gets their share.",
       "p2": "There is no team wallet that can pull the pool. The pool is a program account; only redeem and the swap can move its SOL."
     },
     "verify": {
@@ -876,10 +933,10 @@
       "mint": "The mint",
       "a3": "its supply, after every burn.",
       "program": "Program:",
-      "label": "Any FLOORED mint",
+      "label": "Any Cubie mint",
       "read": "Read on chain now",
       "badMint": "That does not look like a Solana address.",
-      "notFound": "No FLOORED coin with this mint on {cluster}.",
+      "notFound": "No Cubie coin with this mint on {cluster}.",
       "curve": "not active (curve)",
       "sourceRpc": "Read just now from {rpc} and recomputed in your browser.",
       "sourceMock": "Not found on chain; showing the mock dataset's state for this mint.",
@@ -909,7 +966,7 @@
     "faq": {
       "title": "FAQ",
       "zero": {
-        "q": "Can a FLOORED coin go to zero?",
+        "q": "Can a Cubie coin go to zero?",
         "a": "Not after graduation, as long as the pool holds SOL: every circulating token can always be redeemed for its share. Before graduation the coin is on a bonding curve and the floor is only a preview."
       },
       "promise": {

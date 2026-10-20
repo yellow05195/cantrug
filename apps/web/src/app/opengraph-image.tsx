@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
 export const runtime = "nodejs";
-export const alt = "FLOORED, the memecoin that cannot go to zero";
+export const alt = "Cubie, the memecoin that cannot go to zero";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -23,7 +23,7 @@ export default async function OpengraphImage() {
           <rect x={0} y={482} width={1200} height={6} fill="#B8400E" />
         </svg>
         <div style={{ position: "absolute", left: 72, top: 150, display: "flex", flexDirection: "column" }}>
-          <span style={{ fontSize: 132, fontWeight: 700, letterSpacing: -5, lineHeight: 1 }}>FLOORED</span>
+          <span style={{ fontSize: 132, fontWeight: 700, letterSpacing: -5, lineHeight: 1 }}>Cubie</span>
           <span style={{ fontSize: 40, color: "#B3AFA6", marginTop: 18 }}>Pump burns your dead money. We give it back.</span>
         </div>
         <div style={{ position: "absolute", left: 72, right: 72, top: 508, display: "flex", justifyContent: "space-between", fontFamily: "JetBrains Mono", fontSize: 24, color: "#9A978F" }}>

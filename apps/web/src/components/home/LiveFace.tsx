@@ -41,14 +41,14 @@ export function LiveFace({ coins }: { coins: CoinJson[] }) {
   const legend: Tone[] = ["green", "orange", "white", "blue", "yellow"];
 
   return (
-    <section id="coins" className="scroll-mt-16 bg-cube-green text-ink">
-      <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
+    <section id="coins" className="scroll-mt-16">
+      <div className="mx-auto max-w-6xl px-4 pt-20 sm:px-6 md:pt-28">
       <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16">
         <Reveal>
-          <p className="text-sm font-semibold text-ink/70">{t("kicker")}</p>
+          <p className="kicker">{t("kicker")}</p>
           <h2 className="mt-3 text-[clamp(34px,4.6vw,60px)]">{t("title")}</h2>
-          <p className="mt-4 max-w-[46ch] text-[17px] font-medium leading-relaxed text-ink/80">{t("lede")}</p>
-          <ul className="mt-6 grid gap-2.5 text-[15px] font-medium text-ink/85">
+          <p className="mt-4 max-w-[46ch] text-[17px] leading-relaxed text-ink-2">{t("lede")}</p>
+          <ul className="mt-6 grid gap-2.5 text-[15px] text-ink-2">
             {legend.map((k) => (
               <li key={k} className="flex items-center gap-3">
                 <span className="rounded-[7px] bg-cube-body p-[3px]" aria-hidden>
