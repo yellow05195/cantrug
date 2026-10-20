@@ -429,3 +429,13 @@ around them; buttons have a pressed bottom edge.
   Closing band: one orange sticker the width of the page.
 - Mark: one face of the cube, the bottom row orange. Coins without an
   image get a sticker in one of the six colours with their first letter.
+
+## v11 "the cube, in daylight"
+
+The user asked for a lighter, more colourful cube and a real homepage that tells the project as you scroll.
+
+- **Ground**: cool light grey `#f4f5f7`, white cards, ink `#121318`. The cube's body stays black (`--cube-body #111216`): every face, the logo and frames around stickers are black plastic, so the six colours pop on a white table.
+- **Colour bands**: whole sections are one sticker colour, and the colour keeps its job. Red is the problem (things going down), blue is how a coin is launched (new), green is the live face (up). Dark ink on green and yellow, white on red and blue. Orange stays the action and the closing band.
+- **Homepage story** (`page.tsx`, `home/Story.tsx`): hero with the turning cube → red band, the problem (−95 %, $0) → the three rules, with a sticky face that starts scrambled and puts one orange row in place per rule as you scroll (bottom row first, the floor), "Solved" at the end, and it scrambles again if you scroll back → blue band, three steps → green band, nine live coins → every coin → questions → launch.
+- **Motion**: the stickers flip in on their row (`.story-flip`, 460 ms, 70 ms stagger by column). Reduced motion keeps a fade.
+- **Text-safe accents**: `--floor #f25c05`, `--up #0a9548`, `--down #d42a22` for text on white. The full-strength sticker colours (`--cube-*`) are for fills.

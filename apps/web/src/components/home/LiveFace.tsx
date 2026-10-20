@@ -16,7 +16,7 @@ import { useLiveCoins } from "@/lib/live/patch";
 type Tone = "blue" | "white" | "orange" | "green" | "yellow";
 const BG: Record<Tone, string> = {
   blue: "bg-cube-blue text-white",
-  white: "bg-cube-white text-[#09090a]",
+  white: "bg-cube-white text-ink",
   orange: "bg-cube-orange text-white",
   green: "bg-cube-green text-white",
   yellow: "bg-cube-yellow text-[#1a1500]",
@@ -41,16 +41,19 @@ export function LiveFace({ coins }: { coins: CoinJson[] }) {
   const legend: Tone[] = ["green", "orange", "white", "blue", "yellow"];
 
   return (
-    <section className="mx-auto max-w-6xl px-4 pt-24 sm:px-6">
+    <section id="coins" className="scroll-mt-16 bg-cube-green text-ink">
+      <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
       <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16">
         <Reveal>
-          <p className="kicker">{t("kicker")}</p>
-          <h2 className="mt-3 text-[clamp(32px,4.2vw,52px)]">{t("title")}</h2>
-          <p className="mt-4 max-w-[46ch] text-ink-2">{t("lede")}</p>
-          <ul className="mt-6 grid gap-2.5 text-sm text-ink-2">
+          <p className="text-sm font-semibold text-ink/70">{t("kicker")}</p>
+          <h2 className="mt-3 text-[clamp(34px,4.6vw,60px)]">{t("title")}</h2>
+          <p className="mt-4 max-w-[46ch] text-[17px] font-medium leading-relaxed text-ink/80">{t("lede")}</p>
+          <ul className="mt-6 grid gap-2.5 text-[15px] font-medium text-ink/85">
             {legend.map((k) => (
               <li key={k} className="flex items-center gap-3">
-                <span className={cn("sticker-tile size-5 rounded-[5px]", BG[k])} aria-hidden />
+                <span className="rounded-[7px] bg-cube-body p-[3px]" aria-hidden>
+                  <span className={cn("sticker-tile block size-5 rounded-[5px]", BG[k])} />
+                </span>
                 {t(`legend.${k}`)}
               </li>
             ))}
@@ -80,6 +83,7 @@ export function LiveFace({ coins }: { coins: CoinJson[] }) {
             })}
           </div>
         </Reveal>
+      </div>
       </div>
     </section>
   );

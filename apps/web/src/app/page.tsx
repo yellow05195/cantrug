@@ -1,7 +1,8 @@
 import { Board, type BoardList } from "@/components/home/Board";
 import { Hero } from "@/components/home/Hero";
 import { LiveFace } from "@/components/home/LiveFace";
-import { Cta, Rules, Steps } from "@/components/home/HomeSections";
+import { Cta, Faq } from "@/components/home/HomeSections";
+import { Lifecycle, Problem, RulesStory } from "@/components/home/Story";
 import { LiveTicker } from "@/components/layout/LiveTicker";
 import { api, safely } from "@/lib/api/client";
 import type { CoinJson, SortKey } from "@/lib/api/types";
@@ -12,8 +13,9 @@ export const dynamic = "force-dynamic";
 const SORTS: SortKey[] = ["new", "graduating", "floor", "volume"];
 
 /*
- * The homepage: the words and the cube, today's face of nine live coins,
- * the three rules, every coin, three steps, one closing band.
+ * The homepage, read top to bottom: the promise and the cube, the problem
+ * (red), the three rules that solve the face (white), how a coin lives
+ * (blue), nine live coins (green), every coin, questions, then launch.
  */
 export default async function Home({ searchParams }: { searchParams: Promise<{ sort?: string }> }) {
   const sp = await searchParams;
@@ -35,17 +37,19 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ s
   return (
     <>
       <Hero />
+      <Problem />
+      <RulesStory />
+      <Lifecycle />
       <LiveFace coins={[...all.items, ...floor.items, ...graduating.items, ...fresh.items]} />
-      <Rules />
 
-      <section id="board" className="mx-auto max-w-6xl scroll-mt-24 px-4 pt-20 sm:px-6">
+      <section id="board" className="mx-auto max-w-6xl scroll-mt-24 px-4 pt-20 sm:px-6 md:pt-28">
         <LiveTicker />
         <div className="mt-8">
           <Board lists={lists} available={api.available} demoMint={ENV.challengeMint ?? null} />
         </div>
       </section>
 
-      <Steps />
+      <Faq />
       <Cta />
     </>
   );

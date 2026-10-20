@@ -25,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#09090a",
+  themeColor: "#f4f5f7",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -36,7 +36,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   const [locale, messages, stats, t] = await Promise.all([getLocale(), getMessages(), safely(api.stats(), null), getTranslations("common")]);
   const seed = stats ? { lamports: stats.sol_redeemed_total, launched: stats.coins_created, brakes: stats.brake_engagements_total } : null;
   return (
-    <html lang={locale} data-theme="dark" className={`${rubik.variable} ${jetbrains.variable} h-full antialiased`} suppressHydrationWarning>
+    <html lang={locale} data-theme="light" className={`${rubik.variable} ${jetbrains.variable} h-full antialiased`} suppressHydrationWarning>
       <body className="flex min-h-full flex-col">
         <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-ink focus:px-3 focus:py-2 focus:text-bg">
           {t("skip")}

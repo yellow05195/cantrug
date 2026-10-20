@@ -48,7 +48,7 @@ const STICKERS: [string, string][] = [
   ["#1f5fd6", "#ffffff"],
   ["#e5322b", "#ffffff"],
   ["#ffd23f", "#1a1500"],
-  ["#f4f4f1", "#09090a"],
+  ["#ffffff", "#121318"],
 ];
 function stickerFor(key: string): [string, string] {
   let h = 2166136261;
@@ -62,7 +62,7 @@ export function CoinAvatar({ src, symbol, seed, size = 36, className }: { src: s
   if (!src || broken) {
     const [bg, fg] = stickerFor(seed ?? symbol);
     return (
-      <span aria-hidden className={cn(frame, "sticker-tile")} style={{ width: size, height: size, background: bg, color: fg }}>
+      <span aria-hidden className={cn(frame, "sticker-tile border border-black/10")} style={{ width: size, height: size, background: bg, color: fg }}>
         <span className="font-display font-extrabold" style={{ fontSize: Math.round(size * 0.46) }}>
           {(symbol || "?").slice(0, 1).toUpperCase()}
         </span>
@@ -70,7 +70,7 @@ export function CoinAvatar({ src, symbol, seed, size = 36, className }: { src: s
     );
   }
   return (
-    <span className={cn(frame, "ring-1 ring-white/10")} style={{ width: size, height: size }}>
+    <span className={cn(frame, "ring-1 ring-black/5")} style={{ width: size, height: size }}>
       {/* User images come from arbitrary hosts (IPFS, Arweave, data URLs): plain <img>, fixed box, no layout shift. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={src} alt="" width={size} height={size} loading="lazy" decoding="async" onError={() => setBroken(true)} className="size-full object-cover" />

@@ -188,17 +188,20 @@
       "lede": "Pump itself counts more than $100M a year of SOL left in dead coins. Since July it burns that liquidity. The people who paid it in never see it again.",
       "dump": {
         "title": "The dev dumps.",
-        "text": "One candle, −95 %. The pool is drained before you can click."
+        "text": "One candle, −95 %. The pool is drained before you can click.",
+        "value": "−95%"
       },
       "dead": {
         "title": "The coin dies.",
-        "text": "The last holders own nothing. The SOL stays stuck in the pool, then gets burned."
+        "text": "The last holders own nothing. The SOL stays stuck in the pool, then gets burned.",
+        "value": "$0"
       },
       "punch": {
         "a": "FLOORED gives the pool to the holders,",
         "b": "and",
         "c": "slows every crash to a staircase."
-      }
+      },
+      "kicker": "The problem"
     },
     "guarantees": {
       "title": "Three rules the program enforces",
@@ -244,7 +247,7 @@
       "kicker": "The math"
     },
     "faq": {
-      "title": "FAQ",
+      "title": "Questions, answered.",
       "what": {
         "q": "What is the floor, exactly?",
         "a": "The SOL in a coin's pool divided by the tokens in circulation. It is a balance you can read on chain, not a promise: three accounts and one division. Any holder can take their share at any time with one instruction nobody can block."
@@ -268,7 +271,9 @@
       "verify": {
         "q": "How do I check it myself?",
         "a": "Read pool_sol_vault (minus rent), pool_token_vault, queue_escrow and the mint supply. floor = S / (supply − T − Q). The How it works page does it in your browser for any coin."
-      }
+      },
+      "lede": "Everything on this page can be checked on chain. The full mechanism, with the math, is one click away.",
+      "more": "Read how it works"
     },
     "steps": {
       "kicker": "How it works",
@@ -436,7 +441,7 @@
       "sell": "Sell"
     },
     "rules": {
-      "kicker": "The rules",
+      "kicker": "The fix",
       "pool": {
         "value": "100%",
         "title": "Of the pool",
@@ -452,7 +457,10 @@
         "title": "Admin keys",
         "text": "on any pool. No withdrawal, no pause, no mint. The program is the only one holding the SOL."
       },
-      "title": "Three rules no one can change."
+      "title": "Three rules no one can change.",
+      "lede": "Each rule puts one row of the face in place. With all three, the floor is solved on every coin, for good.",
+      "solved": "Solved. On every coin, by the program.",
+      "step": "Rule {n} of 3"
     },
     "band": {
       "title": {
@@ -464,7 +472,7 @@
       "how": "See how it works"
     },
     "face": {
-      "kicker": "Today's face",
+      "kicker": "Live right now",
       "title": "Nine coins, nine stickers.",
       "lede": "Each sticker is a live coin and its colour is its state. Tap one to open it.",
       "legend": {

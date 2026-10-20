@@ -274,20 +274,26 @@ export function Faq() {
   const keys = ["what", "zero", "sell", "brake", "fees", "verify"] as const;
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section id="faq" className="mx-auto max-w-3xl scroll-mt-24 px-3 py-20 md:px-6">
-      <h2 className="mb-10 text-center text-[clamp(30px,4vw,44px)]">{t("title")}</h2>
+    <section id="faq" className="mx-auto grid max-w-6xl scroll-mt-24 gap-10 px-4 py-20 sm:px-6 md:py-28 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
+      <div className="lg:sticky lg:top-[calc(var(--header-h)+40px)] lg:h-fit">
+        <h2 className="text-[clamp(34px,4.6vw,56px)]">{t("title")}</h2>
+        <p className="mt-4 max-w-[40ch] text-[17px] leading-relaxed text-ink-2">{t("lede")}</p>
+        <Link href="/how-it-works" className="mt-5 inline-block text-[15px] font-semibold text-ink underline decoration-line-2 underline-offset-4 hover:decoration-ink">
+          {t("more")}
+        </Link>
+      </div>
       <div className="flex flex-col gap-3">
         {keys.map((k, i) => (
           <div key={k} className="patch-card overflow-hidden">
-            <button type="button" onClick={() => setOpen(open === i ? null : i)} aria-expanded={open === i} className="flex w-full items-center justify-between gap-4 p-5 text-left font-display font-semibold text-ink">
+            <button type="button" onClick={() => setOpen(open === i ? null : i)} aria-expanded={open === i} className="flex w-full items-center justify-between gap-4 p-5 text-left font-display text-[17px] font-semibold text-ink">
               {t(`${k}.q`)}
-              <span className="font-mono text-floor transition-transform" style={{ transform: open === i ? "rotate(45deg)" : "none" }} aria-hidden>
+              <span className="sticker-tile grid size-7 flex-none place-items-center rounded-[8px] bg-cube-orange text-lg font-bold leading-none text-white transition-transform duration-200" style={{ transform: open === i ? "rotate(45deg)" : "none" }} aria-hidden>
                 +
               </span>
             </button>
             <div className="grid transition-[grid-template-rows] duration-300" style={{ gridTemplateRows: open === i ? "1fr" : "0fr" }}>
               <div className="overflow-hidden">
-                <p className="px-5 pb-5 text-sm leading-relaxed text-ink-2">{t(`${k}.a`)}</p>
+                <p className="px-5 pb-5 text-[15px] leading-relaxed text-ink-2">{t(`${k}.a`)}</p>
               </div>
             </div>
           </div>
@@ -368,17 +374,17 @@ export function Steps() {
 export function Cta() {
   const t = useTranslations("home.band");
   return (
-    <section className="mx-auto max-w-6xl px-4 pb-6 sm:px-6">
+    <section className="mx-auto max-w-6xl px-4 pb-10 pt-8 sm:px-6">
       <Reveal>
-        <div className="rounded-[24px] bg-[#050506] p-2">
+        <div className="rounded-[24px] bg-cube-body p-2">
           <div className="sticker-tile rounded-[18px] bg-cube-orange px-6 py-12 text-white sm:px-12 sm:py-16">
             <div className="grid items-end gap-8 md:grid-cols-[minmax(0,1fr)_auto]">
               <h2 className="max-w-[16ch] text-[clamp(36px,5vw,64px)] text-white">
                 {t("title.a")} {t("title.b")}
               </h2>
               <div className="flex flex-col items-start gap-4">
-                <p className="max-w-[36ch] text-[15px] leading-relaxed text-white/85">{t("text")}</p>
-                <Link href="/create" className="press inline-flex h-12 items-center rounded-[12px] bg-white px-6 text-[15px] font-semibold text-[#09090a] shadow-[inset_0_-3px_0_rgba(0,0,0,0.12)] hover:bg-[#f4f4f1]">
+                <p className="max-w-[36ch] text-[15px] font-medium leading-relaxed text-white/90">{t("text")}</p>
+                <Link href="/create" className="press inline-flex h-12 items-center rounded-[12px] bg-white px-6 text-[15px] font-semibold text-ink shadow-[inset_0_-3px_0_rgba(0,0,0,0.12)] hover:bg-card-2">
                   {t("cta")}
                 </Link>
               </div>

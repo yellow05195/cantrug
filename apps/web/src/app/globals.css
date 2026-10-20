@@ -3,101 +3,49 @@
 /* ───────────────────────── tokens (DESIGN.md §1) ───────────────────────── */
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
   /*
-    v10 "the cube": black plastic body, six sticker colours, each with a job.
-    Orange is the floor and the action, green is up, red is down, yellow is
-    the brake, blue is new, white is the curve. Stickers are rounded squares
-    with a black gap between them, like a face of the cube.
+    v11 "the cube, in daylight": a clean white table, the cube's black plastic
+    body, six sticker colours with a job each. Orange is the floor and the
+    action, green is up, red is down, yellow is the brake, blue is new, white
+    is the curve. Whole sections can be one sticker colour.
   */
-  --bg: #09090a;
-  --bg-2: #0e0e10;
-  --bg-3: #131316;
-  --surface: #131316;
-  --card: #121214;
-  --card-2: #19191c;
-  --card-3: #222226;
-  --stroke: #232327;
-  --stroke-strong: #323238;
-  --line: #232327;
-  --line-2: #323238;
-  --seam: #323238;
-  --shadow: rgba(0, 0, 0, 0.6);
-  --ink: #f4f4f1;
-  --ink-2: #aeaeb4;
-  --ink-3: #78787f;
-  --floor: #ff6a13;
-  --floor-hot: #ff8538;
-  --floor-deep: #d9520a;
+  --bg: #f4f5f7;
+  --bg-2: #eceef2;
+  --bg-3: #e5e8ed;
+  --surface: #ffffff;
+  --card: #ffffff;
+  --card-2: #f1f3f6;
+  --card-3: #e6e9ee;
+  --stroke: #e1e4ea;
+  --stroke-strong: #cdd2da;
+  --line: #e1e4ea;
+  --line-2: #cdd2da;
+  --seam: #cdd2da;
+  --shadow: rgba(17, 18, 22, 0.12);
+  --ink: #121318;
+  --ink-2: #4d525d;
+  --ink-3: #858b96;
+  --floor: #f25c05;
+  --floor-hot: #ff7a2e;
+  --floor-deep: #d24d00;
   --floor-ink: #ffffff;
-  --floor-dim: rgba(255, 106, 19, 0.14);
+  --floor-dim: rgba(255, 106, 19, 0.12);
   --brake: #ffd23f;
   --brake-ink: #1a1500;
-  --up: #12b05a;
-  --up-soft: rgba(18, 176, 90, 0.14);
-  --down: #e5322b;
-  --down-soft: rgba(229, 50, 43, 0.14);
+  --up: #0a9548;
+  --up-soft: rgba(18, 176, 90, 0.12);
+  --down: #d42a22;
+  --down-soft: rgba(229, 50, 43, 0.1);
+  --cube-body: #111216;
   --cube-red: #e5322b;
   --cube-orange: #ff6a13;
   --cube-yellow: #ffd23f;
   --cube-green: #12b05a;
   --cube-blue: #1f5fd6;
-  --cube-white: #f4f4f1;
+  --cube-white: #ffffff;
   --grain-opacity: 0;
-  --float-shadow: none;
-  --ease-mech: cubic-bezier(0.23, 1, 0.32, 1);
-  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
-  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
-  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
-  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
-  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --header-h: 64px;
-}
-
-/* One theme. The attribute is kept so older selectors still match. */
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  /*
-    v10 "the cube": black plastic body, six sticker colours, each with a job.
-    Orange is the floor and the action, green is up, red is down, yellow is
-    the brake, blue is new, white is the curve. Stickers are rounded squares
-    with a black gap between them, like a face of the cube.
-  */
-  --bg: #09090a;
-  --bg-2: #0e0e10;
-  --bg-3: #131316;
-  --surface: #131316;
-  --card: #121214;
-  --card-2: #19191c;
-  --card-3: #222226;
-  --stroke: #232327;
-  --stroke-strong: #323238;
-  --line: #232327;
-  --line-2: #323238;
-  --seam: #323238;
-  --shadow: rgba(0, 0, 0, 0.6);
-  --ink: #f4f4f1;
-  --ink-2: #aeaeb4;
-  --ink-3: #78787f;
-  --floor: #ff6a13;
-  --floor-hot: #ff8538;
-  --floor-deep: #d9520a;
-  --floor-ink: #ffffff;
-  --floor-dim: rgba(255, 106, 19, 0.14);
-  --brake: #ffd23f;
-  --brake-ink: #1a1500;
-  --up: #12b05a;
-  --up-soft: rgba(18, 176, 90, 0.14);
-  --down: #e5322b;
-  --down-soft: rgba(229, 50, 43, 0.14);
-  --cube-red: #e5322b;
-  --cube-orange: #ff6a13;
-  --cube-yellow: #ffd23f;
-  --cube-green: #12b05a;
-  --cube-blue: #1f5fd6;
-  --cube-white: #f4f4f1;
-  --grain-opacity: 0;
-  --float-shadow: none;
+  --float-shadow: 0 24px 48px -28px rgba(17, 18, 22, 0.35);
   --ease-mech: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
@@ -135,6 +83,7 @@
   --color-brake-ink: var(--brake-ink);
   --color-up: var(--up);
   --color-down: var(--down);
+  --color-cube-body: var(--cube-body);
   --color-cube-red: var(--cube-red);
   --color-cube-orange: var(--cube-orange);
   --color-cube-yellow: var(--cube-yellow);
@@ -319,12 +268,12 @@ body::after {
   border-color: var(--line-2);
 }
 @utility sticker-flat {
-  background: var(--bg-2);
+  background: var(--card-2);
   border: 1px solid var(--line);
   border-radius: 12px;
 }
 @utility well {
-  background: var(--bg-2);
+  background: var(--card-2);
   border: 1px solid var(--line);
   border-radius: 12px;
 }
@@ -372,22 +321,25 @@ body::after {
 }
 @utility pill-paper {
   color: var(--ink);
-  background: var(--card-2);
+  background: var(--card);
   border: 1px solid var(--line-2);
+  box-shadow: inset 0 -2px 0 rgba(17, 18, 22, 0.05);
   @media (hover: hover) and (pointer: fine) {
     &:hover:not(:disabled) {
-      background: var(--card-3);
+      background: var(--card-2);
     }
   }
 }
 @utility pill-ink {
-  color: #09090a;
-  background: var(--cube-white);
+  color: #ffffff;
+  background: var(--cube-body);
   border: 0;
-  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.12);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -3px 0 rgba(0, 0, 0, 0.4);
   @media (hover: hover) and (pointer: fine) {
     &:hover:not(:disabled) {
-      background: #ffffff;
+      background: #24262c;
     }
   }
 }
@@ -466,7 +418,7 @@ body::after {
   min-height: 46px;
   padding: 0 14px;
   border-radius: 12px;
-  background: var(--bg-2);
+  background: var(--card);
   border: 1px solid var(--line-2);
   color: var(--ink);
   font-size: 16px;
@@ -635,9 +587,7 @@ body::after {
   max-height: 100dvh;
   border: 1px solid var(--line-2);
   background: var(--card);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    0 30px 80px -30px rgba(0, 0, 0, 0.9);
+  box-shadow: 0 30px 80px -30px rgba(17, 18, 22, 0.45);
 }
 .fl-dialog[open] {
   animation: dialog-in 200ms var(--ease-out-strong);
@@ -961,9 +911,6 @@ body {
   border: 1px solid var(--line);
   border-radius: 16px;
 }
-:root[data-theme="dark"] .glass-card {
-  border-color: rgba(255, 140, 90, 0.18);
-}
 
 /* Mono chip badges under the hero. */
 @utility chip-mono {
@@ -1055,10 +1002,10 @@ html.theme-fade *::after {
   gap: 6px;
   padding: 6px;
   border-radius: 18px;
-  background: #050506;
+  background: var(--cube-body);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.05),
-    0 30px 60px -30px rgba(0, 0, 0, 0.9);
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 30px 60px -32px rgba(17, 18, 22, 0.55);
 }
 
 /* The 3D cube: 27 cubies, each a black block with stickers on its outer faces. */
@@ -1081,7 +1028,7 @@ html.theme-fade *::after {
   inset: 0;
   display: block;
   border-radius: 14%;
-  background: #050506;
+  background: var(--cube-body);
   backface-visibility: hidden;
 }
 .cubie > i > b {
@@ -1101,5 +1048,27 @@ html.theme-fade *::after {
 @media (prefers-reduced-motion: reduce) {
   .cube-layer {
     transition: none !important;
+  }
+}
+
+/* ───────────────────────── v11 the cube, in daylight ───────────────────────── */
+
+/* A sticker turning into place: it flips in on its row, left to right. */
+@keyframes story-flip {
+  from {
+    transform: perspective(400px) rotateX(-90deg);
+    filter: brightness(0.7);
+  }
+  to {
+    transform: perspective(400px) rotateX(0deg);
+    filter: none;
+  }
+}
+.story-flip {
+  animation: story-flip 460ms var(--ease-out) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .story-flip {
+    animation: fade-only 200ms ease-out both;
   }
 }
