@@ -26,7 +26,7 @@ export function AppProviders({ children, closeLabel }: { children: ReactNode; cl
       list.unshift(
         new SolanaMobileWalletAdapter({
           addressSelector: createDefaultAddressSelector(),
-          appIdentity: { name: "Cubelet", uri: typeof window !== "undefined" ? window.location.origin : ENV.siteUrl, icon: "/floored-mark.svg" },
+          appIdentity: { name: "Turn the Cube", uri: typeof window !== "undefined" ? window.location.origin : ENV.siteUrl, icon: "/floored-mark.svg" },
           authorizationResultCache: createDefaultAuthorizationResultCache(),
           chain: ENV.cluster === "mainnet-beta" ? "solana:mainnet" : `solana:${ENV.cluster}`,
           onWalletNotFound: createDefaultWalletNotFoundHandler(),
