@@ -9,6 +9,7 @@ import { Price } from "@/components/ui/Num";
 import { api, safely } from "@/lib/api/client";
 import type { CoinJson } from "@/lib/api/types";
 import { metricsFromJson } from "@/lib/coin/metrics";
+import { ENV } from "@/lib/env";
 import { shortAddress, sol, solCompact } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -65,6 +66,8 @@ function Table({ title, head, rows, empty }: { title: string; head: string[]; ro
 }
 
 export default async function StatsPage() {
+  const tn = await getTranslations("nav");
+  const th = await getTranslations("home.hero");
   const t = await getTranslations("stats");
   const [stats, coins] = await Promise.all([safely(api.stats(), null), safely(api.coins({ sort: "volume", limit: 100 }), { items: [] as CoinJson[], next_cursor: null })]);
   if (!stats) {
@@ -82,7 +85,14 @@ export default async function StatsPage() {
 
   return (
     <div className={PAGE}>
-      <PageHeader kicker={t("kicker")} title={t("title")} lede={t("lede")} scene="stats" />
+      <PageHeader kicker={t("kicker")} title={t("title")} lede={t("lede")}>
+        {ENV.mock ? (
+          <span className="chip-mono mt-5" title={tn("mockHint")}>
+            <span className="size-1.5 rounded-full bg-brake" aria-hidden />
+            {th("demo")}
+          </span>
+        ) : null}
+      </PageHeader>
       <div className="mt-12">
         <BigNumbers stats={stats} />
       </div>

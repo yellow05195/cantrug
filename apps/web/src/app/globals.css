@@ -3,88 +3,94 @@
 /* ───────────────────────── tokens (DESIGN.md §1) ───────────────────────── */
 
 :root {
-  color-scheme: light;
+  color-scheme: dark;
   /*
-    v7 "atelier" (Plush Pons craft on the PAWNED skeleton): a warm plaster
-    ground with a felt grain, espresso ink, patch cards with a chalk-dashed
-    seam and a soft diffuse shadow, dark pill buttons, mono uppercase chips.
-    FLOORED keeps its accent: safety orange, the colour of the floor line.
-    The night theme (data-theme="dark") is the PAWNED palette.
+    v9 "the board": FLOORED is a trading floor. Warm black housing, split-flap
+    tiles, white flap ink, one amber accent for the floor and the action,
+    green for up and red for down, nothing else. Small radii, flat panels.
   */
-  --plaster: #eeece8;
-  --plaster-soft: #f6f5f2;
-  --espresso: #1d1e22;
-  --cocoa: #5b5e66;
-  --bg: var(--plaster);
-  --bg-2: var(--plaster-soft);
-  --bg-3: #e5e3de;
-  --surface: #faf9f6;
-  --card: #faf9f6;
-  --card-2: #ebe9e4;
-  --card-3: #dddbd5;
-  --stroke: rgba(29, 30, 34, 0.12);
-  --stroke-strong: rgba(29, 30, 34, 0.22);
-  --line: rgba(29, 30, 34, 0.12);
-  --line-2: rgba(29, 30, 34, 0.22);
-  --seam: rgba(29, 30, 34, 0.32);
-  --shadow: rgba(29, 30, 34, 0.22);
-  --ink: var(--espresso);
-  --ink-2: var(--cocoa);
-  --ink-3: #8a8d95;
-  --floor: #ee5a1c;
-  --floor-hot: #ff6f33;
-  --floor-deep: #b8400e;
-  --floor-ink: #ffffff;
-  --floor-dim: rgba(238, 90, 28, 0.14);
-  --brake: #e9a800;
-  --brake-ink: #1d1e22;
-  --up: #3d9a5c;
-  --up-soft: rgba(61, 154, 92, 0.14);
-  --down: #c4453c;
-  --down-soft: rgba(196, 69, 60, 0.14);
-  --grain-opacity: 0.5;
-  --float-shadow: 0 14px 44px -16px rgba(46, 28, 16, 0.28);
+  --bg: #0b0b0a;
+  --bg-2: #10100e;
+  --bg-3: #151513;
+  --surface: #151513;
+  --card: #141412;
+  --card-2: #1c1c19;
+  --card-3: #262622;
+  --stroke: #282724;
+  --stroke-strong: #393733;
+  --line: #282724;
+  --line-2: #393733;
+  --seam: #393733;
+  --shadow: rgba(0, 0, 0, 0.6);
+  --ink: #f3efe4;
+  --ink-2: #aaa69b;
+  --ink-3: #77746b;
+  --floor: #ffad1f;
+  --floor-hot: #ffc04d;
+  --floor-deep: #d98a00;
+  --floor-ink: #141410;
+  --floor-dim: rgba(255, 173, 31, 0.12);
+  --brake: #ff6b2c;
+  --brake-ink: #141410;
+  --up: #2fe27f;
+  --up-soft: rgba(47, 226, 127, 0.12);
+  --down: #ff5160;
+  --down-soft: rgba(255, 81, 96, 0.12);
+  --grain-opacity: 0;
+  --float-shadow: none;
   --ease-mech: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
   --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --header-h: 72px;
+  --header-h: 60px;
 }
 
-/* Dark only: the light theme is retired; the attribute is kept so nothing breaks. */
-/* Night: the PAWNED palette. Chosen with the toggle, remembered in localStorage. */
+/* One theme. The attribute is kept so older selectors still match. */
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #05070f;
-  --bg-2: #080c19;
-  --bg-3: #0c1122;
-  --surface: #0c1122;
-  --card: #0c1122;
-  --card-2: #121a33;
-  --card-3: #1a2447;
-  --stroke: rgba(255, 255, 255, 0.07);
-  --stroke-strong: rgba(255, 255, 255, 0.13);
-  --line: rgba(255, 255, 255, 0.07);
-  --line-2: rgba(255, 255, 255, 0.13);
-  --seam: rgba(255, 140, 90, 0.35);
+  /*
+    v9 "the board": FLOORED is a trading floor. Warm black housing, split-flap
+    tiles, white flap ink, one amber accent for the floor and the action,
+    green for up and red for down, nothing else. Small radii, flat panels.
+  */
+  --bg: #0b0b0a;
+  --bg-2: #10100e;
+  --bg-3: #151513;
+  --surface: #151513;
+  --card: #141412;
+  --card-2: #1c1c19;
+  --card-3: #262622;
+  --stroke: #282724;
+  --stroke-strong: #393733;
+  --line: #282724;
+  --line-2: #393733;
+  --seam: #393733;
   --shadow: rgba(0, 0, 0, 0.6);
-  --ink: #f4f6ff;
-  --ink-2: #a2aac6;
-  --ink-3: #737c9b;
-  --floor: #ff5f1f;
-  --floor-hot: #ff7a3d;
-  --floor-ink: #0b0d14;
-  --floor-dim: rgba(255, 95, 31, 0.14);
-  --brake: #ffd400;
-  --brake-ink: #111111;
-  --up: #33d17a;
-  --up-soft: rgba(51, 209, 122, 0.14);
-  --down: #ff5c6c;
-  --down-soft: rgba(255, 92, 108, 0.14);
-  --grain-opacity: 0.3;
-  --float-shadow: 0 14px 44px -14px rgba(0, 0, 0, 0.6);
+  --ink: #f3efe4;
+  --ink-2: #aaa69b;
+  --ink-3: #77746b;
+  --floor: #ffad1f;
+  --floor-hot: #ffc04d;
+  --floor-deep: #d98a00;
+  --floor-ink: #141410;
+  --floor-dim: rgba(255, 173, 31, 0.12);
+  --brake: #ff6b2c;
+  --brake-ink: #141410;
+  --up: #2fe27f;
+  --up-soft: rgba(47, 226, 127, 0.12);
+  --down: #ff5160;
+  --down-soft: rgba(255, 81, 96, 0.12);
+  --grain-opacity: 0;
+  --float-shadow: none;
+  --ease-mech: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --header-h: 60px;
 }
 
 @theme inline {
@@ -116,8 +122,8 @@
   --color-up: var(--up);
   --color-down: var(--down);
 
-  --font-sans: var(--font-inter), "Segoe UI", ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-fredoka), var(--font-inter), system-ui, sans-serif;
+  --font-sans: var(--font-inter-tight), "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-shoulders), var(--font-inter-tight), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, "SFMono-Regular", monospace;
 
   /* Type scale (rem): .75 / .8125 / .875 / 1 / 1.125 / 1.375 / 1.75 / 2.25 / 3 / 4.5 / 6 */
@@ -146,13 +152,13 @@
   --text-6xl: 6rem;
   --text-6xl--line-height: 1;
 
-  /* v7 shape rule (Plush Pons): patch cards 22, panels 20, buttons 999, inputs 14. */
-  --radius-xs: 8px;
-  --radius-sm: 10px;
-  --radius-md: 12px;
-  --radius-lg: 14px;
-  --radius-xl: 20px;
-  --radius-2xl: 22px;
+  /* v9 shape rule: panels 8, tiles 3, buttons and fields 6. A board is rectangular. */
+  --radius-xs: 3px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 8px;
+  --radius-2xl: 10px;
 
   --ease-mech: cubic-bezier(0.2, 0.7, 0.2, 1);
   --breakpoint-xs: 26rem;
@@ -186,31 +192,33 @@
   h3,
   h4 {
     font-family: var(--font-display);
-    font-weight: 600;
+    font-weight: 800;
     text-wrap: balance;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
+    line-height: 0.95;
+    letter-spacing: 0.005em;
+    text-transform: uppercase;
   }
   h3,
   h4 {
-    letter-spacing: -0.01em;
-    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    line-height: 1.05;
   }
   p {
     text-wrap: pretty;
   }
   ::selection {
     background: var(--floor);
-    color: #ffffff;
+    color: var(--floor-ink);
   }
   input,
   textarea {
     caret-color: var(--floor);
   }
   :focus-visible {
-    outline: 3px solid var(--floor);
+    outline: 2px solid var(--floor);
     outline-offset: 2px;
-    border-radius: 8px;
+    border-radius: 4px;
   }
   button,
   [role="button"],
@@ -280,41 +288,39 @@ body::after {
   position: relative;
   background: var(--card);
   border: 1px solid var(--line);
-  border-radius: 22px;
-  box-shadow: 0 14px 44px -16px var(--shadow);
+  border-radius: 8px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
 }
 @utility sticker {
   position: relative;
   background: var(--card);
   border: 1px solid var(--line);
-  border-radius: 22px;
-  box-shadow: 0 14px 44px -16px var(--shadow);
+  border-radius: 8px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
 }
 @utility plate-glow {
-  box-shadow: 0 24px 70px -20px var(--shadow);
+  border-color: var(--line-2);
 }
 @utility sticker-flat {
   background: var(--bg-2);
   border: 1px solid var(--line);
-  border-radius: 16px;
+  border-radius: 6px;
 }
 @utility well {
   background: var(--bg-2);
   border: 1px solid var(--line);
-  border-radius: 16px;
+  border-radius: 6px;
 }
 
 /* Hover lifts 2 px (shadow 6 px), press pushes down 2 px (shadow 2 px). */
 @utility lift {
   transition:
-    transform 280ms var(--ease-bounce),
-    border-color 200ms ease,
-    box-shadow 280ms ease;
+    border-color 160ms ease,
+    background-color 160ms ease;
   @media (hover: hover) and (pointer: fine) {
     &:hover {
-      transform: translateY(-3px);
       border-color: var(--line-2);
-      box-shadow: 0 24px 70px -20px var(--shadow);
+      background-color: var(--card-2);
     }
   }
 }
@@ -322,52 +328,47 @@ body::after {
 /* Pills: 14 px radius, inner highlight on the primary, scale on press. */
 @utility btn-slab {
   transition:
-    transform 150ms ease,
+    transform 140ms var(--ease-out),
     filter 150ms ease,
-    background-color 200ms ease,
-    border-color 200ms ease,
-    color 200ms ease;
-  @media (hover: hover) and (pointer: fine) {
-    &:hover:not(:disabled) {
-      transform: translateY(-1px);
-    }
-  }
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
   &:active:not(:disabled) {
-    transform: translateY(1px);
+    transform: scale(0.97);
   }
   &:disabled {
     opacity: 0.45;
   }
 }
 @utility pill-primary {
-  background: var(--floor);
   color: var(--floor-ink);
-  border: 1px solid transparent;
-  box-shadow: 0 10px 30px -12px rgba(238, 90, 28, 0.55);
+  background: var(--floor);
+  border: 0;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.18);
   @media (hover: hover) and (pointer: fine) {
     &:hover:not(:disabled) {
-      filter: brightness(1.06);
+      background: var(--floor-hot);
     }
   }
 }
 @utility pill-paper {
-  background: color-mix(in oklab, var(--card) 70%, transparent);
   color: var(--ink);
-  border: 2px solid var(--seam);
+  background: transparent;
+  border: 1px solid var(--line-2);
   @media (hover: hover) and (pointer: fine) {
     &:hover:not(:disabled) {
-      border-color: var(--floor);
+      background: var(--card-2);
+      border-color: var(--ink-3);
     }
   }
 }
 @utility pill-ink {
-  background: var(--floor);
-  color: var(--floor-ink);
-  border: 1px solid transparent;
-  box-shadow: 0 10px 30px -12px rgba(238, 90, 28, 0.6);
+  color: var(--bg);
+  background: var(--ink);
+  border: 0;
   @media (hover: hover) and (pointer: fine) {
     &:hover:not(:disabled) {
-      filter: brightness(1.06);
+      background: #ffffff;
     }
   }
 }
@@ -377,49 +378,49 @@ body::after {
   font-family: var(--font-mono);
   font-size: 11px;
   line-height: 1;
-  font-weight: 500;
-  letter-spacing: 0.2em;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--ink-2);
+  color: var(--floor);
 }
 
 /* Floating capsule header. */
 @utility capsule {
-  position: relative;
   display: flex;
   align-items: center;
-  gap: 12px;
-  height: 56px;
-  padding: 0 8px 0 16px;
-  border-radius: 999px;
-  background: color-mix(in oklab, var(--card) 95%, transparent);
-  border: 1px solid var(--seam);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 10px 40px -12px var(--shadow);
+  gap: 20px;
+  height: var(--header-h);
 }
 @utility capsule-nav {
   display: flex;
   align-items: center;
   gap: 2px;
   & a {
-    padding: 6px 12px;
-    border-radius: 999px;
-    font-family: var(--font-display);
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--ink-2);
+    position: relative;
+    padding: 6px 10px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
     white-space: nowrap;
-    transition:
-      color 160ms ease,
-      background-color 160ms ease;
+    transition: color 150ms ease;
   }
   & a:hover {
     color: var(--ink);
   }
   & a[aria-current="page"] {
+    color: var(--ink);
+  }
+  & a[aria-current="page"]::after {
+    content: "";
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: -2px;
+    height: 2px;
     background: var(--floor);
-    color: var(--floor-ink);
   }
 }
 
@@ -435,9 +436,9 @@ body::after {
 }
 @utility floor-line {
   position: relative;
-  height: 3px;
-  border-radius: 2px;
+  height: 2px;
   background: var(--floor);
+  box-shadow: 0 0 18px rgba(255, 173, 31, 0.35);
 }
 @utility ground {
   background: var(--bg-2);
@@ -452,14 +453,13 @@ body::after {
 }
 @utility field {
   width: 100%;
-  min-height: 48px;
-  padding: 0 16px;
-  border-radius: 14px;
+  min-height: 44px;
+  padding: 0 12px;
+  border-radius: 6px;
   background: var(--bg-2);
-  border: 1.5px solid var(--seam);
+  border: 1px solid var(--line-2);
   color: var(--ink);
   font-size: 16px;
-  font-weight: 500;
   outline: none;
   transition:
     border-color 150ms ease,
@@ -469,7 +469,7 @@ body::after {
   }
   &:focus {
     border-color: var(--floor);
-    box-shadow: 0 0 0 4px var(--floor-dim);
+    box-shadow: 0 0 0 3px var(--floor-dim);
   }
 }
 
@@ -940,26 +940,18 @@ body {
 @utility patch-card {
   position: relative;
   background: var(--card);
-  border-radius: 22px;
-  box-shadow: 0 14px 44px -16px var(--shadow);
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 7px;
-    border-radius: 16px;
-    border: 2px dashed var(--seam);
-    pointer-events: none;
-  }
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
 }
 
 /* Frosted glass card, used over the drawn scenes. */
 @utility glass-card {
-  background: color-mix(in oklab, var(--card) 84%, transparent);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  border: 1px solid color-mix(in oklab, #ffffff 55%, transparent);
-  border-radius: 20px;
-  box-shadow: 0 18px 50px -18px var(--shadow);
+  position: relative;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
 }
 :root[data-theme="dark"] .glass-card {
   border-color: rgba(255, 140, 90, 0.18);
@@ -970,16 +962,17 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  height: 1.9rem;
-  padding: 0 0.85rem;
-  border-radius: 9999px;
-  border: 1.5px solid var(--seam);
-  background: var(--card);
+  height: 1.75rem;
+  padding: 0 0.6rem;
+  border-radius: 4px;
+  border: 1px solid var(--line-2);
+  background: var(--bg-2);
   font-family: var(--font-mono);
-  font-size: 0.66rem;
-  letter-spacing: 0.08em;
-  color: var(--ink-2);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
+  color: var(--ink-2);
   white-space: nowrap;
 }
 
@@ -1037,4 +1030,119 @@ html.theme-fade *::after {
 }
 :root[data-theme="dark"] .logo-night {
   display: block;
+}
+
+
+/* ───────────────────────── v9 the board: split-flap tiles ───────────────────────── */
+
+.flaps {
+  display: inline-flex;
+  gap: 2px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  line-height: 1;
+}
+.flap {
+  position: relative;
+  display: inline-grid;
+  width: 0.82em;
+  height: 1.32em;
+  perspective: 300px;
+  color: inherit;
+}
+.flap > span {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 3px;
+  background: var(--card-2);
+  backface-visibility: hidden;
+}
+.flap > .flap-top {
+  clip-path: inset(0 0 50% 0);
+  background: linear-gradient(180deg, #23231f, #1d1d1a);
+}
+.flap > .flap-bottom {
+  clip-path: inset(50% 0 0 0);
+  background: linear-gradient(180deg, #191916, #151513);
+}
+/* the hinge */
+.flap::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(50% - 0.5px);
+  height: 1px;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 3;
+}
+.flap > .flap-fold-top {
+  clip-path: inset(0 0 50% 0);
+  background: linear-gradient(180deg, #23231f, #1d1d1a);
+  transform-origin: 50% 50%;
+  animation: flap-top 150ms ease-in forwards;
+  z-index: 2;
+}
+.flap > .flap-fold-bottom {
+  clip-path: inset(50% 0 0 0);
+  background: linear-gradient(180deg, #191916, #151513);
+  transform-origin: 50% 50%;
+  transform: rotateX(90deg);
+  animation: flap-bottom 150ms ease-out 150ms forwards;
+  z-index: 2;
+}
+@keyframes flap-top {
+  from {
+    transform: rotateX(0deg);
+  }
+  to {
+    transform: rotateX(-90deg);
+  }
+}
+@keyframes flap-bottom {
+  from {
+    transform: rotateX(90deg);
+  }
+  to {
+    transform: rotateX(0deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .flap > .flap-fold-top,
+  .flap > .flap-fold-bottom {
+    display: none;
+  }
+}
+
+/* The board housing: a dark frame with rivets of light at the corners. */
+.board-housing {
+  position: relative;
+  background: linear-gradient(180deg, #121210, #0e0e0c);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 40px 80px -40px rgba(0, 0, 0, 0.9);
+}
+
+.flap[data-blank] > .flap-top,
+.flap[data-blank] > .flap-bottom {
+  opacity: 0.5;
+}
+
+/* A coin without an image is one board tile with its first letter. */
+.flap-avatar {
+  background: linear-gradient(180deg, #23231f 0 50%, #171714 50% 100%);
+  box-shadow: inset 0 0 0 1px var(--line-2);
+}
+.flap-avatar::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(50% - 0.5px);
+  height: 1px;
+  background: rgba(0, 0, 0, 0.6);
 }

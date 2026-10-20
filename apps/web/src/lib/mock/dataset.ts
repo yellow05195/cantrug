@@ -105,7 +105,7 @@ function build(p: Profile, _idx: number, now: number): MockCoin {
   const events: EngineEvent[] = [];
   const end = now - (p.dumpSecondsAgo ? (p.dumpSecondsAgo + 4) * 1000 : r.range(5, 50) * 1000);
   const span = Math.max(1, end - createdMs);
-  const times = Array.from({ length: p.steps }, () => createdMs + r.next() * span).sort((a, b) => a - b);
+  const times = clusteredTimes(r, p.steps, createdMs, span);
   const dumpIndex = p.dumpAt !== undefined ? Math.floor(p.steps * p.dumpAt) : -1;
   const gradSol = c.state.params.graduationSol;
 
@@ -172,6 +172,28 @@ function build(p: Profile, _idx: number, now: number): MockCoin {
     crankUntil(c, r, now, events);
   }
   return c;
+}
+
+/**
+ * Trade times that look like a real memecoin: a rush at launch that decays,
+ * then bursts of activity separated by quiet stretches. Exponential gaps whose
+ * mean drifts as a slow random walk (volatility clustering), rescaled to fit
+ * the coin's life. Sorted, deterministic from the rng.
+ */
+function clusteredTimes(r: Rng, n: number, start: number, span: number): number[] {
+  if (n <= 0) return [];
+  const gaps: number[] = [];
+  let mood = 0;
+  for (let i = 0; i < n; i++) {
+    mood = Math.max(-2.2, Math.min(2.2, mood * 0.92 + (r.next() - 0.5) * 0.9));
+    const launch = 1 + 6 * Math.exp(-i / Math.max(4, n * 0.06));
+    const burst = r.chance(0.07) ? 0.08 : 1;
+    const mean = (Math.exp(mood) * burst) / launch;
+    gaps.push(-Math.log(1 - r.next() * 0.999) * mean);
+  }
+  const total = gaps.reduce((a, b) => a + b, 0) || 1;
+  let t = start;
+  return gaps.map((g) => (t += (g / total) * span));
 }
 
 export interface Dataset {

@@ -5,7 +5,6 @@ import Link from "next/link";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 import { Reveal } from "@/components/layout/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
-import { Scene } from "@/components/ui/Scene";
 import { ENV, explorerAddress } from "@/lib/env";
 
 /* Section header (Plush Pons): mono kicker, display title, optional lede and pill. */
@@ -20,42 +19,6 @@ export function SectionHead({ kicker, title, lede, cta }: { kicker?: string; tit
   );
 }
 
-/** Three cards, each topped with its own little drawn city. */
-export function FeatureCards() {
-  const t = useTranslations("home.features");
-  const tg = useTranslations("home.guarantees");
-  const items = [
-    { k: "floor", href: "/how-it-works#floor" },
-    { k: "brake", href: "/how-it-works#brake" },
-    { k: "keys", href: "/how-it-works#verify" },
-  ] as const;
-  return (
-    <section id="guarantees" className="mx-auto max-w-6xl scroll-mt-24 px-3 py-20 md:px-6">
-      <Reveal>
-        <SectionHead title={tg("title")} lede={tg("lede")} />
-      </Reveal>
-      <div className="grid gap-5 md:grid-cols-3">
-        {items.map(({ k, href }, i) => (
-          <Reveal key={k} delay={80 * i} className="flex">
-          <article className="lift flex flex-1 flex-col overflow-hidden rounded-3xl border border-seam bg-card shadow-[0_10px_40px_-12px_var(--shadow)]">
-            <Scene seed={`feature-${k}`} variant={k === "floor" ? "floor" : k === "brake" ? "brake" : "vault"} w={120} h={52} className="h-40" />
-            <div className="flex flex-1 flex-col p-6">
-              <h3 className="text-xl">{t(`${k}.title`)}</h3>
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-2">{t(`${k}.text`)}</p>
-              <p className="num mt-3 text-xs text-floor">{t(`${k}.formula`)}</p>
-              <div className="mt-4">
-                <ButtonLink href={href} variant="primary" size="md">
-                  {t(`${k}.cta`)}
-                </ButtonLink>
-              </div>
-            </div>
-          </article>
-          </Reveal>
-        ))}
-      </div>
-    </section>
-  );
-}
 
 /** Specimen: the redeem calculator. Drag the sliders, watch the receipt. */
 export function Specimen() {
@@ -150,15 +113,7 @@ export function Flywheel() {
   }, [steps.length]);
   return (
     <section id="how" ref={ref} className="mx-auto max-w-6xl scroll-mt-24 px-3 py-20 md:px-6">
-      <SectionHead
-        kicker={t("kicker")}
-        title={t("title")}
-        cta={
-          <ButtonLink href="/how-it-works" variant="primary" size="md">
-            {t("cta")}
-          </ButtonLink>
-        }
-      />
+      <SectionHead title={t("title")} />
       <ol className="overflow-hidden rounded-3xl border border-seam bg-card shadow-[0_10px_40px_-12px_var(--shadow)]">
         {steps.map((k, i) => {
           const on = i <= active;
@@ -342,29 +297,80 @@ export function Faq() {
   );
 }
 
-/** Closing banner: one scene, one frosted card, one button. */
-export function FinalCta() {
+/** Three numbers that are rules, not statistics: true on every coin, in every mode. */
+export function Rules() {
+  const t = useTranslations("home.rules");
+  const items = ["pool", "brake", "keys"] as const;
+  return (
+    <section className="mx-auto max-w-6xl px-4 pt-20 sm:px-6">
+      <Reveal>
+        <p className="kicker">{t("kicker")}</p>
+      </Reveal>
+      <div className="mt-5 grid gap-px overflow-hidden rounded-[8px] border border-line bg-line md:grid-cols-3">
+        {items.map((k, i) => (
+          <Reveal key={k} delay={60 * i} className="flex">
+            <div className="flex flex-1 flex-col bg-card px-6 py-7">
+              <p className="font-display text-[clamp(56px,6vw,84px)] font-extrabold leading-none text-floor">{t(`${k}.value`)}</p>
+              <h3 className="mt-3 text-xl text-ink">{t(`${k}.title`)}</h3>
+              <p className="mt-2 max-w-[36ch] text-sm leading-relaxed text-ink-2">{t(`${k}.text`)}</p>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/** From launch to the floor: three steps on one strip. */
+export function Steps() {
+  const t = useTranslations("home.steps");
+  const items = ["launch", "graduate", "redeem"] as const;
+  return (
+    <section id="how" className="mx-auto max-w-6xl scroll-mt-24 px-4 py-20 sm:px-6">
+      <Reveal>
+        <p className="kicker">{t("kicker")}</p>
+        <h2 className="mt-4 text-[clamp(40px,5.4vw,72px)]">
+          {t("title.a")} <span className="text-floor">{t("title.b")}</span>
+        </h2>
+      </Reveal>
+      <ol className="mt-10 grid gap-px overflow-hidden rounded-[8px] border border-line bg-line md:grid-cols-3">
+        {items.map((k, i) => (
+          <Reveal key={k} delay={70 * i} className="flex">
+            <li className="flex-1 bg-card p-6">
+              <span className="font-mono text-[11px] font-bold tracking-[0.14em] text-floor">STEP {i + 1}</span>
+              <h3 className="mt-4 text-2xl">{t(`${k}.title`)}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-ink-2">{t(`${k}.text`)}</p>
+            </li>
+          </Reveal>
+        ))}
+      </ol>
+      <Link href="/how-it-works" className="mt-6 inline-block font-mono text-[12px] font-bold uppercase tracking-[0.08em] text-ink-2 hover:text-ink">
+        {t("more")} →
+      </Link>
+    </section>
+  );
+}
+
+/** Closing band: amber, black type, one action. */
+export function Cta() {
   const t = useTranslations("home.band");
   return (
-    <section className="mx-auto max-w-6xl px-3 pb-6 pt-4 md:px-6">
+    <section className="mx-auto max-w-6xl px-4 pb-6 sm:px-6">
       <Reveal>
-      <div className="relative overflow-hidden rounded-3xl border border-seam shadow-[0_24px_70px_-20px_var(--shadow)]">
-        <Scene seed="final" variant="chart" w={200} h={70} className="h-[340px]" />
-        <div className="absolute inset-0 flex items-center justify-center p-4">
-          <div className="glass-card w-full max-w-md p-7 text-center md:p-9">
-            <h2 className="text-[clamp(26px,3.4vw,36px)]">{t("title")}</h2>
-            <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-ink-2">{t("text")}</p>
-            <div className="mt-5 flex flex-wrap justify-center gap-3">
-              <ButtonLink href="/create" variant="primary" size="md">
+        <div className="relative overflow-hidden rounded-[10px] bg-floor px-6 py-12 text-floor-ink sm:px-10 sm:py-14">
+          <div className="grid items-end gap-8 md:grid-cols-[minmax(0,1fr)_auto]">
+            <h2 className="text-[clamp(40px,6vw,84px)] text-floor-ink">
+              {t("title.a")} {t("title.b")}
+            </h2>
+            <div className="flex flex-col items-start gap-4">
+              <p className="max-w-[36ch] text-sm font-medium leading-relaxed text-floor-ink/80">{t("text")}</p>
+              <Link href="/create" className="press inline-flex h-12 items-center rounded-[6px] bg-floor-ink px-6 font-mono text-[13px] font-bold uppercase tracking-[0.08em] text-floor hover:bg-black">
                 {t("cta")}
-              </ButtonLink>
-              <Link href="/how-it-works" className="inline-flex h-11 items-center text-sm text-ink-2 underline decoration-dashed underline-offset-4 hover:text-ink">
-                {t("how")}
               </Link>
             </div>
           </div>
+          <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-2 bg-[repeating-linear-gradient(90deg,rgba(0,0,0,0.18)_0_18px,transparent_18px_24px)]" />
         </div>
-      </div>
       </Reveal>
     </section>
   );

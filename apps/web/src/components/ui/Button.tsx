@@ -4,15 +4,15 @@ import { cn } from "@/lib/cn";
 import { Dashes } from "./Dashes";
 
 /**
- * Pills (Plush Pons): fully round, display face. "primary" is the dark label
- * pill (orange after dark), "secondary" the coat button with a chalk seam,
- * "floor" the orange one reserved for Redeem.
+ * Board buttons: rectangular, mono caps like the labels on a trading board.
+ * "primary" and "floor" are amber, "secondary" an outlined key, "light" white.
  */
-export type ButtonVariant = "floor" | "floorOutline" | "primary" | "secondary" | "ghost" | "brake";
+export type ButtonVariant = "floor" | "floorOutline" | "primary" | "secondary" | "light" | "ghost" | "brake";
 export type ButtonSize = "sm" | "md" | "lg";
 
 const VARIANTS: Record<ButtonVariant, string> = {
-  floor: "btn-slab pill-ink",
+  floor: "btn-slab pill-primary",
+  light: "btn-slab pill-ink",
   primary: "btn-slab pill-primary",
   floorOutline: "btn-slab border-2 border-floor/60 text-floor hover:bg-floor-dim",
   secondary: "btn-slab pill-paper",
@@ -21,9 +21,9 @@ const VARIANTS: Record<ButtonVariant, string> = {
 };
 
 const SIZES: Record<ButtonSize, string> = {
-  sm: "h-9 px-4 text-[13px] gap-1.5",
-  md: "h-11 px-5 text-sm gap-2",
-  lg: "h-12 px-6 text-base gap-2",
+  sm: "h-9 px-3.5 gap-1.5",
+  md: "h-10 px-4 gap-2",
+  lg: "h-12 px-6 gap-2 !text-[13px]",
 };
 
 interface Common {
@@ -37,7 +37,7 @@ interface Common {
 
 export function buttonClass({ variant = "primary", size = "md", block, className }: Omit<Common, "children" | "loading">) {
   return cn(
-    "inline-flex select-none items-center justify-center whitespace-nowrap rounded-full font-display font-semibold tracking-wide leading-none",
+    "inline-flex select-none items-center justify-center whitespace-nowrap rounded-[6px] font-mono text-[12px] font-bold uppercase tracking-[0.08em] leading-none",
     "disabled:cursor-not-allowed",
     VARIANTS[variant],
     SIZES[size],

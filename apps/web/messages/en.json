@@ -128,8 +128,8 @@
       "perWindow": "max per 60 s"
     },
     "board": {
-      "title": "All coins.",
-      "sub": "Every FLOORED coin, with its price, its floor, and how far one is above the other.",
+      "title": "All coins",
+      "sub": "Price, floor and the gap between them, for every coin.",
       "tab": {
         "new": "New",
         "graduating": "Graduating",
@@ -143,24 +143,14 @@
         "gap": "Price above floor"
       },
       "toGrad": "to graduation",
-      "kicker": "The board"
+      "kicker": "Every coin"
     },
     "datumLabel": "floor line, the datum of every chart on this site",
-    "band": {
-      "title": "Launch a coin that cannot go to zero.",
-      "text": "One name, one ticker, one image. The floor is active at graduation, and nobody, not even us, can touch the pool.",
-      "how": "How it works",
-      "cta": "Launch a coin"
-    },
     "hero": {
-      "kicker": "A memecoin launchpad on Solana.",
       "a": "Pump burns your dead money.",
       "b": "We give it back.",
-      "lede": "Every FLOORED coin keeps its SOL in a pool that belongs to the holders. Hand your tokens back at any time and take your exact share. No sale can push the price down more than 20 % in a minute.",
+      "lede": "The pool's SOL belongs to the holders: hand your tokens back at any time and you get your exact share. No sale can drop the price more than 20 % in a minute.",
       "ctaLaunch": "Launch a coin",
-      "ctaCoins": "See the coins",
-      "badgeFloor": "FLOOR",
-      "badgeBrake": "BRAKE",
       "facts": {
         "floor": {
           "k": "The floor",
@@ -180,7 +170,6 @@
         }
       },
       "ctaHow": "How it works",
-      "captionLeft": "The floor: pool SOL ÷ circulating supply",
       "stats": {
         "returned": "Returned to holders",
         "launched": "Coins launched",
@@ -188,35 +177,11 @@
         "keys": "Admin keys on the pool",
         "keysValue": "none, by construction"
       },
-      "badgePool": "POOL",
-      "chips": {
-        "stack": "SOLANA · ANCHOR · OPEN SOURCE",
-        "source": "GITHUB",
-        "loading": "… SOL returned",
-        "returned": "returned to holders"
-      },
-      "status": {
-        "loading": "reading the chain…",
-        "returned": "returned to holders",
-        "coins": "coins",
-        "brakes": "brakes engaged"
-      }
-    },
-    "receipt": {
-      "title": "REDEEM #0001",
-      "subtitle": "at the floor",
-      "rows": {
-        "tokens": "Tokens burned",
-        "pool": "Pool",
-        "circulating": "Circulating",
-        "share": "Your share",
-        "fee": "Fee 0.5 %",
-        "paid": "Paid out",
-        "price": "Price moved"
-      },
-      "totalLabel": "Returned to holders so far:",
-      "stamp": "PAID",
-      "footer": "Nobody can block it"
+      "demo": "Demo data",
+      "ctaCoins": "View coins",
+      "builtOn": "Built on",
+      "openSource": "open source",
+      "kicker": "Live on the floor"
     },
     "problem": {
       "title": "In the trenches, the pool is never yours.",
@@ -236,7 +201,7 @@
       }
     },
     "guarantees": {
-      "title": "Three guarantees, zero oracle.",
+      "title": "Three rules the program enforces",
       "lede": "Everything below is enforced by the program, not by anyone's good behaviour. There is no instruction that could break it.",
       "floor": {
         "title": "The floor",
@@ -255,7 +220,7 @@
       }
     },
     "math": {
-      "title": "Why redeeming moves nothing.",
+      "title": "What a redeem does to the pool",
       "lede": {
         "a": "The floor is",
         "b": "pool SOL ÷ circulating supply.",
@@ -279,7 +244,7 @@
       "kicker": "The math"
     },
     "faq": {
-      "title": "Questions people ask.",
+      "title": "FAQ",
       "what": {
         "q": "What is the floor, exactly?",
         "a": "The SOL in a coin's pool divided by the tokens in circulation. It is a balance you can read on chain, not a promise: three accounts and one division. Any holder can take their share at any time with one instruction nobody can block."
@@ -306,26 +271,27 @@
       }
     },
     "steps": {
-      "title": "How a FLOORED coin lives.",
-      "lede": "Three phases, each enforced by the program. Nobody can skip one.",
-      "curve": {
-        "title": "The curve",
-        "text": "Buying starts on a bonding curve. The price rises with every buy. 1 % fee, of which 0.3 % is set aside for the floor.",
-        "formula": "price = virtual SOL ÷ virtual tokens"
+      "kicker": "How it works",
+      "title": {
+        "a": "From launch to the floor in",
+        "b": "three steps"
       },
-      "floor": {
-        "title": "Graduation, the floor turns on",
-        "text": "At 85 SOL the pool opens. Its SOL belongs to the holders. Burn x tokens and the program pays S·x/C, in the same transaction, to anyone, at any time.",
-        "formula": "redeem(x) = S · x / C"
+      "launch": {
+        "title": "Launch a coin",
+        "text": "Pick a name, a ticker and an image. One signature creates the coin on a bonding curve; mint and freeze authority are dropped."
       },
-      "brake": {
-        "title": "The brake",
-        "text": "No sale, or group of sales, can push the price more than 20 % under the window high per minute. The rest waits in a queue, served pro rata at one price. Redeeming is never braked.",
-        "formula": "price ≥ 0.8 × window high"
-      }
+      "graduate": {
+        "title": "It graduates at 85 SOL",
+        "text": "When the curve has sold its supply, the SOL and the remaining tokens open a pool that belongs to the holders."
+      },
+      "redeem": {
+        "title": "Redeem at the floor",
+        "text": "Any holder can burn tokens and take their exact share of the pool, in one transaction nobody can block."
+      },
+      "more": "Read the full mechanism"
     },
     "compare": {
-      "title": "Against what you already know.",
+      "title": "FLOORED, Pump.fun and a DEX pool",
       "lede": "Same memecoins, same wallets, same speed. Different rules on the way down.",
       "col": {
         "what": "",
@@ -359,7 +325,7 @@
       "kicker": "Side by side"
     },
     "trust": {
-      "title": "Nothing here asks for trust.",
+      "title": "How to check it",
       "lede": "Every claim is a number you can read on chain or a test you can run.",
       "caption": "No door, no key, no pause.",
       "source": {
@@ -395,27 +361,23 @@
       "floor": {
         "title": "The floor",
         "text": "After graduation the pool's SOL belongs to the holders. Burn your tokens and the program pays your exact share, in the same transaction, to anyone, at any time.",
-        "formula": "redeem(x) = S · x / C",
-        "cta": "See the floor"
+        "formula": "redeem(x) = S · x / C"
       },
       "brake": {
         "title": "The brake",
         "text": "No sale, or group of sales, can push the price more than 20 % under the window high per minute. The rest waits in a queue, served pro rata at one price.",
-        "formula": "price ≥ 0.8 × window high",
-        "cta": "See the brake"
+        "formula": "price ≥ 0.8 × window high"
       },
       "keys": {
         "title": "Nothing else",
         "text": "No LP token, no admin withdrawal, no pause, no mint or freeze authority after creation. Parameters are frozen per coin.",
-        "formula": "admin keys on the pool: 0",
-        "cta": "Check it yourself"
+        "formula": "admin keys on the pool: 0"
       },
-      "kicker": "Three guarantees"
+      "more": "Read how it works"
     },
     "specimen": {
-      "kicker": "The specimen",
-      "title": "Every lamport is accounted for.",
-      "lede": "The receipt is not an estimate. It is the division the program does. Drag the sliders and watch it.",
+      "title": "Redeem calculator",
+      "lede": "Set a pool, a supply and an amount. The result is the same division the program does.",
       "pool": "Pool",
       "circ": "Circulating",
       "amount": "You redeem",
@@ -432,9 +394,7 @@
       "moved": "Pool price moved: 0.00 %"
     },
     "flywheel": {
-      "kicker": "The mechanism",
-      "title": "How a coin lives.",
-      "cta": "Read the mechanism",
+      "title": "From launch to graduation",
       "launch": {
         "title": "Launch",
         "detail": "A name, a ticker, an image. Mint and freeze authority dropped at birth."
@@ -464,25 +424,60 @@
         "detail": "Every trade and every redeem leaves something in the pool. The floor only climbs from that."
       }
     },
-    "numbers": {
-      "kicker": "In numbers",
-      "title": "The floor, measured.",
-      "lede": "Every figure below is read from the chain and updates as it happens. Nothing here is a projection.",
-      "cta": "All the stats",
-      "returned": "Returned to holders",
-      "coins": "Coins launched",
-      "brakes": "Brakes engaged",
-      "keys": "Admin keys on the pool"
+    "monitor": {
+      "title": "Floor monitor",
+      "floor": "Floor",
+      "gap": "Above floor",
+      "pool": "Pool",
+      "open": "Open coin",
+      "backed": "Backed by pool",
+      "trades": "Last trades",
+      "buy": "Buy",
+      "sell": "Sell"
     },
-    "latest": {
-      "kicker": "Live from the chain",
-      "title": "Latest on the floor.",
-      "all": "See the whole board",
-      "toGrad": "on the curve",
-      "mintYours": "Launch yours",
-      "mintNote": "One name, one ticker, one image.",
-      "prev": "Previous coins",
-      "next": "Next coins"
+    "rules": {
+      "kicker": "The rules",
+      "pool": {
+        "value": "100%",
+        "title": "Of the pool",
+        "text": "belongs to the holders once a coin graduates. Hand tokens back at any time for your exact share."
+      },
+      "brake": {
+        "value": "−20%",
+        "title": "A minute, at most",
+        "text": "is how far a price can fall. The rest of a big sale waits in line and is served pro rata."
+      },
+      "keys": {
+        "value": "0",
+        "title": "Admin keys",
+        "text": "on any pool. No withdrawal, no pause, no mint. The program is the only one holding the SOL."
+      }
+    },
+    "band": {
+      "title": {
+        "a": "Ready to launch a coin",
+        "b": "with a floor?"
+      },
+      "text": "Connect a wallet, pick a name and a ticker. The floor turns on at graduation.",
+      "cta": "Launch a coin",
+      "how": "See how it works"
+    },
+    "board2": {
+      "title": "On the floor · live",
+      "all": "All coins",
+      "col": {
+        "coin": "Coin",
+        "mcap": "Mcap SOL",
+        "floor": "Above floor",
+        "status": "Status"
+      },
+      "status": {
+        "curve": "Curve",
+        "floored": "Floored",
+        "brake": "Brake"
+      },
+      "legend": "Every row stands on its floor. Prices can fall to it, never through it.",
+      "floorLabel": "The floor"
     }
   },
   "floor": {
@@ -1021,15 +1016,5 @@
   "slab": {
     "floor": "Floor, SOL per token",
     "preview": "Floor at graduation"
-  },
-  "boot": {
-    "skip": "Press Escape or click to skip",
-    "steps": {
-      "pour": "pouring the floor",
-      "level": "checking the level",
-      "brake": "setting the brake",
-      "keys": "throwing away the keys",
-      "open": "opening the board"
-    }
   }
 }

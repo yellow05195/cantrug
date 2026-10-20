@@ -363,3 +363,48 @@ orange tick per window), `vault` (a padlock standing on the line). Few,
 large elements on plain paper with three faint guides, no grid. The mark
 follows: a coin resting on the floor line with a green candle that stopped
 at the floor.
+
+## v8 vault (after cardsvault.fun, 2026-10-20)
+
+The user asked for "sobre mais magnifique" and pointed at cardsvault.fun.
+One dark theme: ground `#070708`, cards `#111114` with one `#232329`
+hairline and a 20 px radius, no shadows, no dashed seams, no pixel scenes.
+Lexend 600 for headings, Manrope for text, JetBrains Mono for numbers.
+Orange stays the only accent: one highlighted phrase per title, the kicker,
+and a glossy pill for the action (radial top highlight, warm shadow). The
+header is a full-width blurred bar with a hairline.
+
+Home: the words on the left and a floor monitor on the right (a graduated
+coin, its real 5 m closes over the orange floor line, price, floor, gap and
+pool, arrows to walk through coins); three rules as numbers in one card
+(100 % of the pool to holders, -20 % per minute at most, 0 admin keys); the
+coin board; three numbered steps; one closing card. In mock mode the hero
+and the stats page carry a "Demo data" chip. Removed: boot screen, the
+stamped receipt, per-card fake charts, page-header scenes, the theme toggle.
+
+## v9 "the board" (2026-10-20, from zero)
+
+The user asked to forget every previous direction and pick a DA that
+belongs to the project. FLOORED is a trading floor, so the site is one:
+a station-style split-flap board where every coin is a row.
+
+**Material.** Warm black housing (`#0b0b0a`), flap tiles in two greys
+split by a dark hinge, flap ink `#f3efe4`. One accent, floor amber
+`#ffad1f`, for the floor line and the action; green `#2fe27f` up, red
+`#ff5160` down, orange `#ff6b2c` for the brake. Radii 3 to 10 px: a board
+is rectangular.
+
+**Type.** Big Shoulders 800 in capitals for headlines (station signage),
+Inter Tight for text, JetBrains Mono bold for tiles, labels and buttons.
+
+**The board.** `SplitFlap` renders a string as tiles; when a character
+changes the old top half folds down and the new bottom half falls into
+place (150 ms each), reduced motion just swaps it. The hero board shows
+seven live coins (ticker, mcap, above floor with an arrow, status) and
+stands on the glowing amber floor line. Coins without an image get one
+tile with their first letter. The mark is one tile showing an F with the
+amber floor under it.
+
+**Home.** Headline and actions, the live board, the rules as three big
+amber numbers, every coin in the full list, three steps, an amber closing
+band with black type.

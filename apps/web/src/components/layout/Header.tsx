@@ -1,32 +1,31 @@
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
-import { ENV } from "@/lib/env";
 import { ButtonLink } from "@/components/ui/Button";
-import { HeaderWallet, MobileMenu, NavLinks, ThemeToggle } from "./HeaderParts";
+import { ENV } from "@/lib/env";
+import { HeaderWallet, MobileMenu, NavLinks } from "./HeaderParts";
 
-/** Pill header (Plush Pons): logo left, nav centred, lights, wallet and menu right. */
+/** Full-width bar: blurred near-black, one hairline under it, logo, nav, the action and the wallet. */
 export function Header({ stats: _stats }: { stats: { lamports: string; launched: number; brakes: number } | null }) {
   const t = useTranslations("nav");
   return (
-    <header className="pointer-events-none sticky top-3 z-40 mt-3 px-3 sm:px-4">
-      <div className="capsule pointer-events-auto mx-auto w-full max-w-6xl">
+    <header className="sticky top-0 z-40 border-b border-line bg-[color-mix(in_oklab,var(--bg)_82%,transparent)] backdrop-blur-md">
+      <div className="capsule mx-auto w-full max-w-6xl px-4 sm:px-6">
         <Link href="/" className="flex flex-none items-center gap-2 text-[17px]" aria-label={t("home")}>
-          <Logo size={30} />
+          <Logo size={28} />
           {ENV.isDevnet ? (
-            <span className="num ml-1 hidden rounded-full border border-seam px-1.5 py-0.5 text-[10px] uppercase tracking-wider text-ink-2 sm:inline" title={t("devnetHint")}>
+            <span className="ml-1 hidden rounded-full border border-line-2 px-2 py-0.5 text-[11px] font-medium text-ink-3 sm:inline" title={t("devnetHint")}>
               devnet
             </span>
           ) : null}
         </Link>
-        <NavLinks className="capsule-nav absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 lg:flex" />
-        <div className="ml-auto flex flex-none items-center gap-1.5">
+        <NavLinks className="capsule-nav hidden lg:flex" />
+        <div className="ml-auto flex flex-none items-center gap-2">
           <span className="hidden lg:inline-flex">
             <ButtonLink href="/create" variant="primary" size="sm">
               {t("launch")}
             </ButtonLink>
           </span>
-          <ThemeToggle />
           <HeaderWallet />
           <MobileMenu />
         </div>

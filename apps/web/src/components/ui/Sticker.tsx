@@ -28,7 +28,7 @@ const TONES: Record<ChipTone, string> = {
 /** Tags and chips: round pills with the seam, sentence case. */
 export function Chip({ tone = "neutral", className, children, title }: { tone?: ChipTone; className?: string; children: ReactNode; title?: string }) {
   return (
-    <span title={title} className={cn("inline-flex items-center gap-1 whitespace-nowrap rounded-full border-[1.5px] px-2.5 py-0.5 text-xs font-semibold leading-4", TONES[tone], className)}>
+    <span title={title} className={cn("inline-flex items-center gap-1 whitespace-nowrap rounded-[3px] border px-2 py-0.5 font-mono text-[11px] font-bold uppercase tracking-[0.06em] leading-4", TONES[tone], className)}>
       {children}
     </span>
   );

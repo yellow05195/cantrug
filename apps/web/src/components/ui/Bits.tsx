@@ -38,23 +38,27 @@ export function Age({ ts, className }: { ts: string | number | null | undefined;
   );
 }
 
+/* Token-style colours: deep, saturated pairs that read on the near-black ground. */
+
+
 /**
- * Coin avatar (v5 flat): a square frame, one hairline, the coin image when it
- * has one, else the ticker's first two letters in mono. `seed` is kept for
- * call-site compatibility.
+ * Coin avatar: the coin image when it has one; otherwise one board tile with
+ * the ticker's first letter on it.
  */
 export function CoinAvatar({ src, symbol, size = 36, className }: { src: string | null | undefined; symbol: string; seed?: string; size?: number; className?: string }) {
   const [broken, setBroken] = useState(false);
-  const frame = cn("relative grid shrink-0 place-items-center overflow-hidden rounded-full border-[1.5px] border-seam bg-card-2", className);
+  const frame = cn("relative grid shrink-0 place-items-center overflow-hidden rounded-[6px]", className);
   if (!src || broken) {
     return (
-      <span aria-hidden className={frame} style={{ width: size, height: size }}>
-        <span className={cn("num text-ink-2", size >= 56 ? "text-sm" : "text-xs")}>{(symbol || "?").slice(0, 2).toUpperCase()}</span>
+      <span aria-hidden className={cn(frame, "flap-avatar")} style={{ width: size, height: size }}>
+        <span className="font-mono font-bold text-ink" style={{ fontSize: Math.round(size * 0.46) }}>
+          {(symbol || "?").slice(0, 1).toUpperCase()}
+        </span>
       </span>
     );
   }
   return (
-    <span className={frame} style={{ width: size, height: size }}>
+    <span className={cn(frame, "ring-1 ring-white/10")} style={{ width: size, height: size }}>
       {/* User images come from arbitrary hosts (IPFS, Arweave, data URLs): plain <img>, fixed box, no layout shift. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={src} alt="" width={size} height={size} loading="lazy" decoding="async" onError={() => setBroken(true)} className="size-full object-cover" />

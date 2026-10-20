@@ -226,6 +226,7 @@ export function candles(c: MockCoin, interval: CandleInterval, now: number): Can
     }
     prevClose = cl;
     prevFloor = fl;
+    if (n === 0 && b !== endBucket) continue;
     out.push({
       bucket_ts: new Date(b).toISOString(),
       time: Math.floor(b / 1000),

@@ -2,7 +2,6 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
 import { CopyButton } from "@/components/ui/Bits";
-import { Scene } from "@/components/ui/Scene";
 import { ENV, explorerAddress } from "@/lib/env";
 
 export function Footer() {
@@ -41,9 +40,6 @@ export function Footer() {
         <div className="flex flex-col items-start gap-3">
           <Logo size={34} className="text-lg" />
           <p className="max-w-[260px] text-sm leading-relaxed text-ink-2">{t("tagline")}</p>
-          <div className="mt-1 h-24 w-48 overflow-hidden rounded-xl border border-seam">
-            <Scene seed="footer" variant="chart" w={96} h={40} className="h-full" />
-          </div>
         </div>
         {cols.map((col) => (
           <nav key={col.title} aria-label={col.title}>
