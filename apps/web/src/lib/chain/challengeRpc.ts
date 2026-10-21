@@ -4,7 +4,8 @@
  * devnet, so it gets its own connection:
  * - `NEXT_PUBLIC_CHALLENGE_RPC_URL` when set (any devnet RPC, Helius devnet works with the same key);
  * - otherwise the site's own connection when the site is on devnet;
- * - otherwise the public devnet RPC.
+ * - otherwise the site's proxy in devnet mode (`/api/rpc?cluster=devnet`, a private devnet key server side);
+ * - otherwise (server side, no proxy) the public devnet RPC.
  */
 import { Connection } from "@solana/web3.js";
 import { ENV } from "@/lib/env";
@@ -22,7 +23,9 @@ export function challengeConnection(): Connection {
     return conn;
   }
   if (ENV.isDevnet) return connection();
-  if (!conn) conn = new Connection(PUBLIC_DEVNET, { commitment: "confirmed" });
+  const viaProxy = (process.env.NEXT_PUBLIC_RPC_URL ?? "").trim().startsWith("/");
+  const url = viaProxy && typeof window !== "undefined" ? `${window.location.origin}/api/rpc?cluster=devnet` : PUBLIC_DEVNET;
+  if (!conn) conn = new Connection(url, { commitment: "confirmed" });
   return conn;
 }
 

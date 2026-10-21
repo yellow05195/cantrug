@@ -4,6 +4,10 @@
  * the public cluster endpoint. Read methods and the two send methods only, batch
  * requests capped, a small per-IP throttle. No websocket: the site confirms by
  * polling getSignatureStatuses and streams through /api/events.
+ *
+ * `?cluster=devnet` reads devnet instead (the rug-proof challenge replays a devnet
+ * episode on the mainnet site): DEVNET_RPC_URL, else the public devnet endpoint;
+ * read methods only, nothing can be sent there.
  */
 import { serverRpcUrl } from "@/lib/env";
 
@@ -34,6 +38,7 @@ const ALLOWED = new Set([
   "getVersion",
   "getHealth",
 ]);
+const DEVNET_BLOCKED = new Set(["sendTransaction", "simulateTransaction"]);
 const MAX_BATCH = 20;
 const MAX_BODY = 256 * 1024;
 const LIMIT = 240; // requests per window per IP
@@ -69,16 +74,18 @@ export async function POST(req: Request): Promise<Response> {
   } catch {
     return reply(err(null, -32700, "parse error"), 400);
   }
+  const devnet = new URL(req.url).searchParams.get("cluster") === "devnet";
   const calls = Array.isArray(body) ? body : [body];
   if (calls.length === 0 || calls.length > MAX_BATCH) return reply(err(null, -32600, "bad batch size"), 400);
   for (const c of calls) {
     const method = (c as { method?: unknown })?.method;
-    if (typeof method !== "string" || !ALLOWED.has(method)) return reply(err((c as { id?: unknown })?.id, -32601, `method not allowed: ${String(method)}`), 403);
+    if (typeof method !== "string" || !ALLOWED.has(method) || (devnet && DEVNET_BLOCKED.has(method))) return reply(err((c as { id?: unknown })?.id, -32601, `method not allowed: ${String(method)}`), 403);
   }
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), 25_000);
   try {
-    const up = await fetch(serverRpcUrl(), {
+    const upstream = devnet ? (process.env.DEVNET_RPC_URL ?? "").trim() || "https://api.devnet.solana.com" : serverRpcUrl();
+    const up = await fetch(upstream, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: text,
