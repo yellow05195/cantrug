@@ -1,3 +1,4 @@
+import { XLogo } from "@phosphor-icons/react/dist/ssr";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
@@ -6,6 +7,7 @@ import { ENV, explorerAddress } from "@/lib/env";
 
 export function Footer() {
   const t = useTranslations("footer");
+  const tn = useTranslations("nav");
   const cols = [
     {
       title: t("cols.product"),
@@ -48,6 +50,15 @@ export function Footer() {
               <span key={c} className={`sticker-tile size-5 rounded-[5px] ${c}`} />
             ))}
           </span>
+          <a
+            href={ENV.xUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="press mt-3 inline-flex h-10 items-center gap-2 rounded-[10px] bg-white px-4 text-sm font-semibold text-cube-body hover:bg-white/85"
+          >
+            <XLogo size={16} weight="bold" />
+            {tn("followX")}
+          </a>
         </div>
         {cols.map((col) => (
           <nav key={col.title} aria-label={col.title}>

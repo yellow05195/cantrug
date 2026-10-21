@@ -27,7 +27,8 @@
     "mockHint": "No indexer configured: this page runs on a generated dataset, transactions are simulated.",
     "themeLight": "Switch to daylight",
     "themeDark": "Switch to night",
-    "launch": "Launch a coin"
+    "launch": "Launch a coin",
+    "followX": "CantRug on X"
   },
   "footer": {
     "tagline": "The memecoin that cannot go to zero.",

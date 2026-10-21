@@ -1,5 +1,5 @@
 "use client";
-import { List, Moon, Sun, X } from "@phosphor-icons/react/dist/ssr";
+import { List, Moon, Sun, X, XLogo } from "@phosphor-icons/react/dist/ssr";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -9,6 +9,7 @@ import { WalletButton } from "@/components/wallet/WalletButton";
 import { cn } from "@/lib/cn";
 import { FACE_BG, FACE_OF } from "@/lib/faces";
 import { solFixed } from "@/lib/format";
+import { ENV } from "@/lib/env";
 import { useLiveStats } from "@/lib/live/solReturned";
 import { setTheme, useIsDark } from "@/lib/theme";
 
@@ -107,6 +108,10 @@ export function MobileMenu() {
               </button>
             </div>
             <NavLinks className="flex flex-col px-2 py-2 [&>a]:py-3 [&>a]:text-lg" onNavigate={() => setOpen(false)} />
+            <a href={ENV.xUrl} target="_blank" rel="noreferrer" className="mx-2 flex items-center gap-2 border-t border-line px-3 py-4 text-lg font-medium text-ink-2 hover:text-ink">
+              <XLogo size={16} weight="bold" />
+              {t("followX")}
+            </a>
           </div>
         </div>
       ) : null}

@@ -1,3 +1,4 @@
+import { XLogo } from "@phosphor-icons/react/dist/ssr";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
@@ -5,7 +6,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { ENV } from "@/lib/env";
 import { HeaderWallet, MobileMenu, NavLinks } from "./HeaderParts";
 
-/** Light bar on the page ground with a hairline under it: logo, the nav (the active page underlined in its face colour), the action and the wallet. */
+/** Light bar on the page ground with a hairline under it: logo, the nav (the active page underlined in its face colour), the action, X and the wallet. */
 export function Header({ stats: _stats }: { stats: { lamports: string; launched: number; brakes: number } | null }) {
   const t = useTranslations("nav");
   return (
@@ -26,6 +27,16 @@ export function Header({ stats: _stats }: { stats: { lamports: string; launched:
               {t("launch")}
             </ButtonLink>
           </span>
+          <a
+            href={ENV.xUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="press hidden size-10 place-items-center rounded-[10px] border border-line-2 bg-card text-ink hover:border-ink-3 sm:grid"
+            aria-label={t("followX")}
+            title={t("followX")}
+          >
+            <XLogo size={18} weight="bold" />
+          </a>
           <HeaderWallet />
           <MobileMenu />
         </div>
