@@ -11,6 +11,7 @@ import { api } from "@/lib/api/client";
 import type { CoinJson, TradeJson } from "@/lib/api/types";
 import { cn } from "@/lib/cn";
 import { ENV, explorerTx } from "@/lib/env";
+import { challengeOnOtherCluster } from "@/lib/chain/challengeRpc";
 import { countdown, pct, shortAddress, sol, tiny, tokens } from "@/lib/format";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -37,9 +38,15 @@ interface Episode {
   supply: bigint;
 }
 
+/** Explorer link on the challenge coin's own cluster. */
+function challengeTx(signature: string): string {
+  return challengeOnOtherCluster ? `https://explorer.solana.com/tx/${signature}?cluster=devnet` : explorerTx(signature);
+}
+
 async function loadTrades(mint: string, dev: string): Promise<TradeJson[]> {
   if (ENV.mock) return (await import("@/lib/mock/api")).mockAllTrades(mint).then((r) => r.items);
-  if (api.available) {
+  // The site's API reads the site's cluster; a devnet episode on a mainnet site is read from devnet directly.
+  if (api.available && !challengeOnOtherCluster) {
     const out: TradeJson[] = [];
     let before: string | undefined;
     for (let i = 0; i < 6; i++) {
@@ -292,13 +299,19 @@ export function ChallengeReplay({ coin, mint, dev }: { coin: CoinJson | null; mi
           <p className="mt-4 text-sm text-ink-2">{t("cfNote")}</p>
           <p className="mt-4 text-xs text-ink-3">
             {t("dumpTx")}{" "}
-            <a href={explorerTx(ep.dump.signature)} target="_blank" rel="noreferrer" className="num text-ink-2 hover:text-ink">
+            <a href={challengeTx(ep.dump.signature)} target="_blank" rel="noreferrer" className="num text-ink-2 hover:text-ink">
               {shortAddress(ep.dump.signature, 6)}
             </a>
           </p>
-          <Link href={`/coin/${mint}`} className="mt-4 inline-block text-md underline decoration-line-2 underline-offset-4 hover:decoration-ink">
-            {t("openCoin")}
-          </Link>
+          {challengeOnOtherCluster ? (
+            <a href={`https://explorer.solana.com/address/${mint}?cluster=devnet`} target="_blank" rel="noreferrer" className="mt-4 inline-block text-md underline decoration-line-2 underline-offset-4 hover:decoration-ink">
+              {t("openCoin")}
+            </a>
+          ) : (
+            <Link href={`/coin/${mint}`} className="mt-4 inline-block text-md underline decoration-line-2 underline-offset-4 hover:decoration-ink">
+              {t("openCoin")}
+            </Link>
+          )}
         </section>
       </div>
     </div>

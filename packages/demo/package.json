@@ -13,6 +13,7 @@
     "smoke": "tsx src/06-smoke.ts",
     "status": "tsx src/07-status.ts",
     "claim-fees": "tsx src/08-claim-protocol-fees.ts",
+    "preflight": "tsx src/09-simulate-create.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
