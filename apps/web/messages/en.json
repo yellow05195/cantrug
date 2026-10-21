@@ -182,7 +182,7 @@
       "ctaCoins": "View coins",
       "builtOn": "Built on",
       "openSource": "open source",
-      "kicker": "Live on Solana devnet"
+      "kicker": "Live on Solana mainnet"
     },
     "problem": {
       "title": "In the trenches, the pool is never yours.",
@@ -492,7 +492,7 @@
       "chapters": "Chapters",
       "scroll": "Scroll to turn the cube",
       "intro": {
-        "kicker": "Live on Solana devnet",
+        "kicker": "Live on Solana mainnet",
         "demo": "Demo data",
         "a": "Pump burns your dead money.",
         "b": "We give it back.",
