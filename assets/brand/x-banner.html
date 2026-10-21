@@ -1,0 +1,52 @@
+<!doctype html>
+<!-- X (Twitter) header, 1500 x 500. The avatar covers the bottom-left corner, so nothing sits there. -->
+<html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;800;900&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0}
+body{width:1500px;height:500px;overflow:hidden;font-family:Rubik,sans-serif;background:#f4f5f7;color:#121318;position:relative}
+.words{position:absolute;left:96px;top:46px;width:780px}
+.brand{display:flex;align-items:center;gap:14px;font-weight:800;font-size:30px;letter-spacing:-.03em}
+h1{margin:28px 0 0;font-weight:900;font-size:72px;line-height:.98;letter-spacing:-.045em}
+h1 span{color:#ff6a13}
+p{margin:20px 0 0;font-weight:500;font-size:26px;color:#4d525d;letter-spacing:-.01em}
+.face{position:absolute;right:0;top:0;bottom:0;width:560px;background:#ff6a13}
+.cube{position:absolute;right:70px;top:38px}
+</style></head><body>
+<div class="words">
+  <div class="brand">
+    <svg viewBox="0 0 64 64" width="44" height="44"><rect width="64" height="64" rx="14" fill="#111216"/><g id="f"></g></svg>
+    CantRug
+  </div>
+  <h1>The memecoin that<br>cannot go to <span>zero.</span></h1>
+  <p>Pump burns your dead money. We give it back.</p>
+</div>
+<div class="face"></div>
+<svg class="cube" width="420" height="440" viewBox="0 0 64 67"></svg>
+<script>
+// the logo face, same as the site
+const FACE=["#ffffff","#12b05a","#1f5fd6","#ffd23f","#ffffff","#e5322b","#ff6a13","#ff6a13","#ff6a13"];
+document.getElementById("f").innerHTML=FACE.map((c,i)=>`<rect x="${5+(i%3)*18.5}" y="${5+Math.floor(i/3)*18.5}" width="16.5" height="16.5" rx="4" fill="${c}"/>`).join("");
+// an isometric cube with rounded stickers: top blue, left white, right red, like the homepage
+const K="#111216";
+function stickers(o,u,v,cols){
+  let s="";const g=0.085;
+  for(let i=0;i<3;i++)for(let j=0;j<3;j++){
+    const P=(x,y)=>[o[0]+u[0]*x+v[0]*y,o[1]+u[1]*x+v[1]*y];
+    const a=i/3+g/2,b=(i+1)/3-g/2,c=j/3+g/2,d=(j+1)/3-g/2;
+    const q=[P(a,c),P(b,c),P(b,d),P(a,d)].map(p=>p.map(n=>n.toFixed(2)).join(" "));
+    s+=`<path d="M${q.join("L")}Z" fill="${Array.isArray(cols)?cols[i*3+j]:cols}" stroke="${Array.isArray(cols)?cols[i*3+j]:cols}" stroke-width="1.1" stroke-linejoin="round"/>`;
+  }
+  return s;
+}
+const w=26,h=30,t=[32,4];
+const L=[t[0]-w,t[1]+w*0.5774],F=[t[0],t[1]+w*1.1547],R=[t[0]+w,t[1]+w*0.5774];
+const sub=(a,b)=>[a[0]-b[0],a[1]-b[1]];
+let s=`<ellipse cx="32" cy="${F[1]+h+1.5}" rx="22" ry="3" fill="#111216" opacity=".28"/>`;
+s+=`<path d="M${[t,R,[R[0],R[1]+h],[F[0],F[1]+h],[L[0],L[1]+h],L].map(p=>p.join(" ")).join("L")}Z" fill="${K}" stroke="${K}" stroke-width="2.4" stroke-linejoin="round"/>`;
+s+=stickers(L,sub(t,L),sub(F,L),"#1f5fd6");
+s+=stickers(L,sub(F,L),[0,h],"#ffffff");
+s+=stickers(F,sub(R,F),[0,h],"#e5322b");
+document.querySelector(".cube").innerHTML=s;
+</script>
+</body></html>
