@@ -942,7 +942,17 @@
       "sourceRpc": "Read just now from {rpc} and recomputed in your browser.",
       "sourceMock": "Not found on chain; showing the mock dataset's state for this mint.",
       "accounts": "Accounts read:",
-      "diagramCaption": "Two vault balances and the mint supply, read straight from the chain, give the floor."
+      "diagramCaption": "Two vault balances and the mint supply, read straight from the chain, give the floor.",
+      "authority": {
+        "kicker": "Who can change the program",
+        "immutable": "Nobody. The program is immutable.",
+        "immutableBody": "Its upgrade authority was burned on mainnet. No one, the team included, can ever change the code, add a withdraw or touch a pool. Solana enforces it, not a promise.",
+        "upgradeable": "The program can still be upgraded.",
+        "upgradeableBody": "Upgrade authority: {authority}.",
+        "unknown": "Could not read the program just now.",
+        "unknownBody": "Check it on the explorer: the program's upgrade authority should read \"none\".",
+        "check": "Check it on the explorer"
+      }
     },
     "fees": {
       "title": "Fees",
@@ -989,6 +999,10 @@
       "audit": {
         "q": "Where is the code?",
         "a": "The program, the TypeScript SDK and this site are open source. The SDK's math is an exact port of the on-chain core and is tested against it."
+      },
+      "code": {
+        "q": "Can the team change the rules later?",
+        "a": "No. The program's upgrade authority is burned, so its code is frozen forever. The team keeps one admin key that only sets the fees and parameters of coins created afterwards; every coin freezes its own parameters at creation and no key can move its pool."
       }
     },
     "end": "End of the document",

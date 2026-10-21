@@ -3,11 +3,15 @@ import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { BrakeDiagram, CompareDiagram, VerifyDiagram } from "@/components/how/Diagrams";
 import { FloorDiagram } from "@/components/how/FloorDiagram";
+import { ProgramAuthority } from "@/components/how/ProgramAuthority";
 import { ReadOnChain } from "@/components/how/ReadOnChain";
 import { Flywheel, Specimen } from "@/components/home/HomeSections";
 import { LevelRule } from "@/components/ui/Floor";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { ENV, explorerAddress } from "@/lib/env";
+
+/** The program authority card reads the chain; refresh it hourly. */
+export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("how");
@@ -42,7 +46,7 @@ function P({ children }: { children: React.ReactNode }) {
 
 export default async function HowItWorks() {
   const t = await getTranslations("how");
-  const faq = ["zero", "promise", "rug", "queue", "creator", "audit"] as const;
+  const faq = ["zero", "promise", "rug", "code", "queue", "creator", "audit"] as const;
   return (
     <article className="mx-auto w-full max-w-[760px] px-4 sm:px-6">
       <PageHeader face="yellow" kicker={t("kicker")} title={t("title")} lede={t("lede")} />
@@ -128,6 +132,7 @@ export default async function HowItWorks() {
           {ENV.programId}
         </a>
       </p>
+      <ProgramAuthority />
       <ReadOnChain />
 
       <H2 id="fees">{t("fees.title")}</H2>

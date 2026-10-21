@@ -2,15 +2,15 @@
 # FLOORED / CantRug end of project: get back every lamport the project itself owns.
 #
 #   bash scripts/shutdown-mainnet.sh check     # what is recoverable, nothing is sent
-#   bash scripts/shutdown-mainnet.sh fees      # claim every coin's protocol fees, sweep crank + deployer to the owner
-#   bash scripts/shutdown-mainnet.sh close     # CLOSE the program (~2.33 SOL rent back) then sweep (irreversible)
+#   bash scripts/shutdown-mainnet.sh fees      # claim every coin's protocol fees (wallets untouched, the crank keeps running)
+#   bash scripts/shutdown-mainnet.sh end       # claim the last fees, sweep crank + deployer to the owner
+#
+# The program is immutable since 2026-10-21 (upgrade authority burned): it can never be closed,
+# its ~2.33 SOL rent stays locked, and every coin keeps working forever, the floor included.
 #
 # What is NOT recoverable, by design: the SOL in each coin's curve / pool / floor belongs to its
 # holders (no admin withdraw exists), the creator fees belong to creators, and the config account
 # (~0.002 SOL) has no close instruction.
-#
-# `close` kills the program: holders can no longer sell or redeem at the floor. Announce the
-# shutdown and leave holders time to redeem first (the site's redeem button) before running it.
 #
 # Env: OWNER (default 8Ghc…bT6s), RPC_URL, DEPLOYER, CRANK as below.
 set -euo pipefail
@@ -63,26 +63,20 @@ case "$MODE" in
 
   fees)
     RPC_URL="$RPC_URL" DEPLOYER="$DEPLOYER" pnpm --silent --filter @floored/demo claim-fees
-    sweep "$CRANK"
-    echo "deployer kept funded (it is the upgrade authority, needed for 'close'); run 'close' to empty it."
     ;;
 
-  close)
-    echo "This CLOSES $PROGRAM_ID: no coin can be traded or redeemed afterwards. Type the program id to confirm:"
-    read -r CONFIRM
-    [ "$CONFIRM" = "$PROGRAM_ID" ] || { echo "aborted"; exit 1; }
+  end)
+    # stops the crank too: queued sales are then served only by whoever calls the crank instruction
     RPC_URL="$RPC_URL" DEPLOYER="$DEPLOYER" pnpm --silent --filter @floored/demo claim-fees || true
-    solana program close "$PROGRAM_ID" --recipient "$OWNER" --bypass-warning -k "$DEPLOYER" -u "$RPC_URL"
-    # leftover deploy buffers (an interrupted deploy leaves one holding rent)
-    solana program close --buffers --recipient "$OWNER" -k "$DEPLOYER" -u "$RPC_URL" || true
     sweep "$CRANK"
     sweep "$DEPLOYER"
     echo
     echo "owner now $(solana balance "$OWNER" -u "$RPC_URL")"
+    echo "note: the deployer is also the config authority; fund it with a few cents to change fees later."
     ;;
 
   *)
-    echo "usage: $0 check|fees|close"
+    echo "usage: $0 check|fees|end"
     exit 1
     ;;
 esac
