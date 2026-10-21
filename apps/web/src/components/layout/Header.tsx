@@ -6,7 +6,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { ENV } from "@/lib/env";
 import { HeaderWallet, MobileMenu, NavLinks } from "./HeaderParts";
 
-/** Light bar on the page ground with a hairline under it: logo, the nav (the active page underlined in its face colour), the action, X and the wallet. */
+/** Light bar on the page ground with a hairline under it: logo and X, the nav (the active page underlined in its face colour), the action and the wallet. */
 export function Header({ stats: _stats }: { stats: { lamports: string; launched: number; brakes: number } | null }) {
   const t = useTranslations("nav");
   return (
@@ -20,6 +20,17 @@ export function Header({ stats: _stats }: { stats: { lamports: string; launched:
             </span>
           ) : null}
         </Link>
+        {/* X sits right after the name */}
+        <a
+          href={ENV.xUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="press -ml-1 grid size-8 flex-none place-items-center rounded-[8px] border border-line-2 bg-card text-ink hover:border-ink-3"
+          aria-label={t("followX")}
+          title={t("followX")}
+        >
+          <XLogo size={15} weight="bold" />
+        </a>
         <NavLinks className="capsule-nav hidden self-stretch lg:flex" />
         <div className="ml-auto flex flex-none items-center gap-2">
           <span className="hidden lg:inline-flex">
@@ -27,16 +38,6 @@ export function Header({ stats: _stats }: { stats: { lamports: string; launched:
               {t("launch")}
             </ButtonLink>
           </span>
-          <a
-            href={ENV.xUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="press hidden size-10 place-items-center rounded-[10px] border border-line-2 bg-card text-ink hover:border-ink-3 sm:grid"
-            aria-label={t("followX")}
-            title={t("followX")}
-          >
-            <XLogo size={18} weight="bold" />
-          </a>
           <HeaderWallet />
           <MobileMenu />
         </div>
