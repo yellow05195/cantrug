@@ -95,7 +95,7 @@ export const ENV = {
   siteUrl: (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/+$/, ""),
   programId: "E7ZbamLD8wenjjHitR8bUHwuNKA4Em39sqybnhk3nc87",
   githubUrl: process.env.NEXT_PUBLIC_GITHUB_URL || "https://github.com/cantrug/cantrug",
-  xUrl: process.env.NEXT_PUBLIC_X_URL || "https://x.com/cantrug",
+  xUrl: process.env.NEXT_PUBLIC_X_URL || "https://x.com/UseCantRug",
   docsUrl: "/how-it-works",
 } as const;
 
