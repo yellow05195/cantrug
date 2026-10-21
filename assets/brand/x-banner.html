@@ -10,7 +10,7 @@ body{width:1500px;height:500px;overflow:hidden;font-family:Rubik,sans-serif;back
 h1{margin:28px 0 0;font-weight:900;font-size:72px;line-height:.98;letter-spacing:-.045em}
 h1 span{color:#ff6a13}
 p{margin:20px 0 0;font-weight:500;font-size:26px;color:#4d525d;letter-spacing:-.01em}
-.face{position:absolute;right:0;top:0;bottom:0;width:560px;background:#ff6a13}
+.face{position:absolute;right:0;top:0;bottom:0;width:560px;background:#111216}
 .cube{position:absolute;right:70px;top:38px}
 </style></head><body>
 <div class="words">
@@ -27,7 +27,7 @@ p{margin:20px 0 0;font-weight:500;font-size:26px;color:#4d525d;letter-spacing:-.
 // the logo face, same as the site
 const FACE=["#ffffff","#12b05a","#1f5fd6","#ffd23f","#ffffff","#e5322b","#ff6a13","#ff6a13","#ff6a13"];
 document.getElementById("f").innerHTML=FACE.map((c,i)=>`<rect x="${5+(i%3)*18.5}" y="${5+Math.floor(i/3)*18.5}" width="16.5" height="16.5" rx="4" fill="${c}"/>`).join("");
-// an isometric cube with rounded stickers: top blue, left white, right red, like the homepage
+// an isometric cube with rounded stickers in the logo's colours
 const K="#111216";
 function stickers(o,u,v,cols){
   let s="";const g=0.085;
@@ -42,11 +42,14 @@ function stickers(o,u,v,cols){
 const w=26,h=30,t=[32,4];
 const L=[t[0]-w,t[1]+w*0.5774],F=[t[0],t[1]+w*1.1547],R=[t[0]+w,t[1]+w*0.5774];
 const sub=(a,b)=>[a[0]-b[0],a[1]-b[1]];
-let s=`<ellipse cx="32" cy="${F[1]+h+1.5}" rx="22" ry="3" fill="#111216" opacity=".28"/>`;
+let s=`<ellipse cx="32" cy="${F[1]+h+1.5}" rx="22" ry="3" fill="#000000" opacity=".45"/>`;
 s+=`<path d="M${[t,R,[R[0],R[1]+h],[F[0],F[1]+h],[L[0],L[1]+h],L].map(p=>p.join(" ")).join("L")}Z" fill="${K}" stroke="${K}" stroke-width="2.4" stroke-linejoin="round"/>`;
-s+=stickers(L,sub(t,L),sub(F,L),"#1f5fd6");
-s+=stickers(L,sub(F,L),[0,h],"#ffffff");
-s+=stickers(F,sub(R,F),[0,h],"#e5322b");
+// the front face is the logo's face; the bottom row stays orange all round, the floor
+const W="#ffffff",G="#12b05a",B="#1f5fd6",Y="#ffd23f",Rd="#e5322b",O="#ff6a13";
+const cols=(rows)=>[0,1,2].flatMap((c)=>[0,1,2].map((r)=>rows[r*3+c])); // row-major to stickers() order
+s+=stickers(L,sub(t,L),sub(F,L),cols([B,W,G, Rd,B,Y, G,W,B]));
+s+=stickers(L,sub(F,L),[0,h],cols(FACE));
+s+=stickers(F,sub(R,F),[0,h],cols([Rd,B,W, G,Rd,Y, O,O,O]));
 document.querySelector(".cube").innerHTML=s;
 </script>
 </body></html>
