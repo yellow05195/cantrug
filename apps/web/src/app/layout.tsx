@@ -20,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: { default: t("title"), template: "%s | CantRug" },
     description: t("description"),
     openGraph: { title: t("title"), description: t("description"), siteName: "CantRug" },
-    twitter: { card: "summary_large_image" },
+    twitter: { card: "summary_large_image", site: "@UseCantRug" },
   };
 }
 

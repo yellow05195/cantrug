@@ -1,5 +1,24 @@
 # LAUNCH, the runbook
 
+## Mainnet record (2026-10-21)
+
+CantRug is live on Solana mainnet.
+
+| piece | state |
+|---|---|
+| Program `E7ZbamLD8wenjjHitR8bUHwuNKA4Em39sqybnhk3nc87` | deployed slot 459729200, sha256 `b90de8a1…`, upgrade authority `EpQt7k2KaSubGuz78NjVj2HkX8hNBjG769Z7CQArgQ1x` (kept on purpose: `final` would forfeit the ~2.33 SOL rent refund) |
+| Config | initialised (tx `2o3wT8TA…`): 30 virtual SOL, 85 SOL to graduate, 0.02 SOL create fee, 0.002 SOL crank reward, protocol fees to `8GhcnuEqLr3DgCQTwBhXcHxfEe2jvDLJXxi9E1DebT6s` |
+| Site | https://cantrug.xyz (Vercel project `floored`), chain mode on Helius mainnet; the challenge replays devnet through `/api/rpc?cluster=devnet` (`DEVNET_RPC_URL`) |
+| Crank | Vercel cron every 5 min, wallet `GLuYjwGd34f55b2yezRVX7u5ezZk2AZdSBa2YYNVNDSq` |
+| Preflight | `RPC_URL=<mainnet> DEPLOYER=$PWD/keys/floored-mainnet.json pnpm --filter @floored/demo preflight` simulates a create + first buy, spends nothing |
+
+Running it: `pnpm --filter @floored/demo claim-fees` pushes owed protocol fees to the recipient.
+Ending it: `bash scripts/shutdown-mainnet.sh check|fees|close` (close returns the program rent and
+sweeps the deployer and crank wallets to the owner; holders lose the floor afterwards, so announce
+the shutdown and leave time to redeem first).
+
+The rest of this file is the pre-launch runbook as of 2026-10-17.
+
 State on 2026-10-17 and the exact steps from here to a mainnet FLOORED. The
 ordered security list (audit, Squads, immutability) is in
 [before-mainnet.md](before-mainnet.md); this file is the operational side.
