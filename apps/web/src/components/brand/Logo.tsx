@@ -22,7 +22,7 @@ export function Logo({ className, size = 28 }: { className?: string; size?: numb
   return (
     <span className={cn("inline-flex items-center gap-2.5 font-display text-[20px] font-extrabold leading-none tracking-[-0.03em]", className)}>
       <LogoMark size={size} />
-      <span>Turn the Cube</span>
+      <span>CantRug</span>
     </span>
   );
 }

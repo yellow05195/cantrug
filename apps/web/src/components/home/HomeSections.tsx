@@ -162,7 +162,7 @@ export function Compare() {
           <thead>
             <tr className="text-left font-mono text-[11px] uppercase tracking-wider text-ink-2">
               <th className="px-4 py-3 font-medium" />
-              <th className="px-4 py-3 font-bold text-floor">Turn the Cube</th>
+              <th className="px-4 py-3 font-bold text-floor">CantRug</th>
               <th className="px-4 py-3 font-medium">Pump.fun</th>
               <th className="px-4 py-3 font-medium">{t("col.dex")}</th>
             </tr>
